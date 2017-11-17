@@ -1,0 +1,94 @@
+<!-- begin #top-menu -->
+<div id="top-menu" class="top-menu">
+    <ul *ngIf="menu" class="nav">
+        <li class="nav-header">Navigation</li>
+        <li *ngFor="let item of menu;" [ngClass]="{'has-sub': item.submenu}" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <a *ngIf="!item.link" href="javasript:;">
+                <i *ngIf="item.icon" class="{{ item.icon }}"></i>
+                <span>{{ item.title }}</span>
+                <span *ngIf="item.badge" class="badge pull-right">{{ item.badge }}</span>
+                <span *ngIf="item.label" class="label label-theme m-l-5">{{ item.label }}</span>
+                <b *ngIf="item.caret" class="caret"></b>
+            </a>
+            <a *ngIf="item.link && !item.external" routerLink="{{ item.link }}">
+                <i *ngIf="item.icon" class="{{ item.icon }}"></i>
+                <span>{{ item.title }}</span>
+                <span *ngIf="item.badge" class="badge pull-right">{{ item.badge }}</span>
+                <span *ngIf="item.label" class="label label-theme m-l-5">{{ item.label }}</span>
+                <b *ngIf="item.caret" class="caret"></b>
+            </a>
+            <a *ngIf="item.link && item.external" href="{{ item.link }}">
+                <i *ngIf="item.icon" class="{{ item.icon }}"></i>
+                <span>{{ item.title }}</span>
+                <span *ngIf="item.badge" class="badge pull-right">{{ item.badge }}</span>
+                <span *ngIf="item.label" class="label label-theme m-l-5">{{ item.label }}</span>
+                <b *ngIf="item.caret" class="caret"></b>
+            </a>
+            <ul *ngIf="item.submenu" class="sub-menu">
+                <li *ngFor="let subitem of item.submenu" [ngClass]="{'has-sub': subitem.submenu}" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                    <a *ngIf="!subitem.link" href="javasript:;">
+                        <b *ngIf="subitem.caret" class="caret pull-right"></b>
+                        {{ subitem.title }}
+                        <i *ngIf="subitem.highlight" class="fa fa-paper-plane text-theme m-l-5"></i>
+                    </a>
+                    <a *ngIf="subitem.link && !subitem.external" routerLink="{{ subitem.link }}">
+                        <b *ngIf="subitem.caret" class="caret pull-right"></b>
+                        {{ subitem.title }}
+                        <i *ngIf="subitem.highlight" class="fa fa-paper-plane text-theme m-l-5"></i>
+                    </a>
+                    <a *ngIf="subitem.link && subitem.external" href="{{ subitem.link }}">
+                        <b *ngIf="subitem.caret" class="caret pull-right"></b>
+                        {{ subitem.title }}
+                        <i *ngIf="subitem.highlight" class="fa fa-paper-plane text-theme m-l-5"></i>
+                    </a>
+                    <ul *ngIf="subitem.submenu" class="sub-menu">
+                        <li *ngFor="let subitem2 of subitem.submenu" [ngClass]="{'has-sub': subitem2.submenu}" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                            <a *ngIf="!subitem2.link" href="javasript:;">
+                                <b *ngIf="subitem2.caret" class="caret pull-right"></b>
+                                {{ subitem2.title }}
+                                <i *ngIf="subitem2.highlight" class="fa fa-paper-plane text-theme m-l-5"></i>
+                            </a>
+                            <a *ngIf="subitem2.link && !subitem2.external" routerLink="{{ subitem2.link }}">
+                                <b *ngIf="subitem2.caret" class="caret pull-right"></b>
+                                {{ subitem2.title }}
+                                <i *ngIf="subitem2.highlight" class="fa fa-paper-plane text-theme m-l-5"></i>
+                            </a>
+                            <a *ngIf="subitem2.link && subitem2.external" href="{{ subitem2.link }}">
+                                <b *ngIf="subitem2.caret" class="caret pull-right"></b>
+                                {{ subitem2.title }}
+                                <i *ngIf="subitem2.highlight" class="fa fa-paper-plane text-theme m-l-5"></i>
+                            </a>
+                            <ul *ngIf="subitem2.submenu" class="sub-menu">
+                                <li *ngFor="let subitem3 of subitem2.submenu" [ngClass]="{'has-sub': subitem3.submenu}" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                                    <a *ngIf="!subitem3.link" href="javasript:;">
+                                        <b *ngIf="subitem3.caret" class="caret pull-right"></b>
+                                        {{ subitem3.title }}
+                                        <i *ngIf="subitem3.highlight" class="fa fa-paper-plane text-theme m-l-5"></i>
+                                    </a>
+                                    <a *ngIf="subitem3.link && !subitem3.external" routerLink="{{ subitem2.link }}">
+                                        <b *ngIf="subitem3.caret" class="caret pull-right"></b>
+                                        {{ subitem3.title }}
+                                        <i *ngIf="subitem3.highlight" class="fa fa-paper-plane text-theme m-l-5"></i>
+                                    </a>
+                                    <a *ngIf="subitem3.link && subitem3.external" routerLink="{{ subitem2.link }}">
+                                        <b *ngIf="subitem3.caret" class="caret pull-right"></b>
+                                        {{ subitem3.title }}
+                                        <i *ngIf="subitem3.highlight" class="fa fa-paper-plane text-theme m-l-5"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li class="menu-control menu-control-left">
+            <a href="#" data-click="prev-menu"><i class="fa fa-angle-left"></i></a>
+        </li>
+        <li class="menu-control menu-control-right">
+            <a href="#" data-click="next-menu"><i class="fa fa-angle-right"></i></a>
+        </li>
+    </ul>
+    <!-- end top-menu nav -->
+</div>
+<!-- end #top-menu -->

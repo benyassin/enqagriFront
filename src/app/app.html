@@ -1,0 +1,28 @@
+<div id="page-container" class="page-container fade in page-sidebar-fixed page-header-fixed" [ngClass]="{
+    'page-sidebar-minified': page_sidebar_minified,
+    'page-content-full-height': page_content_full_height,
+    'page-with-wide-sidebar': page_with_wide_sidebar,
+    'page-with-light-sidebar': page_with_light_sidebar,
+    'page-without-sidebar': page_without_sidebar,
+    'page-with-two-sidebar': page_with_two_sidebar,
+    'page-with-right-sidebar': page_with_right_sidebar,
+    'page-with-top-menu': page_with_top_menu
+}">
+    <header *ngIf="!this.page_without_header" [page_with_two_sidebar]="this.page_with_two_sidebar" [page_with_mega_menu]="this.page_with_mega_menu"></header>
+    
+    <top-menu *ngIf="this.page_with_top_menu"></top-menu>
+    
+    <sidebar *ngIf="!this.page_without_sidebar" [page_sidebar_transparent]="this.page_sidebar_transparent"></sidebar>
+    
+    <sidebar-two *ngIf="this.page_with_two_sidebar"></sidebar-two>
+    
+    <content [page_content_inverse_mode]="this.page_content_inverse_mode" [page_content_full_width]="this.page_content_full_width"></content>
+    
+    <footer *ngIf="this.page_with_footer"></footer>
+    
+    <!-- <theme-panel></theme-panel> -->
+    
+    <!-- begin scroll to top btn -->
+    <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i class="fa fa-angle-up"></i></a>
+    <!-- end scroll to top btn -->
+</div>

@@ -1,0 +1,16 @@
+@import url('/assets/plugins/DataTables/media/css/dataTables.bootstrap.min.css');
+@import url('/assets/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css');
+@import url('/assets/plugins/gritter/css/jquery.gritter.css');
+@import url('/assets/plugins/bootstrap-sweetalert/sweetalert.css');
+
+
+
+.ng-valid[required], .ng-valid.required  {
+  border-left: 5px solid #42A948; /* green */
+}
+
+.ng-invalid:not(form)  {
+  border-left: 5px solid #a94442; /* red */
+}
+
+[hidden] { display: none !important;}

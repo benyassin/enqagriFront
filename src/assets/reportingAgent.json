@@ -1,0 +1,45 @@
+[{
+    "Agents de collecte": "Benyassin Ayoub",
+    "Région": "Oriental",
+    "Province": "Figuig",
+    "Commune": "Ain Chouater",
+    "Nbre Collecte synchronisé": 132,
+    "Nbre Collecte validé": 114,
+    "Nbre Collecte refusé": 3,
+    "Nbre Collecte en cours de traitement": 15,
+    "Date du dernière synchronisation": "15/06/2017"
+},
+{
+    "Agents de collecte": "Elkassemi Marouane",
+    "Région": "Grand Casablanca-Settat",
+    "Province": "El Jadida",
+    "Commune": "Zaouiat Lakouacem",
+    "Nbre Collecte synchronisé": 95,
+    "Nbre Collecte validé": 88,
+    "Nbre Collecte refusé": 1,
+    "Nbre Collecte en cours de traitement": 6,
+    "Date du dernière synchronisation": "14/06/2017"
+},
+{
+    "Agents de collecte": "El haddad Yahia",
+    "Région": "Marrakech-Safi",
+    "Province": "Marrakech",
+    "Commune": "Ouled Dlim",
+    "Nbre Collecte synchronisé": 200,
+    "Nbre Collecte validé": 136,
+    "Nbre Collecte refusé": 4,
+    "Nbre Collecte en cours de traitement": 60,
+    "Date du dernière synchronisation": "31/05/2017"
+},
+{
+    "Agents de collecte": "Homane Anass",
+    "Région": "Tanger-Tétouan-Al Hoceima",
+    "Province": "Tétouan",
+    "Commune": "Bni Harchen",
+    "Nbre Collecte synchronisé": 75,
+    "Nbre Collecte validé": 37,
+    "Nbre Collecte refusé": 7,
+    "Nbre Collecte en cours de traitement": 31,
+    "Date du dernière synchronisation": "22/06/2017"
+}
+]

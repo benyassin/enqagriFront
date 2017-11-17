@@ -1,0 +1,104 @@
+<p-messages [(value)]="msgs"></p-messages>
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+<div class="panel panel-success" data-sortable-id="form-plugins-4">
+          <div class="panel-heading">
+
+        <h4 class="panel-title">Enquête</h4>
+        </div>
+            <div class="panel-body panel-form">
+        <div class="form-horizontal form-bordered">
+        <form #f="ngForm" novalidate>
+        <div class="form-group">
+
+        <label class="col-md-4 control-label">Nom :</label>
+        <div class="col-md-6">
+          <input type="text" id="nom" name="nom" #nom="ngModel" class="form-control" required placeholder="" value="" [(ngModel)]="projet.name" />
+        </div>
+                <div *ngIf="nom.invalid && (nom.dirty || nom.touched)"
+                     class="help-block">
+                    <p *ngIf="nom.errors.required">
+                        Ce champ est obligatoire.
+                    </p>
+                    <div *ngIf="nom.errors.minlength">
+                        Name must be at least 4 characters long.
+                    </div>
+                </div>
+        </div>
+        <div class="form-group">
+        <label class="col-md-4 control-label">Type :</label>
+        <div class="col-md-6">
+          <select [(ngModel)]="projet.theme" id="type" name="type" #type="ngModel" required class="form-control" (ngModelChange)="onThemeChange($event)">
+                      <option *ngFor="let t of themes" [ngValue]="t.value">{{t.name}}</option>
+          </select>
+        </div>
+            <div *ngIf="type.invalid && (type.dirty || type.touched)"
+                 class="help-block">
+                <p *ngIf="type.errors.required">
+                    Ce champ est obligatoire.
+                </p>
+            </div>
+        </div>
+        </form>
+        <div class="form-group">
+            <label class="col-md-4 control-label">Périmetre :</label>
+        <div class="col-md-3">
+            <!--<select2 [data]="regionsData" -->
+            <!--[options]="options"-->
+            <!--[width]="240"            -->
+            <!--(valueChanged)="onRegionChange($event)"-->
+            <!--&gt;</select2>-->
+            <angular2-multiselect [data]="list_regions" [(ngModel)]="projet.regions" [settings]="RegionSettings" (onSelect)="onRegionSelect($event)" (onSelectAll)="onRegionSelect($event)" (onDeSelect)="onRegionSelect($event)"></angular2-multiselect>
+        </div>
+        <div class="col-md-3">
+            <!--<select2 [data]="exampleData"-->
+            <!--[options]="options"-->
+            <!--[width]="240"-->
+            <!--(valueChanged)="onProvinceChange($event)"-->
+            <!--&gt;</select2>-->
+            <angular2-multiselect [data]="list_provinces" [(ngModel)]="projet.provinces" [settings]="ProvinceSettings" (onSelect)="onItemSelect($event)" (onDeSelect)="OnItemDeSelect($event)"></angular2-multiselect>
+        </div>
+        </div>
+    <!--Selected values: {{ projet | json }}        -->
+    </div>
+</div>
+</div>
+
+
+<div class="panel panel-success" data-sortable-id="form-stuff-1">
+            <div class="panel-heading">
+                <h4 class="panel-title">Questionnaires</h4>
+            </div>
+            <div class="panel-body">
+                    <div class="col-sm-12">
+
+                <div class="row">
+                <div class="col-md-4 form-group subject-info-box-1">
+                        <label >Questionnaires Disponnibles :</label>
+
+                        <select  [(ngModel)]="forms" size="7" id='forms' class="form-control">
+                            <option [disabled]="(a.geometry !== 'none' && disabled.includes('none')) || (disabled.includes(a.geometry) && a.geometry !== 'none')  || (disabled.length !== 0 && disabled.includes('none') === false && a.geometry === 'none' )" 
+                            *ngFor="let a of forms_disponnible" [ngValue]="a">{{ a.name }} - [{{ a.geometry }}]</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 subject-info-arrows text-center">
+                        <label  id ="label">Option</label>
+                        <input type="button" id="btnAdd" value=">" (click)="move(forms,forms_disponnible,forms_selected)" class="btn btn-primary" /><br />
+                        <input type="button" id="btnRemove" value="<" (click)="removeitem(selected,forms_selected,forms_disponnible)" class="btn btn-primary" /><br />
+                    </div>
+                    <div class="col-md-4 form-group subject-info-box-2">
+                        <label >Questionnaires Sélectionnés :</label>
+                        <select [(ngModel)]="selected" size="7" id='selected' class="form-control">
+                            <option *ngFor="let s of forms_selected" [ngValue]="s">{{ s.name }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+                <div class="col-md-4 text-center">
+                <button  (click)="createProjet()" [disabled]="!f.valid" id="saveProject" type="button" class="btn btn-primary btn-block">Enregistrer</button>
+                </div>
+                <div class="col-md-4">
+                        <button (click)="clearProjet()" type="button" class="btn btn-danger btn-block">Réinitialiser</button>
+                </div>
+                </div>
+            </div>
+</div>

@@ -1,0 +1,83 @@
+<!-- begin breadcrumb -->
+
+<!-- end breadcrumb -->
+<!-- begin page-header -->
+<h1 class="page-header">Profile utilisateur <small></small></h1>
+<!-- end page-header -->
+<!-- begin profile-container -->
+<div class="profile-container">
+    <!-- begin profile-section -->
+    <div class="profile-section">
+        <!-- begin profile-left -->
+        <div class="profile-left">
+            <!-- begin profile-image -->
+            <div class="profile-image">
+                <img src="/assets/img/agfsdgs.jpg" />
+                <i class="fa fa-user hide"></i>
+            </div>
+            <!-- end profile-image -->
+            <div class="m-b-10">
+                <a (click)="test()" class="btn btn-warning btn-block btn-sm">Changer l'image</a>
+            </div>
+            <!-- begin profile-highlight -->
+            <!-- end profile-highlight -->
+        </div>
+        <!-- end profile-left -->
+        <!-- begin profile-right -->
+        <div class="profile-right">
+            <!-- begin profile-info -->
+            <div class="profile-info">
+                <!-- begin table -->
+                <div class="table-responsive">
+                    <table class="table table-profile">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>
+                                    <h4>{{model.nom + ' ' + model.prenom }} <small></small></h4>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="highlight">
+                            <tr>
+                                <td class="field">Telephone</td>
+                                <td><i class="fa fa-mobile fa-lg m-r-5"></i>{{ model.telephone }} </td>
+                            </tr>
+                            <tr class="divider">
+                                <td colspan="2"></td>
+                            </tr>
+                            <tr>
+                                <td class="field">Region</td>
+                                <td>{{model.perimetre?.region.name}}</td>
+                            </tr>
+                            <tr>
+                                <td class="field">Province</td>
+                                <td>{{model.perimetre.province?.name}}</td>
+                            </tr>
+                            <tr>
+                                <td class="field">Commune</td>
+                                <td>{{model.perimetre.commune?.name}}</td>
+                            </tr>
+                            <tr>
+                                <td class="field">email</td>
+                                <td>{{model.email}}</td>
+                            </tr>
+                            <tr>
+                                <td class="field">Role</td>
+                                <td>{{ model.role }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- end table -->
+            </div>
+            <!-- end profile-info -->
+        </div>
+        <!-- end profile-right -->
+    </div>
+    <!-- end profile-section -->
+    <!-- begin profile-section -->
+    <!-- end profile-section -->
+</div>
+<!-- end profile-container -->

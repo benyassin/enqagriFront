@@ -1,0 +1,11 @@
+/* :host /deep/ * {
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size:12px    
+  }
+  :host /deep/ table {
+    color: #606c71;
+  }
+  :host /deep/ table tr td, :host /deep/ table tr th {
+    border: 1px solid #e9ebec;
+  }
+   */

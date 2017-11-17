@@ -1,0 +1,114 @@
+<!-- begin #sidebar -->
+<div id="sidebar" class="sidebar" [ngClass]="{'sidebar-transparent': page_sidebar_transparent}">
+    <!-- begin sidebar scrollbar -->
+    <div data-scrollbar="true" data-height="100%">
+        <!-- begin sidebar user -->
+        <ul class="nav">
+            <li class="nav-profile">
+                <div class="image">
+                    <a href="javascript:;"><img src="/assets/img/user-13.jpg" alt="" /></a>
+                </div>
+                <div class="info">
+                    {{ user?.nom }}
+                    <small>{{ user?.role }}</small>
+                </div>
+            </li>
+        </ul>
+        <!-- end sidebar user -->
+        
+        <ul *ngIf="menu" class="nav">
+            <li *ngFor="let item of menu;" [ngClass]="{'has-sub': item.submenu}" routerLinkActive="active"  [routerLinkActiveOptions]="{exact: true}">
+                <a *ngIf="!item.link" href="javasript:;" [hasPermission]="item.roles"
+                onAuthorizedPermission="show"
+                onUnauthorizedPermission="hide">
+                    <i *ngIf="item.icon" class="{{ item.icon }}"></i>
+                    <img *ngIf="item.image" class="icon-img" src="{{ item.image }}" />
+                    <span>{{ item.title }}</span>
+                    <span *ngIf="item.badge" class="badge pull-right">{{ item.badge }}</span>
+                    <span *ngIf="item.label" class="label label-theme m-l-5">{{ item.label }}</span>
+                    <b *ngIf="item.caret" class="caret"></b>
+                </a>
+                <a *ngIf="item.link && !item.external" routerLink="{{ item.link }}" [hasPermission]="item.roles"
+                onAuthorizedPermission="show"
+                onUnauthorizedPermission="hide">
+                    <i *ngIf="item.icon" class="{{ item.icon }}"></i>
+                    <img *ngIf="item.image" class="icon-img" src="{{ item.image }}" />
+                    <span>{{ item.title }}</span>
+                    <span *ngIf="item.badge" class="badge pull-right">{{ item.badge }}</span>
+                    <span *ngIf="item.label" class="label label-theme m-l-5">{{ item.label }}</span>
+                    <b *ngIf="item.caret" class="caret"></b>
+                </a>
+                <a *ngIf="item.link && item.external" href="{{ item.link }}">
+                    <i *ngIf="item.icon" class="{{ item.icon }}"></i>
+                    <img *ngIf="item.image" class="icon-img" src="{{ item.image }}" />
+                    <span>{{ item.title }}</span>
+                    <span *ngIf="item.badge" class="badge pull-right">{{ item.badge }}</span>
+                    <span *ngIf="item.label" class="label label-theme m-l-5">{{ item.label }}</span>
+                    <b *ngIf="item.caret" class="caret"></b>
+                </a>
+                <ul *ngIf="item.submenu" class="sub-menu">
+                    <li *ngFor="let subitem of item.submenu" [ngClass]="{'has-sub': subitem.submenu}" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <a *ngIf="!subitem.link" href="javasript:;">
+                            <b *ngIf="subitem.caret" class="caret pull-right"></b>
+                            {{ subitem.title }}
+                            <i *ngIf="subitem.highlight" class="fa fa-paper-plane text-theme m-l-5"></i>
+                        </a>
+                        <a *ngIf="subitem.link && !subitem.external" routerLink="{{ subitem.link }}">
+                            <b *ngIf="subitem.caret" class="caret pull-right"></b>
+                            {{ subitem.title }}
+                            <i *ngIf="subitem.highlight" class="fa fa-paper-plane text-theme m-l-5"></i>
+                        </a>
+                        <a *ngIf="subitem.link && subitem.external" href="{{ subitem.link }}">
+                            <b *ngIf="subitem.caret" class="caret pull-right"></b>
+                            {{ subitem.title }}
+                            <i *ngIf="subitem.highlight" class="fa fa-paper-plane text-theme m-l-5"></i>
+                        </a>
+                        <ul *ngIf="subitem.submenu" class="sub-menu">
+                            <li *ngFor="let subitem2 of subitem.submenu" [ngClass]="{'has-sub': subitem2.submenu}" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                                <a *ngIf="!subitem2.link" href="javasript:;">
+                                    <b *ngIf="subitem2.caret" class="caret pull-right"></b>
+                                    {{ subitem2.title }}
+                                    <i *ngIf="subitem2.highlight" class="fa fa-paper-plane text-theme m-l-5"></i>
+                                </a>
+                                <a *ngIf="subitem2.link && !subitem2.external" routerLink="{{ subitem2.link }}">
+                                    <b *ngIf="subitem2.caret" class="caret pull-right"></b>
+                                    {{ subitem2.title }}
+                                    <i *ngIf="subitem2.highlight" class="fa fa-paper-plane text-theme m-l-5"></i>
+                                </a>
+                                <a *ngIf="subitem2.link && subitem2.external" href="{{ subitem2.link }}">
+                                    <b *ngIf="subitem2.caret" class="caret pull-right"></b>
+                                    {{ subitem2.title }}
+                                    <i *ngIf="subitem2.highlight" class="fa fa-paper-plane text-theme m-l-5"></i>
+                                </a>
+                                <ul *ngIf="subitem2.submenu" class="sub-menu">
+                                    <li *ngFor="let subitem3 of subitem2.submenu" [ngClass]="{'has-sub': subitem3.submenu}" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                                        <a *ngIf="!subitem3.link" href="javasript:;">
+                                            <b *ngIf="subitem3.caret" class="caret pull-right"></b>
+                                            {{ subitem3.title }}
+                                            <i *ngIf="subitem3.highlight" class="fa fa-paper-plane text-theme m-l-5"></i>
+                                        </a>
+                                        <a *ngIf="subitem3.link && !subitem3.external" routerLink="{{ subitem2.link }}">
+                                            <b *ngIf="subitem3.caret" class="caret pull-right"></b>
+                                            {{ subitem3.title }}
+                                            <i *ngIf="subitem3.highlight" class="fa fa-paper-plane text-theme m-l-5"></i>
+                                        </a>
+                                        <a *ngIf="subitem3.link && subitem3.external" routerLink="{{ subitem2.link }}">
+                                            <b *ngIf="subitem3.caret" class="caret pull-right"></b>
+                                            {{ subitem3.title }}
+                                            <i *ngIf="subitem3.highlight" class="fa fa-paper-plane text-theme m-l-5"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><a (click)="logout()"><i class="fa fa-sign-out"></i><span>Déconnexion</span></a></li>
+        </ul>
+        <!-- end sidebar nav -->
+    </div>
+    <!-- end sidebar scrollbar -->
+</div>
+<div class="sidebar-bg"></div>
+<!-- end #sidebar -->

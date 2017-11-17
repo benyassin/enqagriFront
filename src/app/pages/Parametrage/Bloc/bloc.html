@@ -1,0 +1,73 @@
+<!-- begin breadcrumb -->
+<!-- end breadcrumb -->
+<!-- begin page-header -->
+<h1 class="page-header">Creation de Bloc</h1>
+<!-- end page-header -->
+
+<!-- begin row -->
+<div class="row">
+    <!-- begin col-6 -->
+    <div class="col-md-12">
+        <!-- begin panel -->
+        <p-messages [(value)]="msgs"></p-messages>              
+        <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>        
+        <div class="panel panel-success" data-sortable-id="form-stuff-1">
+            <div class="panel-heading">
+                <h4 class="panel-title">Creation de Bloc</h4>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="name">Nom du Bloc</label>
+                            <input type="text" class="form-control" name="name" id="name" placeholder="Nom..."  [(ngModel)]="model.name"d>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Théme</label>
+                            <select [(ngModel)]="model.theme" id="themeSelect" class="form-control" (ngModelChange)="onThemeChange($event)">
+                                <option *ngFor="let t of themes" [ngValue]="t.value">{{t.name}}</option>
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Bloc Existant</label>
+                            <select [(ngModel)]="blocSelected" class="form-control" id="blocexistant" (ngModelChange)="onBlocSelect($event)">
+                                <option value=""></option>
+                                <option *ngFor="let b of blocs" [ngValue]="b.fields">{{b.name}}</option>
+                            </select>
+                          </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-success" data-sortable-id="form-stuff-1">
+            <div class="panel-heading">
+                <h4 class="panel-title">Bloc Builder</h4>
+            </div>
+            <div class="panel-body">
+                <div class="formbuilder"></div>
+                <div class="setDataWrap">
+                </div>
+                <div id="build-wrap"></div>               
+                 <div class="row">
+                    <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                        <div class="btn-group" role="group">
+                            <button id="clearfields" class="btn btn-danger btn-sm">Clear fields</button>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <button  (click)="createblock()" id="saveJSON" type="button" class="btn btn-primary  btn-sm">Enregistrer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- end row -->

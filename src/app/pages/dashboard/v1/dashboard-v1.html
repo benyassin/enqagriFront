@@ -1,0 +1,101 @@
+<!-- begin page-header -->
+<h1 class="page-header">Dashboard </h1>
+<!-- end page-header -->
+
+<!-- begin row -->
+<div class="row">
+    <!-- begin col-3 -->
+    <div class="col-md-3 col-sm-6">
+        <div class="widget widget-stats bg-green">
+            <div class="stats-icon"><i class="ion-earth"></i></div>
+            <div class="stats-info">
+                <h4>EXPLOITATIONS</h4>
+                <p>{{total?.exploitation || 0}}</p>	
+            </div>
+        </div>
+    </div>
+    <!-- end col-3 -->
+    <!-- begin col-3 -->
+    <div class="col-md-3 col-sm-6">
+        <div class="widget widget-stats bg-blue">
+            <div class="stats-icon"><i class="fa fa-object-ungroup"></i></div>
+            <div class="stats-info">
+                <h4>PARCELLES</h4>
+                <p>{{total?.parcelle || 0}}</p>	
+            </div>
+        </div>
+    </div>
+    <!-- end col-3 -->
+    <!-- begin col-3 -->
+    <div class="col-md-3 col-sm-6">
+        <div class="widget widget-stats bg-purple">
+            <div class="stats-icon"><i class="fa fa-line-chart "></i></div>
+            <div class="stats-info">
+                <h4>SUPERFICIE</h4>
+                <p>{{total?.superficie || 18362}}</p>	
+            </div>
+        </div>
+    </div>
+    <!-- end col-3 -->
+    <!-- begin col-3 -->
+    <div class="col-md-3 col-sm-6">
+        <div class="widget widget-stats bg-red">
+            <div class="stats-icon"><i class="fa fa-users"></i></div>
+            <div class="stats-info">
+                <h4>AGENTS</h4>
+                <p>{{total?.agents || 11}}</p>	
+            </div>
+        </div>
+    </div>
+    <!-- end col-3 -->
+</div>
+<div class="col-md-8">
+        <div class="panel panel-success" data-sortable-id="flot-chart-2">
+            <div class="panel-heading">
+                <!-- <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-repeat"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+                </div> -->
+                <h4 class="panel-title">Statistiques des 7 derniers jours</h4>
+            </div>
+            <div class="panel-body">
+                    <div id="dashboard-interactive-chart" class="height-sm"></div>
+                </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+            <div class="panel panel-success">
+            <div class="panel-heading">
+                <h4 class="panel-title">Collectes par géometrie</h4>
+            </div>
+            <div class="panel-body">
+                <canvas *ngIf="!loading" baseChart
+                        [data]="doughnutChartData"
+                        [labels]="doughnutChartLabels"
+                        [chartType]="doughnutChartType"                
+                        (chartHover)="chartHovered($event)"
+                        (chartClick)="chartClicked($event)"></canvas>
+        </div>
+    </div>
+    </div>
+    <div class="col-md-8">
+    <div class="panel panel-success">
+            <div class="panel-heading">
+                    <h4 class="panel-title">Statistiques des 7 derniers jours par géometrie</h4>
+                </div>
+        <div class="panel-body">
+        <canvas *ngIf="!loading" baseChart
+        [datasets]="lineChartData"
+        [labels]="lineChartLabels"
+        [options]="lineChartOptions"
+        [legend]="lineChartLegend"
+        [chartType]="lineChartType"
+        (chartHover)="chartHovered($event)"
+        (chartClick)="chartClicked($event)"></canvas>        
+        </div>
+    </div>
+</div>
+
+

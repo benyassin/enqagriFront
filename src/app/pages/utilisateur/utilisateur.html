@@ -1,0 +1,222 @@
+
+<!-- begin page-header -->
+<h1 class="page-header">Gestion Utilisateur</h1>
+<!-- end page-header -->
+
+<!-- begin row -->
+<div class="row">
+    <!-- begin col-12 -->
+    <div class="col-md-12">
+            <p-messages [(value)]="msgs"></p-messages>         
+            <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="700"></p-confirmDialog>           
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                        <div class="bt-group pull-right">
+                        </div>
+                        <h4 class="panel-title">Utilisateur</h4>
+                </div>
+                    <div class="panel-body">
+                            <div class="col-sm-12">
+                                <form [formGroup]="myform" class="margin-bottom-0" novalidate>
+                                    <div class="row">
+                                        <div class="form-group col-sm-6" [ngClass]="{
+                                            'has-danger': login.invalid && (login.dirty || login.touched),
+                                            'has-success': login.valid && (login.dirty || login.touched)
+                                              }">
+                                                <label>Login</label>
+                                                <input type="text"
+                                                class="form-control"
+                                                formControlName="login"
+                                                #input (input)="input.value=$event.target.value.toLowerCase()"
+                                                required>
+                                                <div class="help-block"
+                                                *ngIf="login.errors && (login.dirty || login.touched)">
+                                                <p *ngIf="login.errors.required">Ce champ est obligatoire</p>
+                                                </div>
+                                        </div>
+                                        <div class="col-sm-6 form-group" [ngClass]="{
+                                            'has-danger': role.invalid && (role.dirty || role.touched),
+                                            'has-success': role.valid && (role.dirty || role.touched)
+                                           }">
+                                            <label>Role</label>
+                                            <select  class="form-control" formControlName="role" required>                                                    
+                                                <option *ngFor="let r of roles" [ngValue]="r.value">{{r.name}}</option>
+                                                <div  class="help-block" *ngIf="role.errors && (role.dirty || role.touched)">
+                                                        <p *ngIf="role.errors.required">Ce champ est obligatoire</p>
+                                                </div>
+                                            </select>
+                                        </div>	
+                                    </div>		
+                                    <div class="row">
+                                            <div class="form-group col-sm-3" [ngClass]="{
+                                                'has-danger': nom.invalid && (nom.dirty || nom.touched),
+                                                'has-success': nom.valid && (nom.dirty || nom.touched)
+                                              }">
+                                                <label>Nom</label>
+                                                <input type="text"
+                                                class="form-control"
+                                                formControlName="nom"
+                                                required>
+                                                <div class="help-block"
+                                                *ngIf="nom.errors && (nom.dirty || nom.touched)">
+                                                <p *ngIf="nom.errors.required">Ce champ est obligatoire</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-sm-3" [ngClass]="{
+                                                'has-danger': prenom.invalid && (prenom.dirty || prenom.touched),
+                                                'has-success': prenom.valid && (prenom.dirty || prenom.touched)
+                                              }">
+                                                <label>Prénom</label>
+                                                <input type="text"
+                                                class="form-control"
+                                                formControlName="prenom"
+                                                required>
+                                                <div class="help-block"
+                                                *ngIf="prenom.errors && (prenom.dirty || prenom.touched)">
+                                                <p *ngIf="prenom.errors.required">Ce champ est obligatoire</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 form-group" [ngClass]="{
+                                                'has-danger': region.invalid && (region.dirty || region.touched),
+                                                'has-success': region.valid && (region.dirty || region.touched)
+                                               }">
+                                                <label>Region</label>
+                                                <select  class="form-control" formControlName="region" (ngModelChange)="onRegionChange($event)">
+                                                    <option value="" [selected]="true"></option>                                                    
+                                                    <option *ngFor="let r of reg" [ngValue]="r.id_region">{{r.name}}</option>
+                                                    <div  class="help-block" *ngIf="region.errors && (region.dirty || region.touched)">
+                                                            <p *ngIf="region.errors.required">Ce champ est obligatoire</p>
+                                                    </div>
+                                                </select>
+                                            </div>                                    
+                                    </div>				
+                                    <div class="row">
+                                            <div class="form-group col-sm-3"
+                                            [ngClass]="{
+                                             'has-danger': password.invalid && (password.dirty || password.touched),
+                                             'has-success': password.valid && (password.dirty || password.touched)
+                                            }">
+                                                <label>Mot de passe</label>
+                                                <input type="password"
+                                                class="form-control"
+                                                formControlName="password"
+                                                >
+                                                <div class="help-block"
+                                                *ngIf="password.errors && (password.dirty || password.touched)">
+                                                <p *ngIf="password.errors.required">Ce champ est obligatoire</p>
+                                                <p *ngIf="password.errors.minlength">Password must be 8 characters long, we need another {{password.errors.minlength.requiredLength - password.errors.minlength.actualLength}} characters </p>
+                                                </div>
+                                            </div>
+            
+                                            <div class="form-group col-sm-3"
+                                            [ngClass]="{
+                                             'has-danger': confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched),
+                                             'has-success': confirmPassword.valid && (confirmPassword.dirty || confirmPassword.touched)
+                                            }">
+                                                <label>Retaper Mot de passe</label>
+                                                <input type="password"
+                                                class="form-control"
+                                                formControlName="confirmPassword"
+                                                >
+                                                <div class="help-block"
+                                                *ngIf="confirmPassword.errors && (confirmPassword.dirty || confirmPassword.touched)">
+                                                <p *ngIf="confirmPassword.errors.required">Ce champ est obligatoire</p>
+                                                <p *ngIf="confirmPassword.errors.minlength">Password must be 8 characters long, we need another {{confirmPassword.errors.minlength.requiredLength - confirmPassword.errors.minlength.actualLength}} characters </p>
+                                                </div>
+                                            </div>
+                                            <div  class="col-sm-6 form-group" [ngClass]="{
+                                                'has-danger': province.invalid && (province.dirty || province.touched),
+                                                'has-success': province.valid && (province.dirty || province.touched)
+                                               }">
+                                                <label>Province</label>
+                                                <select class="form-control" formControlName="province">
+                                                    <option value="" [selected]="true"></option>                                                    
+                                                    <option *ngFor="let p of prov" [ngValue]="p.id_province">{{p.name}}</option>
+                                                    <div  class="help-block" *ngIf="province.errors && (province.dirty || province.touched)">
+                                                            <p *ngIf="province.errors.required">Ce champ est obligatoire</p>
+                                                    </div>
+                                                </select>
+                                            </div>
+                                    </div>
+                                    <div class="row" >
+                                        <div class="form-group col-sm-3" [ngClass]="{
+                                            'has-danger': telephone.invalid && (telephone.dirty || telephone.touched),
+                                            'has-success': telephone.valid && (telephone.dirty || telephone.touched)
+                                          }">
+                                            <label>Telephone</label>
+                                            <input type="tel"
+                                            class="form-control"
+                                            formControlName="telephone">
+                                            <div class="help-block"
+                                            *ngIf="telephone.errors && (telephone.dirty || telephone.touched)">
+                                            </div>
+                                        </div>		
+        
+                                        <div class="col-sm-3 form-group"
+                                        [ngClass]="{
+                                         'has-danger': email.invalid && (email.dirty || email.touched),
+                                         'has-success': email.valid && (email.dirty || email.touched)
+                                        }">
+                                        <label>Email</label>
+                                        <input type="email"
+                                            class="form-control"
+                                            formControlName="email"
+                                            required>
+                                        <div class="help-block"
+                                          *ngIf="email.errors && (email.dirty || email.touched)">
+                                       <p *ngIf="email.errors.required">Ce champ est obligatoire</p>
+                                       <p *ngIf="email.errors.pattern">Email address incorrect</p>
+                                        </div>
+                                        </div>	
+        
+            
+                                            <div class="col-sm-3 form-group" [ngClass]="{
+                                                'has-danger': dpa.invalid && (dpa.dirty || dpa.touched),
+                                                'has-success': dpa.valid && (dpa.dirty || dpa.touched)
+                                               }">
+                                                <label>Dpa</label>
+                                                <select  class="form-control" formControlName="dpa">
+                                                    <option value="" [selected]="true"></option>                                                    
+                                                    <option *ngFor="let d of list_dpa" [ngValue]="d._id">{{d.name}}</option>
+                                                    <div  class="help-block" *ngIf="dpa.errors && (dpa.dirty || dpa.touched)">
+                                                            <p *ngIf="dpa.errors.required">Ce champ est obligatoire</p>
+                                                    </div>
+                                                </select>
+                                            </div>
+                                            
+                                            <div  class="col-sm-3 form-group" [ngClass]="{
+                                                'has-danger': office.invalid && (office.dirty || office.touched),
+                                                'has-success': office.valid && (office.dirty || office.touched)
+                                               }">
+                                                <label>Office</label>
+                                                <select class="form-control" formControlName="office">
+                                                    <option value="" [selected]="true"></option>                                                    
+                                                    <option *ngFor="let f of list_office" [ngValue]="f._id">{{f.name}}</option>
+                                                    <div  class="help-block" *ngIf="office.errors && (office.dirty || office.touched)">
+                                                            <p *ngIf="office.errors.required">Ce champ est obligatoire</p>
+                                                    </div>
+                                                </select>
+                                            </div>	
+                                            
+                                        </div>
+                                    </form>                              
+                                    <button (click)="createUser()"
+                                    class="btn btn-primary">Enregistrer
+                                    </button>
+                                    
+                                    <button (click)="clearFields()"
+                                    class="btn btn-warning">Réinitialiser
+                                    </button>
+                                    <!-- {{myform.value | json}} -->
+        
+                        </div>	
+                    </div>
+            </div>
+
+        <!-- begin panel -->
+       
+            </div>
+        <!-- end panel -->
+    <!-- end col-12 -->
+</div>
+<!-- end row -->

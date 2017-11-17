@@ -1,0 +1,22 @@
+<h3>Affectation</h3>
+<div class="panel panel-success">
+    <div class="panel-body">
+    <div class="col-sm-4">
+        <h4>Agents</h4>
+        <p-tree [value]="Agents" [loading]="loading" draggableNodes="true" droppableNodes="false" dragdropScope="filess"></p-tree>
+    </div>
+    
+    <div class="col-sm-4" style="text-align:center">
+        <i class="fa fa-exchange" style="font-size:36px;margin-top: 50px;"></i>
+    </div>
+    
+    <div class="col-sm-4">
+        <h4>Commune</h4>
+        <p-tree [value]="Communes" draggable="false" [loading]="loading" draggableNodes="false" droppableNodes="true" dragdropScope="filess"></p-tree>
+    </div>
+    
+    <div class="ui-g-12 ui-md-1">
+        
+    </div>
+</div>
+</div>

@@ -1,0 +1,120 @@
+<!-- begin breadcrumb -->
+
+<ol class="breadcrumb pull-right">
+</ol>
+<!-- end breadcrumb -->
+<!-- begin page-header -->
+<!-- end page-header -->
+
+<!-- begin row -->
+<div class="row">
+    <!-- begin col-6 -->
+    <div class="col-md-12">
+            <p-messages [(value)]="msgs"></p-messages>          
+            <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="700"></p-confirmDialog>        
+            <!-- {{model | json}} -->
+        <!-- begin panel -->
+            <div class="panel panel-success" data-sortable-id="form-plugins-4">
+			<div class="panel-heading">
+
+				<h4 class="panel-title">Questionnaire</h4>
+			</div>
+			<div class="panel-body panel-form">
+				<div class="form-horizontal form-bordered">
+                    <form #f="ngForm" novalidate>
+					<div class="form-group">
+						<label class="col-md-4 control-label">Nom :</label>
+						<div class="col-md-5">
+							<input type="text" id="name" name="name" required minlength="4" #name="ngModel" class="form-control" placeholder="" value="" [(ngModel)]="model.name" />
+                    </div>
+                        <div *ngIf="name.invalid && (name.dirty || name.touched)"
+                             class="help-block">
+                            <p *ngIf="name.errors.required">
+                                Ce champ est obligatoire.
+                            </p>
+                            <div *ngIf="name.errors.minlength">
+                                Name must be at least 4 characters long.
+                            </div>
+                        </div>
+
+					</div>
+					<div class="form-group">
+						<label class="col-md-4 control-label">Géométrie :</label>
+						<div class="col-md-5">
+						<select [(ngModel)]="model.geometry" id="geo" name="geo" #geo="ngModel" required class="form-control">
+                                <option *ngFor="let g of geometry" [ngValue]="g.value">{{g.name}}</option>
+                            </select>
+						</div>
+                        <div *ngIf="geo.invalid && (geo.dirty || geo.touched)"
+                             class="help-block">
+                            <p *ngIf="geo.errors.required">
+                                Ce champ est obligatoire.
+                            </p>
+                        </div>
+					</div>
+                    <div class="form-group">
+						<label class="col-md-4 control-label">Type :</label>
+						<div class="col-md-5">
+							<select [(ngModel)]="model.theme" id="type" name="type" #type="ngModel" class="form-control" required>
+                                <option *ngFor="let t of themes" [ngValue]="t.value">{{t.name}}</option>
+                            </select>
+						</div>
+                        <div *ngIf="type.invalid && (type.dirty || type.touched)"
+                             class="help-block">
+                            <p *ngIf="type.errors.required">
+                                Ce champ est obligatoire.
+                            </p>
+                        </div>
+                    </div>                
+                </form>
+				</div>
+			</div>
+        </div>
+        <div class="panel panel-success" data-sortable-id="form-stuff-1">
+
+            <div class="panel-body">
+                    <div class="col-sm-12">
+                            
+                    <!--<form action="">-->
+
+                    <!--</form>-->
+                    <!--<div class="col-md-2"></div>-->
+                    <!--<div class="list-group col-md-4" [sortablejs]="blocs" [sortablejsOptions]="options">-->
+                    <!--<div class="list-group-item" *ngFor="let b of blocs">{{ b.name }}</div>-->
+                    <!--</div>-->
+                    <!--<div class="col-md-3"></div>-->
+                    <!--<div class="list-group col-md-4" [sortablejs]="items2" [sortablejsOptions]="options">-->
+                    <!--<div class="list-group-item" *ngFor="let item of items2">{{ item.name }}</div>-->
+                    <!--</div>-->
+
+                <!--</div>-->
+                <div class="col-md-3"><button (click)="openpopup()" [disabled]="model.duplicate" type="button" class="btn btn-success btn-block">Form Builder</button></div>
+                        <div class="col-md-3">
+                            <button (click)="opendemo()" [disabled]="model.duplicate || !model.id_fields" type="button" class="btn btn-warning btn-block">Aperçu</button>
+                        </div>
+                <div class="col-md-3 text-center">
+                <button  (click)="createForm()" id="saveForm" [disabled]="!f.valid" type="button" class="btn btn-primary btn-block">Enregistrer</button>
+                </div>
+                <div class="col-md-3">
+                    <button (click)="clearForm()" type="button" class="btn btn-danger btn-block">Réinitialiser</button>
+                </div>
+            </div>
+            </div>
+
+
+            <div class="clearfix"></div>
+            <!--<p-pickList [source]="availableblocs" [target]="selectedBlocs" sourceHeader="Available" targetHeader="Selected" dragdrop="true"-->
+                        <!--[responsive]="true" [sourceStyle]="{'height':'200px'}" [targetStyle]="{'height':'200px'}" filterBy="name"-->
+                        <!--sourceFilterPlaceholder="Search by brand" targetFilterPlaceholder="Search by brand">-->
+                <!--<ng-template let- pTemplate="item">-->
+                    <!--<div class="ui-helper-clearfix">-->
+                        <!--<div style="font-size:14px;float:right;margin:15px 5px 0 0">{{availableblocs.name}} - {{car.year}} - {{car.color}}</div>-->
+                    <!--</div>-->
+                <!--</ng-template>-->
+            <!--</p-pickList>-->
+
+            </div>
+                            <!-- #modal-message -->
+</div>
+
+<!-- end row -->
