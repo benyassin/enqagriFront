@@ -61,7 +61,7 @@ export class SidebarComponent implements AfterViewInit {
         }]
     },{
         title: 'Collects',
-        roles: ['admin'],
+        roles: ['admin','controlleur'],
         icon: 'fa fa-cogs',
         link:'/collectes'
     },

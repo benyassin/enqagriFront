@@ -80,5 +80,19 @@ export class ProjetService {
                 })
             });
         }
+
+    getProjetsByController(){
+            return new Promise((resolve, reject) => {
+                this.http.get('projets/controller/projets')
+                    .map(res => res.json())
+                    .subscribe(data => {
+                        resolve(data);
+                    }, (err) => {
+                        reject(err);
+                    });
+            });
+    
+        }
+
  
 }

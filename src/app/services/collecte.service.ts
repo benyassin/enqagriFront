@@ -37,6 +37,19 @@ getCollectes(){
 
 }
 
+getCollectesByProjet(id,niveau,status){
+    return new Promise((resolve, reject) => {
+        this.http.get('collectes/projet/' + id + '?niveau=' + niveau + "&status=" + status)
+            .map(res => res.json())
+            .subscribe(data => {
+                resolve(data);
+            }, (err) => {
+                reject(err);
+            });
+    });
+
+}
+
 createCollecte(){
     return new Promise((resolve, reject) => {
 

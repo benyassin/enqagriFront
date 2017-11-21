@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormService }  from '../../../services/form.service'
 import { PerimetreService } from '../../../services/perimetre.service'
 import { ProjetService } from '../../../services/projet.service'
+import { UserService } from '../../../services/user.service'
 import { Select2OptionData } from 'ng2-select2'
 import {ConfirmDialogModule,ConfirmationService} from 'primeng/primeng';
 import { Router} from '@angular/router'
@@ -18,10 +19,11 @@ export class ProjetPage implements OnInit  {
     private perimetreservice:PerimetreService,
     private confirmationservice:ConfirmationService,
     private projetservice:ProjetService,
+    private userservice:UserService,
     private router:Router
   ) {  }
 
- projet = {}
+ projet: any = {}
   msgs: any = [];
   forms_selected : any = [];
   forms_disponnible : any = [];
@@ -36,10 +38,33 @@ export class ProjetPage implements OnInit  {
     selectedItems = [];
     RegionSettings = {};
     ProvinceSettings = {};
+    controllers = []
   // public options: Select2Options;
   // public valueRegion: string[];
   // public valueProvince: string[];
   // public current: string;
+    addLevel(){
+        if(this.projet.validation.length < 5){
+            this.projet.validation.push({"name":'',agent:''})
+        }
+    }
+    removeLevel(key){
+        this.projet.validation.splice(key,1)
+    }
+    agentExists(id) {
+        return this.projet.validation.some(function(el) {
+          return el.agent === id;
+        }); 
+      }
+    getControllers(){
+        this.userservice.getControlleurs().then((data : any)=> {
+            data.forEach(element => {
+                this.controllers.push({'name':element.nom + ' ' + element.prenom,'id':element._id})
+            });
+        },(err)=>{
+            console.log('fetch controllers',err)
+        } )
+    }
 
   onThemeChange(theme){
       this.formservice.getFormsByTheme(theme).then((data) => {
@@ -262,6 +287,7 @@ export class ProjetPage implements OnInit  {
     
 
     this.getRegions();
+    this.getControllers();
     // this.exampleData = []
     // this.regionsData = []
     // this.ProvinceData = []
@@ -284,6 +310,8 @@ export class ProjetPage implements OnInit  {
         this.projet['provinces'] = this.projet['perimetre'].province.map(function(element){
             return {'id': element._id,'itemName':element.name}
         })
+    }else {
+        this.projet.validation = [{'name':'test','agent':'test'},{'name':'test','agent':'test'}]; 
     }
 
 
