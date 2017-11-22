@@ -21,8 +21,12 @@ export class CollectePage implements OnInit {
     projet : any
     collectes : any
     projets : any
+    status
+    id
     search(projet,status){
-       this.collecteservice.getCollectesByProjet(projet,1,status).then((data) => {
+    let index = this.projet.validation.findIndex(x => x.agent==this.id);
+        
+       this.collecteservice.getCollectesByProjet(projet._id,index,status).then((data) => {
            this.collectes = data
           this.collectes = this.collectes.map(function(element){
                element.createdAt = moment(new Date(element.createdAt)).format("DD.MM.YYYY à h:mm")
@@ -33,6 +37,33 @@ export class CollectePage implements OnInit {
            console.log('error trying to fetch collectes')
            console.log(err)
        })
+        console.log(index)
+        console.log(this.projet.validation.length)
+    }
+    validate(id){
+        let update : any = {}
+        update.index  = this.projet.validation.findIndex(x => x.agent==this.id);
+        update.status = 0;
+        update.id = id
+        let length = this.projet.validation.length
+        console.log()
+        if(update.index + 1 === length){
+            update.status = 1
+        }
+        console.log(update)
+        this.collecteservice.validate(update).then((data) => {
+            console.log(data)
+        })
+    }
+    reject(id){
+        let update : any = {}
+        update.index = this.projet.validation.findIndex(x => x.agent==this.id);
+        if(update.index > 0){
+            update.index--
+        }
+        this.collectes.reject(update).then((data) => {
+            console.log(data)
+        })
     }
     getProjets(){
         this.projetservice.getProjetsByController().then((data : any) =>{
@@ -59,12 +90,14 @@ export class CollectePage implements OnInit {
             console.log(err)
         })
     }
-    status:Array<Object> = [
-        {name:"Valid", value:"valid"},
-        {name:"Brute",value:'brute'},
-        {name:"Rejected",value:"rejected"}
+    _status:Array<Object> = [
+        {name:"VAlid", value:1},
+        {name:"new",value:0},
+        {name:"Rejected",value:-1}
     ];
     ngOnInit(){
         this.getProjets()
+        this.id = JSON.parse(localStorage.getItem("user"))._id
+        console.log(this.id)
     }
  }
