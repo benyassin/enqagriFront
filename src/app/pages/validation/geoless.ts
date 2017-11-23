@@ -34,11 +34,6 @@ export class GeolessPage implements AfterViewInit  {
     hidden = true
     
     
-    collectetest(){
-      this.collecteservice.createCollecte().then(function(data){
-        this.console(data)
-      })
-    }
     invalidate(){
      let  that = this
       // window.dispatchEvent(new Event('resize'));

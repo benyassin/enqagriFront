@@ -37,10 +37,6 @@ export class ValidationPage implements AfterViewInit  {
     hidden = true
     
     
-    collectetest(){
-      this.collecteservice.createCollecte().then(function(data){
-      })
-    }
     invalidate(){
      let  that = this
       // window.dispatchEvent(new Event('resize'));
