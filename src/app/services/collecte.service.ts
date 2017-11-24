@@ -50,7 +50,20 @@ getCollectesByProjet(id,niveau,status){
 
 }
 
-validate(data){
+getCollecteEnTraitement(id){
+    return new Promise((resolve, reject) => {
+        this.http.get('collectes/traitement/'+ id)
+            .map(res => res.json())
+            .subscribe(data => {
+                resolve(data);
+            }, (err) => {
+                reject(err);
+            });
+    });
+
+}
+
+action(data){
 		return new Promise((resolve, reject) => {
 			this.http.post('collectes/validate', JSON.stringify(data),)
 				.map(res => res.json())
@@ -64,17 +77,4 @@ validate(data){
 		});
 }
 
-reject(data){
-	return new Promise((resolve, reject) => {
-		this.http.post('collectes/reject', JSON.stringify(data),)
-			.map(res => res.json())
-			.subscribe(res => {
-				resolve(res);
-			},(err:Response) => {
-				let details = err.json()
-				reject(details); 
-			});
-
-	});
-}
 }

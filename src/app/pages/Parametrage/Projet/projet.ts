@@ -43,9 +43,9 @@ export class ProjetPage implements OnInit  {
   // public valueRegion: string[];
   // public valueProvince: string[];
   // public current: string;
-    addLevel(){
-        if(this.projet.validation.length < 5){
-            this.projet.validation.push({"name":'',agent:''})
+    addLevel(name,agent){
+        if(this.projet.validation.length < 5 && !this.agentExists(agent)){
+            this.projet.validation.push({"name":name,'agent':agent})
         }
     }
     removeLevel(key){
@@ -310,8 +310,8 @@ export class ProjetPage implements OnInit  {
         this.projet['provinces'] = this.projet['perimetre'].province.map(function(element){
             return {'id': element._id,'itemName':element.name}
         })
-    }else {
-        this.projet.validation = [{'name':'test','agent':'test'},{'name':'test','agent':'test'}]; 
+    }else{
+        this.projet.validation = []
     }
 
 

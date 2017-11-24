@@ -39,11 +39,10 @@
                             {{ index | json}}
                             <td>
                                 <button type="button" (click)="consulter(collecte._id,collecte.projet?.theme,collecte.agent)" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i>  Consulter</button>
-                                <button *ngIf="status != 'valid' && index == 0" type="button" (click)="action(collecte._id,'valid')" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i>  testvalidate</button>
-                                <button *ngIf="status != 'valid' || !index == 0" type="button" (click)="action(collecte._id,'reject')" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i>  testreject</button>
+                                <button type="button" (click)="action(collecte._id,'valid')" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i>  testvalidate</button>
+                                <button type="button" (click)="action(collecte._id,'reject')" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i>  testreject</button>
                             </td>
                         </tr>
-
                     </tbody>
                 </table>
             </div>

@@ -1,5 +1,6 @@
 <p-messages [(value)]="msgs"></p-messages>
 <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+<div class="col-md-7">
 <div class="panel panel-success" data-sortable-id="form-plugins-4">
           <div class="panel-heading">
 
@@ -10,8 +11,8 @@
         <form #f="ngForm" novalidate>
         <div class="form-group">
 
-        <label class="col-md-4 control-label">Nom :</label>
-        <div class="col-md-6">
+        <label class="col-md-2 control-label">Nom :</label>
+        <div class="col-md-10">
           <input type="text" id="nom" name="nom" #nom="ngModel" class="form-control" required placeholder="" value="" [(ngModel)]="projet.name" />
         </div>
                 <div *ngIf="nom.invalid && (nom.dirty || nom.touched)"
@@ -25,8 +26,8 @@
                 </div>
         </div>
         <div class="form-group">
-        <label class="col-md-4 control-label">Type :</label>
-        <div class="col-md-6">
+        <label class="col-md-2 control-label">Type :</label>
+        <div class="col-md-10">
           <select [(ngModel)]="projet.theme" id="type" name="type" #type="ngModel" required class="form-control" (ngModelChange)="onThemeChange($event)">
                       <option *ngFor="let t of themes" [ngValue]="t.value">{{t.name}}</option>
           </select>
@@ -40,29 +41,8 @@
         </div>
         </form>
         <div class="form-group">
-            <label class="col-md-4 control-label">Validation :</label>
-            <div *ngFor="let level of projet.validation; let i = index" [attr.data-index]="i" class="col-md-6">
-                {{level | json}}
-                {{ i }}
-                {{projet.validation | json}}
-          <input type="text" class="form-control" [(ngModel)]="level.name" />
-              <select [(ngModel)]="level.agent" class="form-control">
-                          <option [disabled]="agentExists(t.id)" *ngFor="let t of controllers" [ngValue]="t.id">{{t.name}}</option>
-              </select>
-              <button (click)="addLevel()">add</button>
-              <button (click)="removeLevel(i)">remove</button>
-            </div>
-
-                <!-- <div *ngIf="type.invalid && (type.dirty || type.touched)"
-                     class="help-block">
-                    <p *ngIf="type.errors.required">
-                        Ce champ est obligatoire.
-                    </p>
-                </div> -->
-            </div>
-        <div class="form-group">
-            <label class="col-md-4 control-label">Périmetre :</label>
-        <div class="col-md-3">
+            <label class="col-md-2 control-label">Region :</label>
+        <div class="col-md-10">
             <!--<select2 [data]="regionsData" -->
             <!--[options]="options"-->
             <!--[width]="240"            -->
@@ -70,7 +50,10 @@
             <!--&gt;</select2>-->
             <angular2-multiselect [data]="list_regions" [(ngModel)]="projet.regions" [settings]="RegionSettings" (onSelect)="onRegionSelect($event)" (onSelectAll)="onRegionSelect($event)" (onDeSelect)="onRegionSelect($event)"></angular2-multiselect>
         </div>
-        <div class="col-md-3">
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">Province :</label>
+        <div class="col-md-10">
             <!--<select2 [data]="exampleData"-->
             <!--[options]="options"-->
             <!--[width]="240"-->
@@ -83,8 +66,54 @@
     </div>
 </div>
 </div>
+</div>
+<div class="col-md-5">
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h4 class="panel-title">Validation</h4>
+        </div>
+      <div class="panel-body">
+        <div class="form-horizontal form-bordered">
+            <div class="form-group">
+                <label class="col-md-3 control-label">Name :</label>
+                <div class="col-md-9">
+                    <input [(ngModel)]="_name" type="text" class="form-control" />
+                </div>
+                <label class="col-md-3 control-label">Agent :</label>
+                <div class="col-md-9">
+                    <select [(ngModel)]="_agent" class="form-control">
+                        <option [hidden]="agentExists(t.id)" *ngFor="let t of controllers" [ngValue]="t.id">{{t.name}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+            <button (click)="addLevel(_name,_agent)" class="btn btn-primary btn-sm m-r-5">ajouter</button>
+        </div>
+        </div>
+        <div class="smart-table-container">
+        <table class="table table-condensed">                
+            <thead>
+                <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Agent</th>
+        </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let level of projet.validation; let i = index" [attr.data-index]="i">
+                    <td>{{ i + 1}}</td>
+                    <td>{{level.name}}</td>
+                    <td>{{level.agent}}</td>
+                    <td><a (click)="removeLevel(i)">supprimer</a></td>
+                </tr>
+            </tbody>
+        </table>
+      </div>
+    </div>
+    </div>
+</div>
 
-
+<div class="col-md-12">
 <div class="panel panel-success" data-sortable-id="form-stuff-1">
             <div class="panel-heading">
                 <h4 class="panel-title">Questionnaires</h4>
@@ -122,4 +151,5 @@
                 </div>
                 </div>
             </div>
+</div>
 </div>

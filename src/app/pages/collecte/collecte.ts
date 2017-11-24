@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CollecteService}           from '../../services/collecte.service'
 import { ProjetService } from '../../services/projet.service'
+import { UserService } from '../../services/user.service'
 import { Router } from '@angular/router';
 import {ConfirmDialogModule,ConfirmationService} from 'primeng/primeng';
 import * as _ from "lodash";
@@ -16,30 +17,76 @@ export class CollectePage implements OnInit {
     constructor(
         private collecteservice:CollecteService,
         private projetservice:ProjetService,
+        private userservice:UserService,
         private router:Router
     ){}
     projet : any
     collectes : any
     projets : any
     status
-    id
+    user
     index 
     search(projet,status){
-    this.index = this.projet.validation.findIndex(x => x.agent==this.id);
-        
-       this.collecteservice.getCollectesByProjet(projet._id,this.index,status).then((data) => {
-           this.collectes = data
-          this.collectes = this.collectes.map(function(element){
-               element.createdAt = moment(new Date(element.createdAt)).format("DD.MM.YYYY à h:mm")
-               return element;
-           })
-           console.log(this.collectes)
-       },(err)=> {
-           console.log('error trying to fetch collectes')
-           console.log(err)
-       })
-        console.log(this.index)
-        console.log(this.projet.validation.length)
+    if(this.user.role == 'controlleur'){
+
+        this.index = this.projet.validation.findIndex(x => x.agent==this.user._id);
+            
+        this.collecteservice.getCollectesByProjet(projet._id,this.index,status).then((data) => {
+            this.collectes = data
+            this.collectes = this.collectes.map(function(element){
+                element.createdAt = moment(new Date(element.createdAt)).format("DD.MM.YYYY à h:mm")
+                return element;
+            })
+        },(err)=> {
+            console.log('error trying to fetch collectes')
+            console.log(err)
+        })
+
+    }else{
+        switch(status){
+
+            case 'valid' :
+            this.index = this.projet.validation.length - 1
+            this.collecteservice.getCollectesByProjet(projet._id,this.index,status).then((data) => {
+                this.collectes = data
+                this.collectes = this.collectes.map(function(element){
+                    element.createdAt = moment(new Date(element.createdAt)).format("DD.MM.YYYY à h:mm")
+                    return element;
+                })
+            },(err)=> {
+                console.log('error trying to fetch collectes')
+                console.log(err)
+            })
+            break
+
+            case 'new':           
+            this.collecteservice.getCollectesByProjet(projet._id,0,status).then((data) => {
+                this.collectes = data
+                this.collectes = this.collectes.map(function(element){
+                    element.createdAt = moment(new Date(element.createdAt)).format("DD.MM.YYYY à h:mm")
+                    return element;
+                })
+            },(err)=> {
+                console.log('error trying to fetch collectes')
+                console.log(err)
+            })
+            break
+
+            case 'reject':
+            this.collecteservice.getCollecteEnTraitement(projet._id).then((data) => {
+                this.collectes = data
+                this.collectes = this.collectes.map(function(element){
+                    element.createdAt = moment(new Date(element.createdAt)).format("DD.MM.YYYY à h:mm")
+                    return element;
+                })
+            },(err)=> {
+                console.log('error trying to fetch collectes')
+                console.log(err)
+            })
+
+        }
+    }
+
     }
     action(id,action){
         let update : any = {}
@@ -48,17 +95,23 @@ export class CollectePage implements OnInit {
         update.id = id
 
         console.log(update)
-        this.collecteservice.validate(update).then((data) => {
+        this.collecteservice.action(update).then((data) => {
             console.log(data)
         })
     }
 
     getProjets(){
+        if(this.user.role == 'controlleur'){
         this.projetservice.getProjetsByController().then((data : any) =>{
             this.projets = data
         },(err : any) => {
             console.log('error fetching collectes',err)
         })
+    }else{
+        this.projetservice.getProjetsByPerimetre().then((data : any)=>{
+            this.projets = data
+        })
+    }
     }
 
     consulter(id,type,agent){
@@ -79,14 +132,22 @@ export class CollectePage implements OnInit {
             console.log(err)
         })
     }
-    _status:Array<Object> = [
-        {name:"VAlid", value:'valid'},
-        {name:"new",value:'new'},
-        {name:"Rejected",value:'reject'}
-    ];
+    _status:Array<Object>
     ngOnInit(){
+        this.user = JSON.parse(localStorage.getItem('user'))    
+        if(this.user.role == 'controlleur'){
+            this._status = [
+                {name:"Validé", value:'valid'},
+                {name:"En attente de validation",value:'new'},
+                {name:"Refusé",value:'reject'}
+            ];
+        }else{
+            this._status = [
+                {name:"Validé", value:'valid'},
+                {name:"En attente de validation",value:'new'},
+                {name:"En cours de validation",value:'reject'}
+            ]
+        }    
         this.getProjets()
-        this.id = JSON.parse(localStorage.getItem("user"))._id
-        console.log(this.id)
     }
  }
