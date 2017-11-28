@@ -23,15 +23,20 @@ export class CollectePage implements OnInit {
     projet : any
     collectes : any
     projets : any
-    status
+    region : any
+    province : any
     user
+    _region  
+    _province 
+    status
+
     index 
-    search(projet,status){
+    search(projet,status,region,province){
     if(this.user.role == 'controlleur'){
 
         this.index = this.projet.validation.findIndex(x => x.agent==this.user._id);
             
-        this.collecteservice.getCollectesByProjet(projet._id,this.index,status).then((data) => {
+        this.collecteservice.getCollectesByProjet(projet._id,this.index,status,region,province).then((data) => {
             this.collectes = data
             this.collectes = this.collectes.map(function(element){
                 element.createdAt = moment(new Date(element.createdAt)).format("DD.MM.YYYY à h:mm")
@@ -43,11 +48,14 @@ export class CollectePage implements OnInit {
         })
 
     }else{
+        if(this.user.role == 'superviseurP'){
+            region = this.user.perimetre.region.id_region
+            province = this.user.perimetre.province.id_province
+        }
         switch(status){
-
             case 'valid' :
             this.index = this.projet.validation.length - 1
-            this.collecteservice.getCollectesByProjet(projet._id,this.index,status).then((data) => {
+            this.collecteservice.getCollectesByProjet(projet._id,this.index,status,region,province).then((data) => {
                 this.collectes = data
                 this.collectes = this.collectes.map(function(element){
                     element.createdAt = moment(new Date(element.createdAt)).format("DD.MM.YYYY à h:mm")
@@ -60,7 +68,7 @@ export class CollectePage implements OnInit {
             break
 
             case 'new':           
-            this.collecteservice.getCollectesByProjet(projet._id,0,status).then((data) => {
+            this.collecteservice.getCollectesByProjet(projet._id,0,status,region,province).then((data) => {
                 this.collectes = data
                 this.collectes = this.collectes.map(function(element){
                     element.createdAt = moment(new Date(element.createdAt)).format("DD.MM.YYYY à h:mm")
@@ -103,7 +111,9 @@ export class CollectePage implements OnInit {
     getProjets(){
         if(this.user.role == 'controlleur'){
         this.projetservice.getProjetsByController().then((data : any) =>{
-            this.projets = data
+            this.projets = data;
+            this.region = data.perimetre.region;
+            this.province = data.perimetre.province;
         },(err : any) => {
             console.log('error fetching collectes',err)
         })
@@ -132,9 +142,12 @@ export class CollectePage implements OnInit {
             console.log(err)
         })
     }
+    onProjetSelect(){
+
+    }
     _status:Array<Object>
     ngOnInit(){
-        this.user = JSON.parse(localStorage.getItem('user'))    
+        this.user = JSON.parse(localStorage.getItem('user')) 
         if(this.user.role == 'controlleur'){
             this._status = [
                 {name:"Validé", value:'valid'},
@@ -147,6 +160,15 @@ export class CollectePage implements OnInit {
                 {name:"En attente de validation",value:'new'},
                 {name:"En cours de validation",value:'reject'}
             ]
+
+            if(this.user.role == 'superviseurR'){
+                this._region = this.user.perimetre.region.id_region
+            }
+            if(this.user.role == 'superviseurP'){
+                this._province = this.user.perimetre.province.id_province
+                this._region = this.user.perimetre.region.id_region
+            }
+
         }    
         this.getProjets()
     }

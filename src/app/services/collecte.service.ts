@@ -37,9 +37,15 @@ getCollectes(){
 
 }
 
-getCollectesByProjet(id,niveau,status){
+getCollectesByProjet(id,niveau,status,region,province){
+    if(typeof region == "undefined"){
+        region = 0
+    }
+    if(typeof province == "undefined"){
+        province = 0
+    }
     return new Promise((resolve, reject) => {
-        this.http.get('collectes/projet/' + id + '?niveau=' + niveau + "&status=" + status)
+        this.http.get('collectes/projet/' + id + '?niveau=' + niveau + "&status=" + status + "&region=" + region + "&province=" +province)
             .map(res => res.json())
             .subscribe(data => {
                 resolve(data);
