@@ -73,8 +73,8 @@
                             <td>{{collecte.createdAt}}</td>
                             <td>
                                 <button type="button" (click)="consulter(collecte._id,collecte.projet?.theme,collecte.agent)" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i>  Consulter</button>
-                                <button type="button" (click)="action(collecte._id,'valid')" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i>  validate</button>
-                                <button type="button" (click)="action(collecte._id,'reject')" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i>  reject</button>
+                                <button *ngIf="user.role == 'controlleur'" type="button" (click)="action(collecte._id,'valid')" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i>  validate</button>
+                                <button *ngIf="user.role == 'controlleur'" type="button" (click)="action(collecte._id,'reject')" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i>  reject</button>
                             </td>
                         </tr>
                     </tbody>
