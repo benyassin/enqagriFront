@@ -1,7 +1,7 @@
 <div class="col-md-12">
     <div class="panel panel-success">
-
-            <div class="panel-body">
+        <script src="https://unpkg.com/formiojs@latest/dist/formio.embed.js?src=https://rqzeevlyqvolenr.form.io/aaaa"></script>
+        <div class="panel-body">
                 <!-- <ng2-smart-table *ngIf="!loading" [settings]="settings" [source]="collectes"></ng2-smart-table> -->
                 <!-- <label> projet</label>
                 <select [(ngModel)]="projet" class="form-control">
@@ -16,13 +16,13 @@
                     <div class="row">
                         
                     <div class="form-group col-md-3">
-                        <label for="parcelle">Projet: </label>
+                        <label >Projet: </label>
                     <select [(ngModel)]="projet"  name="projet" class="form-control">
                             <option *ngFor="let p of projets" [ngValue]="p">{{p.name}}</option>
                     </select>
                     </div>
                     <div class="form-group col-md-3">
-                        <label for="parcelle">Status: </label>                            
+                        <label >Status: </label>
                         <select [(ngModel)]="status" name="status" class="form-control">
                                 <option *ngFor="let s of _status" [ngValue]="s.value">{{s.name}}</option>
                         </select>
@@ -30,7 +30,7 @@
                 </div>
                 <div class="row">                        
                     <div class="form-group col-md-3">  
-                            <label for="parcelle">Region: </label>                                                        
+                            <label >Region: </label>
                         <select [disabled]="user.role == 'superviseurP' || user.role == 'superviseurR'" [(ngModel)]="_region" name="region" class="form-control">
                                 <option  *ngIf="user.role == 'superviseurP' || user.role == 'superviseurR'" [ngValue]="user?.perimetre?.region?.id_region" disabled selected>{{user?.perimetre?.region?.name}}</option>
                                 <option *ngFor="let r of projet?.perimetre.region" [ngValue]="r.id_region">{{r.name}}</option>
@@ -38,7 +38,7 @@
                     </div>
 
                     <div class="form-group col-md-3">  
-                        <label for="parcelle">Province: </label>
+                        <label >Province: </label>
                         <select [disabled]="!projet || this.user.role == 'superviseurP'" [(ngModel)]="_province" name="province" class="form-control">
                                 <option *ngIf="user.role == 'superviseurP'" [ngValue]="user?.perimetre?.province?.id_province" disabled selected>{{user?.perimetre?.province?.name}}</option>
                                 <option [hidden]="p.id_region != _region" *ngFor="let p of projet?.perimetre.province" [ngValue]="p.id_province">{{p.name}}</option>

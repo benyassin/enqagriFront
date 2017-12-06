@@ -24,7 +24,7 @@
     "@types/leaflet-draw": "^0.4.9",
     "@types/leaflet-fullscreen": "^1.0.3",
     "@types/lodash": "^4.14.77",
-    "angular-formio": "^1.4.0",
+    "angular-formio": "*",
     "angular-sortablejs": "^2.0.6",
     "angular2-jwt": "^0.2.3",
     "angular2-moment": "^1.7.0",

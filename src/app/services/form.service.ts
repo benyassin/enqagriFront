@@ -66,4 +66,17 @@ export class FormService {
             })
       });
     }
+
+    getExtrapolation(id){
+        return new Promise((resolve, reject) => {
+
+            this.http.get('forms/'+id+'/extrapolation' )
+                .map(res => res.json())
+                .subscribe(res => {
+                    resolve(res);
+                },(err) => {
+                    reject(err);
+                })
+        });
+    }
 }

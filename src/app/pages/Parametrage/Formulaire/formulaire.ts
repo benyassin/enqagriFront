@@ -29,7 +29,8 @@ export class FormulairePage implements OnInit {
     msgs: any = [];
     available: any = {};
     selected: any = {};
-    builderid: string
+    builderid: string;
+    extrapolation: any = [];
 
     save(model, isValid: boolean) {
         // check if model is valid
@@ -55,6 +56,11 @@ export class FormulairePage implements OnInit {
             }
         });
         
+    }
+    getExtrapolation(){
+        this.formservice.getExtrapolation(this.model.id_fields).then((data)=>{
+            this.extrapolation = data
+        })
     }
 
     //TODO : utiliser populate coté api pour reduire le delais sur les calls
