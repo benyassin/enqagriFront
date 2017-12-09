@@ -7,6 +7,7 @@ import { UserService } from '../../../services/user.service'
 import { Select2OptionData } from 'ng2-select2'
 import {ConfirmDialogModule,ConfirmationService} from 'primeng/primeng';
 import { Router} from '@angular/router'
+import { take } from 'rxjs/operator/take';
 
 @Component({
   selector: 'projet',
@@ -166,10 +167,7 @@ export class ProjetPage implements OnInit  {
 //     done(){
 //
 //     }
-    disabled = []
-    debug(){
-        console.log(this.disabled)
-    }
+
     // moveItem(items,from,to){    
     // for(let index in items){
     //     let idx=from.indexOf(items[index]);
@@ -187,28 +185,50 @@ export class ProjetPage implements OnInit  {
     //     }
     // }
     // }
+    disabled = []
     move(item,from,to){
         
         let idx= from.indexOf(item);
         if(idx != -1){
         from.splice(idx, 1);
         to.push(item)
+        this.getfields(item)
         this.disabled.push(item.geometry)
         this.forms = []
     }
     
+    }
+    selected_fields = []
+    _selected : any = []
+    _field : any = []
+    movefield(item,from,to){
+        let index =item.split('|').shift()
+        let findex = item.split('|').pop()
+        from = from[index].fields
+        console.log(from)
+            from.splice(findex,1);
+            to.push(from[findex])
+        
     }
     removeitem(item,from,to){
         let idx= from.indexOf(item);
         if(idx != -1){
 
         from.splice(idx, 1);
+        this.extrapolation.splice(idx,1)
         to.push(item)
         let idy = this.disabled.indexOf(item.geometry)
         this.disabled.splice(idy, 1)
         this.selected = [] 
 
         }
+    }
+    extrapolation : any = []
+    getfields(form){
+        this.formservice.getExtrapolation(form.id_fields).then((data) => {
+            this.extrapolation.push({label:form.name,fields:data})
+            console.log('loaded correctly')
+        })
     }
     createProjet() {
         this.confirmationservice.confirm({
