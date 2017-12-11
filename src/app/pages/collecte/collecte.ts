@@ -32,7 +32,7 @@ export class CollectePage implements OnInit {
 
     index 
     search(projet,status,region,province){
-    if(this.user.role == 'controlleur'){
+    if(this.user.role == 'controleur'){
 
         this.index = this.projet.validation.findIndex(x => x.agent==this.user._id);
             
@@ -81,7 +81,7 @@ export class CollectePage implements OnInit {
             break
 
             case 'reject':
-            this.collecteservice.getCollecteEnTraitement(projet._id).then((data) => {
+            this.collecteservice.getCollecteEnTraitement(projet._id,region,province).then((data) => {
                 this.collectes = data
                 this.collectes = this.collectes.map(function(element){
                     element.createdAt = moment(new Date(element.createdAt)).format("DD.MM.YYYY à h:mm")
@@ -108,8 +108,15 @@ export class CollectePage implements OnInit {
         })
     }
 
+    reset(){
+        this.projet = null
+        this._region = null
+        this._province = null
+        this.status = null
+      }
+
     getProjets(){
-        if(this.user.role == 'controlleur'){
+        if(this.user.role == 'controleur'){
         this.projetservice.getProjetsByController().then((data : any) =>{
             this.projets = data;
             this.region = data.perimetre.region;
@@ -124,21 +131,23 @@ export class CollectePage implements OnInit {
     }
     }
 
-    consulter(id,type,agent){
-        this.collecteservice.getCollecte(id).then((data : any) => {
+    consulter(collecte,projet){
+        console.log(projet)
+        this.collecteservice.getCollecte(collecte._id).then((data : any) => {
             this.collecteservice.collecte = data
-            this.collecteservice.collecte.agent = agent
+            this.collecteservice.collecte.projet = projet
+            this.collecteservice.collecte.agent = collecte.agent
             console.log(this.collecteservice.collecte.geo)
             if(this.collecteservice.collecte.geo == false ){
               return this.router.navigate(['collectes/geoless'])
             }
-            if(type == 'rna'){
+            if(collecte.projet.theme == 'rna'){
                 this.router.navigate(['collectes/rnacollecte'])
             }else{
                 this.router.navigate(['collectes/collecte'])
             }
         },(err) =>{
-            console.log('error trying to fetch collecte id : ' + id)
+            console.log('error trying to fetch collecte id : ' + collecte._id)
             console.log(err)
         })
     }
@@ -148,7 +157,7 @@ export class CollectePage implements OnInit {
     _status:Array<Object>
     ngOnInit(){
         this.user = JSON.parse(localStorage.getItem('user')) 
-        if(this.user.role == 'controlleur'){
+        if(this.user.role == 'controleur'){
             this._status = [
                 {name:"Validé", value:'valid'},
                 {name:"En attente de validation",value:'new'},

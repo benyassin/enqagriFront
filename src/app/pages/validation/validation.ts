@@ -36,6 +36,22 @@ export class ValidationPage implements AfterViewInit  {
     selected
     hidden = true
     
+    validation
+    user
+    lenght
+    index
+
+    action(action){
+      let update : any = {}
+      update.niveau  = this.index;      
+      update.action = action;
+      update.id = this.collecte._id
+
+      console.log(update)
+      this.collecteservice.action(update).then((data) => {
+          console.log(data)
+      })
+  }
     
     invalidate(){
      let  that = this
@@ -181,6 +197,7 @@ export class ValidationPage implements AfterViewInit  {
     ngOnInit(){
       //init map
 
+        console.log(this.collecteservice.collecte)
 
         if(this.collecteservice.collecte !== null){
             this.collecte = this.collecteservice.collecte
@@ -189,9 +206,12 @@ export class ValidationPage implements AfterViewInit  {
         }
         // let query = this.collecte.exploitation.form
         // document.getElementById('data').setAttribute('src', `http://localhost/demo.html?myParam=${query}`)
-        
+        this.validation = this.collecte.validation
+        this.user = JSON.parse(localStorage.getItem('user'))
+        this.lenght = this.collecte.projet.validation.lenght
+        this.index = this.collecte.projet.validation.findIndex(x => x.agent==this.user._id)  
     
-        
+
         this.receiveMessage = (event: MessageEvent) => {
             if(event.origin != 'http://localhost' ){
                 return

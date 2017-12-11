@@ -60,8 +60,8 @@ export class SidebarComponent implements AfterViewInit {
             link: 'reporting/Agent'
         }]
     },{
-        title: 'Collects',
-        roles: ['admin','controlleur','superviseurP','superviseurR'],
+        title: 'Collectes',
+        roles: ['admin','controleur','superviseurP','superviseurR'],
         icon: 'fa fa-cogs',
         link:'/collectes'
     },

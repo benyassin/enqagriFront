@@ -56,7 +56,7 @@ export class CreationUtilisateurPage implements OnInit {
         this.createForm();
         this.myform.get('role').valueChanges.subscribe(
             (role:string) =>{
-                if(role !== 'admin' && role !== 'controlleur'){
+                if(role !== 'admin' && role !== 'controleur'){
                     if(role === 'superviseurR'){
                     this.myform.get('province').clearValidators();
                     this.myform.get('region').setValidators([Validators.required]);
@@ -97,7 +97,10 @@ export class CreationUtilisateurPage implements OnInit {
         )
         if(this.userService.selectedUser !== null){
             let user: any = this.userService.selectedUser
-            this.onRegionChange(user.perimetre.region)
+            if(user.role != 'admin' && user.role != 'controleur'){
+                this.onRegionChange(user.perimetre.region)
+            }
+
             this.loadUser(user)
         }
 
@@ -309,7 +312,7 @@ export class CreationUtilisateurPage implements OnInit {
         {value:"admin",name:"Admin"},
         {value:"superviseurR",name:"Superviseur Regional"},
         {value:"superviseurP",name:"Superviseur Provincial"},
-        {value:"controlleur",name:"contrôlleur"},
+        {value:"controleur",name:"Contrôleur"},
         {value:"agent",name:"Agent de Collecte"},
     ];
 

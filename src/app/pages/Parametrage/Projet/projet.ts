@@ -44,10 +44,15 @@ export class ProjetPage implements OnInit  {
   // public valueRegion: string[];
   // public valueProvince: string[];
   // public current: string;
+    error : String 
     addLevel(name,agent){
+        if(!name){
+            this.error = "name est obligatoire"
+        }else{
         if(this.projet.validation.length < 5 && !this.agentExists(agent)){
             this.projet.validation.push({"name":name,'agent':agent})
         }
+    }
     }
     removeLevel(key){
         this.projet.validation.splice(key,1)

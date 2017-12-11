@@ -49,6 +49,7 @@ export class UtilisateurPage implements OnInit {
         this.router.navigate(['utilisateur/creation'])
     }
     update(user){
+        console.log(user)
         this.userService.selectedUser = user
         this.router.navigate(['utilisateur/creation'])
     }
