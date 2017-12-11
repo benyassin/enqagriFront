@@ -38,10 +38,10 @@ getCollectes(){
 }
 
 getCollectesByProjet(id,niveau,status,region,province){
-    if(typeof region == "undefined"){
+    if(typeof region == "undefined" || region == null){
         region = 0
     }
-    if(typeof province == "undefined"){
+    if(typeof province == "undefined" || province == null){
         province = 0
     }
     return new Promise((resolve, reject) => {
@@ -57,10 +57,10 @@ getCollectesByProjet(id,niveau,status,region,province){
 }
 
 getCollecteEnTraitement(id,region,province){
-    if(typeof region == "undefined"){
+    if(typeof region == "undefined" || region == null){
         region = 0
     }
-    if(typeof province == "undefined"){
+    if(typeof province == "undefined" || province == null){
         province = 0
     }
     return new Promise((resolve, reject) => {
