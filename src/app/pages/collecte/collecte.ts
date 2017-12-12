@@ -110,9 +110,13 @@ export class CollectePage implements OnInit {
 
     reset(){
         this.projet = null
-        this._region = null
-        this._province = null
         this.status = null
+        if(this.user.role != 'superviseurR' && this.user.role != 'superviseurP'){
+            this._region = null
+        }
+        if(this.user.role != 'superviseurP'){
+            this._province = null
+        }
       }
 
     getProjets(){
