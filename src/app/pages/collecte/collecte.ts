@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import {ConfirmDialogModule,ConfirmationService} from 'primeng/primeng';
 import * as _ from "lodash";
 import * as moment from "moment"
+import { locale } from 'moment';
 @Component({
     selector: 'Collecte',
     templateUrl: './collecte.html',
@@ -32,6 +33,9 @@ export class CollectePage implements OnInit {
 
     index 
     search(projet,status,region,province){
+
+    localStorage.setItem('storage',JSON.stringify({'projet':this.projet,'status':status,'region':region,'province':province}))
+
     if(this.user.role == 'controleur'){
 
         this.index = this.projet.validation.findIndex(x => x.agent==this.user._id);
@@ -96,6 +100,11 @@ export class CollectePage implements OnInit {
     }
 
     }
+
+    OnProjetSelect(projet){
+        this.projet = projet
+        console.log(projet)
+    }
     action(id,action){
         let update : any = {}
         update.niveau  = this.index;
@@ -125,12 +134,27 @@ export class CollectePage implements OnInit {
             this.projets = data;
             this.region = data.perimetre.region;
             this.province = data.perimetre.province;
+            console.log(data)
+            if(localStorage.getItem('storage') !== null){
+                let data = JSON.parse(localStorage.getItem('storage'))
+                this.projet = data.projet;
+                this.status = data.status;
+                this._province = data.province;
+                this._region = data.region;
+            }
         },(err : any) => {
             console.log('error fetching collectes',err)
         })
     }else{
         this.projetservice.getProjetsByPerimetre().then((data : any)=>{
             this.projets = data
+                        if(localStorage.getItem('storage') !== null){
+                let data = JSON.parse(localStorage.getItem('storage'))
+                this.projet = data.projet;
+                this.status = data.status;
+                this._province = data.province;
+                this._region = data.region;
+            }
         })
     }
     }
@@ -141,7 +165,6 @@ export class CollectePage implements OnInit {
             this.collecteservice.collecte = data
             this.collecteservice.collecte.projet = projet
             this.collecteservice.collecte.agent = collecte.agent
-            console.log(this.collecteservice.collecte.geo)
             if(this.collecteservice.collecte.geo == false ){
               return this.router.navigate(['collectes/geoless'])
             }
@@ -182,7 +205,7 @@ export class CollectePage implements OnInit {
                 this._region = this.user.perimetre.region.id_region
             }
 
-        }    
-        this.getProjets()
+        }
+        this.getProjets()                
     }
  }

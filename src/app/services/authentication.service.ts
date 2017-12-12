@@ -78,8 +78,7 @@ export class AuthenticationService {
     }
     logout(): void {
         // clear token remove user from local storage to log user out
-        localStorage.removeItem('token');
-        localStorage.removeItem('user')
+        localStorage.clear();
         this._permissionService.clearStore(); 
         
     }

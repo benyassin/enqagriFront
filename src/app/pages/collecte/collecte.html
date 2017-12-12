@@ -16,8 +16,8 @@
                         
                     <div class="form-group col-md-3">
                         <label >Projet: </label>
-                    <select [(ngModel)]="projet"  name="projet" class="form-control">
-                            <option *ngFor="let p of projets" [ngValue]="p">{{p.name}}</option>
+                    <select name="projet" class="form-control" (change)="OnProjetSelect($event.target)">
+                            <option [selected]="p?._id === projet?._id" *ngFor="let p of projets" [ngValue]="p">{{p.name}}</option>
                     </select>
                     </div>
                     <div class="form-group col-md-3">

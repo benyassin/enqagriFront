@@ -51,7 +51,7 @@ export class ValidationPage implements AfterViewInit  {
       this.collecteservice.action(update).then((data) => {
           console.log(data)
       })
-  }
+    }
     
     invalidate(){
      let  that = this

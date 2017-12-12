@@ -1,7 +1,7 @@
 <div class="row">
         <div class="pull-right">
-                <button [disabled]="(!user.role == 'controler') || (validation[index] == 'valid') || (index == lenght - 1 && validation[index] =='valid')" (click)="action('valid')" class="btn btn-primary">Validate</button>
-                <button [disabled]="(!user.role == 'controler') || (validation[index] == 'valid') || (index == 0)" (click)="action('reject')" class="btn btn-warning">rejeter</button>
+                <button  [disabled]="(user.role != 'controler') || (validation[index] == 'valid') || (index == lenght - 1 && validation[index] =='valid')" (click)="action('valid')" class="btn btn-primary">Validate</button>
+                <button  [disabled]="(user.role != 'controler') || (validation[index] == 'valid') || (index == 0)" (click)="action('reject')" class="btn btn-warning">rejeter</button>
             </div>
 </div>
 
