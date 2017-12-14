@@ -53,7 +53,7 @@ export class ValidationPage implements AfterViewInit  {
 
       console.log(update)
       this.collecteservice.action(update).then((data) => {
-        this.router.navigate(['collectes/'])
+        // this.router.navigate(['collectes/'])
         
           console.log(data)
       })

@@ -33,12 +33,12 @@ export class CollectePage implements OnInit {
 
     index;
     compareById(obj1, obj2) {
-        if(localStorage.getItem('storage')){
+        if(localStorage.getItem('storage') !== null ){
         return obj1._id === obj2._id;
         }
     }
     search(projet,status,region,province){
-    if(this.projet != null){
+    if(this.projet !== null){
         localStorage.setItem('storage',JSON.stringify({'projet':this.projet,'status':status,'region':region,'province':province}));
     }
 
@@ -138,11 +138,11 @@ export class CollectePage implements OnInit {
 
     getProjets(){
         if(this.user.role == 'controleur'){
+            console.log('im a controller')
         this.projetservice.getProjetsByController().then((data : any) =>{
             this.projets = data;
-            this.region = data.perimetre.region;
-            this.province = data.perimetre.province;
-            console.log(data);
+            // this.region = data.perimetre.region;
+            // this.province = data.perimetre.province;
             this.checkStorage();
         },(err : any) => {
             console.log('error fetching collectes',err)
@@ -156,7 +156,7 @@ export class CollectePage implements OnInit {
     }
     checkStorage(){
         console.log('im here');
-        if(localStorage.getItem('storage') !== null){
+        if(localStorage.getItem('storage') != null){
             let data = JSON.parse(localStorage.getItem('storage'));
             this.projet = data.projet;
             this.status = data.status;
