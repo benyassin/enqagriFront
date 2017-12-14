@@ -18,6 +18,7 @@ import * as moment from 'moment'
 
 
 export class ValidationPage implements AfterViewInit  {
+  data: any;
     constructor(
       private collecteservice:CollecteService,
       private router:Router
@@ -41,6 +42,9 @@ export class ValidationPage implements AfterViewInit  {
     lenght
     index
 
+    form
+    selectedindex
+    selectedformindex
     action(action){
       let update : any = {}
       update.niveau  = this.index;      
@@ -49,6 +53,8 @@ export class ValidationPage implements AfterViewInit  {
 
       console.log(update)
       this.collecteservice.action(update).then((data) => {
+        this.router.navigate(['collectes/'])
+        
           console.log(data)
       })
     }
@@ -89,13 +95,20 @@ export class ValidationPage implements AfterViewInit  {
       
       private isInited: boolean;
     
-
-    OnParcelleChange(parcelle :any){
-      console.log(parcelle)
-      this.hidden = false
+    debug(){
+      console.log(this.collecte.collecte)
+    }
+    OnParcelleChange(index){
+      this.selectedindex = index
+      this.hidden = true      
+      let parcelle = this.selected.data[index]
       parcelle.date_creation = moment(new Date(parcelle.date_creation)).format("DD.MM.YYYY à h:mm")
       this.selectedParcelle = parcelle
-      this.parcelle.nativeElement.contentWindow.postMessage({"window":"parcelle","message":'data',"data":parcelle.formdata}, 'http://localhost/demo.html')
+      this.data = null
+      this.data = parcelle.formdata
+      this.hidden = false
+      console.log(parcelle.formdata)
+      // this.parcelle.nativeElement.contentWindow.postMessage({"window":"parcelle","message":'data',"data":parcelle.formdata}, 'http://localhost/demo.html')
       // this.parcelleLayers.redraw()
       this.drawnItems.clearLayers()
       this.markers.clearLayers()
@@ -110,15 +123,25 @@ export class ValidationPage implements AfterViewInit  {
     }
     OnTypeChange(data){
       this.hidden = true
-      this.selected = data
-      let query = data.form
-      document.getElementById('data').setAttribute('src', `http://localhost/demo.html?myParam=${query}`)
+      this.selectedformindex = data
+      this.selected = this.collecte.collecte[data]
+      let query = this.collecte.collecte[data].form
+      this.form = 'http://localhost:8080/api/forms/'+ query +'/fields'
+      // document.getElementById('data').setAttribute('src', `http://localhost/demo.html?myParam=${query}`)
       this.clear()
       this.loadMapData()
     }
+
+    onSubmit(data){
+      console.log(data)
+      console.log(this.collecte.collecte[this.selectedformindex].data[this.selectedindex].formdata)
+      this.collecte.collecte[this.selectedformindex].data[this.selectedindex].formdata = data
+    }
+
     getData(){
       this.parcelle.nativeElement.contentWindow.postMessage({"window":"parcelle","message":'submit'}, 'http://localhost/demo.html')
     }
+
     clear(){
       this.drawnItems.clearLayers()
       this.markers.clearLayers()

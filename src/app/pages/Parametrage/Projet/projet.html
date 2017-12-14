@@ -157,15 +157,15 @@
 <div class="col-md-12">
     <div class="panel panel-success" data-sortable-id="form-stuff-1">
                 <div class="panel-heading">
-                    <h4 class="panel-title">Keys</h4>
+                    <h4 class="panel-title">Champs d'extrapolation</h4>
                 </div>
                 <div class="panel-body">
                         <div class="col-sm-12">
                             
                     <div class="row">
                     <div class="col-md-4 form-group subject-info-box-1">
-                            <label >KEy Disponnibles :</label>
-                             {{_field | json}}
+                            <label >Champs Disponnibles :</label>
+                             <!-- {{_field | json}} -->
                             <select  size="7" [(ngModel)]="_field" class="form-control">
                                 <optgroup *ngFor="let item of extrapolation;let i = index"  label=+{{item.label}}>
                                 <option *ngFor="let s of item.fields;let f = index" [ngValue]="i +'|' +f">-{{ s.key }} {{f}}</option>
@@ -178,7 +178,7 @@
                             <input type="button" id="btnRemove" value="<" (click)="movefield(selected,forms_selected,forms_disponnible)" class="btn btn-primary" /><br />
                         </div>
                         <div class="col-md-4 form-group subject-info-box-2">
-                            <label >KEy Sélectionnés :</label>
+                            <label >Champs Sélectionnés :</label>
                             <select [(ngModel)]="_selected" size="7" id='selected' class="form-control">
                                 <option *ngFor="let item of selected_fields" [ngValue]="item">{{item.key}}</option>
                             </select>

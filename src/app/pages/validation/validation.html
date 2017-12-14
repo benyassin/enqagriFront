@@ -1,8 +1,13 @@
+
 <div class="row">
-        <div class="pull-right">
-                <button  [disabled]="(user.role != 'controler') || (validation[index] == 'valid') || (index == lenght - 1 && validation[index] =='valid')" (click)="action('valid')" class="btn btn-primary">Validate</button>
-                <button  [disabled]="(user.role != 'controler') || (validation[index] == 'valid') || (index == 0)" (click)="action('reject')" class="btn btn-warning">rejeter</button>
-            </div>
+    <div class="bt-group pull-right">
+
+            <button  [disabled]="(user.role != 'controleur') || (validation[index] == 'valid') || (index == lenght - 1 && validation[index] =='valid')" (click)="action('valid')" class="btn btn-success btn-lg m-r-5"><i class="fa fa-check pull-left"></i>Valider</button>
+            <button  [disabled]="(user.role != 'controleur') || (validation[index] == 'valid') || (index == 0)" (click)="action('reject')" class="btn btn-danger btn-lg m-r-5"><i class="fa fa-ban pull-left"></i>Rejeter</button>
+
+        </div>
+<div class="col-md-2">
+</div>
 </div>
 
 <div class="row">
@@ -23,7 +28,7 @@
                                 <!-- <label for="type">Questionnaire: </label>                        -->
                                 <select id="type" name="type" [(ngModel)]="_type" required class="form-control" (ngModelChange)="OnTypeChange($event)">
                                         <option value="" disabled="true" [selected]="!_type">Questionnaire </option>
-                                        <option *ngFor="let data of collecte?.collecte" [ngValue]="data">{{data.formname}}</option>
+                                        <option *ngFor="let data of collecte?.collecte;let i = index" [ngValue]="i">{{data.formname}}</option>
                                     </select>
                             </div>
                         </div>
@@ -34,7 +39,7 @@
                                         <!-- <label for="parcelle">Instance: </label> -->
                                 <select id="parcelle" name="parcelle" [(ngModel)]="_parcelle" required class="form-control" (ngModelChange)="OnParcelleChange($event)">
                                         <option value="" disabled="true" [selected]="!_parcelle">Instance</option>                                        
-                                        <option *ngFor="let data of selected?.data" [ngValue]="data">{{data.numero}}</option>
+                                        <option *ngFor="let data of selected?.data;let i = index" [ngValue]="i">{{data.numero}}</option>
                                 </select>
                                 </div>
                             </div>
@@ -98,8 +103,14 @@
                             </div>
                         </div>
                     </div>
-                </div>  
-                   <iframe [hidden]="hidden" #parcelle frameBorder="0" class="iframe-map" scrolling="no" width="100%" height="800" id="data" name="parcelle" (load)="onIframeLoad(this)"></iframe>
+                </div>
+                <div class="panel panel-success">
+                    <div class="panel-body ">
+                        <formio *ngIf="!hidden" src="{{form}}" [submission]='data' (beforeSubmit)="onSubmit($event)"></formio>  
+                    </div>
+                </div>
+                   <!-- <iframe [hidden]="hidden" #parcelle frameBorder="0" class="iframe-map" scrolling="no" width="100%" height="800" id="data" name="parcelle" (load)="onIframeLoad(this)"></iframe> -->
+                 
         <!-- <button 
         class="btn btn-primary">Détails
         </button>
