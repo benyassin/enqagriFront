@@ -23,6 +23,7 @@ export class ReportingPage implements OnInit {
     loading : boolean = true 
     settings = {
         columns: {
+
         },
         actions:{
             add   : false,

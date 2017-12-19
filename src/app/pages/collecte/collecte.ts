@@ -175,7 +175,7 @@ export class CollectePage implements OnInit {
             if(this.collecteservice.collecte.geo == false ){
               return this.router.navigate(['collectes/geoless'])
             }
-            if(collecte.projet.theme == 'rna'){
+            if(projet.theme == 'rna'){
                 this.router.navigate(['collectes/rnacollecte'])
             }else{
                 this.router.navigate(['collectes/collecte'])

@@ -64,8 +64,9 @@
                                                                 </tbody>
                                                             </table>
                                                         </div>                        
-                                                    <iframe #iframe frameBorder="0" class="iframe-map" height="800" width="100%" name="exploitation" id="exploitation" (load)="onIframeLoad(this)"></iframe>
-                        </div>
+                                                    </div>
+                                                    <formio  src="{{exploitationform}}" [submission]='collecte?.exploitation?.formdata' (render)="onrender()" (beforeSubmit)="onSubmit($event)"></formio>  
+                                                    
                 <div class="tab-pane fade" id="default-tab-2">
                         <div class="container col-md-6">
                                 <div  id="map2" style="height: 300px;"></div>

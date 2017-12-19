@@ -38,8 +38,8 @@
                                 <div class="col-md-8">
                                         <!-- <label for="parcelle">Instance: </label> -->
                                 <select id="parcelle" name="parcelle" [(ngModel)]="_parcelle" required class="form-control" (ngModelChange)="OnParcelleChange($event)">
-                                        <option value="" disabled="true" [selected]="!_parcelle">Instance</option>                                        
-                                        <option *ngFor="let data of selected?.data;let i = index" [ngValue]="i">{{data.numero}}</option>
+                                        <!-- <option value="" disabled="true" [selected]="!_parcelle">Instance</option>                                         -->
+                                        <option *ngFor="let data of collecte?.collecte[_type].data;let i = index" [ngValue]="i">{{data.numero}}</option>
                                 </select>
                                 </div>
                             </div>
@@ -106,7 +106,7 @@
                 </div>
                 <div class="panel panel-success">
                     <div class="panel-body ">
-                        <formio *ngIf="!hidden" src="{{form}}" [submission]='data' (beforeSubmit)="onSubmit($event)"></formio>  
+                        <formio *ngIf="!hidden" [form]="form" [submission]='collecte?.collecte[_type]?.data[_parcelle]?.formdata' (beforeSubmit)="onSubmit($event)"></formio>  
                     </div>
                 </div>
                    <!-- <iframe [hidden]="hidden" #parcelle frameBorder="0" class="iframe-map" scrolling="no" width="100%" height="800" id="data" name="parcelle" (load)="onIframeLoad(this)"></iframe> -->

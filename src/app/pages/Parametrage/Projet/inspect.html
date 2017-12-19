@@ -1,3 +1,5 @@
+<div class="row">
+    
 <div class="panel panel-success">
         <div class="panel-heading">
             <div class="bt-group pull-right">
@@ -41,7 +43,9 @@
 </div>
 </div>
 </div>
-
+</div>
+<div class="row">
+    
 <div class="panel panel-success">
     <div class="panel-heading">
         <div class="bt-group pull-right">
@@ -72,4 +76,50 @@
             </tbody>
         </table>
     </div>
+</div>
+</div>
+
+<div class="row">
+<div class="col-md-8 panel panel-success">
+    <div class="panel-body">
+        <div class="smart-table-container">
+            <ng2-smart-table *ngIf="!dataload"  [settings]="settings" [source]="affectation" (rowSelect)="clear()" (edit)="event($event)"></ng2-smart-table>
+            </div>
+    </div>
+</div>
+<div class="col-md-4">
+<div class="panel panel-success">
+    <div class="panel-body">
+        <form>
+            <div class="row">
+            <div class="form-group col-sm-8">
+                <label>Agents :</label>
+                <select [disabled]="!row" [(ngModel)]="_agent" name="_agent" class="form-control">
+                    <option [hidden]="affectation[row?.index]?.id_agents?.includes(t._id)" *ngFor="let t of Agents" [ngValue]="t">{{t.prenom}}</option>
+                </select>
+            </div>
+            <div class="form-group col-sm-3">
+                <label></label>
+            <button [disabled]="!row" class="form-control btn btn-success" (click)="addAgent(_agent)"><i class="fa fa-plus" aria-hidden="true"></i></button>
+            </div>                               
+        </div>
+        </form>
+
+        <table class="table table-condensed">                
+            <thead>
+            <tr>
+            <th>Agents</th>
+            <th></th>
+        </tr>
+        </thead>
+            <tbody>
+                <tr *ngFor="let agent of affectation[row?.index]?.agents; let i = index" [attr.data-index]="i">
+                    <td>{{agent}}</td>
+                    <td><a (click)="removeAgent(i)">supprimer</a></td>
+                </tr>
+        </tbody>
+        </table>
+    </div>
+    </div>
+</div>
 </div>

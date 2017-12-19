@@ -31,8 +31,8 @@ export class RnaValidationPage implements AfterViewInit  {
     selectedParcelle = {numero: ""}
     markers = new L.LayerGroup();
     drawnItems = new L.FeatureGroup()
-    
-    
+    exploitationform : any
+    exploitationData : any
     invalidate(){
      let  that = this
       // window.dispatchEvent(new Event('resize'));
@@ -88,6 +88,14 @@ export class RnaValidationPage implements AfterViewInit  {
     }
     getData(){
       this.parcelle.nativeElement.contentWindow.postMessage({"window":"parcelle","message":'submit'}, 'http://localhost/demo.html')
+    }
+    onrender(){
+      console.log('render')
+      console.log(this.collecte.exploitation.formdata)
+
+    }
+    onSubmit(data){
+      console.log(data.data)
     }  
     ngOnInit(){
       //init map
@@ -96,10 +104,13 @@ export class RnaValidationPage implements AfterViewInit  {
             this.collecte = this.collecteservice.collecte
             this.collecte.exploitation.date_creation = moment(new Date(this.collecte.exploitation.date_creation)).format("DD.MM.YYYY à h:mm")  
         }
-        let query = this.collecte.exploitation.form
-        let queryy = this.collecte.collecte[0].form
-        document.getElementById('exploitation').setAttribute('src', `http://localhost/demo.html?myParam=${query}`)
-        document.getElementById('parcelle').setAttribute('src', `http://localhost/demo.html?myParam=${queryy}`)
+        // let query = this.collecte.exploitation.form
+        this.exploitationform = 'http://localhost:8080/api/forms/'+ this.collecte.exploitation.form +'/fields'
+        this.exploitationData = this.collecte.exploitation.formdata
+        
+        // let queryy = this.collecte.collecte[0].form
+        // document.getElementById('exploitation').setAttribute('src', `http://localhost/demo.html?myParam=${query}`)
+        // document.getElementById('parcelle').setAttribute('src', `http://localhost/demo.html?myParam=${queryy}`)
         
 
         

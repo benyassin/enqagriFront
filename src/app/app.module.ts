@@ -55,6 +55,7 @@ import { BlocPage }                       from './pages/Parametrage/Bloc/bloc';
 import { FormPluginsPage }          from './pages/form-stuff/form-plugins/form-plugins';
 import { AffectationPage }          from './pages/Parametrage/affectation/affectation';
 import { ProjetPage }               from './pages/Parametrage/Projet/projet';
+import { ButtonRenderComponent } from './pages/Parametrage/Projet/button.render.component';
 import { testProjetPage }               from './pages/Parametrage/Projet/inspect';
 
 
@@ -229,7 +230,8 @@ import { HelperCssPage }        from './pages/helper/helper-css/helper-css';*/
         ChartD3Page,
         ReportingPage,
         ReportingRegionPage,
-        ReportingAgentPage
+        ReportingAgentPage,
+        ButtonRenderComponent,
        /*EmailInboxV1Page,
         EmailInboxV2Page,
         EmailComposePage,
