@@ -42,13 +42,31 @@ export class testProjetPage implements OnInit  {
     dataload: boolean;
     source : LocalDataSource 
     affectation : any = [] 
+    msgs : any = []
     getCommunes(){
         let current = this
         this.dataload = true
         this.perimetreservice.getCommunes().then((data:any[]) => {
-            console.log(data)
+           let tester = current.Agents.length                            
            data.forEach(function(commune){
-                current.affectation.push({'commune':commune.name,'agents':[],'id_commune':commune.id_commune,'id_agents':[]})
+                let array = [];
+                let id_array = [];
+                let i = 0
+                current.Agents.forEach(function(obj){
+                    let test = obj.affectation.findIndex(x => x.projet==current.projet._id) 
+                    if( test != -1){
+                        if(obj.affectation[test].communes.includes(commune.id_commune)){
+                            array.push(obj.nom + ' ' +obj.prenom)
+                            id_array.push(obj._id)
+                        }
+                    i++
+                    console.log(i)
+                }
+                })
+
+                    current.affectation.push({'commune':commune.name,'agents':array,'id_commune':commune.id_commune,'id_agents':id_array})                    
+                
+                
            })
            this.source = new LocalDataSource(this.affectation)
            this.dataload = false
@@ -60,7 +78,6 @@ export class testProjetPage implements OnInit  {
         let current = this        
         this.userservice.getAgents().then((data:any[])=> {
             this.Agents = data
-            console.log(data)
             // data.forEach(function(agents){
             //     current.Agents.push({
             //         "label": agents.nom +" "+ agents.prenom,
@@ -70,6 +87,7 @@ export class testProjetPage implements OnInit  {
             //     })
             // })
             this.loading = false
+            this.getCommunes();            
         }, (err) => {
             console.log("can't retreive blocs ");
         });
@@ -84,7 +102,6 @@ export class testProjetPage implements OnInit  {
         }); 
     }
     clear(){
-        console.log(this._agents)
         this._agents = []
     }
     _agent
@@ -100,7 +117,6 @@ export class testProjetPage implements OnInit  {
         })
         this._agent = null
         console.log('affectation')
-        console.log(this.affectation)
         // this.source.refresh()
     }
     }
@@ -116,6 +132,18 @@ export class testProjetPage implements OnInit  {
             this.affectation = value 
             this.source.load(this.affectation)
         }) 
+    }
+    save(){
+        let request : any = {}
+        this.source.getAll().then((data) => {
+            request.data = data
+            request.projet = this.projet._id
+            console.log(request)
+            this.userservice.setAffectation(request).then((back) => {
+                this.msgs.push({severity:'success', summary:'Success', detail:"Affectation"}); //create service
+                console.log(back)
+            })
+        })
     }
     settings = {
         columns: {
@@ -139,7 +167,7 @@ export class testProjetPage implements OnInit  {
     
     ngOnInit(){
         if(this.projetservice.inspect !== null) this.getProjet(this.projetservice.inspect)
-            this.getCommunes();
             this.getAgents();
+        
     }
  }

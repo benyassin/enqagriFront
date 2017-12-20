@@ -49,19 +49,19 @@ export class UserService {
          // TODO : validation et traitement du return 
     createUser(user){
             
-            return new Promise((resolve, reject) => {
-                this.http.post('users/', user)
-                   .map(res => res.json())
-                   .subscribe(res => {
-                     resolve(res);
-                   }, (err:Response) => {
-                    let details = err.json()
-                    reject(details)  
-                });
-            
-               });
-            
-             }
+      return new Promise((resolve, reject) => {
+          this.http.post('users/', user)
+              .map(res => res.json())
+              .subscribe(res => {
+                resolve(res);
+              }, (err:Response) => {
+              let details = err.json()
+              reject(details)  
+          });
+      
+          });
+      
+        }
     deleteUser(id){
         return new Promise((resolve, reject) => {
             this.http.delete('/users/'+ id)
@@ -88,17 +88,33 @@ export class UserService {
       
        }
 
-       getControlleurs(){
-        
-            return new Promise((resolve, reject) => {
-              this.http.get('users/controlleurs/')
-                .map(res => res.json())
-                .subscribe(data => {
-                  resolve(data);
-                }, (err) => {
-                  reject(err);
-                });
-            });
-        
-         }   
-}
+  getControlleurs(){
+  
+    return new Promise((resolve, reject) => {
+      this.http.get('users/controlleurs/')
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, (err) => {
+          reject(err);
+        });
+    });
+
+    }  
+         
+  setAffectation(data){
+    return new Promise((resolve, reject) => {
+      console.log('here')
+      this.http.post('users/affectation', data)
+          .map(res => res.json())
+          .subscribe(res => {
+            resolve(res);
+          }, (err:Response) => {
+          let details = err.json()
+          reject(details)  
+      });
+  
+      });
+  
+    }
+}      
