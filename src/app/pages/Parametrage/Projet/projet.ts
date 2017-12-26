@@ -228,12 +228,27 @@ export class ProjetPage implements OnInit  {
 
         }
     }
+    table = []
+    add(key,label){
+        let index =key.split('|').shift()
+        let findex = key.split('|').pop()
+        this.table.push({'key':this.extrapolation[index].fields[findex].key,'label':label,'form':this.forms_selected[index]._id})
+        console.log('object added')
+        console.log(this.table)
+    }
+    remove(index){
+        this.table.splice(index,1)
+        console.log('element deleted')
+    }
     extrapolation : any = []
     getfields(form){
-        this.formservice.getExtrapolation(form.id_fields).then((data) => {
-            this.extrapolation.push({label:form.name,fields:data})
-            console.log('loaded correctly')
-        })
+        if(form.id_fields){
+            this.formservice.getExtrapolation(form.id_fields).then((data) => {
+                this.extrapolation.push({label:form.name,fields:data})
+                console.log('loaded correctly')
+            })
+        }
+
     }
     createProjet() {
         this.confirmationservice.confirm({
@@ -257,6 +272,7 @@ export class ProjetPage implements OnInit  {
                 delete this.projet['provinces'];
                 delete this.projet['regions'];
                 delete this.projet['perimetre'];
+                this.projet['extrapolation'] = this.table;
                 this.projetservice.createProjet(this.projet).then((data) => {
                     console.log('projet created')
                     console.log(data)
@@ -326,8 +342,12 @@ export class ProjetPage implements OnInit  {
         this.projet = this.projetservice.Projet ;
         this.onThemeChange(this.projet['theme']);
         this.forms_selected = this.projet['forms'] || [];
+        this.table = this.projet['extrapolation']
         this.forms_selected.forEach(element => {
             this.disabled.push(element.geometry)
+        });
+        this.forms_selected.forEach(element => {
+            this.getfields(element)
         });
         this.projet['regions'] = this.projet['perimetre'].region.map(function(element){
             return {'id': element.id_region+'|'+element._id,'itemName':element.name}

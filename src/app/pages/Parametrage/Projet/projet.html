@@ -127,7 +127,7 @@
                         <label >Questionnaires Disponnibles :</label>
 
                         <select  [(ngModel)]="forms" size="7" id='forms' class="form-control">
-                            <option [disabled]="(a.geometry !== 'none' && disabled.includes('none')) || (disabled.includes(a.geometry) && a.geometry !== 'none')  || (disabled.length !== 0 && disabled.includes('none') === false && a.geometry === 'none' )"
+                            <option [hidden]="a.id_fields == undefined" [disabled]="(a.geometry !== 'none' && disabled.includes('none')) || (disabled.includes(a.geometry) && a.geometry !== 'none')  || (disabled.length !== 0 && disabled.includes('none') === false && a.geometry === 'none' )"
                             *ngFor="let a of forms_disponnible" [ngValue]="a">{{ a.name }} - [{{ a.geometry }}]</option>
                         </select>
                     </div>
@@ -155,43 +155,67 @@
 </div>
 </div>
 <div class="col-md-12">
-    <div class="panel panel-success" data-sortable-id="form-stuff-1">
+    <div class="panel panel-success">
                 <div class="panel-heading">
                     <h4 class="panel-title">Champs d'extrapolation</h4>
                 </div>
                 <div class="panel-body">
-                        <div class="col-sm-12">
-                            
-                    <div class="row">
-                    <div class="col-md-4 form-group subject-info-box-1">
-                            <label >Champs Disponnibles :</label>
-                             <!-- {{_field | json}} -->
-                            <select  size="7" [(ngModel)]="_field" class="form-control">
-                                <optgroup *ngFor="let item of extrapolation;let i = index"  label=+{{item.label}}>
-                                <option *ngFor="let s of item.fields;let f = index" [ngValue]="i +'|' +f">-{{ s.key }} {{f}}</option>
-                                </optgroup> 
-                            </select>
-                        </div>
-                        <div class="col-md-4 subject-info-arrows text-center">
-                            <label  id ="label">Option</label>
-                            <input type="button" id="btnAdd" value=">" (click)="movefield(_field,extrapolation,selected_fields)" class="btn btn-primary" /><br />
-                            <input type="button" id="btnRemove" value="<" (click)="movefield(selected,forms_selected,forms_disponnible)" class="btn btn-primary" /><br />
-                        </div>
-                        <div class="col-md-4 form-group subject-info-box-2">
-                            <label >Champs Sélectionnés :</label>
-                            <select [(ngModel)]="_selected" size="7" id='selected' class="form-control">
-                                <option *ngFor="let item of selected_fields" [ngValue]="item">{{item.key}}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-4"></div>
-                    <div class="col-md-4 text-center">
-                    <button  (click)="createProjet()" [disabled]="!f.valid" id="saveProject" type="button" class="btn btn-primary btn-block">Enregistrer</button>
-                    </div>
-                    <div class="col-md-4">
-                            <button (click)="clearProjet()" type="button" class="btn btn-danger btn-block">Réinitialiser</button>
-                    </div>
-                    </div>
+                        <!-- <form>
+                                <div class="row">
+                                    
+                            <div class="form-group col-sm-3">
+                                    <label >Projet: </label>
+                                <select [(ngModel)]="apiKey" name="apiKey" class="form-control">
+                                        <optgroup *ngFor="let item of extrapolation;let i = index"  label={{item.label}}>
+                                                <option *ngFor="let s of item.fields;let f = index" [ngValue]="i +'|' +f">-{{ s.key }} {{f}}</option>
+                                        </optgroup>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-sm-3">
+                                <label >label: </label>
+                                <input [(ngModel)]="label" type="text" id="label" name="label" class="form-control"  />
+                            </div>
+                            <div class="form-group col-sm-3">
+                                    <label ></label>                                    
+                                    <button class="form-control btn btn-success" (click)="addAgent(_agent)"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                            </div> 
+                            </div>
+                        </form> -->
+                        <form class="form-inline" action="/" method="POST">
+                            <div class="form-group m-r-10">
+                                    <select [(ngModel)]="apiKey" name="apiKey" class="form-control" width="150px">
+                                            <optgroup *ngFor="let item of extrapolation;let i = index"  label={{item.label}}>
+                                                    <option [hidden]="s.type !== 'number'" *ngFor="let s of item.fields;let f = index" [ngValue]="i +'|' +f">-{{ s.key }}</option>
+                                            </optgroup>
+                                    </select>                            
+                            </div>
+                            <div class="form-group m-r-10">
+                                <input [(ngModel)]="label" name="label" type="text" class="form-control" id="exampleInputPassword2" placeholder="Label">
+                            </div>
+                            <div class="checkbox m-r-10">
+                                <!-- <label>
+                                    <input type="checkbox"> Remember me
+                                </label> -->
+                            </div>
+                            <button type="submit" (click)="add(apiKey,label)" class="btn btn-sm btn-primary m-r-5"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                        </form>
+                        <table class="table table-condensed">                
+                                <thead>
+                                <tr>
+                                <th>Key</th>
+                                <th>label</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of table">
+                                        <td>{{item?.key}}</td>
+                                        <td>{{item?.label}}</td>
+                                        <td><a (click)="remove(i)">supprimer</a></td>
+                                    </tr>
+                            </tbody>
+                        </table>
                 </div>
     </div>
-    </div>
+</div>
