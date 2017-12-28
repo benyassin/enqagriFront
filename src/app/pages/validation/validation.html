@@ -37,7 +37,7 @@
                             <div class="col-md-8">
                                     <!-- <label for="parcelle">Instance: </label> -->
                             <select id="parcelle" name="parcelle" [(ngModel)]="_parcelle" required class="form-control" (ngModelChange)="OnParcelleChange($event)">
-                                    <option value="" disabled="true" [selected]="!_parcelle">Instance</option>                                        
+                                    <option value="" disabled="true" [selected]="!_parcelle">Instance</option>
                                     <option *ngFor="let data of selected?.data" [ngValue]="data">{{data.numero}}</option>
                             </select>
                             </div>
@@ -52,15 +52,15 @@
                                             <td>{{selectedParcelle?.id_segment}}</td>
                                         </tr>
                                         <tr>
-                                            <th>ID Segment</th>
+                                            <th>ID Parcelle</th>
                                             <td>{{selectedParcelle?.id_parcelle}}</td>
                                         </tr>
+                                        <!--<tr>-->
+                                            <!--<th>superficie</th>-->
+                                            <!--<td>{{selectedParcelle?.superficie}}</td>-->
+                                        <!--</tr>-->
                                         <tr>
-                                            <th>superficie</th>
-                                            <td>{{selectedParcelle?.superficie}}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>numero</th>
+                                            <th>Numéro</th>
                                             <td>{{selectedParcelle?.numero}}</td>
                                         </tr>
                                         

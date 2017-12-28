@@ -85,20 +85,17 @@ export class ValidationPage implements AfterViewInit  {
     @ViewChild('parcelle') parcelle: ElementRef;
     
       receiveMessage: EventListener;
-      private renderer: Renderer;
-      
       private isInited: boolean;
     
 
     OnParcelleChange(parcelle :any){
-      console.log(parcelle)
-      this.hidden = false
-      parcelle.date_creation = moment(new Date(parcelle.date_creation)).format("DD.MM.YYYY Ã  h:mm")
-      this.selectedParcelle = parcelle
-      this.parcelle.nativeElement.contentWindow.postMessage({"window":"parcelle","message":'data',"data":parcelle.formdata}, 'http://localhost/demo.html')
+      parcelle.date_creation = moment(new Date(parcelle.date_creation)).format("DD.MM.YYYY a h:mm");
+      this.selectedParcelle = parcelle;
+      this.parcelle.nativeElement.contentWindow.postMessage({"window":"parcelle","message":'data',"data":parcelle.formdata}, 'http://localhost/demo.html');
       // this.parcelleLayers.redraw()
-      this.drawnItems.clearLayers()
-      this.markers.clearLayers()
+        this.hidden = false;
+      this.drawnItems.clearLayers();
+      this.markers.clearLayers();
       this.loadMapData()
       // this.parcelleLayers.addData(this.Parcelles)
       // this.parcelleLayers.addData(this.Parcelles,{style: function(element){
@@ -109,10 +106,10 @@ export class ValidationPage implements AfterViewInit  {
       // }}})
     }
     OnTypeChange(data){
-      this.hidden = true
-      this.selected = data
-      let query = data.form
-      document.getElementById('data').setAttribute('src', `http://localhost/demo.html?myParam=${query}`)
+      this.selected = data;
+      let query = data.form;
+      this.hidden = true;
+      document.getElementById('data').setAttribute('src', `http://localhost/demo.html?myParam=${query}`);
       this.clear()
       this.loadMapData()
     }
@@ -124,11 +121,11 @@ export class ValidationPage implements AfterViewInit  {
       this.markers.clearLayers()
     }
     loadMapData(){
-      let Parcelles = []
+      let Parcelles = [];
       this.selected.data.forEach(element => {
         Parcelles.push({"type": "Feature","properties":{"numero":element.numero},geometry:element.gjson})
       });
-      let that = this
+      let that = this;
       
       this.parcelleLayers = new L.GeoJSON(Parcelles,{onEachFeature: onEachFeature,style: function(element){
         if(element.properties.numero == that.selectedParcelle['numero'] || 1 ) {
@@ -189,7 +186,7 @@ export class ValidationPage implements AfterViewInit  {
       }
         this.markers.addTo(this.ParcelleMap);    
         //  drawnItems.addLayer(this.parcelleLayers)
-        this.drawnItems.addTo(this.ParcelleMap)   
+        this.drawnItems.addTo(this.ParcelleMap)   ;
 
         this.ParcelleMap.fitBounds(this.parcelleLayers.getBounds())
 
@@ -197,7 +194,7 @@ export class ValidationPage implements AfterViewInit  {
     ngOnInit(){
       //init map
 
-        console.log(this.collecteservice.collecte)
+        console.log(this.collecteservice.collecte);
 
         if(this.collecteservice.collecte !== null){
             this.collecte = this.collecteservice.collecte
@@ -217,7 +214,7 @@ export class ValidationPage implements AfterViewInit  {
                 return
             }
             if(event.data.window == 'exploitation' && event.data.message === 'loaded'){
-              event.source.postMessage({"window":event.data.window,"message":'data',"data":this.collecte.exploitation.data}, event.origin)
+              event.source.postMessage({"window":event.data.window,"message":'data',"data":this.collecte.collecte[0].data[0].formdata.data}, event.origin)
             }
           };
     }
@@ -305,10 +302,10 @@ export class ValidationPage implements AfterViewInit  {
     //     this.markers.addTo(this.ParcelleMap);    
     //     drawnItems.addLayer(this.parcelleLayers)
     //     this.drawnItems.addTo(this.ParcelleMap)   
-      var Fullscreen = new L.Control.Fullscreen()
+      var Fullscreen = new L.Control.Fullscreen();
 
-        this.ParcelleMap.addControl(Fullscreen)
-        this.ParcelleMap.addControl(drawControl)
+        this.ParcelleMap.addControl(Fullscreen);
+        this.ParcelleMap.addControl(drawControl);
     //     this.ParcelleMap.fitBounds(this.parcelleLayers.getBounds())
       let that = this
         this.ParcelleMap.on(L.Draw.Event.CREATED,function(e){

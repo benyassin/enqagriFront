@@ -8,6 +8,7 @@ import { Select2OptionData } from 'ng2-select2'
 import {ConfirmDialogModule,ConfirmationService} from 'primeng/primeng';
 import { Router} from '@angular/router'
 import { take } from 'rxjs/operator/take';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'projet',
@@ -24,12 +25,12 @@ export class ProjetPage implements OnInit  {
     private router:Router
   ) {  }
 
- projet: any = {}
+ projet: any = {};
   msgs: any = [];
   forms_selected : any = [];
   forms_disponnible : any = [];
-  forms  = []
-  selected = []
+  forms  = [];
+  selected = [];
   // provinces = []
     public list_regions = [];
     public list_provinces = [];
@@ -39,9 +40,10 @@ export class ProjetPage implements OnInit  {
     selectedItems = [];
     RegionSettings = {};
     ProvinceSettings = {};
-    controllers = []
-    apiKey
-    label
+    controllers = [];
+    apiKey;
+    label;
+    updating
   // public options: Select2Options;
   // public valueRegion: string[];
   // public valueProvince: string[];
@@ -192,72 +194,74 @@ export class ProjetPage implements OnInit  {
     //     }
     // }
     // }
-    disabled = []
+    disabled = [];
     move(item,from,to){
         
         let idx= from.indexOf(item);
         if(idx != -1){
         from.splice(idx, 1);
-        to.push(item)
-        this.getfields(item)
-        this.disabled.push(item.geometry)
+        to.push(item);
+        this.getfields(item);
+        this.disabled.push(item.geometry);
         this.forms = []
     }
     
     }
-    selected_fields = []
-    _selected : any = []
-    _field : any = []
-    movefield(item,from,to){
-        let index =item.split('|').shift()
-        let findex = item.split('|').pop()
-        from = from[index].fields
-        console.log(from)
-            from.splice(findex,1);
-            to.push(from[findex])
-        
-    }
-    removeitem(item,from,to){
-        let idx= from.indexOf(item);
-        if(idx != -1){
+    removeitem(item,from,to) {
+        let idx = from.indexOf(item);
+        if (idx != -1) {
 
-        from.splice(idx, 1);
-        this.extrapolation.splice(idx,1)
-        to.push(item)
-        let idy = this.disabled.indexOf(item.geometry)
-        this.disabled.splice(idy, 1)
-        this.selected = [] 
+            from.splice(idx, 1);
+            this.extrapolation.splice(idx, 1);
+            to.push(item);
+            let idy = this.disabled.indexOf(item.geometry);
+            this.disabled.splice(idy, 1);
+            this.selected = []
 
         }
     }
-    compareById(obj1, obj2) {
-        if(this.extrapolation != null){
-            console.log(obj1.key)
-            return obj1.key === obj2.key;            
-        }
-    }
-    table = []
+    table = [];
     add(key,label){
-        let index =key.split('|').shift()
-        let findex = key.split('|').pop()
-        this.table.push({'key':this.extrapolation[index].fields[findex].key,'label':label,'form':this.forms_selected[index]._id})
-        console.log('object added')
+        // let test = _.find(this.extrapolation, _.flow(
+        //     _.property('fields'),
+        //     _.partialRight(_.some, { key: key.key })
+        // ));
+        // console.log('test',test);
+        // console.log(this.extrapolation);
+        // let index =key.split('|').shift();
+        // let findex = key.split('|').pop();
+        this.table.push({'key':key,'label':label});
+        console.log('object added');
         console.log(this.table)
     }
     remove(index){
-        this.table.splice(index,1)
+        this.table.splice(index,1);
         console.log('element deleted')
     }
     update(index){
-      let data = this.table[index]
+        this.updating = index;
+      let data = this.table[index];
       this.apiKey = data.key;
       this.label = data.label;
     }
-    extrapolation : any = []
+    set(key,label){
+        this.table[this.updating] = {'key':key,'label':label};
+        this.updating = null
+    }
+    cancel(){
+        this.updating = null
+    }
+    contains(key,value){
+      var isThere =  this.table.some(function(element) {
+            return element[key] == value
+        });
+      return isThere
+    }
+    extrapolation : any = [];
     getfields(form){
         if(form.id_fields){
             this.formservice.getExtrapolation(form.id_fields).then((data) => {
-                this.extrapolation.push({label:form.name,fields:data})
+                this.extrapolation.push({label:form.name,fields:data});
                 console.log('loaded correctly')
             })
         }
@@ -324,6 +328,7 @@ export class ProjetPage implements OnInit  {
 //         this.current = data.value.join(' | ');
 //     }
     ngOnInit () {
+        this.updating = null;
     this.RegionSettings = {
             singleSelection: false,
             text:"Regions",
