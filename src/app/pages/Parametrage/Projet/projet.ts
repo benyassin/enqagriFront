@@ -40,6 +40,8 @@ export class ProjetPage implements OnInit  {
     RegionSettings = {};
     ProvinceSettings = {};
     controllers = []
+    apiKey
+    label
   // public options: Select2Options;
   // public valueRegion: string[];
   // public valueProvince: string[];
@@ -228,6 +230,12 @@ export class ProjetPage implements OnInit  {
 
         }
     }
+    compareById(obj1, obj2) {
+        if(this.extrapolation != null){
+            console.log(obj1.key)
+            return obj1.key === obj2.key;            
+        }
+    }
     table = []
     add(key,label){
         let index =key.split('|').shift()
@@ -239,6 +247,11 @@ export class ProjetPage implements OnInit  {
     remove(index){
         this.table.splice(index,1)
         console.log('element deleted')
+    }
+    update(index){
+      let data = this.table[index]
+      this.apiKey = data.key;
+      this.label = data.label;
     }
     extrapolation : any = []
     getfields(form){
