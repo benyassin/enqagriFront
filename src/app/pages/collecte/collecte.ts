@@ -23,7 +23,7 @@ export class CollectePage implements OnInit {
         private router:Router
     ){}
     projet : any;
-    collectes : any;
+    collectes : any = [];
     projets : any;
     region : any;
     province : any;
@@ -32,6 +32,8 @@ export class CollectePage implements OnInit {
     _province;
     hide : boolean = true
     index;
+    extrapolation
+    anass
     compareById(obj1, obj2) {
         if(localStorage.getItem('storage') !== null ){
         return obj1._id === obj2._id;
@@ -73,9 +75,36 @@ export class CollectePage implements OnInit {
         summm /= this.collectes.length
         return summm
     }
-}
-    search(projet,status,region,province){
+    }
 
+    getET(key){
+        if(this.collectes){
+        let sum = 0;
+        for(let i = 0; i < this.collectes.length; i++) {
+          sum += (this.collectes[i].collecte[0].data[0].formdata.data[key] || 0);
+        }
+        var avg : number  = sum/this.collectes.length;
+        let summm : number  = 0
+        for(let i = 0; i < this.collectes.length; i++) {
+            summm += Math.pow(((this.collectes[i].collecte[0].data[0].formdata.data[key] || 0) - avg),2)  ;
+            
+        }
+        
+        summm /= this.collectes.length
+        
+        return Math.sqrt(summm)
+    }
+    }
+    onProjetChange(){
+        // this.collectes = []
+    }
+    search(projet,status,region,province){
+    this.hide = false
+    this.anass = {theme:projet.theme,name:projet.name}
+    if(projet == null || status == null ){
+        return
+    }
+    this.extrapolation = projet.extrapolation
     if(this.projet !== null){
         localStorage.setItem('storage',JSON.stringify({'projet':this.projet,'status':status,'region':region,'province':province}));
     }
@@ -90,7 +119,6 @@ export class CollectePage implements OnInit {
                 element.createdAt = moment(new Date(element.createdAt)).format("DD.MM.YYYY à h:mm");
                 return element;
             })
-            this.hide = false
         },(err)=> {
             console.log('error trying to fetch collectes');
             console.log(err)
