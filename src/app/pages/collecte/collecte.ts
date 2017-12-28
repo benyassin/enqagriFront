@@ -30,14 +30,52 @@ export class CollectePage implements OnInit {
     user;
     _region;
     _province;
-
+    hide : boolean = true
     index;
     compareById(obj1, obj2) {
         if(localStorage.getItem('storage') !== null ){
         return obj1._id === obj2._id;
         }
     }
+    getSum(key) {
+        if(this.collectes){
+        let sum = 0;
+        for(let i = 0; i < this.collectes.length; i++) {
+          sum += (this.collectes[i].collecte[0].data[0].formdata.data[key] || 0);
+        }
+        return sum;
+    }
+    }
+    getAvg(key){
+        if(this.collectes){
+        let sum = 0;
+        for(let i = 0; i < this.collectes.length; i++) {
+          sum += (this.collectes[i].collecte[0].data[0].formdata.data[key] || 0);
+        }
+        var avg = sum/this.collectes.length;
+        
+        return avg;
+    }
+}
+    getVar(key){
+        if(this.collectes){
+        let sum = 0;
+        for(let i = 0; i < this.collectes.length; i++) {
+          sum += (this.collectes[i].collecte[0].data[0].formdata.data[key] || 0);
+        }
+        var avg : number  = sum/this.collectes.length;
+        let summm : number  = 0
+        for(let i = 0; i < this.collectes.length; i++) {
+            summm += Math.pow(((this.collectes[i].collecte[0].data[0].formdata.data[key] || 0) - avg),2)  ;
+            
+        }
+        
+        summm /= this.collectes.length
+        return summm
+    }
+}
     search(projet,status,region,province){
+
     if(this.projet !== null){
         localStorage.setItem('storage',JSON.stringify({'projet':this.projet,'status':status,'region':region,'province':province}));
     }
@@ -52,12 +90,14 @@ export class CollectePage implements OnInit {
                 element.createdAt = moment(new Date(element.createdAt)).format("DD.MM.YYYY à h:mm");
                 return element;
             })
+            this.hide = false
         },(err)=> {
             console.log('error trying to fetch collectes');
             console.log(err)
         })
 
     }else{
+        this.hide = false        
         if(this.user.role == 'superviseurP'){
             region = this.user.perimetre.region.id_region;
             province = this.user.perimetre.province.id_province
@@ -133,6 +173,7 @@ export class CollectePage implements OnInit {
             this._province = null
         }
         this.collectes = []
+        this.hide = true
         localStorage.removeItem('storage')
       }
 

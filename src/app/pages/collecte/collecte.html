@@ -104,13 +104,14 @@
                 </div>
             </div> -->
             <div class="row">
-                <table id="data-table" class="table table-striped table-bordered text-center">
+                <table id="data-table" class="table table-striped table-hide table-bordered text-center">
                     <thead>
                         <tr>
                             <!-- <th>id</th> -->
                             <th>Enquête</th>
                             <th>Type</th>
                             <th>Agent</th>
+                            <th *ngFor="let apikey of projet?.extrapolation">{{apikey.label}}</th>
                             <th>Date Synchornisation</th>
                         </tr>
                     </thead>
@@ -123,14 +124,35 @@
                             <td *ngIf="projet?.theme == 'pillier2'">Pilier II</td>
                             <td *ngIf="projet?.theme == 'financier'">Projet Financier</td>
                             <td *ngIf="projet?.theme !== 'financier' && projet?.theme !== 'pillier1' && projet?.theme !== 'pillier2'">{{ projet?.theme}}</td>
-                            
                             <td>{{collecte.agent?.nom + ' ' + collecte.agent?.prenom}}</td>
+                            <td *ngFor="let apikey of projet?.extrapolation">{{ collecte?.collecte[0]?.data[0].formdata.data[apikey.key]}}</td>                            
                             <td>{{collecte.createdAt}}</td>
                             <td>
                                 <button type="button" (click)="consulter(collecte,projet)" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i>  Consulter</button>
                                 <!-- <button *ngIf="user.role == 'controlleur'" type="button" (click)="action(collecte._id,'valid')" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i>  validate</button>
                                 <button *ngIf="user.role == 'controlleur'" type="button" (click)="action(collecte._id,'reject')" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i>  reject</button> -->
                             </td>
+                        </tr>
+                        <tr [hidden]="hide"  class="border_bottom">
+                            <td style="visibility: hidden"></td>
+                            <td style="visibility: hidden"></td>
+                            <td><b>Somme</b></td>
+                            <td *ngFor="let apikey of projet?.extrapolation">{{getSum(apikey.key) | number:'1.0-2'}}</td>                           
+                            <td style="visibility: hidden"></td>
+                        </tr>
+                        <tr [hidden]="hide"  class="border_bottom">
+                            <td style="visibility: hidden"></td>
+                            <td style="visibility: hidden"></td>
+                            <td><b>Moyenne</b></td>
+                            <td *ngFor="let apikey of projet?.extrapolation">{{getAvg(apikey.key) | number:'1.0-2'}}</td>                            
+                            <td style="visibility: hidden"></td>
+                        </tr>
+                        <tr [hidden]="hide" class="border_bottom">
+                            <td style="visibility: hidden"></td>
+                            <td style="visibility: hidden"></td>
+                            <td><b>Variance</b></td>
+                            <td *ngFor="let apikey of projet?.extrapolation">{{getVar(apikey.key) | number:'1.0-2'}}</td>                                                        
+                            <td style="visibility: hidden"></td>
                         </tr>
                     </tbody>
                 </table>

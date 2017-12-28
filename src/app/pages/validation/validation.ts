@@ -18,14 +18,13 @@ import * as moment from 'moment'
 
 
 export class ValidationPage implements AfterViewInit  {
-  data: any;
     constructor(
       private collecteservice:CollecteService,
       private router:Router
     ){}
     collecte : any
     _parcelle : any = ''
-    _type : any = 0
+    _type : any = ''
     url : any
     Parcelles : any = []
     ExploitationMap
@@ -34,19 +33,14 @@ export class ValidationPage implements AfterViewInit  {
     selectedParcelle
     markers = new L.LayerGroup();
     drawnItems = new L.FeatureGroup()
-    
     selected
-    hidden = false
+    hidden = true
     
     validation
     user
     lenght
     index
 
-    form
-    selectedindex
-    selectedformindex
-    tester
     action(action){
       let update : any = {}
       update.niveau  = this.index;      
@@ -56,8 +50,6 @@ export class ValidationPage implements AfterViewInit  {
       console.log(update)
       this.collecteservice.action(update).then((data) => {
         this.router.navigate(['collectes/'])
-        
-          console.log(data)
       })
     }
     
@@ -97,21 +89,17 @@ export class ValidationPage implements AfterViewInit  {
       
       private isInited: boolean;
     
-    debug(){
-      console.log(this.collecte.collecte)
-    }
-    OnParcelleChange(){
-      console.log(this._parcelle)
-      console.log(this.collecte.collecte[this._type])
-      let query = this.collecte.collecte[this._type].form
-      this.form = 'http://localhost:8080/api/forms/'+ query +'/fields'
-      // this.collecte.collecte[this.selectedformindex].data[index].date_creation = moment(new Date(this.collecte.collecte[this.selectedformindex].data[index].date_creation)).format("DD.MM.YYYY à h:mm")
-      // this.selectedParcelle = this.collecte.collecte[this._type].data[this._parcelle]
-       // this.parcelle.nativeElement.contentWindow.postMessage({"window":"parcelle","message":'data',"data":parcelle.formdata}, 'http://localhost/demo.html')
+
+    OnParcelleChange(parcelle :any){
+      console.log(parcelle)
+      this.hidden = false
+      parcelle.date_creation = moment(new Date(parcelle.date_creation)).format("DD.MM.YYYY Ã  h:mm")
+      this.selectedParcelle = parcelle
+      this.parcelle.nativeElement.contentWindow.postMessage({"window":"parcelle","message":'data',"data":parcelle.formdata}, 'http://localhost/demo.html')
       // this.parcelleLayers.redraw()
       this.drawnItems.clearLayers()
       this.markers.clearLayers()
-      // this.loadMapData()
+      this.loadMapData()
       // this.parcelleLayers.addData(this.Parcelles)
       // this.parcelleLayers.addData(this.Parcelles,{style: function(element){
       //   if(element.properties.numero == parcelle.numero) {
@@ -121,50 +109,38 @@ export class ValidationPage implements AfterViewInit  {
       // }}})
     }
     OnTypeChange(data){
-      this.selectedformindex = data
-      this.selected = this.collecte.collecte[data]
-      let query = this.collecte.collecte[data].form
-      this.form = 'http://localhost:8080/api/forms/'+ query +'/fields'
-      // document.getElementById('data').setAttribute('src', `http://localhost/demo.html?myParam=${query}`)
-      this.hidden = false
+      this.hidden = true
+      this.selected = data
+      let query = data.form
+      document.getElementById('data').setAttribute('src', `http://localhost/demo.html?myParam=${query}`)
       this.clear()
       this.loadMapData()
     }
-
-    onSubmit(data){
-      delete data.data['submit']
-      console.log(data)
-      this.collecte.collecte[this._type].data[this._parcelle].formdata = data
-      console.log(this.collecte.collecte[this._type].data[this._parcelle].formdata)
-      // console.log(this.collecte.collecte[this._type].data[this._parcelle])
-    }
-
     getData(){
       this.parcelle.nativeElement.contentWindow.postMessage({"window":"parcelle","message":'submit'}, 'http://localhost/demo.html')
     }
-
     clear(){
       this.drawnItems.clearLayers()
       this.markers.clearLayers()
     }
     loadMapData(){
       let Parcelles = []
-      this.collecte.collecte[this._type].data.forEach(element => {
+      this.selected.data.forEach(element => {
         Parcelles.push({"type": "Feature","properties":{"numero":element.numero},geometry:element.gjson})
       });
       let that = this
       
       this.parcelleLayers = new L.GeoJSON(Parcelles,{onEachFeature: onEachFeature,style: function(element){
-      //   if(that.collecte.collecte[this._type].data[this._parcelle] && element.properties.numero == that.collecte.collecte[this._type].data[this._parcelle]['numero']) {
-      //     return {"color": "#ff7800",
-      //     "weight": 5,
-      //     "opacity": 0.65};
-      // }
+        if(element.properties.numero == that.selectedParcelle['numero'] || 1 ) {
+          return {"color": "#ff7800",
+          "weight": 5,
+          "opacity": 0.65};
+      }
       }})
 
       // markers
       function onEachFeature(feature, layer) {
-        let type = that.collecte.collecte[that._type].type
+        let type = that.selected.type
         var center
         // console.log(layer)
         // console.log(feature)
@@ -187,7 +163,7 @@ export class ValidationPage implements AfterViewInit  {
           
         }else{
           let icon = 'assets/marker-icon.png'
-          if(feature.properties.numero == that.collecte.collecte[this._type].data[this._parcelle].numero){
+          if(feature.properties.numero == that.selectedParcelle.numero){
             icon = 'assets/marker-icon-green.png'
           }
           center = layer.getLatLng()
