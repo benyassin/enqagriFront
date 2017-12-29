@@ -89,7 +89,7 @@ export class ValidationPage implements AfterViewInit  {
     
 
     OnParcelleChange(parcelle :any){
-      parcelle.date_creation = moment(new Date(parcelle.date_creation)).format("DD.MM.YYYY a h:mm");
+      parcelle.date_creation = moment(new Date(parcelle.date_creation)).format("DD.MM.YYYY à h:mm");
       this.selectedParcelle = parcelle;
       this.parcelle.nativeElement.contentWindow.postMessage({"window":"parcelle","message":'data',"data":parcelle.formdata}, 'http://localhost/demo.html');
       // this.parcelleLayers.redraw()

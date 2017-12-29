@@ -75,7 +75,7 @@
       <div class="panel-body">
         <div class="form-horizontal form-bordered">
             <div class="form-group">
-                <label class="col-md-3 control-label">Name :</label>
+                <label class="col-md-3 control-label">Alias :</label>
                 <div class="col-md-9">
                         {{ error }}                        
                     <input [(ngModel)]="_name" type="text" class="form-control" />
@@ -96,7 +96,7 @@
             <thead>
                 <tr>
             <th>#</th>
-            <th>Name</th>
+            <th>Alias</th>
             <th>Agent</th>
         </tr>
             </thead>
@@ -192,7 +192,7 @@
                                     </select>                            
                             </div>
                             <div class="form-group m-r-10">
-                                <input [(ngModel)]="label" name="label" type="text" class="form-control" id="exampleInputPassword2" placeholder="Label">
+                                <input [(ngModel)]="label" name="label" type="text" class="form-control" id="exampleInputPassword2" placeholder="Variable">
                             </div>
                             <button type="submit" *ngIf="updating == null" (click)="add(apiKey,label)" class="btn btn-sm btn-primary m-r-5"><i class="fa fa-plus" aria-hidden="true"></i></button>
                             <button type="submit" *ngIf="updating != null"  (click)="set(apiKey,label)" class="btn btn-sm btn-primary m-r-5">Modifier</button>
@@ -201,12 +201,11 @@
 
 
                         </form>
-                    {{apiKey | json}}
                         <table class="table table-hover table-bordered">
                                 <thead>
                                 <tr>
                                 <th>Key</th>
-                                <th>label</th>
+                                <th>Variable</th>
                                 <th></th>
                             </tr>
                             </thead>

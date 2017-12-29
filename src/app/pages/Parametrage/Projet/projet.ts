@@ -222,6 +222,13 @@ export class ProjetPage implements OnInit  {
     }
     table = [];
     add(key,label){
+        if(key == null || label == null ){
+            return
+        }
+        console.log(this.table.findIndex(x => x.label==label) )
+        if(this.table.findIndex(x => x.label==label) == -1){
+
+
         // let test = _.find(this.extrapolation, _.flow(
         //     _.property('fields'),
         //     _.partialRight(_.some, { key: key.key })
@@ -233,6 +240,7 @@ export class ProjetPage implements OnInit  {
         this.table.push({'key':key,'label':label});
         console.log('object added');
         console.log(this.table)
+    }
     }
     remove(index){
         this.table.splice(index,1);

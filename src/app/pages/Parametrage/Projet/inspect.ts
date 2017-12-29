@@ -140,6 +140,7 @@ export class testProjetPage implements OnInit  {
             request.projet = this.projet._id
             console.log(request)
             this.userservice.setAffectation(request).then((back) => {
+                this.msgs = []
                 this.msgs.push({severity:'success', summary:'Success', detail:"Affectation"}); //create service
                 console.log(back)
             })

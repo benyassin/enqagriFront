@@ -37,7 +37,7 @@
                             <div class="col-md-8">
                                     <!-- <label for="parcelle">Instance: </label> -->
                             <select id="parcelle" name="parcelle" [(ngModel)]="_parcelle" required class="form-control" (ngModelChange)="OnParcelleChange($event)">
-                                    <option value="" disabled="true" [selected]="!_parcelle">Instance</option>
+                                    <option value="" disabled="true" [selected]="!_parcelle">Bloc</option>
                                     <option *ngFor="let data of selected?.data" [ngValue]="data">{{data.numero}}</option>
                             </select>
                             </div>

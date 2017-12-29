@@ -36,11 +36,6 @@ export class SidebarComponent implements AfterViewInit {
         link: '/Parametrage/Parametrage',
         roles: ['admin','superviseurP','superviseurR'],
     },{
-        title: 'Affectation',
-        roles: ['superviseurP'],
-        icon: 'fa fa-cogs',
-        link:'/Parametrage/Affectation'
-    },{
         title: 'Utilisateur',
         roles: ['admin'],
         icon: 'fa fa-cogs',
