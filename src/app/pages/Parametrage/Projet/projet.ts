@@ -23,7 +23,9 @@ export class ProjetPage implements OnInit  {
     private projetservice:ProjetService,
     private userservice:UserService,
     private router:Router
-  ) {  }
+  ) {
+      this.projet.validation = []
+   }
 
  projet: any = {};
   msgs: any = [];
@@ -39,11 +41,13 @@ export class ProjetPage implements OnInit  {
     dropdownList = [];
     selectedItems = [];
     RegionSettings = {};
-    ProvinceSettings = {};
+    ProvinceSettings : any =  {};
     controllers = [];
     apiKey;
     label;
     updating
+    _name
+    _agent
   // public options: Select2Options;
   // public valueRegion: string[];
   // public valueProvince: string[];
@@ -54,17 +58,34 @@ export class ProjetPage implements OnInit  {
             this.error = "name est obligatoire"
         }else{
         if(this.projet.validation.length < 5 && !this.agentExists(agent)){
-            this.projet.validation.push({"name":name,'agent':agent})
+        let index = this.controllers.findIndex(x => x.id==agent)
+            this.projet.validation.push({"name":name,'agent':this.controllers[index].name,'id':this.controllers[index].id})
         }
     }
     }
     removeLevel(key){
         this.projet.validation.splice(key,1)
     }
+    updatinglevel : any = null
+    setLevel(i){
+        this.updatinglevel = i
+        this._name = this.projet.validation[i].name
+        this._agent = this.projet.validation[i].id
+    }
+    updateLevel(name,agent){
+        let index = this.controllers.findIndex(x => x.id==agent)
+        this.projet.validation[this.updatinglevel].name = name
+        this.projet.validation[this.updatinglevel].agent = this.controllers[index].name
+        this.projet.validation[this.updatinglevel].id = this.controllers[index].id
+        this.updatinglevel = null
+    }      
+
     agentExists(id) {
-        return this.projet.validation.some(function(el) {
-          return el.agent === id;
-        }); 
+        if(this.projet.validation != null){
+       return this.projet.validation.some(function(el) {
+          return el.id === id;
+        });
+    }
       }
     getControllers(){
         this.userservice.getControlleurs().then((data : any)=> {
@@ -132,38 +153,80 @@ export class ProjetPage implements OnInit  {
 // };
 //
     onRegionSelect(){
-        let that = this;
-        let thisregions = this.projet['regions'];
-        let region = [];
-        let count = 0
-        for(let i = 0;i < thisregions.length;i++){
-            let id = thisregions[i].id.split('|').shift();
-            this.perimetreservice.getProvinces(id).then((data) => {
-                for(var key in data) {
-                    region.push({'id': data[key]._id, 'itemName': data[key].name})
-                }
-                count++
-            if (count > thisregions.length - 1) done();
-            })
-        }
-        function done(){
-           console.log(region),
-           console.log('done here');
-            that.list_provinces = region
-       }
+    //     let that = this;
+    //     let thisregions = this.projet['regions'];
+    //     let region = [];
+    //     let count = 0
+    //     for(let i = 0;i < thisregions.length;i++){
+    //         let id = thisregions[i].id.split('|').shift();
+    //         this.perimetreservice.getProvinces(id).then((data) => {
+    //             for(var key in data) {
+    //                 region.push({'id': data[key]._id, 'itemName': data[key].name})
+    //             }
+    //             count++
+    //         if (count > thisregions.length - 1) done();
+    //         })
+    //     }
+    //     function done(){
+    //        console.log(region),
+    //        console.log('done here');
+    //         that.list_provinces = region
+    //    }
     }
 
     getRegions(){
     this.perimetreservice.getRegions().then((data) => {
         let regions = []
         for(var key in data){
-            regions.push({'id': data[key].id_region + '|' + data[key].id,'itemName': data[key].name})
+            regions.push({'id': data[key].id_region,'itemName': data[key].name})
         }
         this.list_regions = regions
         console.log(regions)
     }, (err) => {
       console.log("can't retreive regions ");
     });
+    }
+    _listprovinces = []
+    OnRegionChange(region){
+        if(Array.isArray(region)){
+            this._listprovinces = this.list_provinces
+        }else{
+        this.ProvinceSettings.disabled = false
+
+        this.list_provinces.forEach(element => {
+            if(element.id_region == region.id){
+                this._listprovinces.push(element)
+            }
+        });
+        this.ProvinceSettings.groupBy = 'id_region'
+    }
+      console.log(this._listprovinces)
+    }
+    OnRegionDeselect(region){
+        if(Array.isArray(region)){
+            this._listprovinces = []
+            this.projet.provinces = []
+        }else{
+            let provinces = this._listprovinces.filter(function(el){
+                return el.id_region !== region.id
+            })
+            console.log(this.projet.provinces)
+            let _provinces = this.projet.provinces.filter(function(el){
+                return el.id_region !== region.id
+            })
+            this.projet.provinces = _provinces;
+            console.log(this.projet.provinces)        
+            this._listprovinces = provinces;
+        }
+    }
+    getProvinces(){
+        this.perimetreservice.getProvinces().then((data : any) => {
+            let provinces = []
+            data.forEach(element => {
+                provinces.push({'id':element.id_province,'itemName':element.name,'id_region':element.id_region})
+            });
+            this.list_provinces = provinces
+        })
     }
     onItemSelect(item){
         console.log('Selected Item:');
@@ -256,8 +319,14 @@ export class ProjetPage implements OnInit  {
         this.table[this.updating] = {'key':key,'label':label};
         this.updating = null
     }
-    cancel(){
+    cancel(status){
+        if(status){
         this.updating = null
+        }
+        else{
+            this.updatinglevel = null
+        }
+
     }
     contains(key,value){
       var isThere =  this.table.some(function(element) {
@@ -316,6 +385,7 @@ export class ProjetPage implements OnInit  {
     clearProjet(){
         this.projet = {}
         this.forms_selected = []
+        this.table = []
     }
 
     moveAll(from,to){
@@ -342,18 +412,24 @@ export class ProjetPage implements OnInit  {
             text:"Regions",
             selectAllText:'Tout sélectionner',
             unSelectAllText:'Tout désélectionner',
-            enableSearchFilter: true
+            enableSearchFilter: true,
+            searchPlaceholderText:'Rechercher',
+            badgeShowLimit:10,
+
     };
     this.ProvinceSettings = {
         singleSelection: false,
         text:"Provinces",
         selectAllText:'Tout sélectionner',
         unSelectAllText:'Tout désélectionner',
-        enableSearchFilter: true
+        enableSearchFilter: true,
+        searchPlaceholderText:'Rechercher',
+        badgeShowLimit:10
     }
     
 
     this.getRegions();
+    this.getProvinces();
     this.getControllers();
     // this.exampleData = []
     // this.regionsData = []

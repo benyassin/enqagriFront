@@ -138,17 +138,17 @@ import { HelperCssPage }        from './pages/helper/helper-css/helper-css';*/
 
 const routes: Routes = [
     { path: '', redirectTo: 'Parametrage/Parametrage', pathMatch: 'full',canActivate: [AuthGuard]},
-    { path: 'dashboard/v1', component: DashboardV1Page, data: { title: 'Dashboard V1'},canActivate: [AuthGuard] },
+    { path: 'dashboard/v1', component: DashboardV1Page, data: { title: 'Dashboard'},canActivate: [AuthGuard] },
     { path: 'dashboard/v2', component: DashboardV2Page, data: { title: 'Dashboard V2'},canActivate: [AuthGuard] },
 
-    { path: 'extra/profile', component: ExtraProfilePage, data: { title: 'Profile Page'} },
+    { path: 'extra/profile', component: ExtraProfilePage, data: { title: 'Profile'} },
     
 
-    { path: 'user/login', component: LoginPage, data: { title: 'Login Page'} },
+    { path: 'user/login', component: LoginPage, data: { title: 'Login'} },
     
     { path: 'Parametrage/Enquete',component: ProjetPage, data:{title: 'Enquête'},canActivate:[AuthGuard]},
     { path: 'Parametrage/Enquete/inspect', component: testProjetPage, data: { title: 'Inspect'},canActivate: [AuthGuard]},
-    { path: 'Parametrage/Parametrage',component: DashboardPage, data:{title: 'Paramétrage'},canActivate: [AuthGuard]},
+    { path: 'Parametrage/Parametrage',component: DashboardPage, data:{title: 'Gestion des Enquêtes'},canActivate: [AuthGuard]},
     { path: 'Parametrage/Questionnaire', component: FormulairePage, data: { title: 'Questionnaire'},canActivate: [AuthGuard]},
     { path: 'Parametrage/Bloc', component: BlocPage, data: { title: 'Bloc'},canActivate: [AuthGuard]},
     { path: 'Parametrage/Affectation', component: AffectationPage,data: {title: 'Affecation'},canActivate:[AuthGuard]},

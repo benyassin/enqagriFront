@@ -48,7 +48,7 @@
             <!--[width]="240"            -->
             <!--(valueChanged)="onRegionChange($event)"-->
             <!--&gt;</select2>-->
-            <angular2-multiselect [data]="list_regions" [(ngModel)]="projet.regions" [settings]="RegionSettings" (onSelect)="onRegionSelect($event)" (onSelectAll)="onRegionSelect($event)" (onDeSelect)="onRegionSelect($event)"></angular2-multiselect>
+            <angular2-multiselect [data]="list_regions" [(ngModel)]="projet.regions" [settings]="RegionSettings" (onSelect)="OnRegionChange($event)" (onSelectAll)="OnRegionChange($event)" (onDeSelect)="OnRegionDeselect($event)" (onDeSelectAll)="OnRegionDeselect($event)"></angular2-multiselect>
         </div>
         </div>
         <div class="form-group">
@@ -59,7 +59,7 @@
             <!--[width]="240"-->
             <!--(valueChanged)="onProvinceChange($event)"-->
             <!--&gt;</select2>-->
-            <angular2-multiselect [data]="list_provinces" [(ngModel)]="projet.provinces" [settings]="ProvinceSettings" (onSelect)="onItemSelect($event)" (onDeSelect)="OnItemDeSelect($event)"></angular2-multiselect>
+            <angular2-multiselect [data]="_listprovinces" [(ngModel)]="projet.provinces" [settings]="ProvinceSettings" (onSelect)="onItemSelect($event)" (onDeSelect)="OnItemDeSelect($event)"></angular2-multiselect>
         </div>
         </div>
     <!--Selected values: {{ projet | json }}        -->
@@ -88,14 +88,16 @@
                 </div>
             </div>
             <div>
-            <button (click)="addLevel(_name,_agent)" class="btn btn-primary btn-sm m-r-5">ajouter</button>
+            <button *ngIf="updatinglevel == null" (click)="addLevel(_name,_agent)" class="btn btn-primary btn-sm m-r-5">ajouter</button>
+            <button type="submit" *ngIf="updatinglevel != null"  (click)="updateLevel(_name,_agent)" class="btn btn-sm btn-primary m-r-5">Modifier</button>
+            <button type="submit" *ngIf="updatinglevel != null" (click)="cancel(false)" class="btn btn-sm btn-primary m-r-5">Annuler</button>
         </div>
         </div>
         <div class="smart-table-container">
         <table class="table table-condensed">                
             <thead>
                 <tr>
-            <th>#</th>
+            <th>Niveau</th>
             <th>Alias</th>
             <th>Agent</th>
         </tr>
@@ -105,7 +107,7 @@
                     <td>{{ i + 1}}</td>
                     <td>{{level.name}}</td>
                     <td>{{level.agent}}</td>
-                    <td><a (click)="removeLevel(i)">supprimer</a></td>
+                    <td><a (click)="removeLevel(i)">supprimer</a> <a (click)="setLevel(i)">modifier</a></td>
                 </tr>
             </tbody>
         </table>
@@ -184,6 +186,11 @@
                         </form> -->
 
                         <form class="form-inline" >
+                                <div class="form-group m-r-10">
+                                        <select [(ngModel)]="formulaire" name="formulaire" class="form-control" width="150px">
+                                                <option  *ngFor="let s of forms_selected;let f = index" [ngValue]="s._id">{{ s.name }}</option>
+                                        </select>                            
+                                </div>
                             <div class="form-group m-r-10">
                                     <select [(ngModel)]="apiKey" name="apiKey" class="form-control" width="150px">
                                             <optgroup *ngFor="let item of extrapolation;let i = index"  label={{item.label}}>
@@ -196,7 +203,7 @@
                             </div>
                             <button type="submit" *ngIf="updating == null" (click)="add(apiKey,label)" class="btn btn-sm btn-primary m-r-5"><i class="fa fa-plus" aria-hidden="true"></i></button>
                             <button type="submit" *ngIf="updating != null"  (click)="set(apiKey,label)" class="btn btn-sm btn-primary m-r-5">Modifier</button>
-                            <button type="submit" *ngIf="updating != null" (click)="cancel()" class="btn btn-sm btn-primary m-r-5">Annuler</button>
+                            <button type="submit" *ngIf="updating != null" (click)="cancel(true)" class="btn btn-sm btn-primary m-r-5">Annuler</button>
 
 
 

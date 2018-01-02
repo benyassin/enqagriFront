@@ -56,7 +56,7 @@ getCollectesByProjet(id,niveau,status,region,province){
 
 }
 
-getCollecteEnTraitement(id,region,province){
+getCollecteEnTraitement(id,index,region,province){
     if(typeof region == "undefined" || region == null){
         region = 0
     }
@@ -64,7 +64,7 @@ getCollecteEnTraitement(id,region,province){
         province = 0
     }
     return new Promise((resolve, reject) => {
-        this.http.get('collectes/traitement/'+ id + "?region=" + region + "&province=" +province)
+        this.http.get('collectes/traitement/'+ id + "?region=" + region + "&province=" +province + "&index=" + index)
             .map(res => res.json())
             .subscribe(data => {
                 resolve(data);

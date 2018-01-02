@@ -159,7 +159,7 @@ export class CollectePage implements OnInit {
             break
 
             case 'reject':
-            this.collecteservice.getCollecteEnTraitement(projet._id,region,province).then((data) => {
+            this.collecteservice.getCollecteEnTraitement(projet._id,this.index,region,province).then((data) => {
                 this.collectes = data
                 this.collectes = this.collectes.map(function(element){
                     element.createdAt = moment(new Date(element.createdAt)).format("DD.MM.YYYY à h:mm");

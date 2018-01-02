@@ -34,12 +34,7 @@ export class LoginPage implements OnInit {
             .then(result => {
                 console.log("result",result)
               let user:any = this.userservice.user
-                if(user.role === 'admin'){
-                    this.router.navigate(['dashboard/v1']);
-                }else{
-                    this.router.navigate(['utilisateur/profile']);
-
-            }
+              this.router.navigate(['dashboard/v1']);
             },(err) =>{
                 console.log("error",err)
                 this.msgs = [];
