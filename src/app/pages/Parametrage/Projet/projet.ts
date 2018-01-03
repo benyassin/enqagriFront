@@ -25,6 +25,7 @@ export class ProjetPage implements OnInit  {
     private router:Router
   ) {
       this.projet.validation = []
+      this.projet.regions = []
    }
 
  projet: any = {};
@@ -53,13 +54,13 @@ export class ProjetPage implements OnInit  {
   // public valueProvince: string[];
   // public current: string;
     error : String 
-    addLevel(name,agent){
-        if(!name){
+    addLevel(alias,agent){
+        if(!alias){
             this.error = "name est obligatoire"
         }else{
         if(this.projet.validation.length < 5 && !this.agentExists(agent)){
         let index = this.controllers.findIndex(x => x.id==agent)
-            this.projet.validation.push({"name":name,'agent':this.controllers[index].name,'id':this.controllers[index].id})
+            this.projet.validation.push({"alias":alias,'agent':this.controllers[index].id,'name':this.controllers[index].name})
         }
     }
     }
@@ -69,21 +70,21 @@ export class ProjetPage implements OnInit  {
     updatinglevel : any = null
     setLevel(i){
         this.updatinglevel = i
-        this._name = this.projet.validation[i].name
-        this._agent = this.projet.validation[i].id
+        this._name = this.projet.validation[i].alias
+        this._agent = this.projet.validation[i].agent
     }
-    updateLevel(name,agent){
+    updateLevel(alias,agent){
         let index = this.controllers.findIndex(x => x.id==agent)
-        this.projet.validation[this.updatinglevel].name = name
-        this.projet.validation[this.updatinglevel].agent = this.controllers[index].name
-        this.projet.validation[this.updatinglevel].id = this.controllers[index].id
+        this.projet.validation[this.updatinglevel].alias = alias
+        this.projet.validation[this.updatinglevel].agent = this.controllers[index].id
+        this.projet.validation[this.updatinglevel].name = this.controllers[index].name
         this.updatinglevel = null
     }      
 
     agentExists(id) {
         if(this.projet.validation != null){
        return this.projet.validation.some(function(el) {
-          return el.id === id;
+          return el.agent === id;
         });
     }
       }
@@ -178,10 +179,17 @@ export class ProjetPage implements OnInit  {
     this.perimetreservice.getRegions().then((data) => {
         let regions = []
         for(var key in data){
-            regions.push({'id': data[key].id_region,'itemName': data[key].name})
+            regions.push({'id': data[key].id_region,'itemName': data[key].name,'_id':data[key]._id})
         }
         this.list_regions = regions
         console.log(regions)
+        let array :any  = []
+        this.projet['perimetre'].region.forEach(element => {
+            let object = {'id': element.id_region,'itemName': element.name,'_id':element._id}
+            array.push(object)
+            this.OnRegionChange(object)
+        });
+        this.projet.regions = array
     }, (err) => {
       console.log("can't retreive regions ");
     });
@@ -191,14 +199,12 @@ export class ProjetPage implements OnInit  {
         if(Array.isArray(region)){
             this._listprovinces = this.list_provinces
         }else{
-        this.ProvinceSettings.disabled = false
-
         this.list_provinces.forEach(element => {
             if(element.id_region == region.id){
                 this._listprovinces.push(element)
             }
         });
-        this.ProvinceSettings.groupBy = 'id_region'
+
     }
       console.log(this._listprovinces)
     }
@@ -220,12 +226,18 @@ export class ProjetPage implements OnInit  {
         }
     }
     getProvinces(){
-        this.perimetreservice.getProvinces().then((data : any) => {
+        this.perimetreservice.getProvinces(0).then((data : any) => {
             let provinces = []
             data.forEach(element => {
-                provinces.push({'id':element.id_province,'itemName':element.name,'id_region':element.id_region})
+                provinces.push({'id':element.id_province,'itemName':element.name,'id_region':element.id_region,'_id':element._id})
             });
             this.list_provinces = provinces
+
+            let array :any  = []
+            this.projet['perimetre'].province.forEach(element => {
+                array.push({'id':element.id_province,'itemName':element.name,'id_region':element.id_region,'_id':element._id})
+            });
+            this.projet.provinces = array
         })
     }
     onItemSelect(item){
@@ -264,7 +276,6 @@ export class ProjetPage implements OnInit  {
         if(idx != -1){
         from.splice(idx, 1);
         to.push(item);
-        this.getfields(item);
         this.disabled.push(item.geometry);
         this.forms = []
     }
@@ -328,6 +339,16 @@ export class ProjetPage implements OnInit  {
         }
 
     }
+    onFormSelect(form){
+        console.log(form)
+        if(form.id_fields){
+            this.formservice.getExtrapolation(form.id_fields).then((data) => {
+                this.extrapolation = data
+                console.log('fields loaded correctly')
+            })
+        }
+
+    }
     contains(key,value){
       var isThere =  this.table.some(function(element) {
             return element[key] == value
@@ -336,13 +357,6 @@ export class ProjetPage implements OnInit  {
     }
     extrapolation : any = [];
     getfields(form){
-        if(form.id_fields){
-            this.formservice.getExtrapolation(form.id_fields).then((data) => {
-                this.extrapolation.push({label:form.name,fields:data});
-                console.log('loaded correctly')
-            })
-        }
-
     }
     createProjet() {
         this.confirmationservice.confirm({
@@ -355,12 +369,12 @@ export class ProjetPage implements OnInit  {
                 }
                 if(this.projet['provinces']){
                 this.projet['province'] = this.projet['provinces'].map(function (element) {
-                    return element.id
+                    return element._id
                 });
                 }
                 if(this.projet['regions']){
                 this.projet['region'] = this.projet['regions'].map(function (element) {
-                    return element.id.split('|').pop();
+                    return element._id
                 });
                 }
                 delete this.projet['provinces'];
@@ -428,8 +442,7 @@ export class ProjetPage implements OnInit  {
     }
     
 
-    this.getRegions();
-    this.getProvinces();
+
     this.getControllers();
     // this.exampleData = []
     // this.regionsData = []
@@ -449,18 +462,18 @@ export class ProjetPage implements OnInit  {
             this.disabled.push(element.geometry)
         });
         this.forms_selected.forEach(element => {
-            this.getfields(element)
+            // this.getfields(element)
         });
-        this.projet['regions'] = this.projet['perimetre'].region.map(function(element){
-            return {'id': element.id_region+'|'+element._id,'itemName':element.name}
-        })
-        this.projet['provinces'] = this.projet['perimetre'].province.map(function(element){
-            return {'id': element._id,'itemName':element.name}
-        })
+        let array = []
+
+        console.log('array')
+        console.log(array)
+        this.projet['provinces'] = this.projet['perimetre'].province
     }else{
         this.projet.validation = []
     }
-
+    this.getProvinces();
+    this.getRegions();
 
 
 

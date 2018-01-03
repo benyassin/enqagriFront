@@ -21,9 +21,9 @@ export class PerimetreService {
 
     }
 
-    getProvinces(){
+    getProvinces(province){
         return new Promise((resolve, reject) => {
-            this.http.get('perimetre/province/')
+            this.http.get('perimetre/province/' + province)
                 .map(res => res.json())
                 .subscribe(data => {
                     resolve(data);

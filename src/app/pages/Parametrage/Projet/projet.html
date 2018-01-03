@@ -64,6 +64,8 @@
         </div>
     <!--Selected values: {{ projet | json }}        -->
     </div>
+
+
 </div>
 </div>
 </div>
@@ -105,8 +107,8 @@
             <tbody>
                 <tr *ngFor="let level of projet.validation; let i = index" [attr.data-index]="i">
                     <td>{{ i + 1}}</td>
+                    <td>{{level.alias}}</td>
                     <td>{{level.name}}</td>
-                    <td>{{level.agent}}</td>
                     <td><a (click)="removeLevel(i)">supprimer</a> <a (click)="setLevel(i)">modifier</a></td>
                 </tr>
             </tbody>
@@ -187,15 +189,13 @@
 
                         <form class="form-inline" >
                                 <div class="form-group m-r-10">
-                                        <select [(ngModel)]="formulaire" name="formulaire" class="form-control" width="150px">
-                                                <option  *ngFor="let s of forms_selected;let f = index" [ngValue]="s._id">{{ s.name }}</option>
+                                        <select [(ngModel)]="formulaire" name="formulaire" class="form-control" width="150px" (ngModelChange)="onFormSelect($event)">
+                                                <option  *ngFor="let s of forms_selected;let f = index" [ngValue]="s">{{ s.name }}</option>
                                         </select>                            
                                 </div>
                             <div class="form-group m-r-10">
                                     <select [(ngModel)]="apiKey" name="apiKey" class="form-control" width="150px">
-                                            <optgroup *ngFor="let item of extrapolation;let i = index"  label={{item.label}}>
-                                                    <option [hidden]="contains('key',s.key)" *ngFor="let s of item.fields;let f = index" [ngValue]="s.key">{{ s.key }}</option>
-                                            </optgroup>
+                                                    <option [hidden]="contains('key',s.key)" *ngFor="let s of extrapolation;let f = index" [ngValue]="s.key">{{ s.key }}</option>
                                     </select>                            
                             </div>
                             <div class="form-group m-r-10">
