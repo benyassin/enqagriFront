@@ -129,7 +129,7 @@ export class CreationUtilisateurPage implements OnInit {
             Validators.minLength(4)
         ]);
         this.telephone = new FormControl('',
-            Validators.pattern("^[0-9]*$")
+            Validators.pattern("(0|\\+212|00212)[6][0-9]{8}")
         );
         this.role = new FormControl('',Validators.required);
         this.region = new FormControl({value:'',disabled: true});

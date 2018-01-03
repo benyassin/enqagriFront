@@ -80,7 +80,7 @@
 </div>
 
 <p-messages [(value)]="msgs"></p-messages>          
-<div class="row">
+<div *ngIf="userservice?.user?.role === 'superviseurP'" class="row">
 <div class="col-md-8 panel panel-success">
     <div class="panel-body">
         <div class="smart-table-container">
