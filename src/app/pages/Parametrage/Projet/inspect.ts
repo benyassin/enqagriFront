@@ -95,8 +95,15 @@ export class testProjetPage implements OnInit  {
     _agents = []
     row 
     event(data){
+        // console.log(data)
+        // console.log('affecation')
+        // console.log(this.affectation)
+
+        console.log('id_commune',data.data.id_commune)
+        let index = this.affectation.findIndex(x => x.id_commune == data.data.id_commune)
+        data.index = index
         this.row = data
-    let row = this.affectation[data.index]
+         let row = this.affectation[index]
         row.agents.forEach(element => {
             this._agents.push(element)
         }); 
@@ -110,7 +117,7 @@ export class testProjetPage implements OnInit  {
         let newArray = this.row.data
         newArray.agents.push(agent.nom + ' ' + agent.prenom)
         newArray.id_agents.push(agent._id);
-        this.source.update(this.row.data,newArray)
+        // this.source.update(this.row.data,newArray)
         this.source.getAll().then((value) => {
             this.affectation = value
             this.source.load(this.affectation)
@@ -118,7 +125,7 @@ export class testProjetPage implements OnInit  {
         this._agent = null
         console.log('affectation')
         // this.source.refresh()
-    }
+        }
     }
     removeAgent(index){
         this._agents.splice(index,1)
