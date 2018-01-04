@@ -296,7 +296,7 @@ export class ProjetPage implements OnInit  {
     }
     table = [];
     add(key,label){
-        if(key == null || label == null ){
+        if(key == null || label == null || this.label == "" ){
             return
         }
         console.log(this.table.findIndex(x => x.label==label) )
@@ -312,6 +312,8 @@ export class ProjetPage implements OnInit  {
         // let index =key.split('|').shift();
         // let findex = key.split('|').pop();
         this.table.push({'key':key,'label':label});
+        this.apiKey = ""
+        this.label = ""
         console.log('object added');
         console.log(this.table)
     }
@@ -325,10 +327,18 @@ export class ProjetPage implements OnInit  {
       let data = this.table[index];
       this.apiKey = data.key;
       this.label = data.label;
+        
     }
     set(key,label){
+        if(this.apiKey == null || this.label == null || this.label == ""){
+            return
+        }
+        if(this.table.findIndex(x => x.label==this.label) == -1){
         this.table[this.updating] = {'key':key,'label':label};
         this.updating = null
+        }
+        this.apiKey = ""
+        this.label = ""
     }
     cancel(status){
         if(status){
@@ -400,6 +410,9 @@ export class ProjetPage implements OnInit  {
         this.projet = {}
         this.forms_selected = []
         this.table = []
+        this.projet.validation = []
+        this.label = ""
+        this.extrapolation = []
     }
 
     moveAll(from,to){

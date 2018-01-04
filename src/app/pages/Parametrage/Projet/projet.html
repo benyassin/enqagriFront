@@ -147,13 +147,6 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-4"></div>
-                <div class="col-md-4 text-center">
-                <button  (click)="createProjet()" [disabled]="!f.valid" id="saveProject" type="button" class="btn btn-primary btn-block">Enregistrer</button>
-                </div>
-                <div class="col-md-4">
-                        <button (click)="clearProjet()" type="button" class="btn btn-danger btn-block">Réinitialiser</button>
-                </div>
                 </div>
             </div>
 </div>
@@ -189,17 +182,17 @@
 
                         <form class="form-inline" >
                                 <div class="form-group m-r-10">
-                                        <select [(ngModel)]="formulaire" name="formulaire" class="form-control" width="150px" (ngModelChange)="onFormSelect($event)">
+                                        <select [disabled]="forms_selected.length == 0" [(ngModel)]="formulaire" name="formulaire" class="form-control" width="150px" (ngModelChange)="onFormSelect($event)">
                                                 <option  *ngFor="let s of forms_selected;let f = index" [ngValue]="s">{{ s.name }}</option>
                                         </select>                            
                                 </div>
                             <div class="form-group m-r-10">
-                                    <select [(ngModel)]="apiKey" name="apiKey" class="form-control" width="150px">
+                                    <select [disabled]="extrapolation.length == 0" [(ngModel)]="apiKey" name="apiKey" class="form-control" width="150px">
                                                     <option [hidden]="contains('key',s.key)" *ngFor="let s of extrapolation;let f = index" [ngValue]="s.key">{{ s.key }}</option>
                                     </select>                            
                             </div>
                             <div class="form-group m-r-10">
-                                <input [(ngModel)]="label" name="label" type="text" class="form-control" id="exampleInputPassword2" placeholder="Variable">
+                                <input [disabled]="extrapolation.length == 0" [(ngModel)]="label" name="label" type="text" class="form-control" id="exampleInputPassword2" placeholder="Variable">
                             </div>
                             <button type="submit" *ngIf="updating == null" (click)="add(apiKey,label)" class="btn btn-sm btn-primary m-r-5"><i class="fa fa-plus" aria-hidden="true"></i></button>
                             <button type="submit" *ngIf="updating != null"  (click)="set(apiKey,label)" class="btn btn-sm btn-primary m-r-5">Modifier</button>
@@ -224,6 +217,14 @@
                                     </tr>
                             </tbody>
                         </table>
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4 text-center">
+                        <button  (click)="createProjet()" [disabled]="!f.valid" id="saveProject" type="button" class="btn btn-primary btn-block">Enregistrer</button>
+                        </div>
+                        <div class="col-md-4">
+                                <button (click)="clearProjet()" type="button" class="btn btn-danger btn-block">Réinitialiser</button>
+                        </div>
                 </div>
+
     </div>
 </div>
