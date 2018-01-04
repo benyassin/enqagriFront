@@ -120,7 +120,7 @@ export class testProjetPage implements OnInit  {
         // this.source.update(this.row.data,newArray)
         this.source.getAll().then((value) => {
             this.affectation = value
-            this.source.load(this.affectation)
+            // this.source.load(this.affectation)
         })
         this._agent = null
         console.log('affectation')
@@ -135,10 +135,10 @@ export class testProjetPage implements OnInit  {
         this.source.update(this.affectation[this.row.index],newArray)
         // this.affectation[this.row].agents.splice(index,1)
         // this.affectation[this.row].id_agents.splice(index,1)
-        this.source.getAll().then((value) => {
-            this.affectation = value 
-            this.source.load(this.affectation)
-        }) 
+        // this.source.getAll().then((value) => {
+        //     this.affectation = value 
+        //     this.source.load(this.affectation)
+        // }) 
     }
     save(){
         let request : any = {}

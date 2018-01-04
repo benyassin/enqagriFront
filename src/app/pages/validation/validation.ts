@@ -22,6 +22,7 @@ export class ValidationPage implements AfterViewInit  {
       private collecteservice:CollecteService,
       private router:Router
     ){}
+    msgs : any = []
     collecte : any
     _parcelle : any = ''
     _type : any = ''
@@ -40,13 +41,20 @@ export class ValidationPage implements AfterViewInit  {
     user
     lenght
     index
+    rmessage
 
     action(action){
       let update : any = {}
       update.niveau  = this.index;      
       update.action = action;
       update.id = this.collecte._id
-
+      if(action == 'reject'){
+        if(this.rmessage == "" || this.rmessage == null){
+          update.rmessage = "le contrôleur n'a laissé aucun message"
+        }else{
+        update.rmessage = this.rmessage
+      }
+      }
       console.log(update)
       this.collecteservice.action(update).then((data) => {
         this.router.navigate(['collectes/'])
@@ -207,6 +215,10 @@ export class ValidationPage implements AfterViewInit  {
         this.user = JSON.parse(localStorage.getItem('user'))
         this.lenght = this.collecte.projet.validation.lenght
         this.index = this.collecte.projet.validation.findIndex(x => x.agent==this.user._id)  
+
+        if(this.collecte.rmessage != null && this.validation[this.index] == 'reject'){
+          this.msgs.push({severity:'error', summary:'message:', detail:this.collecte.rmessage});
+        }
     
 
         this.receiveMessage = (event: MessageEvent) => {
