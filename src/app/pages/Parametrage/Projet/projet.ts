@@ -293,25 +293,21 @@ export class ProjetPage implements OnInit  {
             this.selected = []
 
         }
+        let re = this.table.filter(function(element){
+            return element.form != item.id_fields
+        })
+        this.table = re
     }
     table = [];
-    add(key,label){
+
+    add(key,label,form){
         if(key == null || label == null || this.label == "" ){
             return
         }
         console.log(this.table.findIndex(x => x.label==label) )
         if(this.table.findIndex(x => x.label==label) == -1){
 
-
-        // let test = _.find(this.extrapolation, _.flow(
-        //     _.property('fields'),
-        //     _.partialRight(_.some, { key: key.key })
-        // ));
-        // console.log('test',test);
-        // console.log(this.extrapolation);
-        // let index =key.split('|').shift();
-        // let findex = key.split('|').pop();
-        this.table.push({'key':key,'label':label});
+        this.table.push({'key':key,'label':label,'form':form.id_fields});
         this.apiKey = ""
         this.label = ""
         console.log('object added');

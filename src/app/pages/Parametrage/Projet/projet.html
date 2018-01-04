@@ -194,7 +194,7 @@
                             <div class="form-group m-r-10">
                                 <input [disabled]="extrapolation.length == 0" [(ngModel)]="label" name="label" type="text" class="form-control" id="exampleInputPassword2" placeholder="Variable">
                             </div>
-                            <button type="submit" *ngIf="updating == null" (click)="add(apiKey,label)" class="btn btn-sm btn-primary m-r-5"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                            <button type="submit" *ngIf="updating == null" (click)="add(apiKey,label,formulaire)" class="btn btn-sm btn-primary m-r-5"><i class="fa fa-plus" aria-hidden="true"></i></button>
                             <button type="submit" *ngIf="updating != null"  (click)="set(apiKey,label)" class="btn btn-sm btn-primary m-r-5">Modifier</button>
                             <button type="submit" *ngIf="updating != null" (click)="cancel(true)" class="btn btn-sm btn-primary m-r-5">Annuler</button>
 
