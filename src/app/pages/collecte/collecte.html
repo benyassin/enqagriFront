@@ -32,13 +32,26 @@
                             <option [hidden]="p.id_region != _region" *ngFor="let p of projet?.perimetre.province" [ngValue]="p.id_province">{{p.name}}</option>
                     </select>
                 </div>
+
+                <div class="form-group col-md-3">  
+                        <label >Filtre: </label>
+                        <select  [(ngModel)]="_filtre" name="_filtre" class="form-control">
+                               <option [hidden]="e.field.type == 'number'" *ngFor="let e of projet?.extrapolation" [ngValue]="e">{{e.label}}</option>                        
+                        </select>
+                </div>
+                <div class="form-group col-md-3">  
+                        <label >Valeur: </label>
+                        <select  [(ngModel)]="_value" name="_value" class="form-control">
+                               <option *ngFor="let v of _filtre?.field.values.values" [ngValue]="v.value">{{v.label}}</option>                        
+                        </select>
+                </div>
             </div>    
             
         </form>
 
         <div class="row">
         <div class="pull-right col-md-12">
-            <button [disabled]="projet == null || status == null" class="btn btn-primary" (click)="search(projet,status,_region,_province)"><i class="fa fa-search fa-lg" aria-hidden="true"></i> Recherche</button>
+            <button [disabled]="projet == null || status == null" class="btn btn-primary" (click)="search(projet,status,_region,_province,_value)"><i class="fa fa-search fa-lg" aria-hidden="true"></i> Recherche</button>
             <button class="btn btn-danger" (click)="reset()"><i class="fa fa-undo fa-lg" aria-hidden="true"></i> Reinitialiser</button>
         </div>
         </div>
@@ -104,7 +117,7 @@
                 </div>
             </div> -->
             <div class="row">
-                <table id="data-table" class="table table-hover table-bordered">
+                <table id="data-table" class="table table-condensed table-bordered">
                     <thead>
                         <tr>
                             <!-- <th>id</th> -->
@@ -112,25 +125,26 @@
                             <th>Type</th>
                             <th class="sorting_asc">Agent</th>
                             <ng-container *ngIf="projet?.theme == 'rna'">
-                                    <th class="sorting" *ngFor="let apikey of extrapolation">{{apikey.label}}</th>                                    
+                                    <th class="sorting" [hidden]="apikey.field.type != 'number'" *ngFor="let apikey of extrapolation">{{apikey.label}}</th>                                    
                             </ng-container>
                             <ng-container *ngIf="projet?.theme !== 'rna'">
-                                    <th class="sorting" *ngFor="let apikey of extrapolation">{{apikey.label}}</th>
+                                    <th class="sorting" [hidden]="apikey.field.type != 'number'" *ngFor="let apikey of extrapolation">{{apikey.label}}</th>
                             </ng-container>
                             <th>Date Synchornisation</th>
+                            <th ></th>
                         </tr>
                     </thead>
                 
                     <tbody>
-                        <tr *ngFor="let collecte of collectes">
-                            <!-- <td>{{collecte._id}}</td> -->
+
+                        <tr [hidden]="_value != undefined && collecte?.collecte[0]?.data[0].formdata.data[_filtre?.field?.key] != _value" *ngFor="let collecte of collectes">                            <!-- <td>{{collecte._id}}</td> -->
                             <td>{{anass?.name}}</td>
                             <td *ngIf="anass?.theme== 'pillier1'">Pilier I</td>
                             <td *ngIf="anass?.theme == 'pillier2'">Pilier II</td>
                             <td *ngIf="anass?.theme == 'financier'">Projet Financier</td>
                             <td *ngIf="anass?.theme !== 'financier' && anass?.theme !== 'pillier1' && anass?.theme !== 'pillier2'">{{ anass?.theme}}</td>
                             <td>{{collecte.agent?.nom + ' ' + collecte.agent?.prenom}}</td>
-                            <td *ngFor="let apikey of extrapolation">{{ collecte?.collecte[0]?.data[0].formdata.data[apikey.key]}}</td>                                    
+                            <td [hidden]="apikey.field.type != 'number'" *ngFor="let apikey of extrapolation">{{ collecte?.collecte[0]?.data[0].formdata.data[apikey?.field.key]}}</td>                                    
                             
                             <td>{{collecte.createdAt}}</td>
                             <td>
@@ -143,28 +157,28 @@
                             <td style="visibility: hidden"></td>
                             <td style="visibility: hidden"></td>
                             <td><b>Somme</b></td>
-                            <td *ngFor="let apikey of extrapolation">{{getSum(apikey.key) | number:'1.0-2'}}</td>                           
+                            <td [hidden]="apikey.field.type != 'number'" *ngFor="let apikey of extrapolation">{{getSum(apikey.field.key,_filtre?.field?.key,_value) | number:'1.0-2'}}</td>                           
                             <td style="visibility: hidden"></td>
                         </tr>
                         <tr *ngIf="!hide && collectes?.length !== 0"  class="border_bottom">
                             <td style="visibility: hidden"></td>
                             <td style="visibility: hidden"></td>
                             <td><b>Moyenne</b></td>
-                            <td *ngFor="let apikey of extrapolation">{{getAvg(apikey.key) | number:'1.0-2'}}</td>                            
+                            <td [hidden]="apikey.field.type != 'number'" *ngFor="let apikey of extrapolation">{{getAvg(apikey.field.key,_filtre?.field?.key,_value) | number:'1.0-2'}}</td>                            
                             <td style="visibility: hidden"></td>
                         </tr>
                         <tr *ngIf="!hide && collectes?.length !== 0" class="border_bottom">
                             <td style="visibility: hidden"></td>
                             <td style="visibility: hidden"></td>
                             <td><b>Variance</b></td>
-                            <td *ngFor="let apikey of extrapolation">{{getVar(apikey.key) | number:'1.0-2'}}</td>                                                        
+                            <td [hidden]="apikey.field.type != 'number'" *ngFor="let apikey of extrapolation">{{getVar(apikey.field.key,_filtre?.field?.key,_value) | number:'1.0-2'}}</td>                                                        
                             <td style="visibility: hidden"></td>
                         </tr>
                         <tr *ngIf="!hide && collectes?.length !== 0" class="border_bottom">
                             <td style="visibility: hidden"></td>
                             <td style="visibility: hidden"></td>
                             <td><b>Ecart Type</b></td>
-                            <td *ngFor="let apikey of extrapolation">{{getET(apikey.key) | number:'1.0-2'}}</td>                                                        
+                            <td [hidden]="apikey.field.type != 'number'" *ngFor="let apikey of extrapolation">{{getET(apikey.key,_filtre?.field?.key,_value) | number:'1.0-2'}}</td>                                                        
                             <td style="visibility: hidden"></td>
                         </tr>
                     </tbody>

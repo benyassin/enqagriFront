@@ -37,15 +37,21 @@ getCollectes(){
 
 }
 
-getCollectesByProjet(id,niveau,status,region,province){
+getCollectesByProjet(id,niveau,status,region,province,filtre,valeur){
     if(typeof region == "undefined" || region == null){
         region = 0
     }
     if(typeof province == "undefined" || province == null){
         province = 0
     }
+    if(typeof filtre == "undefined" || filtre == null){
+        filtre = 0
+    }
+    if(typeof valeur == "undefined" || valeur == null){
+        valeur = 0
+    }
     return new Promise((resolve, reject) => {
-        this.http.get('collectes/projet/' + id + '?niveau=' + niveau + "&status=" + status + "&region=" + region + "&province=" +province)
+        this.http.get('collectes/projet/' + id + '?niveau=' + niveau + "&status=" + status + "&region=" + region + "&province=" +province +"&filtre=" + filtre + "&valeur=" + valeur)
             .map(res => res.json())
             .subscribe(data => {
                 resolve(data);

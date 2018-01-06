@@ -34,42 +34,51 @@ export class CollectePage implements OnInit {
     index;
     extrapolation
     anass
+    _filtre
+    _value
     compareById(obj1, obj2) {
         if(localStorage.getItem('storage') !== null ){
         return obj1._id === obj2._id;
         }
     }
-    getSum(key) {
-        if(this.collectes){
+    getSum(key,filtre,value) {
+        if(this.collectes ){
         let sum = 0;
         for(let i = 0; i < this.collectes.length; i++) {
-          sum += (this.collectes[i].collecte[0].data[0].formdata.data[key] || 0);
+            if(this.collectes[i].collecte[0].data[0].formdata.data[filtre] == value){
+                sum += (this.collectes[i].collecte[0].data[0].formdata.data[key] || 0);  
+            }
         }
         return sum;
     }
     }
-    getAvg(key){
+    getAvg(key,filtre,value){
         if(this.collectes){
         let sum = 0;
         for(let i = 0; i < this.collectes.length; i++) {
+            if(this.collectes[i].collecte[0].data[0].formdata.data[filtre] == value){
           sum += (this.collectes[i].collecte[0].data[0].formdata.data[key] || 0);
+            }
         }
         var avg = sum/this.collectes.length;
         
         return avg;
     }
 }
-    getVar(key){
+    getVar(key,filtre,value){
         if(this.collectes){
         let sum = 0;
         for(let i = 0; i < this.collectes.length; i++) {
+            if(this.collectes[i].collecte[0].data[0].formdata.data[filtre] == value){
           sum += (this.collectes[i].collecte[0].data[0].formdata.data[key] || 0);
+            }
         }
         var avg : number  = sum/this.collectes.length;
         let summm : number  = 0
         for(let i = 0; i < this.collectes.length; i++) {
+            if(this.collectes[i].collecte[0].data[0].formdata.data[filtre] == value){
             summm += Math.pow(((this.collectes[i].collecte[0].data[0].formdata.data[key] || 0) - avg),2)  ;
-            
+            }
         }
         
         summm /= this.collectes.length
@@ -77,16 +86,20 @@ export class CollectePage implements OnInit {
     }
     }
 
-    getET(key){
+    getET(key,filtre,value){
         if(this.collectes){
         let sum = 0;
         for(let i = 0; i < this.collectes.length; i++) {
+            if(this.collectes[i].collecte[0].data[0].formdata.data[filtre] == value){
           sum += (this.collectes[i].collecte[0].data[0].formdata.data[key] || 0);
+            }
         }
         var avg : number  = sum/this.collectes.length;
         let summm : number  = 0
         for(let i = 0; i < this.collectes.length; i++) {
+            if(this.collectes[i].collecte[0].data[0].formdata.data[filtre] == value){
             summm += Math.pow(((this.collectes[i].collecte[0].data[0].formdata.data[key] || 0) - avg),2)  ;
+            }
             
         }
         
@@ -98,7 +111,9 @@ export class CollectePage implements OnInit {
     onProjetChange(){
         // this.collectes = []
     }
-    search(projet,status,region,province){
+
+
+    search(projet,status,region,province,filtre,valeur){
     this.hide = false
     this.anass = {theme:projet.theme,name:projet.name}
     if(projet == null || status == null ){
@@ -113,7 +128,7 @@ export class CollectePage implements OnInit {
 
         this.index = this.projet.validation.findIndex(x => x.agent==this.user._id);
             
-        this.collecteservice.getCollectesByProjet(projet._id,this.index,status,region,province).then((data) => {
+        this.collecteservice.getCollectesByProjet(projet._id,this.index,status,region,province,filtre,valeur).then((data) => {
             this.collectes = data;
             this.collectes = this.collectes.map(function(element){
                 element.createdAt = moment(new Date(element.createdAt)).format("DD.MM.YYYY à h:mm");
@@ -133,7 +148,7 @@ export class CollectePage implements OnInit {
         switch(status){
             case 'valid' :
             this.index = this.projet.validation.length - 1;
-            this.collecteservice.getCollectesByProjet(projet._id,this.index,status,region,province).then((data) => {
+            this.collecteservice.getCollectesByProjet(projet._id,this.index,status,region,province,filtre,valeur).then((data) => {
                 this.collectes = data
                 this.collectes = this.collectes.map(function(element){
                     element.createdAt = moment(new Date(element.createdAt)).format("DD.MM.YYYY à h:mm")
@@ -146,7 +161,7 @@ export class CollectePage implements OnInit {
             break
 
             case 'new':           
-            this.collecteservice.getCollectesByProjet(projet._id,0,status,region,province).then((data) => {
+            this.collecteservice.getCollectesByProjet(projet._id,0,status,region,province,filtre,valeur).then((data) => {
                 this.collectes = data
                 this.collectes = this.collectes.map(function(element){
                     element.createdAt = moment(new Date(element.createdAt)).format("DD.MM.YYYY à h:mm");
@@ -223,6 +238,7 @@ export class CollectePage implements OnInit {
         })
     }
     }
+
     checkStorage(){
         console.log('im here');
         if(localStorage.getItem('storage') != null){
@@ -231,7 +247,7 @@ export class CollectePage implements OnInit {
             this.status = data.status;
             this._province = data.province;
             this._region = data.region;
-            this.search(this.projet,this.status,this._region,this._province);
+            this.search(this.projet,this.status,this._region,this._province,'test','test');
             console.log('here')
         }
     }

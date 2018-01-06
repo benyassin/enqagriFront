@@ -34,7 +34,7 @@ export class SidebarComponent implements AfterViewInit {
         title: 'Gestion des Enquêtes',
         icon: 'fa fa-cogs',
         link: '/Parametrage/Parametrage',
-        roles: ['admin','superviseurP','superviseurR'],
+        roles: ['admin','superviseurP','superviseurR','agent','controleur'],
     },{
         title: 'Utilisateur',
         roles: ['admin'],

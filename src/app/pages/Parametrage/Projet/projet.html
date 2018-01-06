@@ -90,8 +90,8 @@
                 </div>
             </div>
             <div>
-            <button *ngIf="updatinglevel == null" (click)="addLevel(_name,_agent)" class="btn btn-primary btn-sm m-r-5">ajouter</button>
-            <button type="submit" *ngIf="updatinglevel != null"  (click)="updateLevel(_name,_agent)" class="btn btn-sm btn-primary m-r-5">Modifier</button>
+            <button *ngIf="updatinglevel == null" (click)="addLevel(_name,_agent)" class="btn btn-primary btn-sm m-r-5">Ajouter</button>
+            <button type="submit" *ngIf="updatinglevel != null"  (click)="updateLevel(_name,_agent)" class="btn btn-sm btn-primary m-r-5">Valider</button>
             <button type="submit" *ngIf="updatinglevel != null" (click)="cancel(false)" class="btn btn-sm btn-primary m-r-5">Annuler</button>
         </div>
         </div>
@@ -109,7 +109,7 @@
                     <td>{{ i + 1}}</td>
                     <td>{{level.alias}}</td>
                     <td>{{level.name}}</td>
-                    <td><a (click)="removeLevel(i)">supprimer</a> <a (click)="setLevel(i)">modifier</a></td>
+                    <td><a (click)="removeLevel(i)">Supprimer</a> <a (click)="setLevel(i)">Modifier</a></td>
                 </tr>
             </tbody>
         </table>
@@ -157,50 +157,35 @@
                     <h4 class="panel-title">Champs d'extrapolation</h4>
                 </div>
                 <div class="panel-body">
-                        <!-- <form>
-                                <div class="row">
-                                    
-                            <div class="form-group col-sm-3">
-                                    <label >Projet: </label>
-                                <select [(ngModel)]="apiKey" name="apiKey" class="form-control">
-                                        <optgroup *ngFor="let item of extrapolation;let i = index"  label={{item.label}}>
-                                                <option *ngFor="let s of item.fields;let f = index" [ngValue]="i +'|' +f">-{{ s.key }} {{f}}</option>
-                                        </optgroup>
-                                </select>
-                            </div>
-
-                            <div class="form-group col-sm-3">
-                                <label >label: </label>
-                                <input [(ngModel)]="label" type="text" id="label" name="label" class="form-control"  />
-                            </div>
-                            <div class="form-group col-sm-3">
-                                    <label ></label>                                    
-                                    <button class="form-control btn btn-success" (click)="addAgent(_agent)"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                            </div> 
-                            </div>
-                        </form> -->
-
                         <form class="form-inline" >
                                 <div class="form-group m-r-10">
                                         <select [disabled]="forms_selected.length == 0" [(ngModel)]="formulaire" name="formulaire" class="form-control" width="150px" (ngModelChange)="onFormSelect($event)">
                                                 <option  *ngFor="let s of forms_selected;let f = index" [ngValue]="s">{{ s.name }}</option>
                                         </select>                            
                                 </div>
+                                <div class="form-group m-r-10">
+                                        <select [disabled]="forms_selected.length == 0" [(ngModel)]="fieldtype" name="fieldtype" class="form-control" width="150px">
+                                                <option value="select" >Champs de filtres</option>
+                                                <option value="number" >Champs numérique</option>
+
+                                        </select>                            
+                                </div>
                             <div class="form-group m-r-10">
                                     <select [disabled]="extrapolation.length == 0" [(ngModel)]="apiKey" name="apiKey" class="form-control" width="150px">
-                                                    <option [hidden]="contains('key',s.key)" *ngFor="let s of extrapolation;let f = index" [ngValue]="s.key">{{ s.key }}</option>
+                                                    <option [hidden]="contains('field',s.key) || s.type !== fieldtype " *ngFor="let s of extrapolation;let f = index" [ngValue]="s.key">{{ s.key }}</option>
                                     </select>                            
                             </div>
                             <div class="form-group m-r-10">
                                 <input [disabled]="extrapolation.length == 0" [(ngModel)]="label" name="label" type="text" class="form-control" id="exampleInputPassword2" placeholder="Variable">
                             </div>
                             <button type="submit" *ngIf="updating == null" (click)="add(apiKey,label,formulaire)" class="btn btn-sm btn-primary m-r-5"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                            <button type="submit" *ngIf="updating != null"  (click)="set(apiKey,label)" class="btn btn-sm btn-primary m-r-5">Modifier</button>
+                            <button type="submit" *ngIf="updating != null"  (click)="set(apiKey,label,formulaire)" class="btn btn-sm btn-primary m-r-5">Valider</button>
                             <button type="submit" *ngIf="updating != null" (click)="cancel(true)" class="btn btn-sm btn-primary m-r-5">Annuler</button>
 
 
 
                         </form>
+                    <br>
                         <table class="table table-hover table-bordered">
                                 <thead>
                                 <tr>
@@ -211,9 +196,9 @@
                             </thead>
                                 <tbody>
                                     <tr *ngFor="let item of table;let i = index">
-                                        <td>{{item?.key}}</td>
+                                        <td>{{item?.field?.key}}</td>
                                         <td>{{item?.label}}</td>
-                                        <td><a (click)="remove(i)">supprimer</a> <a (click)="update(i)">update</a></td>
+                                        <td><a (click)="remove(i)">Supprimer</a> <a (click)="update(i)">Modifier</a></td>
                                     </tr>
                             </tbody>
                         </table>

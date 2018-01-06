@@ -113,7 +113,7 @@ export class CreationUtilisateurPage implements OnInit {
         this.prenom = new FormControl('', Validators.required);
         this.email = new FormControl('', [
           Validators.required,
-          Validators.pattern("^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$")
+          Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
         ]);
        this.password = new FormControl('', [
          Validators.required,
@@ -129,7 +129,7 @@ export class CreationUtilisateurPage implements OnInit {
             Validators.minLength(4)
         ]);
         this.telephone = new FormControl('',
-            Validators.pattern("(0|\\+212|00212)[6][0-9]{8}")
+            Validators.pattern("(0|\\+212|00212)[5-7][0-9]{8}")
         );
         this.role = new FormControl('',Validators.required);
         this.region = new FormControl({value:'',disabled: true});

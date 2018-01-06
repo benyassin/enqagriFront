@@ -283,34 +283,40 @@ export class ProjetPage implements OnInit  {
     }
     removeitem(item,from,to) {
         let idx = from.indexOf(item);
+        if(this.projet.theme == item.theme){
         if (idx != -1) {
-
             from.splice(idx, 1);
             this.extrapolation.splice(idx, 1);
             to.push(item);
             let idy = this.disabled.indexOf(item.geometry);
             this.disabled.splice(idy, 1);
             this.selected = []
-
+            this.extrapolation = []    
         }
         let re = this.table.filter(function(element){
             return element.form != item.id_fields
         })
         this.table = re
-    }
+        }else{
+            from.splice(idx,1)
+            this.extrapolation.splice(idx, 1);
+            this.extrapolation = []
+        }
+}
     table = [];
 
     add(key,label,form){
         if(key == null || label == null || this.label == "" ){
             return
         }
-        console.log(this.table.findIndex(x => x.label==label) )
         if(this.table.findIndex(x => x.label==label) == -1){
+        
+        let v = this.extrapolation.find(x => x.key==key)
+        console.log(v)
 
-        this.table.push({'key':key,'label':label,'form':form.id_fields});
+        this.table.push({'field':v,'label':label,'form':form.id_fields});
         this.apiKey = ""
         this.label = ""
-        console.log('object added');
         console.log(this.table)
     }
     }
@@ -321,20 +327,23 @@ export class ProjetPage implements OnInit  {
     update(index){
         this.updating = index;
       let data = this.table[index];
-      this.apiKey = data.key;
+      this.apiKey = data.field.key;
       this.label = data.label;
         
     }
-    set(key,label){
+    set(key,label,form,data){
         if(this.apiKey == null || this.label == null || this.label == ""){
             return
         }
         if(this.table.findIndex(x => x.label==this.label) == -1){
-        this.table[this.updating] = {'key':key,'label':label};
+            let v = this.extrapolation.find(x => x.key==key)
+            console.log(v)
+        this.table[this.updating] = {'field':v,'label':label,'form':form.id_fields};
         this.updating = null
-        }
         this.apiKey = ""
         this.label = ""
+        }
+
     }
     cancel(status){
         if(status){
@@ -357,7 +366,7 @@ export class ProjetPage implements OnInit  {
     }
     contains(key,value){
       var isThere =  this.table.some(function(element) {
-            return element[key] == value
+            return element[key].key == value
         });
       return isThere
     }
@@ -409,6 +418,7 @@ export class ProjetPage implements OnInit  {
         this.projet.validation = []
         this.label = ""
         this.extrapolation = []
+        this.disabled = []
     }
 
     moveAll(from,to){
