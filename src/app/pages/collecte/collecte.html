@@ -42,7 +42,16 @@
                 <div class="form-group col-md-3">  
                         <label >Valeur: </label>
                         <select  [(ngModel)]="_value" name="_value" class="form-control">
-                               <option *ngFor="let v of _filtre?.field.values.values" [ngValue]="v.value">{{v.label}}</option>                        
+                                <ng-container *ngIf="_filtre?.field.type == 'select'">
+                               <option *ngFor="let v of _filtre?.field.values.values" [ngValue]="v.value">{{v.label}}</option>
+                                </ng-container>
+                                <ng-container *ngIf="_filtre?.field.type == 'checkbox'">
+                                    <option value="true">True</option>
+                                    <option value="false">False</option>
+                                </ng-container>
+                                <ng-container *ngIf="_filtre?.field.type == 'radio' || _filtre?.field.type == 'selectboxes'">
+                                        <option *ngFor="let v of _filtre?.field.values" [ngValue]="v.value">{{v.label}}</option>
+                                </ng-container>                        
                         </select>
                 </div>
             </div>    

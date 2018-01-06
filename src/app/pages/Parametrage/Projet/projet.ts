@@ -56,7 +56,7 @@ export class ProjetPage implements OnInit  {
     error : String 
     addLevel(alias,agent){
         if(!alias){
-            this.error = "name est obligatoire"
+            this.error = "Alias est obligatoire"
         }else{
         if(this.projet.validation.length < 5 && !this.agentExists(agent)){
         let index = this.controllers.findIndex(x => x.id==agent)
@@ -364,11 +364,24 @@ export class ProjetPage implements OnInit  {
         }
 
     }
+    fieldtype
     contains(key,value){
-      var isThere =  this.table.some(function(element) {
-            return element[key].key == value
-        });
-      return isThere
+        let types = ['select','checkbox','radio','selectboxes']
+        if(this.fieldtype == 'other' && !types.includes(value.type)){
+            return true
+        }else if(this.fieldtype == 'number' && value.type != this.fieldtype){
+            return true
+        }else{
+        var isThere =  this.table.some(function(element) {
+            return element[key].key == value.key
+            });
+        return isThere
+        }
+        // if(this.fieldtype == 'number' && value.type !== 'number'){
+        //     return true
+        // }
+
+
     }
     extrapolation : any = [];
     getfields(form){

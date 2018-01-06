@@ -104,7 +104,7 @@
                                                 <div class="help-block"
                                                 *ngIf="password.errors && (password.dirty || password.touched)">
                                                 <p *ngIf="password.errors.required">Ce champ est obligatoire</p>
-                                                <p *ngIf="password.errors.minlength">Password must be 8 characters long, we need another {{password.errors.minlength.requiredLength - password.errors.minlength.actualLength}} characters </p>
+                                                <p *ngIf="password.errors.minlength">Le mot de passe doit comporter au moins 8 caractères. </p>
                                                 </div>
                                             </div>
             
@@ -121,7 +121,7 @@
                                                 <div class="help-block"
                                                 *ngIf="confirmPassword.errors && (confirmPassword.dirty || confirmPassword.touched)">
                                                 <p *ngIf="confirmPassword.errors.required">Ce champ est obligatoire</p>
-                                                <p *ngIf="confirmPassword.errors.minlength">Password must be 8 characters long, we need another {{confirmPassword.errors.minlength.requiredLength - confirmPassword.errors.minlength.actualLength}} characters </p>
+                                                <p *ngIf="confirmPassword.errors.minlength">Le mot de passe doit comporter au moins 8 caractères.</p>
                                                 </div>
                                             </div>
                                             <div  class="col-sm-6 form-group" [ngClass]="{

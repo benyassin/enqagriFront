@@ -21,7 +21,7 @@
                         Ce champ est obligatoire.
                     </p>
                     <div *ngIf="nom.errors.minlength">
-                        Name must be at least 4 characters long.
+                        Le nom doit comporter au moins 4 caractères.
                     </div>
                 </div>
         </div>
@@ -165,14 +165,14 @@
                                 </div>
                                 <div class="form-group m-r-10">
                                         <select [disabled]="forms_selected.length == 0" [(ngModel)]="fieldtype" name="fieldtype" class="form-control" width="150px">
-                                                <option value="select" >Champs de filtres</option>
+                                                <option value="other" >Champs de filtres</option>
                                                 <option value="number" >Champs numérique</option>
 
                                         </select>                            
                                 </div>
                             <div class="form-group m-r-10">
                                     <select [disabled]="extrapolation.length == 0" [(ngModel)]="apiKey" name="apiKey" class="form-control" width="150px">
-                                                    <option [hidden]="contains('field',s.key) || s.type !== fieldtype " *ngFor="let s of extrapolation;let f = index" [ngValue]="s.key">{{ s.key }}</option>
+                                                    <option [hidden]="contains('field',s)" *ngFor="let s of extrapolation;let f = index" [ngValue]="s.key">{{ s.key }}</option>
                                     </select>                            
                             </div>
                             <div class="form-group m-r-10">

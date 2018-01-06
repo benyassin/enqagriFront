@@ -27,7 +27,7 @@ export class SidebarComponent implements AfterViewInit {
     // menu list
     menu = [{
         title: 'Dashboard',
-        icon:'fa fa-cogs',
+        icon:'fa fa-home  ',
         link: '/dashboard/v1',
         roles: ['admin','superviseurP','superviseurR']
     },{
@@ -36,9 +36,9 @@ export class SidebarComponent implements AfterViewInit {
         link: '/Parametrage/Parametrage',
         roles: ['admin','superviseurP','superviseurR','agent','controleur'],
     },{
-        title: 'Utilisateur',
+        title: 'Utilisateurs',
         roles: ['admin'],
-        icon: 'fa fa-cogs',
+        icon: 'fa fa-users',
         link:'/utilisateur'
     },{
         title: 'Reporting',
@@ -57,7 +57,7 @@ export class SidebarComponent implements AfterViewInit {
     },{
         title: 'Collectes',
         roles: ['admin','controleur','superviseurP','superviseurR'],
-        icon: 'fa fa-cogs',
+        icon: 'fa fa-table',
         link:'/collectes'
     },
     
