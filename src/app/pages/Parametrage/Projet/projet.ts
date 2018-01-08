@@ -62,7 +62,10 @@ export class ProjetPage implements OnInit  {
         let index = this.controllers.findIndex(x => x.id==agent)
             this.projet.validation.push({"alias":alias,'agent':this.controllers[index].id,'name':this.controllers[index].name})
         }
+
     }
+    this._name = ""
+    this._agent = ""
     }
     removeLevel(key){
         this.projet.validation.splice(key,1)
@@ -293,15 +296,17 @@ export class ProjetPage implements OnInit  {
             this.selected = []
             this.extrapolation = []    
         }
-        let re = this.table.filter(function(element){
-            return element.form != item.id_fields
-        })
-        this.table = re
+
         }else{
             from.splice(idx,1)
             this.extrapolation.splice(idx, 1);
             this.extrapolation = []
         }
+        let re = this.table.filter(function(element){
+            return element.form != item.id_fields
+        })
+        
+        this.table = re
 }
     table = [];
 
@@ -432,6 +437,8 @@ export class ProjetPage implements OnInit  {
         this.label = ""
         this.extrapolation = []
         this.disabled = []
+        this._name = ""
+        this._agent = ""
     }
 
     moveAll(from,to){
