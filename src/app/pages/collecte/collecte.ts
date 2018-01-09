@@ -270,8 +270,25 @@ export class CollectePage implements OnInit {
             console.log(err)
         })
     }
-    onProjetSelect(){
-
+    calculate(data,formule){
+        let result 
+        switch (formule.operateur) {
+            case '+':
+                result = data[formule.variables[0]] + data[formule.variables[1]]
+                break;
+            case '-':
+                result = data[formule.variables[0]] - data[formule.variables[1]]
+                break;
+            case '*':
+                result = data[formule.variables[0]] * data[formule.variables[1]]
+            break;     
+            case '/':
+                result = data[formule.variables[0]] / data[formule.variables[1]]
+            break;      
+            default:
+                break;
+        }
+        return result
     }
     _status:Array<Object>
     ngOnInit(){

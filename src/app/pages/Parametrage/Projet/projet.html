@@ -170,7 +170,7 @@
 
                                         </select>                            
                                 </div>
-                            <div class="form-group m-r-10">
+                            <div class="form-group m-r-10" *ngIf=!advanced>
                                     <select [disabled]="extrapolation.length == 0" [(ngModel)]="apiKey" name="apiKey" class="form-control" width="150px">
                                                     <option [hidden]="contains('field',s)" *ngFor="let s of extrapolation;let f = index" [ngValue]="s.key">{{ s.key }}</option>
                                     </select>                            
@@ -178,12 +178,43 @@
                             <div class="form-group m-r-10">
                                 <input [disabled]="extrapolation.length == 0" [(ngModel)]="label" name="label" type="text" class="form-control" id="exampleInputPassword2" placeholder="Variable">
                             </div>
-                            <button type="submit" *ngIf="updating == null" (click)="add(apiKey,label,formulaire)" class="btn btn-sm btn-primary m-r-5"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                            <button type="submit" *ngIf="updating == null" (click)="add(apiKey,label,formulaire,apikey1,operateur,apikey2,hide)" class="btn btn-sm btn-primary m-r-5"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                            <button type="submit" *ngIf="updating == null" (click)="advance()" class="btn btn-sm btn-primary m-r-5">Advanced</button>
                             <button type="submit" *ngIf="updating != null"  (click)="set(apiKey,label,formulaire)" class="btn btn-sm btn-primary m-r-5">Valider</button>
                             <button type="submit" *ngIf="updating != null" (click)="cancel(true)" class="btn btn-sm btn-primary m-r-5">Annuler</button>
 
 
 
+                        </form>
+                        <br>
+                        <form class="form-inline" *ngIf="advanced">
+                            <div class="form-group m-r-10">
+                                <select [disabled]="extrapolation.length == 0" [(ngModel)]="apikey1" name="apikey1" class="form-control" width="150px">
+                                                <option [hidden]="contains('field',s)" *ngFor="let s of extrapolation;let f = index" [ngValue]="s.key">{{ s.key }}</option>
+                                                <option disabled="true">------------</option>
+                                                <option *ngFor="let t of table;let f = index" [ngValue]="t">{{ t.label }}</option>
+                                </select>                            
+                            </div>
+                            <div class="form-group m-r-10">
+                                <select [disabled]="extrapolation.length == 0" [(ngModel)]="operateur" name="operateur" class="form-control" width="150px">
+                                    <option value="+">+</option>
+                                    <option value="-">-</option>
+                                    <option value="*">*</option>
+                                    <option value="/">/</option>
+                                </select>   
+                            </div>
+                            <div class="form-group m-r-10">
+                            <select [disabled]="extrapolation.length == 0" [(ngModel)]="apikey2" name="apikey2" class="form-control" width="150px">
+                                <option [hidden]="contains('field',s)" *ngFor="let s of extrapolation;let f = index" [ngValue]="s.key">{{ s.key }}</option>
+                            </select>
+                            </div>
+                            <div class="form-group m-r-10">
+                                    <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" value="true" name="hide" [(ngModel)]="hide" > hide
+                                            </label>
+                                    </div>
+                            </div>
                         </form>
                     <br>
                         <table class="table table-hover table-bordered">
@@ -196,7 +227,8 @@
                             </thead>
                                 <tbody>
                                     <tr *ngFor="let item of table;let i = index">
-                                        <td>{{item?.field?.key}}</td>
+                                        <td *ngIf="item.type !='cal' ">{{item?.field?.key}}</td>
+                                        <td *ngIf="item.type =='cal' ">{{item.formule.variables[0]}} {{item.formule.operateur}} {{item.formule.variables[1]}}</td>
                                         <td>{{item?.label}}</td>
                                         <td><a (click)="remove(i)">Supprimer</a> <a (click)="update(i)">Modifier</a></td>
                                     </tr>

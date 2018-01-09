@@ -47,6 +47,7 @@ export class ProjetPage implements OnInit  {
     apiKey;
     label;
     updating
+    advanced = false
     _name
     _agent
   // public options: Select2Options;
@@ -310,16 +311,31 @@ export class ProjetPage implements OnInit  {
 }
     table = [];
 
-    add(key,label,form){
-        if(key == null || label == null || this.label == "" ){
-            return
-        }
+    add(key,label,form,api1,op,api2,hide){
+        // if(key == null || label == null || this.label == "" ){
+        //     return
+        // }
         if(this.table.findIndex(x => x.label==label) == -1){
         
         let v = this.extrapolation.find(x => x.key==key)
         console.log(v)
-
-        this.table.push({'field':v,'label':label,'form':form.id_fields});
+        let formule = null
+        let type  = 'extra'
+        switch (this.fieldtype) {
+            case 'number':
+                type = 'extra'
+                break;
+            case 'other':
+                type = 'filtre'
+                break;
+            default:
+                break;
+        }
+        if(op){
+            formule = {operateur : op,variables:[api1,api2]}
+            type = 'cal'
+        }
+        this.table.push({'field':v,'label':label,'form':form.id_fields,'formule':formule,'type':type,'hidden':hide || false});
         this.apiKey = ""
         this.label = ""
         console.log(this.table)
@@ -359,6 +375,9 @@ export class ProjetPage implements OnInit  {
         }
 
     }
+    advance(){
+        this.advanced = true
+    }
     onFormSelect(form){
         console.log(form)
         if(form.id_fields){
@@ -378,7 +397,9 @@ export class ProjetPage implements OnInit  {
             return true
         }else{
         var isThere =  this.table.some(function(element) {
+            if(element.type == 'extra'){
             return element[key].key == value.key
+            }
             });
         return isThere
         }
@@ -439,6 +460,7 @@ export class ProjetPage implements OnInit  {
         this.disabled = []
         this._name = ""
         this._agent = ""
+        this.forms_disponnible = []
     }
 
     moveAll(from,to){
