@@ -45,7 +45,7 @@ export class CollectePage implements OnInit {
         if(this.collectes ){
         let sum = 0;
         for(let i = 0; i < this.collectes.length; i++) {
-            if(this.collectes[i].collecte[0].data[0].formdata.data[filtre] == value){
+            if(this.collectes[i].collecte[0].data[0].formdata.data[filtre] == value || this._filtre == null){
                 sum += (this.collectes[i].collecte[0].data[0].formdata.data[key] || 0);  
             }
         }
@@ -56,7 +56,7 @@ export class CollectePage implements OnInit {
         if(this.collectes){
         let sum = 0;
         for(let i = 0; i < this.collectes.length; i++) {
-            if(this.collectes[i].collecte[0].data[0].formdata.data[filtre] == value){
+            if(this.collectes[i].collecte[0].data[0].formdata.data[filtre] == value || this._filtre == null){
           sum += (this.collectes[i].collecte[0].data[0].formdata.data[key] || 0);
             }
         }
@@ -69,14 +69,14 @@ export class CollectePage implements OnInit {
         if(this.collectes){
         let sum = 0;
         for(let i = 0; i < this.collectes.length; i++) {
-            if(this.collectes[i].collecte[0].data[0].formdata.data[filtre] == value){
+            if(this.collectes[i].collecte[0].data[0].formdata.data[filtre] == value || this._filtre == null){
           sum += (this.collectes[i].collecte[0].data[0].formdata.data[key] || 0);
             }
         }
         var avg : number  = sum/this.collectes.length;
         let summm : number  = 0
         for(let i = 0; i < this.collectes.length; i++) {
-            if(this.collectes[i].collecte[0].data[0].formdata.data[filtre] == value){
+            if(this.collectes[i].collecte[0].data[0].formdata.data[filtre] == value || this._filtre == null){
             summm += Math.pow(((this.collectes[i].collecte[0].data[0].formdata.data[key] || 0) - avg),2)  ;
             }
         }
@@ -90,7 +90,7 @@ export class CollectePage implements OnInit {
         if(this.collectes){
         let sum = 0;
         for(let i = 0; i < this.collectes.length; i++) {
-            if(this.collectes[i].collecte[0].data[0].formdata.data[filtre] == value){
+            if(this.collectes[i].collecte[0].data[0].formdata.data[filtre] == value || this._filtre == null){
           sum += (this.collectes[i].collecte[0].data[0].formdata.data[key] || 0);
             }
         }
