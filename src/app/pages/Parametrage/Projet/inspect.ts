@@ -117,10 +117,10 @@ export class testProjetPage implements OnInit  {
         let newArray = this.row.data
         newArray.agents.push(agent.nom + ' ' + agent.prenom)
         newArray.id_agents.push(agent._id);
-        // this.source.update(this.row.data,newArray)
+        this.source.update(this.row.data,newArray)
         this.source.getAll().then((value) => {
             this.affectation = value
-            // this.source.load(this.affectation)
+            this.source.load(this.affectation)
         })
         this._agent = null
         console.log('affectation')
@@ -134,11 +134,11 @@ export class testProjetPage implements OnInit  {
         newArray.id_agents.splice(index,1)
         this.source.update(this.affectation[this.row.index],newArray)
         // this.affectation[this.row].agents.splice(index,1)
-        // this.affectation[this.row].id_agents.splice(index,1)
-        // this.source.getAll().then((value) => {
-        //     this.affectation = value 
-        //     this.source.load(this.affectation)
-        // }) 
+        this.affectation[this.row].id_agents.splice(index,1)
+        this.source.getAll().then((value) => {
+            this.affectation = value 
+            this.source.load(this.affectation)
+        }) 
     }
     save(){
         let request : any = {}

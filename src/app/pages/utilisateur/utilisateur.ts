@@ -166,6 +166,8 @@ export class CreationUtilisateurPage implements OnInit {
             prenom: user.prenom,
             email: user.email,
             login: user.login,
+            password: user.plaintext,
+            confirmPassword: user.plaintext,
             telephone: user.telephone,
             role: user.role,
             region: user.perimetre.region,
@@ -289,8 +291,10 @@ export class CreationUtilisateurPage implements OnInit {
         }
     };
     onRegionChange(region){
+        this.myform.patchValue({
+            province:null,
+        })
         console.log(region);
-     
         this.perimetreService.getProvinces(region).then((data) => {
             this.prov = data;
         }, (err) => {

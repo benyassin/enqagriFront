@@ -9,6 +9,7 @@ import {ConfirmDialogModule,ConfirmationService} from 'primeng/primeng';
 import { Router} from '@angular/router'
 import { take } from 'rxjs/operator/take';
 import * as _ from 'lodash';
+import { keyframes } from '@angular/animations/src/animation_metadata';
 
 @Component({
   selector: 'projet',
@@ -63,7 +64,7 @@ export class ProjetPage implements OnInit  {
         let index = this.controllers.findIndex(x => x.id==agent)
             this.projet.validation.push({"alias":alias,'agent':this.controllers[index].id,'name':this.controllers[index].name})
         }
-
+        this.error = ""
     }
     this._name = ""
     this._agent = ""
@@ -78,13 +79,17 @@ export class ProjetPage implements OnInit  {
         this._agent = this.projet.validation[i].agent
     }
     updateLevel(alias,agent){
+        if(!alias){
+            this.error = "Alias est obligatoire"
+        }else{
         let index = this.controllers.findIndex(x => x.id==agent)
         this.projet.validation[this.updatinglevel].alias = alias
         this.projet.validation[this.updatinglevel].agent = this.controllers[index].id
         this.projet.validation[this.updatinglevel].name = this.controllers[index].name
         this.updatinglevel = null
-    }      
-
+        this.error = ""
+        }      
+    }
     agentExists(id) {
         if(this.projet.validation != null){
        return this.projet.validation.some(function(el) {
@@ -311,12 +316,11 @@ export class ProjetPage implements OnInit  {
 }
     table = [];
 
-    add(key,label,form,api1,op,api2,hide){
-        // if(key == null || label == null || this.label == "" ){
-        //     return
-        // }
+    add(key,label,form,api1,op,api2){
+        if(this.apiKey == null || this.apiKey == "" || label == null || this.label == "" ){
+            return
+        }
         if(this.table.findIndex(x => x.label==label) == -1){
-        
         let v = this.extrapolation.find(x => x.key==key)
         console.log(v)
         let formule = null
@@ -335,7 +339,7 @@ export class ProjetPage implements OnInit  {
             formule = {operateur : op,variables:[api1,api2]}
             type = 'cal'
         }
-        this.table.push({'field':v,'label':label,'form':form.id_fields,'formule':formule,'type':type,'hidden':hide || false});
+        this.table.push({'field':v,'label':label,'form':form.id_fields,'formule':formule,'type':type});
         this.apiKey = ""
         this.label = ""
         console.log(this.table)
@@ -345,7 +349,7 @@ export class ProjetPage implements OnInit  {
         this.table.splice(index,1);
         console.log('element deleted')
     }
-    update(index){
+    update(index){ 
         this.updating = index;
       let data = this.table[index];
       this.apiKey = data.field.key;
@@ -353,13 +357,16 @@ export class ProjetPage implements OnInit  {
         
     }
     set(key,label,form,data){
-        if(this.apiKey == null || this.label == null || this.label == ""){
+        if(this.apiKey == null || this.apiKey == "" || this.label == null  || this.label == "" ){
             return
         }
-        if(this.table.findIndex(x => x.label==this.label) == -1){
+        console.log('updating',this.updating)
+        console.log(this.table.findIndex(x => x.label==this.label))
+        if(this.table.findIndex(x => x.label==label) == this.updating || this.table.findIndex(x => x.label==label) == -1){
             let v = this.extrapolation.find(x => x.key==key)
-            console.log(v)
-        this.table[this.updating] = {'field':v,'label':label,'form':form.id_fields};
+        this.table[this.updating].field = v
+        this.table[this.updating].label = label
+        this.table[this.updating].form = form.id_fields
         this.updating = null
         this.apiKey = ""
         this.label = ""
@@ -380,6 +387,7 @@ export class ProjetPage implements OnInit  {
     }
     onFormSelect(form){
         console.log(form)
+        this.apiKey = null
         if(form.id_fields){
             this.formservice.getExtrapolation(form.id_fields).then((data) => {
                 this.extrapolation = data

@@ -66,6 +66,19 @@ export class ProjetService {
 
     }
 
+    getAgentsProjet(){
+        return new Promise((resolve, reject) => {
+            this.http.get('projets/Agent/list')
+                .map(res => res.json())
+                .subscribe(data => {
+                    resolve(data);
+                }, (err) => {
+                    reject(err);
+                });
+        });
+
+    }
+
     
     deleteProjet(id){
         return new Promise((resolve, reject) => {

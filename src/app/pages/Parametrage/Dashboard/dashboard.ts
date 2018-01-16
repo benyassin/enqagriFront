@@ -67,6 +67,18 @@ export class DashboardPage implements OnInit {
             console.log(err)
         })
     }
+    getAgentProjet(){
+        this.projetservice.getAgentsProjet().then((data :any)=> {
+           let list = []
+            data.forEach(element => {
+                list.push(element.projet)
+            });
+            this._projets = list
+        },(err) =>{
+            console.log("error trying to fetch projets")
+            console.log(err)
+        })
+    }
     deleteForm(id:any){
         this.confirmationService.confirm({
             message: 'Voulez vous confirmer la suppression ?',
@@ -151,8 +163,11 @@ export class DashboardPage implements OnInit {
             this.getForms();
             this.getProjets();
 
+        }else if( this.user.role == 'agent'){
+            this.getAgentProjet()
         }else{
             this.getProjetsByPerimetre();
+
         }
 
     }

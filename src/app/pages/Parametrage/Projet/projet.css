@@ -40,3 +40,5 @@
 #formbuilder {
     overflow: auto;
 }
+
+.smart-table-container{ overflow-x: scroll; }

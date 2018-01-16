@@ -96,7 +96,7 @@
         </div>
         </div>
         <div class="smart-table-container">
-        <table class="table table-condensed">                
+        <table class="table table-condensed ">                
             <thead>
                 <tr>
             <th>Niveau</th>
@@ -171,14 +171,15 @@
                                         </select>                            
                                 </div>
                             <div class="form-group m-r-10" *ngIf=!advanced>
-                                    <select [disabled]="extrapolation.length == 0" [(ngModel)]="apiKey" name="apiKey" class="form-control" width="150px">
+                                    <select [disabled]="extrapolation.length == 0 || fieldtype == null" [(ngModel)]="apiKey" name="apiKey" class="form-control" width="150px">
                                                     <option [hidden]="contains('field',s)" *ngFor="let s of extrapolation;let f = index" [ngValue]="s.key">{{ s.key }}</option>
                                     </select>                            
                             </div>
+                            <!-- {{apiKey}} -->
                             <div class="form-group m-r-10">
-                                <input [disabled]="extrapolation.length == 0" [(ngModel)]="label" name="label" type="text" class="form-control" id="exampleInputPassword2" placeholder="Variable">
+                                <input [disabled]="extrapolation.length == 0 || fieldtype == null" [(ngModel)]="label" name="label" type="text" class="form-control" id="exampleInputPassword2" placeholder="Variable">
                             </div>
-                            <button type="submit" *ngIf="updating == null" (click)="add(apiKey,label,formulaire,apikey1,operateur,apikey2,hide)" class="btn btn-sm btn-primary m-r-5"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                            <button type="submit" *ngIf="updating == null" (click)="add(apiKey,label,formulaire,apikey1,operateur,apikey2)" class="btn btn-sm btn-primary m-r-5"><i class="fa fa-plus" aria-hidden="true"></i></button>
                             <button type="submit" *ngIf="updating == null" (click)="advance()" class="btn btn-sm btn-primary m-r-5">Advanced</button>
                             <button type="submit" *ngIf="updating != null"  (click)="set(apiKey,label,formulaire)" class="btn btn-sm btn-primary m-r-5">Valider</button>
                             <button type="submit" *ngIf="updating != null" (click)="cancel(true)" class="btn btn-sm btn-primary m-r-5">Annuler</button>
@@ -209,11 +210,11 @@
                             </select>
                             </div>
                             <div class="form-group m-r-10">
-                                    <div class="checkbox">
+                                    <!-- <div class="checkbox">
                                             <label>
                                                 <input type="checkbox" value="true" name="hide" [(ngModel)]="hide" > hide
                                             </label>
-                                    </div>
+                                    </div> -->
                             </div>
                         </form>
                     <br>

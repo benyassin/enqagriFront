@@ -97,7 +97,7 @@
                                              'has-success': password.valid && (password.dirty || password.touched)
                                             }">
                                                 <label>Mot de passe</label>
-                                                <input type="password"
+                                                <input type="text"
                                                 class="form-control"
                                                 formControlName="password"
                                                 >
@@ -114,7 +114,7 @@
                                              'has-success': confirmPassword.valid && (confirmPassword.dirty || confirmPassword.touched)
                                             }">
                                                 <label>Retaper Mot de passe</label>
-                                                <input type="password"
+                                                <input type="text"
                                                 class="form-control"
                                                 formControlName="confirmPassword"
                                                 >
@@ -177,7 +177,7 @@
                                                 <label>Dpa</label>
                                                 <select  class="form-control" formControlName="dpa">
                                                     <option value="" [selected]="true"></option>                                                    
-                                                    <option *ngFor="let d of list_dpa" [ngValue]="d._id">{{d.name}}</option>
+                                                    <option [hidden]="d.id_province != myform.value.province" *ngFor="let d of list_dpa" [ngValue]="d._id">{{d.DPA}}</option>
                                                     <div  class="help-block" *ngIf="dpa.errors && (dpa.dirty || dpa.touched)">
                                                             <p *ngIf="dpa.errors.required">Ce champ est obligatoire</p>
                                                     </div>
@@ -191,7 +191,7 @@
                                                 <label>Office</label>
                                                 <select class="form-control" formControlName="office">
                                                     <option value="" [selected]="true"></option>                                                    
-                                                    <option *ngFor="let f of list_office" [ngValue]="f._id">{{f.name}}</option>
+                                                    <option [hidden]="f.id_province != myform.value.province" *ngFor="let f of list_office" [ngValue]="f._id">{{f.OFFICE}}</option>
                                                     <div  class="help-block" *ngIf="office.errors && (office.dirty || office.touched)">
                                                             <p *ngIf="office.errors.required">Ce champ est obligatoire</p>
                                                     </div>

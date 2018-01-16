@@ -231,6 +231,15 @@ export class CollectePage implements OnInit {
         },(err : any) => {
             console.log('error fetching collectes',err)
         })
+    }else if(this.user.role == 'agent'){
+        let projets = []
+        this.projetservice.getAgentsProjet().then((data: any) =>{
+            data.forEach(element => {
+                projets.push(element.projet)
+            });
+            this.projets = projets
+            this.checkStorage();
+        })
     }else{
         this.projetservice.getProjetsByPerimetre().then((data : any)=>{
             this.projets = data;
@@ -309,10 +318,11 @@ export class CollectePage implements OnInit {
             if(this.user.role == 'superviseurR'){
                 this._region = this.user.perimetre.region.id_region
             }
-            if(this.user.role == 'superviseurP'){
+            if(this.user.role == 'superviseurP' || this.user.role == 'agent'){
                 this._province = this.user.perimetre.province.id_province
                 this._region = this.user.perimetre.region.id_region
             }
+            
 
         }
         this.getProjets()                

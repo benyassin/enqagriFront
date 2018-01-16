@@ -22,6 +22,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormioModule } from 'angular-formio';
 import { MomentModule } from 'angular2-moment';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+
 
 
 
@@ -192,7 +194,7 @@ import { RegisterV3Page }           from './pages/user/register-v3/register-v3';
 import { HelperCssPage }        from './pages/helper/helper-css/helper-css';*/
 
 @NgModule({
-    imports:        [Ng2SmartTableModule,ChartsModule,MomentModule,FormioModule,AngularMultiSelectModule,Select2Module,Ng2Permission,MessagesModule,TreeModule,PickListModule,ConfirmDialogModule,HttpModule,SortablejsModule, BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule ],
+    imports:        [NgxDatatableModule,Ng2SmartTableModule,ChartsModule,MomentModule,FormioModule,AngularMultiSelectModule,Select2Module,Ng2Permission,MessagesModule,TreeModule,PickListModule,ConfirmDialogModule,HttpModule,SortablejsModule, BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule ],
     declarations:   [ 
         AppComponent,
         HeaderComponent, 
