@@ -82,9 +82,19 @@
 <p-messages [(value)]="msgs"></p-messages>          
 <div *ngIf="userservice?.user?.role === 'superviseurP'" class="row">
 <div class="col-md-8 panel panel-success">
+    
     <div class="panel-body">
+            <!-- <ngx-datatable
+            #tables
+            class="bootstrap"
+            [headerHeight]="50"
+            [rowHeight]="'auto'"
+            [columnMode]="'force'"
+            [rows]="rows"
+            [columns]="columns">
+        </ngx-datatable>    -->
         <div class="smart-table-container">
-            <ng2-smart-table *ngIf="!dataload"  [settings]="settings" [source]="affectation" (rowSelect)="clear()" (edit)="event($event)"></ng2-smart-table>
+            <ng2-smart-table #table *ngIf="!dataload"  [settings]="settings" [source]="source" (rowSelect)="clear()" (edit)="event($event)"></ng2-smart-table>
             </div>
     </div>
 </div>
@@ -105,7 +115,7 @@
             </div>                               
         </div>
         </form>
-
+  
         <table class="table table-condensed">                
             <thead>
             <tr>

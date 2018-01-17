@@ -1,5 +1,6 @@
 <p-messages [(value)]="msgs"></p-messages>         
-<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="700"></p-confirmDialog>          
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="700"></p-confirmDialog>
+     
 <div class="panel panel-success">
     <div class="panel-heading">
         <div class="bt-group pull-right">
@@ -8,10 +9,25 @@
         <h4 class="panel-title">List des utilisateurs</h4>
     </div>
     <div class="panel-body">
-        <table id="data-table" class="table table-striped table-bordered">
+            <!-- <input
+            type='text'
+            style='padding:8px;margin:15px auto;width:30%;'
+            placeholder='Rechercher un utilisateur'
+            (keyup)='updateFilter($event)'
+          />
+            <ngx-datatable
+            #table
+            class="bootstrap"
+            [headerHeight]="50"
+            [rowHeight]="'auto'"
+            [columnMode]="'force'"
+            [rows]="rows"
+            [columns]="columns">
+            </ngx-datatable>      -->
+            <ng2-smart-table *ngIf="!loading"  [settings]="settings" [source]="users" (custom)="testfunc($event)"></ng2-smart-table>
+        <!-- <table id="data-table" class="table table-striped table-bordered">
             <thead>
                 <tr>
-                    <!-- <th>_id</th> -->
                     <th>Nom</th>
                     <th>Prénom</th>
                     <th>Login</th>
@@ -21,7 +37,6 @@
             </thead>
             <tbody>
                 <tr *ngFor="let user of users">
-                    <!-- <td>{{ user._id }}</td> -->
                     <td>{{ user.nom }}</td>
                     <td>{{ user.prenom }}</td>
                     <td>{{ user.login }}</td>
@@ -33,6 +48,6 @@
                     </td>
                 </tr>
             </tbody>
-        </table>
+        </table> -->
     </div>
 </div>

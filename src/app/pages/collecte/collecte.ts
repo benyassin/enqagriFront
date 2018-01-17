@@ -7,6 +7,7 @@ import {ConfirmDialogModule,ConfirmationService} from 'primeng/primeng';
 import * as _ from "lodash";
 import * as moment from "moment"
 import { locale } from 'moment';
+import { LocalDataSource } from 'ng2-smart-table';
 @Component({
     selector: 'Collecte',
     templateUrl: './collecte.html',
@@ -22,6 +23,7 @@ export class CollectePage implements OnInit {
         private userservice:UserService,
         private router:Router
     ){}
+    dataload : boolean = true
     projet : any;
     collectes : any = [];
     projets : any;
@@ -36,10 +38,62 @@ export class CollectePage implements OnInit {
     anass
     _filtre
     _value
+    source : LocalDataSource 
     compareById(obj1, obj2) {
         if(localStorage.getItem('storage') !== null ){
         return obj1._id === obj2._id;
         }
+    }
+    settings = {
+        columns: {
+            projet:{
+                title:'Enquete',
+            },
+            type:{
+                title:'Type',
+            },
+            agent:{
+                title:'Agent'
+            },
+            date:{
+                title:'Date'
+            }
+        },
+        mode:'external',
+        actions:{
+            add   : false,
+            edit  : false,
+            delete: false,
+            position: 'right',
+            width: '20px'
+        }
+    }
+    filtreData(filtre,data :any){
+        let result = []
+        let extra = []
+        this.extrapolation.forEach(api => {
+            if(api.type == 'extra'){
+            this.settings.columns[api.field.key] = {'title':api.label}
+            extra.push(api.field.key)
+        }
+        });
+        
+        data.forEach(element => {
+            let row = {
+                'projet':'projet',
+                'type':'annuelle',
+                'agent':element.agent._id,
+            }
+            extra.forEach(f => {
+                row[f] = element.collecte[0].data[0].formdata.data[f]
+            });
+            row['date'] = moment(new Date(element.createdAt)).format("DD.MM.YYYY à h:mm")
+
+            console.log(row)
+            result.push(row)
+        });
+        this.source = new LocalDataSource(result)
+        this.dataload = false
     }
     getSum(key,filtre,value) {
         if(this.collectes ){
@@ -129,6 +183,7 @@ export class CollectePage implements OnInit {
         this.index = this.projet.validation.findIndex(x => x.agent==this.user._id);
             
         this.collecteservice.getCollectesByProjet(projet._id,this.index,status,region,province,filtre,valeur).then((data) => {
+            this.filtreData('test',data)
             this.collectes = data;
             this.collectes = this.collectes.map(function(element){
                 element.createdAt = moment(new Date(element.createdAt)).format("DD.MM.YYYY à h:mm");
@@ -150,6 +205,7 @@ export class CollectePage implements OnInit {
             this.index = this.projet.validation.length - 1;
             this.collecteservice.getCollectesByProjet(projet._id,this.index,status,region,province,filtre,valeur).then((data) => {
                 this.collectes = data
+                this.filtreData('test',data)
                 this.collectes = this.collectes.map(function(element){
                     element.createdAt = moment(new Date(element.createdAt)).format("DD.MM.YYYY à h:mm")
                     return element;
@@ -163,6 +219,7 @@ export class CollectePage implements OnInit {
             case 'new':           
             this.collecteservice.getCollectesByProjet(projet._id,0,status,region,province,filtre,valeur).then((data) => {
                 this.collectes = data
+                this.filtreData('test',data)
                 this.collectes = this.collectes.map(function(element){
                     element.createdAt = moment(new Date(element.createdAt)).format("DD.MM.YYYY à h:mm");
                     return element;
@@ -176,6 +233,7 @@ export class CollectePage implements OnInit {
             case 'reject':
             this.collecteservice.getCollecteEnTraitement(projet._id,this.index,region,province).then((data) => {
                 this.collectes = data
+                this.filtreData('test',data)
                 this.collectes = this.collectes.map(function(element){
                     element.createdAt = moment(new Date(element.createdAt)).format("DD.MM.YYYY à h:mm");
                     return element;

@@ -70,6 +70,7 @@
 <div class="col-md-12">
         <div class="panel panel-success">
                 <div class="panel-body">
+                    
                     <table class="table table-condensed table-bordered">
                         <thead>
                             <tr>
@@ -156,6 +157,7 @@
                 </div>
             </div> -->
             <div class="row">
+                    <ng2-smart-table #table *ngIf="!dataload"  [settings]="settings" [source]="source"></ng2-smart-table>
                 <table id="data-table" class="table table-condensed table-bordered">
                     <thead>
                         <tr>
@@ -174,7 +176,6 @@
                         </tr>
                     </thead>
                     <tbody>
-
                         <tr [hidden]="_value != undefined && (collecte?.collecte[0]?.data[0].formdata.data[_filtre?.field?.key] != _value && _filtre != null)" *ngFor="let collecte of collectes">                            <!-- <td>{{collecte._id}}</td> -->
                             <td>{{anass?.name}}</td>
                             <td *ngIf="anass?.theme== 'pillier1'">Pilier I</td>

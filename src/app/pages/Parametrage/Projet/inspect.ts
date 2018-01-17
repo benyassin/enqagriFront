@@ -5,6 +5,8 @@ import { UserService } from '../../../services/user.service';
 import { PerimetreService } from '../../../services/perimetre.service';
 import {ConfirmDialogModule,ConfirmationService} from 'primeng/primeng';
 import {LocalDataSource } from 'ng2-smart-table';
+import { Ng2SmartTableComponent } from 'ng2-smart-table/ng2-smart-table.component';
+
 
 import { Router} from '@angular/router';
 
@@ -114,31 +116,34 @@ export class testProjetPage implements OnInit  {
     _agent
     addAgent(agent){
         if(agent != null && agent != undefined){
-        let newArray = this.row.data
-        newArray.agents.push(agent.nom + ' ' + agent.prenom)
-        newArray.id_agents.push(agent._id);
-        this.source.update(this.row.data,newArray)
-        this.source.getAll().then((value) => {
-            this.affectation = value
-            this.source.load(this.affectation)
-        })
+        // let newArray = this.row.data
+        this.affectation[this.row.index].agents.push(agent.nom + ' ' + agent.prenom)
+        this.affectation[this.row.index].id_agents.push(agent._id);
+        // this.source.update(this.row.data,newArray)
+        // this.source.getAll().then((value) => {
+        //     this.affectation = value
+        // })
+        this.source.load(this.affectation)
+        this.source.refresh()
         this._agent = null
         console.log('affectation')
         // this.source.refresh()
         }
     }
+
     removeAgent(index){
         this._agents.splice(index,1)
         let newArray = this.affectation[this.row.index]
-        newArray.agents.splice(index,1)
-        newArray.id_agents.splice(index,1)
-        this.source.update(this.affectation[this.row.index],newArray)
+        this.affectation[this.row.index].agents.splice(index,1)
+        this.affectation[this.row.index].id_agents.splice(index,1)
+        // this.source.update(this.affectation[this.row.index],newArray)
         // this.affectation[this.row].agents.splice(index,1)
-        this.affectation[this.row].id_agents.splice(index,1)
-        this.source.getAll().then((value) => {
-            this.affectation = value 
-            this.source.load(this.affectation)
-        }) 
+        // this.affectation[this.row].id_agents.splice(index,1)
+        // this.source.getAll().then((value) => {
+        //     this.affectation = value 
+        //     this.source.load(this.affectation)
+        // }) 
+        this.source.load(this.affectation)
     }
     save(){
         let request : any = {}
@@ -172,7 +177,15 @@ export class testProjetPage implements OnInit  {
             width: '20px'
         }
     }
-    
+    rows = [
+        { communes:'test',agents:['test','test'] },
+        { communes:'test',agents:['test','test'] },
+        { communes:'test',agents:['test','test']},
+      ];
+      columns = [
+        { name: 'Communes' },
+        { name: 'Agents' },
+     ];
     ngOnInit(){
         if(this.projetservice.inspect !== null) this.getProjet(this.projetservice.inspect)
             this.getAgents();

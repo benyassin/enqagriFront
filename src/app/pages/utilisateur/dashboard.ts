@@ -1,7 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input,ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import {PerimetreService } from '../../services/perimetre.service';
+// import { DatatableComponent } from '@swimlane/ngx-datatable/src/components/datatable.component';
+
+
 import { ReactiveFormsModule,
     FormsModule,
     FormGroup,
@@ -32,7 +35,47 @@ export class UtilisateurPage implements OnInit {
         public userService: UserService,private confirmationService: ConfirmationService,private router:Router
     ){}
     users: any;
-    
+    loading : boolean = true 
+    settings = {
+        columns: {
+            nom:{
+                title:'Nom'
+            },
+            prenom:{
+                title:'Prenom'
+            },
+            email:{
+                title:'Email'
+            },
+            login:{
+                title:'Login'
+            },
+            role:{
+                title:'Role'
+            },
+        },
+        actions:{
+            add   : false,
+            edit  : false,
+            delete: false,
+            custom: [{ name: 'edit', title: `<a type="button" title="See Detail Product" class="btn btn-primary btn-xs"><i class="ion-edit"></i></a>` },{ name: 'delete', title: `<a type="button" title="See Detail Product" class="btn btn-danger btn-xs"><i class="ion-trash-a"></i></a>` }],
+            position: 'right'
+        },
+        pager:{
+            perPage:25
+        }
+      };
+    testfunc(data){
+        switch (data.action) {
+            case 'edit':
+            this.update(data.data)
+                break;
+            case 'delete':
+            this.deleteUser(data.data._id)
+            default:
+                break;
+        }
+    }
     deleteUser(id){
         this.confirmationService.confirm({
             message: 'Voulez vous confirmer la suppression ?',
@@ -56,10 +99,24 @@ export class UtilisateurPage implements OnInit {
     getUsers() {
         this.userService.getUsers().then((data) => {
             this.users = data;
+            this.loading = false
       }, (err) => {
           console.log("err trying to fetch users " + err);
       });
     };
+    rows = [
+        { Nom: 'Austin', Prenom: 'Male', login: 'Swimlane',email:'geocoding@geocoding.ma',role:'admin',action:'action' },
+        { nom: 'Austin', prenom: 'Male', login: 'Swimlane',email:'geocoding@geocoding.ma',role:'admin',action:'action' },
+        { nom: 'Austin', prenom: 'Male', login: 'Swimlane',email:'geocoding@geocoding.ma',role:'admin',action:'action' },
+      ];
+      columns = [
+        { prop: 'Nom' },
+        { name: 'Prenom' },
+        { name: 'Login' },
+        { name: 'Email' },
+        { name: 'Role' },
+        { name: 'Action' }
+     ];
     ngOnInit(){
         this.getUsers()
     }
