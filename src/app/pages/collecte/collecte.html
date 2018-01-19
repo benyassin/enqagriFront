@@ -15,7 +15,7 @@
                 <div class="form-group col-md-3">
                     <label >Status: </label>
                     <select [(ngModel)]="status" name="status" class="form-control">
-                            <option *ngFor="let s of _status" [ngValue]="s.value">{{s.name}}</option>
+                            <option [hidden]="(s.value == 'new' || s.value == 'reject') && projet.validation.length == 0" *ngFor="let s of _status" [ngValue]="s.value">{{s.name}}</option>
                     </select>
                 </div>
                       
@@ -75,7 +75,7 @@
                     <table class="table table-condensed table-bordered">
                         <thead>
                             <tr>
-                                <th></th>
+                                <th>Champs d'extrapolation</th>
                                 <th>Somme</th>
                                 <th>Moyenne</th>
                                 <th>Variance</th>

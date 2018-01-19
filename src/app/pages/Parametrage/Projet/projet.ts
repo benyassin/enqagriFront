@@ -322,6 +322,9 @@ export class ProjetPage implements OnInit  {
         if((this.apiKey == null || this.apiKey == "") && this.advanced == false  || label == null || this.label == "" ){
             return
         }
+        if(api1 == null || api2 == null || op == null){
+            return
+        } 
         console.log('here')
         if(this.table.findIndex(x => x.label==label) == -1){
         let v = this.extrapolation.find(x => x.key==key)
@@ -386,6 +389,9 @@ export class ProjetPage implements OnInit  {
         row.field = v
         row.label = label
         row.form = form
+        if(api1 == null || api2 == null || op == null){
+            return
+        } 
         if(this.advanced == true){
             console.log('row')
             console.log(row)
@@ -478,6 +484,7 @@ export class ProjetPage implements OnInit  {
                     console.log('projet created')
                     console.log(data)
                     this.router.navigate(['Parametrage/Parametrage'])
+                    localStorage.removeItem('storage')
                 }, (err) => {
                     this.msgs = [];                    
                     this.msgs.push({severity:'error', summary:'Error', detail:err.message});

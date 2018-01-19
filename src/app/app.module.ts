@@ -2,7 +2,6 @@ import { NgModule, OnInit }         from '@angular/core';
 import { BrowserModule, Title }     from '@angular/platform-browser';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SortablejsModule } from 'angular-sortablejs';
 import { HttpModule } from '@angular/http';
 import { AuthenticationService } from './services/authentication.service';
 import { UserService } from './services/user.service';
@@ -15,16 +14,12 @@ import { ReportingService } from './services/reporting.service'
 
 import {MessagesModule} from 'primeng/primeng';
 import {ConfirmDialogModule,ConfirmationService} from 'primeng/primeng';
-import { PickListModule } from 'primeng/primeng';
 import { Ng2Permission } from 'angular2-permission'
-import {TreeModule,TreeNode,TreeDragDropService } from 'primeng/primeng';
-import {GrowlModule} from 'primeng/primeng';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormioModule } from 'angular-formio';
 import { MomentModule } from 'angular2-moment';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 
 
@@ -308,7 +303,7 @@ import { HelperCssPage }        from './pages/helper/helper-css/helper-css';*/
         LoginV3Page,
         RegisterV3Page*/
     ],
-    providers: [ Title,ReportingService,CollecteService,ProjetService, AuthenticationService,ConfirmationService,TreeDragDropService , FormService, UserService,BlocService,PerimetreService, HttpClient, AuthGuard],
+    providers: [ Title,ReportingService,CollecteService,ProjetService, AuthenticationService,ConfirmationService , FormService, UserService,BlocService,PerimetreService, HttpClient, AuthGuard],
     bootstrap: [ AppComponent ]
 })
 

@@ -46,7 +46,7 @@ export class ValidationPage implements AfterViewInit  {
 
     action(action){
       this.confirmationservice.confirm({
-        message: "Voulez vous confirmer l'enregistrement ?",
+        message: "Voulez-vous confirmer cette opération?",
         accept: () => {
 
       let update : any = {}
