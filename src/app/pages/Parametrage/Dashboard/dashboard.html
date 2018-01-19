@@ -107,12 +107,12 @@
                     <tbody>
                         <tr *ngFor="let projet of _projets | values">
                             <!-- <td>{{ projet._id}}</td> -->
-                            <td>{{ projet.name}}</td>
-                            <td>{{ projet.theme}}</td>
-                            <td>{{ projet.forms.length}}</td>
-                            <td>{{ projet.statut}}</td>
+                            <td>{{ projet?.name}}</td>
+                            <td>{{ projet?.theme}}</td>
+                            <td>{{ projet?.forms.length}}</td>
+                            <td>{{ projet?.statut}}</td>
                             <td>
-                            <button type="button" (click)="inspect(projet._id)" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i>  Consulter </button>
+                            <button type="button" (click)="inspect(projet?._id)" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i>  Consulter </button>
                             </td>
                         </tr>
                     </tbody>

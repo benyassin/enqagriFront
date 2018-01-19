@@ -1,3 +1,5 @@
+
+<p-messages [(value)]="msgs"></p-messages>          
 <div class="col-md-12">
     <div class="panel panel-success">
         <div class="panel-body">
@@ -7,7 +9,7 @@
                 <div class="form-group col-md-3">
                     <label >Projet: </label>
                 <select [(ngModel)]="projet" name="projet" [compareWith]="compareById" class="form-control">
-                        <option *ngFor="let p of projets" [ngValue]="p">{{p.name}}</option>
+                        <option *ngFor="let p of projets" [ngValue]="p">{{p?.name}}</option>
                 </select>
                 </div>
                 <div class="form-group col-md-3">
@@ -19,8 +21,8 @@
                       
                 <div class="form-group col-md-3">  
                         <label >Region: </label>
-                    <select [disabled]="user.role == 'superviseurP' || user.role == 'superviseurR' || this.user.role == 'agent'" [(ngModel)]="_region" name="region" class="form-control">
-                            <option  *ngIf="user.role == 'superviseurP' || user.role == 'superviseurR'" [ngValue]="user?.perimetre?.region?.id_region" disabled selected>{{user?.perimetre?.region?.name}}</option>
+                    <select [disabled]="!projet || user.role == 'superviseurP' || user.role == 'superviseurR' || this.user.role == 'agent'" [(ngModel)]="_region" name="region" class="form-control">
+                            <option  *ngIf="user.role == 'superviseurP' || user.role == 'superviseurR' || user.role == 'agent'" [ngValue]="user?.perimetre?.region?.id_region" disabled selected>{{user?.perimetre?.region?.name}}</option>
                             <option *ngFor="let r of projet?.perimetre.region" [ngValue]="r.id_region">{{r.name}}</option>
                     </select>
                 </div>
@@ -28,21 +30,21 @@
                 <div class="form-group col-md-3">  
                     <label >Province: </label>
                     <select [disabled]="!projet || this.user.role == 'superviseurP' || this.user.role == 'agent'" [(ngModel)]="_province" name="province" class="form-control">
-                            <option *ngIf="user.role == 'superviseurP'" [ngValue]="user?.perimetre?.province?.id_province" disabled selected>{{user?.perimetre?.province?.name}}</option>
+                            <option *ngIf="user.role == 'superviseurP' || user.role == 'agent'" [ngValue]="user?.perimetre?.province?.id_province" disabled selected>{{user?.perimetre?.province?.name}}</option>
                             <option [hidden]="p.id_region != _region" *ngFor="let p of projet?.perimetre.province" [ngValue]="p.id_province">{{p.name}}</option>
                     </select>
                 </div>
 
                 <div class="form-group col-md-3">  
                         <label >Filtre: </label>
-                        <select  [(ngModel)]="_filtre" name="_filtre" class="form-control">
+                        <select [disabled]="!projet" [(ngModel)]="_filtre" name="_filtre" class="form-control">
                                 <option [ngValue]="null"></option>
                                <option [hidden]="e.type !== 'filtre'" *ngFor="let e of projet?.extrapolation" [ngValue]="e">{{e.label}}</option>                        
                         </select>
                 </div>
                 <div class="form-group col-md-3">  
                         <label >Valeur: </label>
-                        <select  [(ngModel)]="_value" name="_value" class="form-control">
+                        <select [disabled]="!_filtre"  [(ngModel)]="_value" name="_value" class="form-control">
                                 <ng-container *ngIf=" _filtre != null &&  _filtre?.field.type == 'select'">
                                <option *ngFor="let v of _filtre?.field.values.values" [ngValue]="v.value">{{v.label}}</option>
                                 </ng-container>
@@ -56,7 +58,6 @@
                         </select>
                 </div>
             </div>    
-            
         </form>
 
         <div class="row">
@@ -68,7 +69,7 @@
     </div>
 </div>
 <div class="col-md-12">
-        <div class="panel panel-success">
+        <div *ngIf="!dataload" class="panel panel-success">
                 <div class="panel-body">
                     
                     <table class="table table-condensed table-bordered">
@@ -82,14 +83,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let apikey of extrapolation">
-                                <ng-container *ngIf="apikey.type == 'extra'">
-                                    <th>{{apikey.label}}</th>
-                                    <th>{{getSum(apikey?.field?.key,_filtre?.field?.key,_value) | number:'1.0-2'}}</th>
-                                    <th>{{getAvg(apikey?.field?.key,_filtre?.field?.key,_value) | number:'1.0-2'}}</th>
-                                    <th>{{getVar(apikey?.field?.key,_filtre?.field?.key,_value) | number:'1.0-2'}}</th>
-                                    <th>{{getET(apikey?.key,_filtre?.field?.key,_value) | number:'1.0-2'}}</th>
-                                </ng-container>
+                            <tr *ngFor="let apikey of ExtrapolatedData">
+                                    <th>{{apikey?.key}}</th>
+                                    <th>{{apikey?.somme | number:'1.0-2'}}</th>
+                                    <th>{{apikey?.moyenne | number:'1.0-2'}}</th>
+                                    <th>{{apikey?.variance | number:'1.0-2'}}</th>
+                                    <th>{{apikey?.ecarttype | number:'1.0-2'}}</th>
                                 <!-- <ng-container *ngIf="apikey.type == 'cal' && apikey.hidden == false">
                                     <th>{{apikey.label}}</th>
                                 </ng-container> -->
@@ -98,7 +97,7 @@
                     </table>
                 </div>
         </div>
-    <div class="panel panel-success">
+    <div *ngIf="!dataload" class="panel panel-success">
         <div class="panel-body">
                 <!-- <ng2-smart-table *ngIf="!loading" [settings]="settings" [source]="collectes"></ng2-smart-table> -->
                 <!-- <label> projet</label>
@@ -157,46 +156,8 @@
                 </div>
             </div> -->
             <div class="row">
-                    <ng2-smart-table #table *ngIf="!dataload"  [settings]="settings" [source]="source"></ng2-smart-table>
-                <table id="data-table" class="table table-condensed table-bordered">
-                    <thead>
-                        <tr>
-                            <!-- <th>id</th> -->
-                            <th >Enquête</th>
-                            <th>Type</th>
-                            <th class="sorting_asc">Agent</th>
-                            <ng-container *ngIf="projet?.theme == 'rna'">
-                                    <th class="sorting" [hidden]="apikey.type == 'filtre' && apikey.hidden == false" *ngFor="let apikey of extrapolation">{{apikey.label}}</th>                                    
-                            </ng-container>
-                            <ng-container *ngIf="projet?.theme !== 'rna'">
-                                    <th class="sorting" [hidden]="apikey.type == 'filtre' || (apikey.type == 'cal' && apikey.hidden == true)" *ngFor="let apikey of extrapolation">{{apikey.label}} </th>
-                            </ng-container>
-                            <th>Date Synchornisation</th>
-                            <th ></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr [hidden]="_value != undefined && (collecte?.collecte[0]?.data[0].formdata.data[_filtre?.field?.key] != _value && _filtre != null)" *ngFor="let collecte of collectes">                            <!-- <td>{{collecte._id}}</td> -->
-                            <td>{{anass?.name}}</td>
-                            <td *ngIf="anass?.theme== 'pillier1'">Pilier I</td>
-                            <td *ngIf="anass?.theme == 'pillier2'">Pilier II</td>
-                            <td *ngIf="anass?.theme == 'financier'">Projet Financier</td>
-                            <td *ngIf="anass?.theme !== 'financier' && anass?.theme !== 'pillier1' && anass?.theme !== 'pillier2'">{{ anass?.theme}}</td>
-                            <td>{{collecte.agent?.nom + ' ' + collecte.agent?.prenom}}</td>
-                            <ng-container *ngFor="let apikey of extrapolation">
-                            <td *ngIf="apikey.type == 'cal' && apikey.hidden == false">{{calculate(collecte?.collecte[0]?.data[0].formdata.data,apikey.formule) | number:'1.0-2'}}</td>
-                            <td *ngIf="apikey.type == 'extra'">{{collecte?.collecte[0]?.data[0].formdata.data[apikey?.field?.key] | number:'1.0-2'}}</td>
-                            </ng-container>                                    
-                            
-                            <td>{{collecte.createdAt}}</td>
-                            <td>
-                                <button type="button" (click)="consulter(collecte,projet)" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i>  Consulter</button>
-                                <!-- <button *ngIf="user.role == 'controlleur'" type="button" (click)="action(collecte._id,'valid')" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i>  validate</button>
-                                <button *ngIf="user.role == 'controlleur'" type="button" (click)="action(collecte._id,'reject')" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i>  reject</button> -->
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                    <ng2-smart-table #table *ngIf="!dataload"  [settings]="settings" [source]="source" (custom)="consulter($event.data.id,projet)"></ng2-smart-table>
+
             </div>
             </div>
     </div>        

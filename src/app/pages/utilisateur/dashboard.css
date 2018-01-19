@@ -1,17 +1,17 @@
 :host /deep/ * {
-    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size:12px    
-  }
-  :host /deep/ table {
-    color: #606c71;
-    
-  }
-  :host /deep/ table tr td, :host /deep/ table tr th {
-    border: 1px solid #e9ebec;
-  }
+  font-size:12px    
+}
+:host /deep/ table {
+  color: #606c71;
   
-  .smart-table-container{ overflow-x: scroll; }
+}
+:host /deep/ table tr td, :host /deep/ table tr th {
+  border: 1px solid #e9ebec;
+}
 
-  .column-size {
-    width: 80px
-  }
+.smart-table-container{ overflow-x: scroll; }
+
+.column-size {
+  width: 80px
+}
+  

@@ -306,6 +306,8 @@ export class ProjetPage implements OnInit  {
         }else{
             from.splice(idx,1)
             this.extrapolation.splice(idx, 1);
+            let idy = this.disabled.indexOf(item.geometry);
+            this.disabled.splice(idy, 1);
             this.extrapolation = []
         }
         let re = this.table.filter(function(element){
@@ -317,9 +319,10 @@ export class ProjetPage implements OnInit  {
     table = [];
 
     add(key,label,form,api1,op,api2){
-        if(this.apiKey == null || this.apiKey == "" || label == null || this.label == "" ){
+        if((this.apiKey == null || this.apiKey == "") && this.advanced == false  || label == null || this.label == "" ){
             return
         }
+        console.log('here')
         if(this.table.findIndex(x => x.label==label) == -1){
         let v = this.extrapolation.find(x => x.key==key)
         console.log(v)
@@ -339,7 +342,8 @@ export class ProjetPage implements OnInit  {
             formule = {operateur : op,variables:[api1,api2]}
             type = 'cal'
         }
-        this.table.push({'field':v,'label':label,'form':form.id_fields,'formule':formule,'type':type});
+        console.log('form',form)
+        this.table.push({'field':v,'label':label,'form':form,'formule':formule,'type':type});
         this.apiKey = ""
         this.label = ""
         console.log(this.table)
@@ -349,27 +353,54 @@ export class ProjetPage implements OnInit  {
         this.table.splice(index,1);
         console.log('element deleted')
     }
+    apikey1
+    apikey2
+    operateur
+    formulaire
     update(index){ 
         this.updating = index;
       let data = this.table[index];
-      this.apiKey = data.field.key;
       this.label = data.label;
+      this.advanced = false
+      this.formulaire = data.form
+      this.onFormSelect(data.form)
+      if(data.type == 'cal'){
+          this.advanced = true
+          this.apikey1 = data.formule.variables[0]
+          this.operateur = data.formule.operateur
+          this.apikey2 = data.formule.variables[1]
+      }else{
+        this.apiKey = data.field.key;
+      }
+
         
     }
-    set(key,label,form,data){
-        if(this.apiKey == null || this.apiKey == "" || this.label == null  || this.label == "" ){
+    set(key,label,form,api1,op,api2){
+        if((this.apiKey == null || this.apiKey == "") && this.advanced == false || this.label == null  || this.label == "" ){
             return
         }
-        console.log('updating',this.updating)
-        console.log(this.table.findIndex(x => x.label==this.label))
+        console.log('here')
         if(this.table.findIndex(x => x.label==label) == this.updating || this.table.findIndex(x => x.label==label) == -1){
             let v = this.extrapolation.find(x => x.key==key)
-        this.table[this.updating].field = v
-        this.table[this.updating].label = label
-        this.table[this.updating].form = form.id_fields
+        let row = this.table[this.updating]
+        row.field = v
+        row.label = label
+        row.form = form
+        if(this.advanced == true){
+            console.log('row')
+            console.log(row)
+            row.formule.variables[0] = api1
+            row.formule.variables[1] = api2
+            row.formule.operateur = op
+            console.log(row)
+            this.advanced = false
+        }
         this.updating = null
         this.apiKey = ""
         this.label = ""
+        this.apikey1 = ""
+        this.apikey2 = ""
+        this.operateur = ""
         }
 
     }
@@ -383,13 +414,13 @@ export class ProjetPage implements OnInit  {
 
     }
     advance(){
-        this.advanced = true
+        this.advanced = !this.advanced
     }
     onFormSelect(form){
         console.log(form)
         this.apiKey = null
-        if(form.id_fields){
-            this.formservice.getExtrapolation(form.id_fields).then((data) => {
+        if(form){
+            this.formservice.getExtrapolation(form).then((data) => {
                 this.extrapolation = data
                 console.log('fields loaded correctly')
             })
@@ -469,6 +500,10 @@ export class ProjetPage implements OnInit  {
         this._name = ""
         this._agent = ""
         this.forms_disponnible = []
+        this.advanced = false
+        this.apikey1 = ""
+        this.apikey2 = ""
+        this.operateur = ""
     }
 
     moveAll(from,to){

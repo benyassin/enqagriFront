@@ -18,11 +18,14 @@ import {ConfirmDialogModule,ConfirmationService} from 'primeng/primeng';
 import { PickListModule } from 'primeng/primeng';
 import { Ng2Permission } from 'angular2-permission'
 import {TreeModule,TreeNode,TreeDragDropService } from 'primeng/primeng';
+import {GrowlModule} from 'primeng/primeng';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormioModule } from 'angular-formio';
 import { MomentModule } from 'angular2-moment';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+
 
 
 
@@ -55,7 +58,6 @@ import { DashboardPage }            from './pages/Parametrage/Dashboard/dashboar
 import { FormulairePage }                 from './pages/Parametrage/Formulaire/formulaire';
 import { BlocPage }                       from './pages/Parametrage/Bloc/bloc';
 import { FormPluginsPage }          from './pages/form-stuff/form-plugins/form-plugins';
-import { AffectationPage }          from './pages/Parametrage/affectation/affectation';
 import { ProjetPage }               from './pages/Parametrage/Projet/projet';
 import { ButtonRenderComponent } from './pages/Parametrage/Projet/button.render.component';
 import { testProjetPage }               from './pages/Parametrage/Projet/inspect';
@@ -194,7 +196,7 @@ import { RegisterV3Page }           from './pages/user/register-v3/register-v3';
 import { HelperCssPage }        from './pages/helper/helper-css/helper-css';*/
 
 @NgModule({
-    imports:        [NgxDatatableModule,Ng2SmartTableModule,ChartsModule,MomentModule,FormioModule,AngularMultiSelectModule,Select2Module,Ng2Permission,MessagesModule,TreeModule,PickListModule,ConfirmDialogModule,HttpModule,SortablejsModule, BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule ],
+    imports:        [Ng2SmartTableModule,ChartsModule,MomentModule,FormioModule,AngularMultiSelectModule,Select2Module,Ng2Permission,MessagesModule,ConfirmDialogModule,HttpModule, BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule ],
     declarations:   [ 
         AppComponent,
         HeaderComponent, 
@@ -217,7 +219,6 @@ import { HelperCssPage }        from './pages/helper/helper-css/helper-css';*/
         DashboardPage,
         LowerCaseTextDirective,
         TimesPipe,
-        AffectationPage,
         ProjetPage,
         CreationUtilisateurPage,
         testProjetPage,

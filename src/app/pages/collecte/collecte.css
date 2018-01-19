@@ -1,23 +1,29 @@
-/* :host /deep/ * {
-    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size:12px    
-  }
-  :host /deep/ table {
-    color: #606c71;
-  }
-  :host /deep/ table tr td, :host /deep/ table tr th {
-    border: 1px solid #e9ebec;
-  }
-   */
+:host /deep/ * {
+  font-size:12px    
+}
+:host /deep/ table {
+  color: #606c71;
+  
+}
+:host /deep/ table tr td, :host /deep/ table tr th {
+  border: 1px solid #e9ebec;
+}
 
+.smart-table-container{ overflow-x: scroll; }
 
+.column-size {
+  width: 80px
+}
+  
+
+/* 
   tr.border_bottom td {
   border-top:1px solid black;
   border-bottom:1px solid black;
   border-left:1px solid black;
   border-right:1px solid black;
     
-  }
+  } */
 
   /* @import url('/assets/plugins/DataTables/media/css/dataTables.bootstrap.min.css');
   @import url('/assets/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css'); */

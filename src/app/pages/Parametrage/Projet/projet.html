@@ -160,7 +160,7 @@
                         <form class="form-inline" >
                                 <div class="form-group m-r-10">
                                         <select [disabled]="forms_selected.length == 0" [(ngModel)]="formulaire" name="formulaire" class="form-control" width="150px" (ngModelChange)="onFormSelect($event)">
-                                                <option  *ngFor="let s of forms_selected;let f = index" [ngValue]="s">{{ s.name }}</option>
+                                                <option  *ngFor="let s of forms_selected;let f = index" [ngValue]="s.id_fields">{{ s.name }}</option>
                                         </select>                            
                                 </div>
                                 <div class="form-group m-r-10">
@@ -180,8 +180,8 @@
                                 <input [disabled]="extrapolation.length == 0 || fieldtype == null" [(ngModel)]="label" name="label" type="text" class="form-control" id="exampleInputPassword2" placeholder="Variable">
                             </div>
                             <button type="submit" *ngIf="updating == null" (click)="add(apiKey,label,formulaire,apikey1,operateur,apikey2)" class="btn btn-sm btn-primary m-r-5"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                            <button type="submit" *ngIf="updating == null" (click)="advance()" class="btn btn-sm btn-primary m-r-5">Advanced</button>
-                            <button type="submit" *ngIf="updating != null"  (click)="set(apiKey,label,formulaire)" class="btn btn-sm btn-primary m-r-5">Valider</button>
+                            <button type="submit" *ngIf="updating == null" (click)="advance()" class="btn btn-sm btn-primary m-r-5">Avancée</button>
+                            <button type="submit" *ngIf="updating != null"  (click)="set(apiKey,label,formulaire,apikey1,operateur,apikey2)" class="btn btn-sm btn-primary m-r-5">Valider</button>
                             <button type="submit" *ngIf="updating != null" (click)="cancel(true)" class="btn btn-sm btn-primary m-r-5">Annuler</button>
 
 
@@ -191,9 +191,7 @@
                         <form class="form-inline" *ngIf="advanced">
                             <div class="form-group m-r-10">
                                 <select [disabled]="extrapolation.length == 0" [(ngModel)]="apikey1" name="apikey1" class="form-control" width="150px">
-                                                <option [hidden]="contains('field',s)" *ngFor="let s of extrapolation;let f = index" [ngValue]="s.key">{{ s.key }}</option>
-                                                <option disabled="true">------------</option>
-                                                <option *ngFor="let t of table;let f = index" [ngValue]="t">{{ t.label }}</option>
+                                                <option  *ngFor="let s of extrapolation;let f = index" [ngValue]="s.key">{{ s.key }}</option>
                                 </select>                            
                             </div>
                             <div class="form-group m-r-10">
@@ -206,7 +204,7 @@
                             </div>
                             <div class="form-group m-r-10">
                             <select [disabled]="extrapolation.length == 0" [(ngModel)]="apikey2" name="apikey2" class="form-control" width="150px">
-                                <option [hidden]="contains('field',s)" *ngFor="let s of extrapolation;let f = index" [ngValue]="s.key">{{ s.key }}</option>
+                                <option *ngFor="let s of extrapolation;let f = index" [ngValue]="s.key">{{ s.key }}</option>
                             </select>
                             </div>
                             <div class="form-group m-r-10">

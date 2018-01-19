@@ -63,7 +63,8 @@ export class UtilisateurPage implements OnInit {
         },
         pager:{
             perPage:25
-        }
+        },
+        noDataMessage:' '
       };
     testfunc(data){
         switch (data.action) {

@@ -20,7 +20,8 @@ import * as moment from 'moment'
 export class ValidationPage implements AfterViewInit  {
     constructor(
       private collecteservice:CollecteService,
-      private router:Router
+      private router:Router,
+      private confirmationservice:ConfirmationService
     ){}
     msgs : any = []
     collecte : any
@@ -44,6 +45,10 @@ export class ValidationPage implements AfterViewInit  {
     rmessage
 
     action(action){
+      this.confirmationservice.confirm({
+        message: "Voulez vous confirmer l'enregistrement ?",
+        accept: () => {
+
       let update : any = {}
       update.niveau  = this.index;      
       update.action = action;
@@ -59,6 +64,7 @@ export class ValidationPage implements AfterViewInit  {
       this.collecteservice.action(update).then((data) => {
         this.router.navigate(['collectes/'])
       })
+    }})
     }
     
     invalidate(){

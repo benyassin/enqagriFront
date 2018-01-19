@@ -165,9 +165,16 @@ export class DashboardPage implements OnInit {
 
         }else if( this.user.role == 'agent'){
             this.getAgentProjet()
+        }else if(this.user.role == 'controleur'){
+        this.projetservice.getProjetsByController().then((data : any) =>{
+            this._projets = data;
+            // this.region = data.perimetre.region;
+            // this.province = data.perimetre.province;
+        },(err : any) => {
+            console.log('error fetching collectes',err)
+        })
         }else{
             this.getProjetsByPerimetre();
-
         }
 
     }

@@ -10,7 +10,6 @@ import { DashboardPage }          from './pages/Parametrage/Dashboard/dashboard'
 import { FormulairePage }         from './pages/Parametrage/Formulaire/formulaire';
 import { ProjetPage }             from './pages/Parametrage/Projet/projet';
 import { BlocPage }               from './pages/Parametrage/Bloc/bloc';
-import { AffectationPage }        from './pages/Parametrage/affectation/affectation'
 import { FormPluginsPage }          from './pages/form-stuff/form-plugins/form-plugins';
 
 import { LoginPage }                from './pages/user/login/login';
@@ -151,7 +150,6 @@ const routes: Routes = [
     { path: 'Parametrage/Parametrage',component: DashboardPage, data:{title: 'Gestion des Enquêtes'},canActivate: [AuthGuard]},
     { path: 'Parametrage/Questionnaire', component: FormulairePage, data: { title: 'Questionnaire'},canActivate: [AuthGuard]},
     { path: 'Parametrage/Bloc', component: BlocPage, data: { title: 'Bloc'},canActivate: [AuthGuard]},
-    { path: 'Parametrage/Affectation', component: AffectationPage,data: {title: 'Affecation'},canActivate:[AuthGuard]},
     { path: 'form/plugins', component: FormPluginsPage, data: { title: 'Form Plugins'},canActivate: [AuthGuard] },
     { path: 'utilisateur', component: UtilisateurPage, data: { title: 'Utilisateur'},canActivate: [AuthGuard] },
     { path: 'utilisateur/profile', component: ProfilePage, data: {title: "ProfilePage"},canActivate: [AuthGuard]},

@@ -8,6 +8,7 @@ import * as _ from "lodash";
 import * as moment from "moment"
 import { locale } from 'moment';
 import { LocalDataSource } from 'ng2-smart-table';
+
 @Component({
     selector: 'Collecte',
     templateUrl: './collecte.html',
@@ -22,7 +23,9 @@ export class CollectePage implements OnInit {
         private projetservice:ProjetService,
         private userservice:UserService,
         private router:Router
-    ){}
+    ){
+    }
+    msgs : any = []
     dataload : boolean = true
     projet : any;
     collectes : any = [];
@@ -55,119 +58,108 @@ export class CollectePage implements OnInit {
             agent:{
                 title:'Agent'
             },
-            date:{
-                title:'Date'
-            }
         },
-        mode:'external',
         actions:{
             add   : false,
             edit  : false,
             delete: false,
-            position: 'right',
-            width: '20px'
-        }
+            custom: [{ name: 'consulter', title: `<a type="button" title="Plus de details" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> Consulter</a>` }],
+            position: 'right'
+        },
+        pager:{
+            perPage:25
+        },
+        noDataMessage:' '
     }
-    filtreData(filtre,data :any){
+    filtreData(filtre,data: any){
         let result = []
         let extra = []
+        let calc = []
+
         this.extrapolation.forEach(api => {
+
             if(api.type == 'extra'){
             this.settings.columns[api.field.key] = {'title':api.label}
             extra.push(api.field.key)
-        }
-        });
-        
-        data.forEach(element => {
-            let row = {
-                'projet':'projet',
-                'type':'annuelle',
-                'agent':element.agent._id,
             }
-            extra.forEach(f => {
-                row[f] = element.collecte[0].data[0].formdata.data[f]
-            });
-            row['date'] = moment(new Date(element.createdAt)).format("DD.MM.YYYY à h:mm")
+            if(api.type == 'cal'){
+                this.settings.columns[api.label] = {'title':api.label}
+                calc.push(api)
+            }
 
+        });
+        this.settings.columns['date'] = {'title': 'Date Synchornisation'}
+        data.forEach(element => {
+            if(( this._filtre != null && element.collecte[0].data[0].formdata.data[this._filtre.field.key] == this._value ) || this._filtre == null){
+            let row = {
+                'projet':this.anass.name,
+                'type':this.anass.theme,
+                'agent':element.agent._id,
+                'date':moment(new Date(element.createdAt)).format("DD.MM.YYYY à h:mm"),
+                'id':element._id
+            }
+            calc.forEach(c => {
+                row[c.label] = this.calculate(element.collecte[0].data[0].formdata.data,c.formule)
+            });
+            extra.forEach(f => { 
+                row[f] = element.collecte[0].data[0].formdata.data[f]
+                
+            });
             console.log(row)
             result.push(row)
+        }
         });
         this.source = new LocalDataSource(result)
-        this.dataload = false
-    }
-    getSum(key,filtre,value) {
-        if(this.collectes ){
-        let sum = 0;
-        for(let i = 0; i < this.collectes.length; i++) {
-            if(this.collectes[i].collecte[0].data[0].formdata.data[filtre] == value || this._filtre == null){
-                sum += (this.collectes[i].collecte[0].data[0].formdata.data[key] || 0);  
-            }
+        console.log(this.source)
+        this.extrapolate(result,extra)
+        this.msgs = []
+        if(result.length > 0){
+            this.msgs.push({severity:'success', summary:'', detail:'Nombre de collectes correspondant à vos critères de recherche : '+ result.length });
+            this.dataload = false
+        }else{
+            this.msgs.push({severity:'warn', summary:'', detail:'Aucune collecte ne correspondent à vos critères de recherche' })
+            this.dataload = true
         }
-        return sum;
     }
-    }
-    getAvg(key,filtre,value){
-        if(this.collectes){
-        let sum = 0;
-        for(let i = 0; i < this.collectes.length; i++) {
-            if(this.collectes[i].collecte[0].data[0].formdata.data[filtre] == value || this._filtre == null){
-          sum += (this.collectes[i].collecte[0].data[0].formdata.data[key] || 0);
-            }
+    ExtrapolatedData 
+    extrapolate(data,keys){
+        if(data.length == 0){
+            this.ExtrapolatedData = []
+            return
         }
-        var avg = sum/this.collectes.length;
+        let results = [] 
+        keys.forEach(key => {
         
-        return avg;
-    }
-}
-    getVar(key,filtre,value){
-        if(this.collectes){
         let sum = 0;
-        for(let i = 0; i < this.collectes.length; i++) {
-            if(this.collectes[i].collecte[0].data[0].formdata.data[filtre] == value || this._filtre == null){
-          sum += (this.collectes[i].collecte[0].data[0].formdata.data[key] || 0);
-            }
+        for(let i = 0; i < data.length; i++) {
+          sum += (data[i][key]);
         }
-        var avg : number  = sum/this.collectes.length;
-        let summm : number  = 0
-        for(let i = 0; i < this.collectes.length; i++) {
-            if(this.collectes[i].collecte[0].data[0].formdata.data[filtre] == value || this._filtre == null){
-            summm += Math.pow(((this.collectes[i].collecte[0].data[0].formdata.data[key] || 0) - avg),2)  ;
-            }
+        var avg : number  = sum/data.length;
+        let varr : number  = 0
+
+        for(let i = 0; i < data.length; i++) {
+            varr += Math.pow(((data[i][key]) - avg),2);
         }
         
-        summm /= this.collectes.length
-        return summm
-    }
+        varr /= data.length
+        
+        let ec = Math.sqrt(varr)
+
+        results.push({'key': key, 'somme':sum,'moyenne':avg,'variance':varr,'ecarttype':ec})
+        });
+        this.ExtrapolatedData = results
+        console.log(results)
     }
 
-    getET(key,filtre,value){
-        if(this.collectes){
-        let sum = 0;
-        for(let i = 0; i < this.collectes.length; i++) {
-            if(this.collectes[i].collecte[0].data[0].formdata.data[filtre] == value || this._filtre == null){
-          sum += (this.collectes[i].collecte[0].data[0].formdata.data[key] || 0);
-            }
-        }
-        var avg : number  = sum/this.collectes.length;
-        let summm : number  = 0
-        for(let i = 0; i < this.collectes.length; i++) {
-            if(this.collectes[i].collecte[0].data[0].formdata.data[filtre] == value){
-            summm += Math.pow(((this.collectes[i].collecte[0].data[0].formdata.data[key] || 0) - avg),2)  ;
-            }
-            
-        }
-        
-        summm /= this.collectes.length
-        
-        return Math.sqrt(summm)
+    Downloaded : any = {
+        id:0,
+        status:'random',
+        region:0,
+        province:0
     }
-    }
-    onProjetChange(){
-        // this.collectes = []
-    }
-
-
     search(projet,status,region,province,filtre,valeur){
+        console.log(region)
+        console.log(province)
     this.hide = false
     this.anass = {theme:projet.theme,name:projet.name}
     if(projet == null || status == null ){
@@ -177,18 +169,26 @@ export class CollectePage implements OnInit {
     if(this.projet !== null){
         localStorage.setItem('storage',JSON.stringify({'projet':this.projet,'status':status,'region':region,'province':province}));
     }
-
+    // if(this.Downloaded.id == projet._id 
+    //     && this.Downloaded.status == status 
+    //     && this.Downloaded.region == region 
+    //     && this.Downloaded.province == province ){
+    //     console.log('data already loaded using it')
+    //     this.filtreData('test',this.collectes)
+    //     return
+    // }
+    // this.Downloaded.id = projet._id
+    // this.Downloaded.status = status
+    // this.Downloaded.region = region
+    // this.Downloaded.province = province
+    // console.log(this.Downloaded)
     if(this.user.role == 'controleur'){
 
         this.index = this.projet.validation.findIndex(x => x.agent==this.user._id);
             
-        this.collecteservice.getCollectesByProjet(projet._id,this.index,status,region,province,filtre,valeur).then((data) => {
+        this.collecteservice.getCollectesByProjet(projet._id,this.index,status,region,province).then((data) => {
             this.filtreData('test',data)
             this.collectes = data;
-            this.collectes = this.collectes.map(function(element){
-                element.createdAt = moment(new Date(element.createdAt)).format("DD.MM.YYYY à h:mm");
-                return element;
-            })
         },(err)=> {
             console.log('error trying to fetch collectes');
             console.log(err)
@@ -200,16 +200,13 @@ export class CollectePage implements OnInit {
             region = this.user.perimetre.region.id_region;
             province = this.user.perimetre.province.id_province
         }
+        console.log(status)
+        this.index = this.projet.validation.length - 1;
         switch(status){
             case 'valid' :
-            this.index = this.projet.validation.length - 1;
-            this.collecteservice.getCollectesByProjet(projet._id,this.index,status,region,province,filtre,valeur).then((data) => {
+            this.collecteservice.getCollectesByProjet(projet._id,this.index,status,region,province).then((data) => {
                 this.collectes = data
                 this.filtreData('test',data)
-                this.collectes = this.collectes.map(function(element){
-                    element.createdAt = moment(new Date(element.createdAt)).format("DD.MM.YYYY à h:mm")
-                    return element;
-                })
             },(err)=> {
                 console.log('error trying to fetch collectes');
                 console.log(err)
@@ -217,13 +214,9 @@ export class CollectePage implements OnInit {
             break
 
             case 'new':           
-            this.collecteservice.getCollectesByProjet(projet._id,0,status,region,province,filtre,valeur).then((data) => {
+            this.collecteservice.getCollectesByProjet(projet._id,0,status,region,province).then((data) => {
                 this.collectes = data
                 this.filtreData('test',data)
-                this.collectes = this.collectes.map(function(element){
-                    element.createdAt = moment(new Date(element.createdAt)).format("DD.MM.YYYY à h:mm");
-                    return element;
-                })
             },(err)=> {
                 console.log('error trying to fetch collectes');
                 console.log(err)
@@ -234,14 +227,11 @@ export class CollectePage implements OnInit {
             this.collecteservice.getCollecteEnTraitement(projet._id,this.index,region,province).then((data) => {
                 this.collectes = data
                 this.filtreData('test',data)
-                this.collectes = this.collectes.map(function(element){
-                    element.createdAt = moment(new Date(element.createdAt)).format("DD.MM.YYYY à h:mm");
-                    return element;
-                })
             },(err)=> {
                 console.log('error trying to fetch collectes')
                 console.log(err)
             })
+            break
 
         }
     }
@@ -276,6 +266,15 @@ export class CollectePage implements OnInit {
         this.collectes = []
         this.hide = true
         localStorage.removeItem('storage')
+        this.Downloaded = {
+            id:0,
+            status:'random',
+            region:0,
+            province:0
+        }
+        this.ExtrapolatedData = []
+        this.dataload = true
+        this._value = null
       }
 
     getProjets(){
@@ -319,21 +318,21 @@ export class CollectePage implements OnInit {
         }
     }
     consulter(collecte,projet){
-        console.log(projet);
-        this.collecteservice.getCollecte(collecte._id).then((data : any) => {
+        this.collecteservice.getCollecte(collecte).then((data : any) => {
             this.collecteservice.collecte = data
-            this.collecteservice.collecte.projet = projet;
-            this.collecteservice.collecte.agent = collecte.agent;
+            console.log(data)
+            // this.collecteservice.collecte.projet = projet;
+            // this.collecteservice.collecte.agent = collecte.agent;
             if(this.collecteservice.collecte.geo == false ){
               return this.router.navigate(['collectes/geoless'])
             }
-            if(projet.theme == 'rna'){
+            if(data.projet.theme == 'rna'){
                 this.router.navigate(['collectes/rnacollecte'])
             }else{
                 this.router.navigate(['collectes/collecte'])
             }
         },(err) =>{
-            console.log('error trying to fetch collecte id : ' + collecte._id)
+            console.log('error trying to fetch collecte id : ' + collecte)
             console.log(err)
         })
     }
@@ -375,7 +374,7 @@ export class CollectePage implements OnInit {
 
             if(this.user.role == 'superviseurR'){
                 this._region = this.user.perimetre.region.id_region
-            }
+            } 
             if(this.user.role == 'superviseurP' || this.user.role == 'agent'){
                 this._province = this.user.perimetre.province.id_province
                 this._region = this.user.perimetre.region.id_region
