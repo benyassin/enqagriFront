@@ -287,8 +287,11 @@ export class ProjetPage implements OnInit  {
         to.push(item);
         this.disabled.push(item.geometry);
         this.forms = []
-    }
-    
+        if(to.length == 1){
+            this.onFormSelect(item.id_fields)
+            this.formulaire = item.id_fields
+        }
+            }
     }
     removeitem(item,from,to) {
         let idx = from.indexOf(item);

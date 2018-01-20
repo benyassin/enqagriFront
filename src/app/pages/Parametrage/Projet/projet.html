@@ -1,4 +1,5 @@
 <p-messages [(value)]="msgs"></p-messages>
+
 <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
 <div class="col-md-7">
 <div class="panel panel-success" data-sortable-id="form-plugins-4">
@@ -171,7 +172,7 @@
                                         </select>                            
                                 </div>
                             <div class="form-group m-r-10" *ngIf=!advanced>
-                                    <select [disabled]="extrapolation.length == 0 || fieldtype == null" [(ngModel)]="apiKey" name="apiKey" class="form-control" width="150px">
+                                    <select [disabled]="forms_selected.length == 0 || fieldtype == null || formulaire == null" [(ngModel)]="apiKey" name="apiKey" class="form-control" width="150px">
                                                     <option [hidden]="contains('field',s)" *ngFor="let s of extrapolation;let f = index" [ngValue]="s.key">{{ s.key }}</option>
                                     </select>                            
                             </div>
