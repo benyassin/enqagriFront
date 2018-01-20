@@ -418,6 +418,8 @@ export class ProjetPage implements OnInit  {
 
     }
     cancel(status){
+        this.apiKey = ""
+        this.label = ""
         if(status){
         this.updating = null
         }
