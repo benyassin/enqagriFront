@@ -322,7 +322,7 @@ export class ProjetPage implements OnInit  {
         if((this.apiKey == null || this.apiKey == "") && this.advanced == false  || label == null || this.label == "" ){
             return
         }
-        if(api1 == null || api2 == null || op == null){
+        if((api1 == null || api2 == null || op == null) && this.advanced == true){
             return
         } 
         console.log('here')
@@ -349,6 +349,10 @@ export class ProjetPage implements OnInit  {
         this.table.push({'field':v,'label':label,'form':form,'formule':formule,'type':type});
         this.apiKey = ""
         this.label = ""
+        this.apikey1 = ""
+        this.apikey2 = ""
+        this.operateur = ""
+        this.advanced = false
         console.log(this.table)
     }
     }
@@ -393,6 +397,9 @@ export class ProjetPage implements OnInit  {
             return
         } 
         if(this.advanced == true){
+            if(api1 == null || api2 == null || op == null){
+                return
+            } 
             console.log('row')
             console.log(row)
             row.formule.variables[0] = api1
