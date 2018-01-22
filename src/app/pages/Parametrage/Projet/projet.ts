@@ -391,7 +391,7 @@ export class ProjetPage implements OnInit  {
         if((this.apiKey == null || this.apiKey == "") && this.advanced == false || this.label == null  || this.label == "" ){
             return
         }
-        if(api1 == null || api2 == null  || op == null){
+        if((api1 == null || api2 == null  || op == null) && this.advanced == true){
             return
         } 
         console.log('here')
@@ -436,6 +436,9 @@ export class ProjetPage implements OnInit  {
     }
     advance(){
         this.advanced = !this.advanced
+        this.apikey1 = null
+        this.apikey2 = null
+        this.operateur = null
     }
     onFormSelect(form){
         console.log(form)
