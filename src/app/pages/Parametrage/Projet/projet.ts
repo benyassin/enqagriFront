@@ -307,11 +307,13 @@ export class ProjetPage implements OnInit  {
         }
 
         }else{
+            if (idx != -1) {
             from.splice(idx,1)
             this.extrapolation.splice(idx, 1);
             let idy = this.disabled.indexOf(item.geometry);
             this.disabled.splice(idy, 1);
             this.extrapolation = []
+        }
         }
         let re = this.table.filter(function(element){
             return element.form != item.id_fields
@@ -352,9 +354,9 @@ export class ProjetPage implements OnInit  {
         this.table.push({'field':v,'label':label,'form':form,'formule':formule,'type':type});
         this.apiKey = ""
         this.label = ""
-        this.apikey1 = ""
-        this.apikey2 = ""
-        this.operateur = ""
+        this.apikey1 = null
+        this.apikey2 = null
+        this.operateur = null
         this.advanced = false
         console.log(this.table)
     }
@@ -389,6 +391,9 @@ export class ProjetPage implements OnInit  {
         if((this.apiKey == null || this.apiKey == "") && this.advanced == false || this.label == null  || this.label == "" ){
             return
         }
+        if(api1 == null || api2 == null  || op == null){
+            return
+        } 
         console.log('here')
         if(this.table.findIndex(x => x.label==label) == this.updating || this.table.findIndex(x => x.label==label) == -1){
             let v = this.extrapolation.find(x => x.key==key)
@@ -396,9 +401,7 @@ export class ProjetPage implements OnInit  {
         row.field = v
         row.label = label
         row.form = form
-        if(api1 == null || api2 == null || op == null){
-            return
-        } 
+
         if(this.advanced == true){
             if(api1 == null || api2 == null || op == null){
                 return
@@ -414,9 +417,9 @@ export class ProjetPage implements OnInit  {
         this.updating = null
         this.apiKey = ""
         this.label = ""
-        this.apikey1 = ""
-        this.apikey2 = ""
-        this.operateur = ""
+        this.apikey1 = null
+        this.apikey2 = null
+        this.operateur = null
         }
 
     }
@@ -454,7 +457,7 @@ export class ProjetPage implements OnInit  {
             return true
         }else{
         var isThere =  this.table.some(function(element) {
-            if(element.type == 'extra'){
+            if(element.type == 'extra' || element.type == 'filtre'){
             return element[key].key == value.key
             }
             });
@@ -520,9 +523,9 @@ export class ProjetPage implements OnInit  {
         this._agent = ""
         this.forms_disponnible = []
         this.advanced = false
-        this.apikey1 = ""
-        this.apikey2 = ""
-        this.operateur = ""
+        this.apikey1 = null
+        this.apikey2 = null
+        this.operateur = null
     }
 
     moveAll(from,to){

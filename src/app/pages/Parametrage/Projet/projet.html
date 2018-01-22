@@ -192,8 +192,8 @@
                         <form class="form-inline" *ngIf="advanced">
                             <div class="form-group m-r-10">
                                 <select [disabled]="extrapolation.length == 0" [(ngModel)]="apikey1" name="apikey1" class="form-control" width="150px">
-                                                <option  *ngFor="let s of extrapolation;let f = index" [ngValue]="s.key">{{ s.key }}</option>
-                                </select>                            
+                                                <option  [hidden]="s.type !== 'number'" *ngFor="let s of extrapolation;let f = index" [ngValue]="s.key">{{ s.key }}</option>
+                                </select>                   
                             </div>
                             <div class="form-group m-r-10">
                                 <select [disabled]="extrapolation.length == 0" [(ngModel)]="operateur" name="operateur" class="form-control" width="150px">
@@ -205,7 +205,7 @@
                             </div>
                             <div class="form-group m-r-10">
                             <select [disabled]="extrapolation.length == 0" [(ngModel)]="apikey2" name="apikey2" class="form-control" width="150px">
-                                <option *ngFor="let s of extrapolation;let f = index" [ngValue]="s.key">{{ s.key }}</option>
+                                <option [hidden]="s.type !== 'number'" *ngFor="let s of extrapolation;let f = index" [ngValue]="s.key">{{ s.key }}</option>
                             </select>
                             </div>
                             <div class="form-group m-r-10">

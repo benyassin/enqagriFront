@@ -219,14 +219,14 @@ export class ValidationPage implements AfterViewInit  {
         // document.getElementById('data').setAttribute('src', `http://localhost/demo.html?myParam=${query}`)
         this.validation = this.collecte.validation
         this.user = JSON.parse(localStorage.getItem('user'))
-        this.lenght = this.collecte.projet.validation.lenght
+        this.lenght = this.collecte.projet.validation.length
         this.index = this.collecte.projet.validation.findIndex(x => x.agent==this.user._id)  
 
         if(this.collecte.rmessage != null && this.validation[this.index] == 'reject'){
           this.msgs.push({severity:'error', summary:'message:', detail:this.collecte.rmessage});
         }
     
-
+        
         this.receiveMessage = (event: MessageEvent) => {
             if(event.origin != 'http://localhost' ){
                 return
@@ -235,42 +235,24 @@ export class ValidationPage implements AfterViewInit  {
               event.source.postMessage({"window":event.data.window,"message":'data',"data":this.collecte.collecte[0].data[0].formdata.data}, event.origin)
             }
           };
-    }
-    ngOnDestroy() {
-        window.removeEventListener('message', this.receiveMessage);
-      }
-    ngAfterViewInit() {
+          this.isInited = true;
 
-        this.isInited = true;
+          this.ParcelleMap = new L.Map('map').setView([51.505, -0.09], 13);
+          console.log('map created')
 
+          
+          let CustomMarker = L.Icon.extend({
+            options: {
+                iconAnchor: new L.Point(12, 12),
+                iconUrl: 'assets/marker-icon.png',
+                shadowUrl: null
+            }
+        });   
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(this.ParcelleMap);
 
-        // Test Exploitation map
-    //     this.ExploitationMap = new L.Map('map').setView([51.505, -0.09], 13);
-    //     let blocs : any = []
-    //     this.collecteservice.collecte.blocs.forEach(element => {
-    //        blocs.push(element.gjson)
-    //     });
-    //     let BlocLayers =new  L.GeoJSON(blocs).addTo(this.ExploitationMap)
-    //     this.ExploitationMap.fitBounds(BlocLayers.getBounds())
-
-    //     var myStyle: any = {
-    //       "color": "#ff7800",
-    //       "weight": 5,
-    //       "opacity": 0.65
-    //   };
-    //     // Test Parcelle map
-        this.ParcelleMap = new L.Map('map').setView([51.505, -0.09], 13);
-        let CustomMarker = L.Icon.extend({
-          options: {
-              iconAnchor: new L.Point(12, 12),
-              iconUrl: 'assets/marker-icon.png',
-              shadowUrl: null
-          }
-      });   
-      L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(this.ParcelleMap);
-      // Draw Control
+      
       var optionsDraw = {
         position:'topright',
              edit: {
@@ -314,9 +296,7 @@ export class ValidationPage implements AfterViewInit  {
                   },
                 }
     };
-
-      
-      var drawControl = new L.Control.Draw(optionsDraw);
+    var drawControl = new L.Control.Draw(optionsDraw);
     //     this.markers.addTo(this.ParcelleMap);    
     //     drawnItems.addLayer(this.parcelleLayers)
     //     this.drawnItems.addTo(this.ParcelleMap)   
@@ -331,6 +311,62 @@ export class ValidationPage implements AfterViewInit  {
               layer = e.layer
               that.drawnItems.addLayer(layer)
             });
+
+    
+    }
+    ngOnDestroy() {
+        window.removeEventListener('message', this.receiveMessage);
+      }
+    ngAfterViewInit() {
+
+
+
+        // Test Exploitation map
+    //     this.ExploitationMap = new L.Map('map').setView([51.505, -0.09], 13);
+    //     let blocs : any = []
+    //     this.collecteservice.collecte.blocs.forEach(element => {
+    //        blocs.push(element.gjson)
+    //     });
+    //     let BlocLayers =new  L.GeoJSON(blocs).addTo(this.ExploitationMap)
+    //     this.ExploitationMap.fitBounds(BlocLayers.getBounds())
+
+    //     var myStyle: any = {
+    //       "color": "#ff7800",
+    //       "weight": 5,
+    //       "opacity": 0.65
+    //   };
+    //     // Test Parcelle map
+    //     this.ParcelleMap = new L.Map('map2').setView([51.505, -0.09], 13);
+    //     console.log('map created')
+    //     let CustomMarker = L.Icon.extend({
+    //       options: {
+    //           iconAnchor: new L.Point(12, 12),
+    //           iconUrl: 'assets/marker-icon.png',
+    //           shadowUrl: null
+    //       }
+    //   });   
+    //   L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    //     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    // }).addTo(this.ParcelleMap);
+      // Draw Control
+ 
+
+      
+    //   var drawControl = new L.Control.Draw(optionsDraw);
+    // //     this.markers.addTo(this.ParcelleMap);    
+    // //     drawnItems.addLayer(this.parcelleLayers)
+    // //     this.drawnItems.addTo(this.ParcelleMap)   
+    //   var Fullscreen = new L.Control.Fullscreen();
+
+    //     this.ParcelleMap.addControl(Fullscreen);
+    //     this.ParcelleMap.addControl(drawControl);
+    // //     this.ParcelleMap.fitBounds(this.parcelleLayers.getBounds())
+    //   let that = this
+    //     this.ParcelleMap.on(L.Draw.Event.CREATED,function(e){
+    //       var type = e.layerType,
+    //           layer = e.layer
+    //           that.drawnItems.addLayer(layer)
+    //         });
       }
 
     onIframeLoad(element) {
