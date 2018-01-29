@@ -26,7 +26,7 @@
       "styles": [
         "styles.css",
         "../node_modules/leaflet/dist/leaflet.css",
-        "../node_modules/leaflet-draw/dist/leaflet.draw.css",
+        "../node_modules/leaflet.pm/dist/leaflet.pm.css",
         "../node_modules/leaflet-fullscreen/dist/leaflet.fullscreen.css",
         "../node_modules/@swimlane/ngx-datatable/release/index.css",
         "../node_modules/@swimlane/ngx-datatable/release/themes/material.css",
@@ -37,8 +37,10 @@
       ],
       "scripts": [
         "../node_modules/leaflet/dist/leaflet.js",
-        "../node_modules/leaflet-draw/dist/leaflet.draw.js",
+        "../node_modules/leaflet.pm/dist/leaflet.pm.min.js",
         "../node_modules/leaflet-fullscreen/dist/Leaflet.fullscreen.js",
+
+
         "../node_modules/chart.js/src/chart.js"
       ],
       "environmentSource": "environments/environment.ts",
@@ -70,7 +72,7 @@
     }
   },
   "defaults": {
-    "styleExt": "scss",
+    "styleExt": "css",
     "component": {}
   }
 }

@@ -318,7 +318,10 @@ export class ProjetPage implements OnInit  {
         let re = this.table.filter(function(element){
             return element.form != item.id_fields
         })
-        
+        if(from.length == 1){
+            this.onFormSelect(item.id_fields)
+            this.formulaire = item.id_fields
+        }
         this.table = re
 }
     table = [];

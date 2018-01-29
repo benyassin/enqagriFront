@@ -107,10 +107,10 @@ export class FormulairePage implements OnInit {
         this.model.id_fields = '_' + Math.random().toString(36).substr(2, 9);
         }
         
-        window.open("http://localhost/#!/index.html?myParam=" + this.model.id_fields ,"popup","width=900,height=600,left=10,top=150")
+        window.open("http://localhost:8080/public/index.html?myParam=" + this.model.id_fields ,"popup","width=900,height=600,left=10,top=150")
     }
     opendemo(){
-        window.open("http://localhost/demo.html?myParam=" + this.model.id_fields ,"popup","width=900,height=600,right=10,top=150")
+        window.open("http://localhost:8080/public/demo.html?myParam=" + this.model.id_fields ,"popup","width=900,height=600,right=10,top=150")
     }
     clearForm(){
         this.model = {}

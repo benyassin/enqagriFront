@@ -5,10 +5,12 @@ import {ConfirmDialogModule,ConfirmationService} from 'primeng/primeng';
 import * as _ from "lodash";
 // import * as L from 'leaflet';
 declare const L:any
-import 'leaflet-draw';
-import 'leaflet-fullscreen'
-import * as moment from 'moment'
-
+import 'leaflet'
+import 'leaflet.pm';
+import 'leaflet.pm/dist/leaflet.pm.css'
+import 'leaflet-fullscreen';
+import * as moment from 'moment';
+import * as turf from '@turf/turf';
 // import * as Draw from 'leaflet-draw'
 @Component({
     selector: 'Validation',
@@ -43,7 +45,8 @@ export class ValidationPage implements AfterViewInit  {
     lenght
     index
     rmessage
-
+    testvar = null
+    srcformio 
     action(action){
       this.confirmationservice.confirm({
         message: "Voulez-vous confirmer cette opération?",
@@ -105,12 +108,12 @@ export class ValidationPage implements AfterViewInit  {
     OnParcelleChange(parcelle :any){
       parcelle.date_creation = moment(new Date(parcelle.date_creation)).format("DD.MM.YYYY à h:mm");
       this.selectedParcelle = parcelle;
-      this.parcelle.nativeElement.contentWindow.postMessage({"window":"parcelle","message":'data',"data":parcelle.formdata}, 'http://localhost/demo.html');
+      // this.parcelle.nativeElement.contentWindow.postMessage({"window":"parcelle","message":'data',"data":parcelle.formdata}, 'http://localhost/demo.html');
       // this.parcelleLayers.redraw()
         this.hidden = false;
       this.drawnItems.clearLayers();
       this.markers.clearLayers();
-      this.loadMapData()
+      // this.loadMapData()
       // this.parcelleLayers.addData(this.Parcelles)
       // this.parcelleLayers.addData(this.Parcelles,{style: function(element){
       //   if(element.properties.numero == parcelle.numero) {
@@ -118,17 +121,29 @@ export class ValidationPage implements AfterViewInit  {
       //     "weight": 5,
       //     "opacity": 0.65};
       // }}})
-    }
-    OnTypeChange(data){
-      this.selected = data;
-      let query = data.form;
-      this.hidden = true;
-      document.getElementById('data').setAttribute('src', `http://localhost/demo.html?myParam=${query}`);
-      this.clear()
       this.loadMapData()
     }
-    getData(){
-      this.parcelle.nativeElement.contentWindow.postMessage({"window":"parcelle","message":'submit'}, 'http://localhost/demo.html')
+    OnTypeChange(data){
+      this.srcformio = "http://localhost:8080/api/forms/"+data.form+"/fields"
+      this.hidden = true;
+      // document.getElementById('data').setAttribute('src', `http://localhost/demo.html?myParam=${query}`);
+    } 
+    saveChange(){
+      console.log(this.selectedParcelle.formdata)
+      let cdata = {'id':this.collecte._id,data:this.selectedParcelle.formdata}
+      this.collecteservice.updateCollecte(cdata).then((data) => {
+        console.log(data)
+      })
+    }
+    onSubmit(submission: any) {
+      console.log('submission')
+      console.log(submission.data)
+      if(submission.data){
+        this.selectedParcelle.formdata.data = submission.data
+      }
+      // this.selectedParcelle.formdata = submission.data
+      console.log('selectedParcelle')
+      console.log(this.selectedParcelle.formdata.data); // This will print out the full submission from Form.io API.
     }
     clear(){
       this.drawnItems.clearLayers()
@@ -136,31 +151,36 @@ export class ValidationPage implements AfterViewInit  {
     }
     loadMapData(){
       let Parcelles = [];
-      this.selected.data.forEach(element => {
+      this._type.data.forEach(element => {
         Parcelles.push({"type": "Feature","properties":{"numero":element.numero},geometry:element.gjson})
       });
       let that = this;
       
       this.parcelleLayers = new L.GeoJSON(Parcelles,{onEachFeature: onEachFeature,style: function(element){
         if(element.properties.numero == that.selectedParcelle['numero'] || 1 ) {
-          return {"color": "#ff7800",
-          "weight": 5,
-          "opacity": 0.65};
+          return {
+            weight: 2,
+            opacity: 0.4,
+            color: 'black',
+            dashArray: '3',
+            fillOpacity: 0.6,
+            fillColor: 'blue'
+        };
       }
       }})
 
       // markers
       function onEachFeature(feature, layer) {
-        let type = that.selected.type
+        let type = that._type.type
         var center
         // console.log(layer)
         // console.log(feature)
         if(type !== 'point'){
           center = layer.getBounds().getCenter();
-          
+          console.info('center',center)
           var labelPoint = L.marker([center.lat, center.lng], {
             icon: L.divIcon({
-                  className: "labelPoint",
+                  // className: "labelPoint",
                   // html: num,
                   html: feature.properties.numero,
                   iconSize: null,
@@ -204,6 +224,56 @@ export class ValidationPage implements AfterViewInit  {
 
         this.ParcelleMap.fitBounds(this.parcelleLayers.getBounds())
 
+        let guideLayers = this.parcelleLayers
+        var optionsDraw = {
+          position:'topright',
+               edit: {
+                    featureGroup: this.drawnItems,
+                    remove:true,
+                    edit:true,
+                    guideLayers: guideLayers
+  
+                  },
+               draw: {
+                   rectangle: false,
+                   circle: false,
+                   txt: false,
+                   marker: {
+                    guideLayers: guideLayers
+                  },
+                   circlemarker:false,
+                   polyline: {
+                      guideLayers: guideLayers,
+                      metric:true,
+                      shapeOptions: {
+                           color: 'red', 
+                           weight: 3,
+                           opacity: 1
+                      },
+                  },
+                  polygon: {
+                  guideLayers: guideLayers,
+                  allowIntersection: false, // Restricts shapes to simple polygons
+                  drawError: {
+                      color: '#e1e100', // Color the shape will turn when intersects
+                      message: '<strong>Oh snap!<strong> you can\'t draw that!' // Message that will show when intersect
+                  },
+                    shapeOptions: {
+                        weight: 2,
+                        opacity: 0.4,
+                        color: 'black',
+                        dashArray: '3',
+                        fillOpacity: 0.3,
+                        fillColor: 'blue'
+                    },
+                    },
+                  }
+      };
+      console.log('parcelle layers')
+      console.log(guideLayers)
+      // var drawControl = new L.Control.Draw(optionsDraw);
+      // this.ParcelleMap.addControl(drawControl);
+
     }
     ngOnInit(){
       //init map
@@ -215,6 +285,11 @@ export class ValidationPage implements AfterViewInit  {
         }else{
           this.router.navigate(['collectes/'])
         }
+        this._type = this.collecte.collecte[0]
+        this.srcformio="http://localhost:8080/api/forms/"+this._type.form+"/fields"
+
+        // this.OnParcelleChange(this._type.data[0])
+        
         // let query = this.collecte.exploitation.form
         // document.getElementById('data').setAttribute('src', `http://localhost/demo.html?myParam=${query}`)
         this.validation = this.collecte.validation
@@ -225,98 +300,154 @@ export class ValidationPage implements AfterViewInit  {
         if(this.collecte.rmessage != null && this.validation[this.index] == 'reject'){
           this.msgs.push({severity:'error', summary:'message:', detail:this.collecte.rmessage});
         }
-    
         
-        this.receiveMessage = (event: MessageEvent) => {
-            if(event.origin != 'http://localhost' ){
-                return
-            }
-            if(event.data.window == 'exploitation' && event.data.message === 'loaded'){
-              event.source.postMessage({"window":event.data.window,"message":'data',"data":this.collecte.collecte[0].data[0].formdata.data}, event.origin)
-            }
-          };
-          this.isInited = true;
+        // this.receiveMessage = (event: MessageEvent) => {
+        //     if(event.origin != 'http://localhost' ){
+        //         return
+        //     }
+        //     if(event.data.window == 'exploitation' && event.data.message === 'loaded'){
+        //       event.source.postMessage({"window":event.data.window,"message":'data',"data":this.collecte.collecte[0].data[0].formdata.data}, event.origin)
+        //     }
+        //   };
+        //   this.isInited = true;
 
-          this.ParcelleMap = new L.Map('map').setView([51.505, -0.09], 13);
+          this.ParcelleMap = new L.Map('map').setView([0, 0], 3);
           console.log('map created')
 
           
-          let CustomMarker = L.Icon.extend({
-            options: {
-                iconAnchor: new L.Point(12, 12),
-                iconUrl: 'assets/marker-icon.png',
-                shadowUrl: null
-            }
+        let CustomMarker = L.Icon.extend({
+          options: {
+              iconAnchor: new L.Point(12, 12),
+              iconUrl: 'assets/marker-icon.png',
+              shadowUrl: null
+          }
         });   
-        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-      }).addTo(this.ParcelleMap);
+        L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+          maxZoom: 20,
+          subdomains:['mt0','mt1','mt2','mt3'],
+        }).addTo(this.ParcelleMap);
+      //   L.tileLayer.wms('http://192.168.1.77:8086/geoserver/DSS/wms?',
+      // {
+      //     layers:'DSS:region',
+      //     format:'image/png',
+      //     transparent:true,
+      //     CQL_filtre:"id_region in (0,42)"
+      // }).addTo(this.ParcelleMap)
 
       
-      var optionsDraw = {
-        position:'topright',
-             edit: {
-                  featureGroup: this.drawnItems,
-                  polygon : {
-                    allowIntersection : false
-                  },
-                  remove:true,
-                  edit:true
-                },
-             draw: {
-                 rectangle: false,
-                 circle: false,
-                 txt: false,
-                 marker: {
-                  icon: new CustomMarker()
-                },
-                 circlemarker:false,
-                 polyline: {
-                    metric:true,
-                    shapeOptions: {
-                         color: 'red', 
-                         weight: 3,
-                         opacity: 1
-                    },
-                },
-                polygon: {
-                allowIntersection: false, // Restricts shapes to simple polygons
-                drawError: {
-                    color: '#e1e100', // Color the shape will turn when intersects
-                    message: '<strong>Oh snap!<strong> you can\'t draw that!' // Message that will show when intersect
-                },
-                    shapeOptions: {
-                        weight: 2,
-                        opacity: 0.4,
-                        color: 'black',
-                        dashArray: '3',
-                        fillOpacity: 0.3,
-                        fillColor: 'blue'
-                    },
-                  },
-                }
-    };
-    var drawControl = new L.Control.Draw(optionsDraw);
+    //   L.tileLayer.wms('http://192.168.1.77:8086/geoserver/DSS/wms',
+    //   {
+    //       layers:'DSS:region',
+    //       format:"image/png",
+    //       transparent:true,
+    //       CQL_FILTER:"id_region=(1*" +this.collecte.region +")",
+    //       tileSize:256,
+    //       tiled:true
+    //   },{buffer: 0}).addTo(this.ParcelleMap)
+      
+    //  L.tileLayer.wms('http://192.168.1.77:8086/geoserver/DSS/wms',
+    //  {
+    //       layers:'DSS:province',
+    //       format:"image/png",
+    //       transparent:true,
+    //       CQL_FILTER:"id_province=(1*" +this.collecte.province +")",
+    //       tileSize:256,
+    //       tiled:true
+    //  },{buffer: 0}).addTo(this.ParcelleMap)
+
+
     //     this.markers.addTo(this.ParcelleMap);    
     //     drawnItems.addLayer(this.parcelleLayers)
-    //     this.drawnItems.addTo(this.ParcelleMap)   
+    //     this.drawnItems.addTo(this.ParcelleMap) 
+    var options = {
+      position: 'topleft', // toolbar position, options are 'topleft', 'topright', 'bottomleft', 'bottomright'
+      drawMarker: true, // adds button to draw markers
+      drawPolyline: true, // adds button to draw a polyline
+      drawRectangle: false, // adds button to draw a rectangle
+      drawPolygon: true, // adds button to draw a polygon
+      drawCircle: false, // adds button to draw a cricle
+      cutPolygon: true, // adds button to cut a hole in a polygon
+      editMode: true, // adds button to toggle edit mode for all layers
+      removalMode: true, // adds a button to remove layers
+    };  
+    this.ParcelleMap.pm.addControls(options)
       var Fullscreen = new L.Control.Fullscreen();
-
         this.ParcelleMap.addControl(Fullscreen);
-        this.ParcelleMap.addControl(drawControl);
     //     this.ParcelleMap.fitBounds(this.parcelleLayers.getBounds())
+      this.AddParcelleLayer(this.collecte.collecte[0].data[0].id_segment)
       let that = this
-        this.ParcelleMap.on(L.Draw.Event.CREATED,function(e){
-          var type = e.layerType,
-              layer = e.layer
-              that.drawnItems.addLayer(layer)
-            });
+        // this.ParcelleMap.on(L.Draw.Event.CREATED,function(e){
+        //   var type = e.layerType,
+        //       layer = e.layer
+        //       that.drawnItems.addLayer(layer)
+        //     });
 
-    
+        this._parcelle = this.collecte.collecte[0].data[0]
+        this.OnParcelleChange(this.collecte.collecte[0].data[0])
     }
+
+    AddParcelleLayer(id){
+      console.info('id_segment ',id)
+      this.collecteservice.getSegment(id).then((data : any ) => {
+        let Parcelles = [];
+        data.segment.parcelles.forEach(element => {
+          Parcelles.push({"type": "Feature","properties":{"numero":element.id},geometry:element.geometry})
+        });
+        let styleP = {"color": 'red',
+        "weight": 2,
+        "opacity": 1,
+        "fillOpacity": 0
+      };
+        let styleS = {"color": "#ffffff",
+        "weight": 2,
+        "opacity": 1,
+        "fillOpacity": 0
+        };
+        let styleV = {
+        weight: 2,
+        opacity: 0.4,
+        color: 'black',
+        dashArray: '3',
+        fillOpacity: 0.3,
+        fillColor: 'green'
+        };
+        let styleI = {"color": "black",
+        "weight": 2,
+        "opacity": 1,
+        "fillOpacity": 1
+        };
+      let voisin = []
+      let intersect = []
+        data.voisin.forEach(element => {
+          let e = element.collecte[0].data[0]
+          if(this.collecte.collecte[0].data[0].numero != e.numero){
+          voisin.push({"type":"Feature","properties":{"numero":e.numero},geometry:e.gjson})
+          let _int = turf.intersect(this.collecte.collecte[0].data[0].gjson,e.gjson)
+          if(_int){
+            intersect.push(_int)
+          }
+        }
+        });
+        let _intersection = new L.GeoJSON(intersect,{style:styleI})
+        _intersection.addTo(this.ParcelleMap)
+        let _voisin = new L.GeoJSON(voisin,{style: styleV,pmIgnore: true })
+        _voisin.addTo(this.ParcelleMap)
+       let layer = new L.GeoJSON(Parcelles,{style: styleP,pmIgnore: true })
+        layer.addTo(this.ParcelleMap)
+        let aa = {"type": "Feature","properties":{"numero":data.segment.id},geometry:data.segment.geometry}
+       let test = new L.GeoJSON(aa,{style:styleS,pmIgnore: true})
+       test.addTo(this.ParcelleMap)
+
+      let control =  L.control.layers({},{"segment":test,"parcelles":layer,"voisins":_voisin,"intersection":_intersection})
+        control.addTo(this.ParcelleMap)
+      })
+
+
+    }
+
     ngOnDestroy() {
-        window.removeEventListener('message', this.receiveMessage);
-      }
+
+    }
     ngAfterViewInit() {
 
 
@@ -368,11 +499,4 @@ export class ValidationPage implements AfterViewInit  {
     //           that.drawnItems.addLayer(layer)
     //         });
       }
-
-    onIframeLoad(element) {
-        if (this.isInited) {
-            window.addEventListener('message', this.receiveMessage, false);
-        }
-      }  
-
  }

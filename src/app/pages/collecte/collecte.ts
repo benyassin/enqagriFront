@@ -8,6 +8,9 @@ import * as _ from "lodash";
 import * as moment from "moment"
 import { locale } from 'moment';
 import { LocalDataSource } from 'ng2-smart-table';
+import { Angular2Csv } from 'angular2-csv/Angular2-csv';
+
+
 
 @Component({
     selector: 'Collecte',
@@ -42,6 +45,7 @@ export class CollectePage implements OnInit {
     _filtre
     _value
     source : LocalDataSource 
+    csv
     compareById(obj1, obj2) {
         if(localStorage.getItem('storage') !== null ){
         return obj1._id === obj2._id;
@@ -49,15 +53,6 @@ export class CollectePage implements OnInit {
     }
     settings = {
         columns: {
-            projet:{
-                title:'Enquete',
-            },
-            type:{
-                title:'Type',
-            },
-            agent:{
-                title:'Agent'
-            },
         },
         actions:{
             add   : false,
@@ -71,11 +66,34 @@ export class CollectePage implements OnInit {
         },
         noDataMessage:' '
     }
+    exportData(){
+        var options = { 
+            fieldSeparator: ',',
+            quoteStrings: '',
+            decimalseparator: '.',
+            showLabels: true, 
+            showTitle: false,
+            useBom: false,
+            headers: Object.keys(this.csv[0])
+          };
+        console.log(this.csv)
+        new Angular2Csv(this.csv,'Test',options)
+    }
     filtreData(filtre,data: any){
         let result = []
         let extra = []
         let calc = []
-
+        this.settings.columns =  {
+            projet:{
+                title:'Enquete',
+            },
+            type:{
+                title:'Type',
+            },
+            agent:{
+                title:'Agent'
+            },
+        },
         this.extrapolation.forEach(api => {
 
             if(api.type == 'extra'){
@@ -94,8 +112,8 @@ export class CollectePage implements OnInit {
             let row = {
                 'projet':this.anass.name,
                 'type':this.anass.theme,
-                'agent':element.agent._id,
-                'date':moment(new Date(element.createdAt)).format("DD.MM.YYYY à h:mm"),
+                'agent':element.agent.nom +' '+ element.agent.prenom,
+                'date':moment(new Date(element.createdAt)).format("DD-MM-YYYY à h:mm"),
                 'id':element._id
             }
             calc.forEach(c => {
@@ -109,6 +127,9 @@ export class CollectePage implements OnInit {
             result.push(row)
         }
         });
+        console.log(extra)
+        this.csv = result
+
         this.source = new LocalDataSource(result)
         console.log(this.source)
         this.extrapolate(result,extra)
@@ -158,6 +179,7 @@ export class CollectePage implements OnInit {
         province:0
     }
     search(projet,status,region,province,filtre,valeur){
+        this.dataload = true
         console.log(region)
         console.log(province)
     this.hide = false

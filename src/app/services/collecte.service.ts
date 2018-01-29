@@ -78,7 +78,7 @@ getCollecteEnTraitement(id,index,region,province){
 
 action(data){
 		return new Promise((resolve, reject) => {
-			this.http.post('collectes/validate', JSON.stringify(data),)
+			this.http.post('collectes/validate', JSON.stringify(data))
 				.map(res => res.json())
 				.subscribe(res => {
 					resolve(res);
@@ -90,4 +90,30 @@ action(data){
 		});
 }
 
+updateCollecte(data){
+    return new Promise((resolve, reject) => {
+        this.http.post('collectes/update',JSON.stringify(data))
+            .map(res => res.json())
+            .subscribe(data => {
+                resolve(data);
+            },(err:Response) => {
+                let details = err.json()
+                reject(details); 
+            });
+    });
+}
+
+
+
+getSegment(id){
+    return new Promise((resolve, reject) => {
+        this.http.get('collectes/segment/' + id)
+            .map(res => res.json())
+            .subscribe(data => {
+                resolve(data);
+            }, (err) => {
+                reject(err);
+            });
+    });
+}
 }

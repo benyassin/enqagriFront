@@ -3,9 +3,10 @@
 
 <div class="row">
     <div class="bt-group pull-right">
+            <button (click)="saveChange()" class="btn btn-primary btn-lg m-r-5"><i class="fa fa-floppy-o pull-left"></i>Enregistrer</button>
+            <button  [disabled]="(user?.role != 'controleur') || (validation[index] == 'valid') || (index == lenght - 1 && validation[index] =='valid')" (click)="action('valid')" class="btn btn-success btn-lg m-r-5"><i class="fa fa-check pull-left"></i>Valider</button>
+            <button  [disabled]="(user?.role != 'controleur') || (validation[index] == 'valid') || (index == 0)" href="#modal-refus"  class="btn btn-danger btn-lg m-r-5" data-toggle="modal"><i class="fa fa-ban pull-left"></i>Rejeter</button>
 
-            <button  [disabled]="(user.role != 'controleur') || (validation[index] == 'valid') || (index == lenght - 1 && validation[index] =='valid')" (click)="action('valid')" class="btn btn-success btn-lg m-r-5"><i class="fa fa-check pull-left"></i>Valider</button>
-            <button  [disabled]="(user.role != 'controleur') || (validation[index] == 'valid') || (index == 0)" href="#modal-refus"  class="btn btn-danger btn-lg m-r-5" data-toggle="modal"><i class="fa fa-ban pull-left"></i>Rejeter</button>
 
         </div>
 <div class="col-md-2">
@@ -41,7 +42,7 @@
                                     <!-- <label for="parcelle">Instance: </label> -->
                             <select id="parcelle" name="parcelle" [(ngModel)]="_parcelle" required class="form-control" (ngModelChange)="OnParcelleChange($event)">
                                     <option value="" disabled="true" [selected]="!_parcelle">Bloc</option>
-                                    <option *ngFor="let data of selected?.data" [ngValue]="data">{{data.numero}}</option>
+                                    <option *ngFor="let data of _type?.data" [ngValue]="data">{{data.numero}}</option>
                             </select>
                             </div>
                         </div>
@@ -94,6 +95,13 @@
                </div>
             </div>
             </div>
+            <div class="col-md-12">
+                <div class="panel panel-success">
+                   <div class="panel-body ">
+                        <formio *ngIf="!hidden" src="{{srcformio}}" [submission]=selectedParcelle?.formdata (change)="onSubmit($event)"></formio>
+                       </div>
+                    </div>
+            </div>
             <div class="modal fade" id="modal-dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -127,6 +135,8 @@
                         </div>
                     </div>
                 </div>
-            </div>   
-               <iframe [hidden]="hidden" #parcelle frameBorder="0" class="iframe-map" scrolling="no" width="100%" height="800" id="data" name="parcelle" (load)="onIframeLoad(this)"></iframe>
+            </div>
+
+
+               <!-- <iframe [hidden]="hidden" #parcelle frameBorder="0" class="iframe-map" scrolling="no" width="100%" height="800" id="data" name="parcelle" (load)="onIframeLoad(this)"></iframe> -->
 

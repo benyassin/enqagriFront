@@ -191,7 +191,7 @@ import { RegisterV3Page }           from './pages/user/register-v3/register-v3';
 import { HelperCssPage }        from './pages/helper/helper-css/helper-css';*/
 
 @NgModule({
-    imports:        [Ng2SmartTableModule,ChartsModule,MomentModule,FormioModule,AngularMultiSelectModule,Select2Module,Ng2Permission,MessagesModule,ConfirmDialogModule,HttpModule, BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule ],
+    imports:        [FormioModule,Ng2SmartTableModule,ChartsModule,MomentModule,AngularMultiSelectModule,Select2Module,Ng2Permission,MessagesModule,ConfirmDialogModule,HttpModule, BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule ],
     declarations:   [ 
         AppComponent,
         HeaderComponent, 

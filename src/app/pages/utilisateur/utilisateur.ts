@@ -65,15 +65,15 @@ export class CreationUtilisateurPage implements OnInit {
                     })
                     this.myform.get('region').enable();
                     this.myform.get('province').disable()                    
-                    this.myform.get('dpa').disable()
-                    this.myform.get('office').disable();
+                    // this.myform.get('dpa').disable()
+                    // this.myform.get('office').disable();
                     }else{
                     this.myform.get('region').setValidators([Validators.required]),
                     this.myform.get('province').setValidators([Validators.required])
                     this.myform.get('region').enable()
                     this.myform.get('province').enable()
-                    this.myform.get('dpa').enable()
-                    this.myform.get('office').enable();
+                    // this.myform.get('dpa').enable()
+                    // this.myform.get('office').enable();
                 }
                 this.loadregion()
                 }else{
@@ -81,13 +81,13 @@ export class CreationUtilisateurPage implements OnInit {
                     this.myform.get('region').clearValidators();
                     this.myform.get('province').disable()
                     this.myform.get('region').disable();
-                    this.myform.get('dpa').disable()
-                    this.myform.get('office').disable();
+                    // this.myform.get('dpa').disable()
+                    // this.myform.get('office').disable();
                     this.myform.patchValue({
                         region:null,
                         province:null,
-                        dpa:null,
-                        office:null
+                        // dpa:null,
+                        // office:null
                     })
                 }
                 this.myform.get('region').updateValueAndValidity();
@@ -151,8 +151,8 @@ export class CreationUtilisateurPage implements OnInit {
         telephone:this.telephone,
         region: this.region,
         province: this.province,
-        dpa: this.dpa,
-        office: this.office
+        // dpa: this.dpa,
+        // office: this.office
         }); 
     }
     
@@ -172,8 +172,8 @@ export class CreationUtilisateurPage implements OnInit {
             role: user.role,
             region: user.perimetre.region,
             province: user.perimetre.province,
-            dpa: user.perimetre.dpa,
-            office: user.perimetre.office
+            // dpa: user.perimetre.dpa,
+            // office: user.perimetre.office
         })
         this.user = user._id
         this.myform.get('password').clearValidators();
@@ -208,15 +208,15 @@ export class CreationUtilisateurPage implements OnInit {
                 this.msgs.push({severity:'error', summary:"Erreur", detail: "les deux passwords ne sont pas identiques" })
                 return 
             }
-            if(this.myform.value.role == 'superviseurP' || this.myform.value.role == 'agent'){
-                if(!this.myform.value.dpa && !this.myform.value.office){
-                    console.log(this.myform.value.role)
-                document.body.scrollTop = document.documentElement.scrollTop = 0;
-                this.msgs = [];                
-                this.msgs.push({severity:'error', summary:"Erreur", detail: "Veuillez choisir au moins DPA ou OFFICE"})
-                return 
-                }
-            }
+            // if(this.myform.value.role == 'superviseurP' || this.myform.value.role == 'agent'){
+            //     if(!this.myform.value.dpa && !this.myform.value.office){
+            //         console.log(this.myform.value.role)
+            //     document.body.scrollTop = document.documentElement.scrollTop = 0;
+            //     this.msgs = [];                
+            //     this.msgs.push({severity:'error', summary:"Erreur", detail: "Veuillez choisir au moins DPA ou OFFICE"})
+            //     return 
+            //     }
+            // }
         this.confirmationService.confirm({
             message: "Voulez vous confirmer l'enregistrement ?",
             accept: () => {
@@ -280,12 +280,12 @@ export class CreationUtilisateurPage implements OnInit {
         }, (err) => {
           console.log("can't retreive regions ");
         });
-        this.perimetreService.getDpaOffice().then((data) => {
-            this.list_office = data['office']
-            this.list_dpa = data['dpa']
-        }, (err) => {
-        console.log("can't retreive Office  & Dpa ");
-        }); 
+        // this.perimetreService.getDpaOffice().then((data) => {
+        //     this.list_office = data['office']
+        //     this.list_dpa = data['dpa']
+        // }, (err) => {
+        // console.log("can't retreive Office  & Dpa ");
+        // }); 
         }else {
             console.log('already loaded region')
         }
