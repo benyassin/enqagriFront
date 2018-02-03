@@ -36,6 +36,7 @@ import { RnaValidationPage }        from './pages/validation/rna'
 import { ValidationPage }           from './pages/validation/validation'
 import { CollectePage }             from './pages/collecte/collecte';
 import { GeolessPage }              from './pages/validation/geoless';
+import { ImportPage }               from './pages/import/import';
 
 /*
 // Email
@@ -158,6 +159,8 @@ const routes: Routes = [
     { path: 'collectes/collecte', component: ValidationPage,data :{title: 'Collecte'},canActivate:[AuthGuard]},
     { path: 'collectes/geoless', component: GeolessPage, data:{title: 'Collecte Sans Geometrie'},canActivate:[AuthGuard]},
     
+    { path: 'import', component: ImportPage, data:{title: 'Support Spatial'},canActivate:[AuthGuard]},
+
     { path: 'collectes', component: CollectePage, data:{title: 'Collectes'},canActivate:[AuthGuard]},
     { path: 'reporting', component: ReportingPage, data:{title: 'Reporting'},canActivate:[AuthGuard]},
     { path: 'reporting/Region', component: ReportingRegionPage, data:{title: 'Reporting des Regions'},canActivate:[AuthGuard]},

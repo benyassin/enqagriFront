@@ -22,6 +22,11 @@ import { MomentModule } from 'angular2-moment';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 
+import { Ng4FilesModule } from 'angular4-files-upload';
+import { FileUploadModule } from 'ng2-file-upload';
+
+
+
 
 
 
@@ -57,6 +62,8 @@ import { ProjetPage }               from './pages/Parametrage/Projet/projet';
 import { ButtonRenderComponent } from './pages/Parametrage/Projet/button.render.component';
 import { testProjetPage }               from './pages/Parametrage/Projet/inspect';
 
+//Support Spatial
+import { ImportPage } from './pages/import/import';
 
 //Validtion
 import { RnaValidationPage }           from './pages/validation/rna';
@@ -191,7 +198,7 @@ import { RegisterV3Page }           from './pages/user/register-v3/register-v3';
 import { HelperCssPage }        from './pages/helper/helper-css/helper-css';*/
 
 @NgModule({
-    imports:        [FormioModule,Ng2SmartTableModule,ChartsModule,MomentModule,AngularMultiSelectModule,Select2Module,Ng2Permission,MessagesModule,ConfirmDialogModule,HttpModule, BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule ],
+    imports:        [FileUploadModule,Ng4FilesModule,FormioModule,Ng2SmartTableModule,ChartsModule,MomentModule,AngularMultiSelectModule,Select2Module,Ng2Permission,MessagesModule,ConfirmDialogModule,HttpModule, BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule ],
     declarations:   [ 
         AppComponent,
         HeaderComponent, 
@@ -230,6 +237,7 @@ import { HelperCssPage }        from './pages/helper/helper-css/helper-css';*/
         ReportingRegionPage,
         ReportingAgentPage,
         ButtonRenderComponent,
+        ImportPage,
        /*EmailInboxV1Page,
         EmailInboxV2Page,
         EmailComposePage,

@@ -1,0 +1,16 @@
+:host /deep/ * {
+    font-size:12px    
+  }
+  :host /deep/ table {
+    color: #606c71;
+    
+  }
+  :host /deep/ table tr td, :host /deep/ table tr th {
+    border: 1px solid #e9ebec;
+  }
+  
+  .smart-table-container{ overflow-x: scroll; }
+  
+  .column-size {
+    width: 80px
+  }
