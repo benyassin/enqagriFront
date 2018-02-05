@@ -1,5 +1,7 @@
-<input type="file" ng2FileSelect [uploader]="uploader" />
 
+<input type="text" name="name" class="form-control" required placeholder="" value=""/>
+<input type="file" ng2FileSelect [uploader]="uploader" />
+<button (click)="uploader.uploadAll()">upload</button>
 
 
 <ng2-smart-table *ngIf="!loading" [settings]="settings" [source]="source"></ng2-smart-table>

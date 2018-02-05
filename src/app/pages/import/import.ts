@@ -7,6 +7,7 @@ import { locale } from 'moment';
 import { LocalDataSource } from 'ng2-smart-table';
 import { FileUploader } from 'ng2-file-upload';
 
+const URL = 'http://localhost:8080/upload';
 
 
 @Component({
@@ -18,7 +19,7 @@ import { FileUploader } from 'ng2-file-upload';
 
 export class ImportPage implements OnInit {
     constructor(){}
-    uploader: FileUploader = new FileUploader({}); //Empty options to avoid having a target URL
+    uploader: FileUploader = new FileUploader({url: URL}); //Empty options to avoid having a target URL
     reader: FileReader = new FileReader();
        
     source : LocalDataSource
@@ -39,23 +40,10 @@ export class ImportPage implements OnInit {
         noDataMessage:' '
     }
 
+    
     ngOnInit(){
-        this.reader.onload = (ev: any) => {
-            let results = []
-            let data = JSON.parse(ev.target.result)
-            console.log(data)
-            data.features.forEach(element => {
-                Object.keys(element.properties).forEach(p =>{
-                    this.settings.columns[p] = {'title':p}
-                })
-                results.push(element.properties)
-            });
-            this.source = new LocalDataSource(results)   
-            this.loading = false
-        };
-        
-        this.uploader.onAfterAddingFile = (fileItem: any) => {
-            this.reader.readAsText(fileItem._file);
-        };
+        this.uploader.onAfterAddingFile = (item => {
+            item.withCredentials = false;
+         });
     }
 }

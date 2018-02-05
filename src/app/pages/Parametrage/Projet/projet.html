@@ -132,7 +132,7 @@
                         <label >Questionnaires Disponnibles :</label>
 
                         <select  [(ngModel)]="forms" size="7" id='forms' class="form-control">
-                            <option [hidden]="a.id_fields == undefined" [disabled]="(a.geometry !== 'none' && disabled.includes('none')) || (disabled.includes(a.geometry) && a.geometry !== 'none')  || (disabled.length !== 0 && disabled.includes('none') === false && a.geometry === 'none' )"
+                            <option [hidden]="a.id_fields == undefined"
                             *ngFor="let a of forms_disponnible" [ngValue]="a">{{ a.name }} - [{{ a.geometry }}]</option>
                         </select>
                     </div>
