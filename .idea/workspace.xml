@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3c4f2c77-2496-4a4e-8085-4393e3dbccb7" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/app/pages/import/import.html" afterPath="$PROJECT_DIR$/src/app/pages/import/import.html" />
-      <change beforePath="$PROJECT_DIR$/src/app/pages/import/import.ts" afterPath="$PROJECT_DIR$/src/app/pages/import/import.ts" />
-      <change beforePath="$PROJECT_DIR$/src/app/services/perimetre.service.ts" afterPath="$PROJECT_DIR$/src/app/services/perimetre.service.ts" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/Parametrage/Projet/projet.html" afterPath="$PROJECT_DIR$/src/app/pages/Parametrage/Projet/projet.html" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/Parametrage/Projet/projet.ts" afterPath="$PROJECT_DIR$/src/app/pages/Parametrage/Projet/projet.ts" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/dist/" />
@@ -20,11 +18,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="projet.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="projet.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/app/pages/Parametrage/Projet/projet.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="151">
-              <caret line="191" column="48" lean-forward="false" selection-start-line="191" selection-start-column="42" selection-end-line="191" selection-end-column="48" />
+            <state relative-caret-position="230">
+              <caret line="47" column="29" lean-forward="true" selection-start-line="47" selection-start-column="29" selection-end-line="47" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -38,6 +36,16 @@
               <folding>
                 <element signature="e#0#57#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="projet.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/pages/Parametrage/Projet/projet.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="147">
+              <caret line="583" column="25" lean-forward="false" selection-start-line="583" selection-start-column="25" selection-end-line="583" selection-end-column="25" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -62,7 +70,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="import.ts" pinned="false" current-in-tab="true">
+      <file leaf-file-name="import.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/pages/import/import.ts">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="208">
@@ -111,21 +119,9 @@
       <file leaf-file-name="import.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/pages/import/import.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-102">
-              <caret line="12" column="58" lean-forward="false" selection-start-line="12" selection-start-column="58" selection-end-line="12" selection-end-column="58" />
+            <state relative-caret-position="119">
+              <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="38" selection-end-column="26" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="validation.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/pages/validation/validation.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="18" selection-end-column="40" />
-              <folding>
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#!!top" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -140,8 +136,8 @@
       <find>compare</find>
       <find>apikey</find>
       <find>add</find>
-      <find>inline</find>
       <find>file</find>
+      <find>inline</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -155,12 +151,12 @@
         <option value="$PROJECT_DIR$/src/app/pages/Parametrage/Formulaire/formulaire.html" />
         <option value="$PROJECT_DIR$/src/app/services/form.service.ts" />
         <option value="$PROJECT_DIR$/src/app/pages/validation/validation.ts" />
-        <option value="$PROJECT_DIR$/src/app/pages/Parametrage/Projet/projet.ts" />
         <option value="$PROJECT_DIR$/src/app/pages/validation/validation.html" />
-        <option value="$PROJECT_DIR$/src/app/pages/Parametrage/Projet/projet.html" />
         <option value="$PROJECT_DIR$/src/app/services/perimetre.service.ts" />
         <option value="$PROJECT_DIR$/src/app/pages/import/import.html" />
         <option value="$PROJECT_DIR$/src/app/pages/import/import.ts" />
+        <option value="$PROJECT_DIR$/src/app/pages/Parametrage/Projet/projet.ts" />
+        <option value="$PROJECT_DIR$/src/app/pages/Parametrage/Projet/projet.html" />
       </list>
     </option>
   </component>
@@ -319,15 +315,16 @@
       <option name="presentableId" value="Default" />
       <updated>1512585939535</updated>
       <workItem from="1512585945097" duration="7310000" />
-      <workItem from="1517861782449" duration="14996000" />
+      <workItem from="1517861782449" duration="15572000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28537000" />
+    <option name="totallyTimeSpent" value="29113000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="172" y="96" width="1329" height="921" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="TypeScript" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32909784" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24554609" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -498,22 +495,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/pages/Parametrage/Projet/projet.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4046">
-          <caret line="249" column="5" lean-forward="false" selection-start-line="249" selection-start-column="5" selection-end-line="249" selection-end-column="5" />
-          <folding>
-            <element signature="e#0#50#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/pages/validation/validation.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
           <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="18" selection-end-column="40" />
           <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#!!top" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -522,14 +509,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/pages/Parametrage/Projet/projet.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="151">
-          <caret line="191" column="48" lean-forward="false" selection-start-line="191" selection-start-column="42" selection-end-line="191" selection-end-column="48" />
           <folding />
         </state>
       </provider>
@@ -580,14 +559,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/pages/import/import.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-102">
-          <caret line="12" column="58" lean-forward="false" selection-start-line="12" selection-start-column="58" selection-end-line="12" selection-end-column="58" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/pages/import/import.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="208">
@@ -595,6 +566,30 @@
           <folding>
             <element signature="e#0#57#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/pages/import/import.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="38" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/pages/Parametrage/Projet/projet.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="147">
+          <caret line="583" column="25" lean-forward="false" selection-start-line="583" selection-start-column="25" selection-end-line="583" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/pages/Parametrage/Projet/projet.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="230">
+          <caret line="47" column="29" lean-forward="true" selection-start-line="47" selection-start-column="29" selection-end-line="47" selection-end-column="29" />
+          <folding />
         </state>
       </provider>
     </entry>

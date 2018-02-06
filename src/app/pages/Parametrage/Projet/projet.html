@@ -40,6 +40,20 @@
                 </p>
             </div>
         </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label">Support :</label>
+                <div class="col-md-10">
+                    <select [(ngModel)]="projet.collection" id="collection" name="collection" #collection="ngModel" required class="form-control" (ngModelChange)="onThemeChange($event)">
+                        <option *ngFor="let c of CollectionList" [ngValue]="c._id">{{c.name}}</option>
+                    </select>
+                </div>
+                <div *ngIf="type.invalid && (type.dirty || type.touched)"
+                     class="help-block">
+                    <p *ngIf="type.errors.required">
+                        Ce champ est obligatoire.
+                    </p>
+                </div>
+            </div>
         </form>
         <div class="form-group">
             <label class="col-md-2 control-label">Region :</label>

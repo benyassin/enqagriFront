@@ -106,7 +106,12 @@ export class ProjetPage implements OnInit  {
             console.log('fetch controllers',err)
         } )
     }
-
+    CollectionList
+    getCollection(){
+        this.perimetreservice.getCollection().then( (data: any) =>{
+            this.CollectionList = data
+        })
+    }
   onThemeChange(theme){
       this.formservice.getFormsByTheme(theme).then((data) => {
           this.forms_disponnible = data;
@@ -576,6 +581,7 @@ export class ProjetPage implements OnInit  {
 
 
     this.getControllers();
+    this.getCollection();
     // this.exampleData = []
     // this.regionsData = []
     // this.ProvinceData = []
