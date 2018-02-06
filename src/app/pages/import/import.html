@@ -1,7 +1,71 @@
+<p-messages [(value)]="msgs"></p-messages>
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-success">
+            <div class="panel-body ">
+                <div class="row">
+                <div class="form-group col-md-6">
+                <label >Collection: </label>
+                <select [(ngModel)]="collection" name="collection"  class="form-control">
+                <option *ngFor="let c of collectionList" [ngValue]="c._id">{{c.name}}</option>
+                </select>
+                </div>
+                    <button (click)="getSupport(collection)" class="btn btn-primary">Load data</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-success">
+            <div class="panel-body ">
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label>Nom Collection</label>
+                        <input type="text" [(ngModel)]="cName" class="form-control" placeholder="Name collection">
+                    </div>
+                    <div class="form-group">
+                        <div class="form-group">
+                            <div class="col-md-9">
+                                <label class="radio-inline">
+                                    <input type="radio" [(ngModel)]="type" name="optionsRadios" value="tabulaire" checked="">
+                                    Support Tabulaire
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" [(ngModel)]="type" name="optionsRadios" value="spatial">
+                                    Support Spatial
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <button class="btn btn-sm btn-primary" (click)="createCollection(cName,type)">Nouvelle Collection</button>
+                <hr />
+                <div class="row">
+                <div class="form-group col-md-4">
+                    <label>Select files from your computer</label>
+                    <input  type="file" class="form-control" ng2FileSelect [uploader]="uploader" />
+                </div>
+                <div class="form-group col-md-4">
+                    <label >Collection: </label>
+                    <select [(ngModel)]="selectedc" name="collection"  class="form-control" (change)="FileSelected(selectedc)">
+                        <option *ngFor="let c of collectionList" [ngValue]="c">{{c.name}}</option>
+                    </select>
+                </div>
+                </div>
+                <br>
+                <button class="btn btn-sm btn-primary" (click)="upload(selectedc)">upload</button>
 
-<input type="text" name="name" class="form-control" required placeholder="" value=""/>
-<input type="file" ng2FileSelect [uploader]="uploader" />
-<button (click)="uploader.uploadAll()">upload</button>
-
-
-<ng2-smart-table *ngIf="!loading" [settings]="settings" [source]="source"></ng2-smart-table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+<div class="col-md-12" *ngIf="!loading">
+    <div class="panel panel-success">
+        <div class="panel-body ">
+            <ng2-smart-table  [settings]="settings" [source]="source"></ng2-smart-table>
+        </div>
+    </div>
+</div>
+</div>
