@@ -3,21 +3,15 @@
     <div class="col-md-6">
         <div class="panel panel-success">
             <div class="panel-body ">
-                <div class="row">
-                <div class="form-group col-md-6">
-                <label >Collection: </label>
-                <select [(ngModel)]="collection" name="collection"  class="form-control">
-                <option *ngFor="let c of collectionList" [ngValue]="c._id">{{c.name}}</option>
-                </select>
-                </div>
-                    <button (click)="getSupport(collection)" class="btn btn-primary">Load data</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="panel panel-success">
-            <div class="panel-body ">
+                <!--<div class="row">-->
+                <!--<div class="form-group col-md-6">-->
+                <!--<label >Collection: </label>-->
+                <!--<select [(ngModel)]="collection" name="collection"  class="form-control">-->
+                <!--<option *ngFor="let c of collectionList" [ngValue]="c._id">{{c.name}}</option>-->
+                <!--</select>-->
+                <!--</div>-->
+                    <!--<button (click)="getSupport(collection)" class="btn btn-primary">Load data</button>-->
+                <!--</div>-->
                 <div class="row">
                     <div class="form-group col-md-6">
                         <label>Nom Collection</label>
@@ -38,33 +32,52 @@
                         </div>
                     </div>
                 </div>
-                <br>
-                <button class="btn btn-sm btn-primary" (click)="createCollection(cName,type)">Nouvelle Collection</button>
                 <hr />
+                <button [disabled]="(!type || !cName) || check(cName)" class="btn btn-sm btn-primary" (click)="createCollection(cName,type)">Nouvelle Collection</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-success">
+            <div class="panel-body ">
                 <div class="row">
-                <div class="form-group col-md-4">
-                    <label>Select files from your computer</label>
+                <div class="form-group col-md-6">
+                    <label>Select file</label>
                     <input  type="file" class="form-control" ng2FileSelect [uploader]="uploader" />
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-6">
                     <label >Collection: </label>
                     <select [(ngModel)]="selectedc" name="collection"  class="form-control" (change)="FileSelected(selectedc)">
                         <option *ngFor="let c of collectionList" [ngValue]="c">{{c.name}}</option>
                     </select>
                 </div>
                 </div>
-                <br>
-                <button class="btn btn-sm btn-primary" (click)="upload(selectedc)">upload</button>
+                <hr />
+                <button [disabled]="!canUpload" class="btn btn-sm btn-primary" (click)="upload(selectedc)">upload</button>
 
             </div>
         </div>
     </div>
 </div>
 <div class="row">
-<div class="col-md-12" *ngIf="!loading">
+<div class="col-md-12" >
     <div class="panel panel-success">
         <div class="panel-body ">
-            <ng2-smart-table  [settings]="settings" [source]="source"></ng2-smart-table>
+            <div class="row">
+            <div class="form-group col-md-4">
+                <label >Collection: </label>
+                <select [(ngModel)]="collection" name="collection"  class="form-control">
+                    <option *ngFor="let c of collectionList" [ngValue]="c._id">{{c.name}}</option>
+                </select>
+            </div>
+                <button [disabled]="!collection" (click)="getSupport(collection)" class="btn btn-primary">Load data</button>
+            </div>
+            <hr />
+            <div class="center-block" style="margin-left: auto; margin-right:auto;">
+                <img *ngIf="show" src="assets/chargement.gif" alt="">
+            </div>
+
+            <ng2-smart-table *ngIf="!loading" [settings]="settings" [source]="source"></ng2-smart-table>
         </div>
     </div>
 </div>

@@ -1,13 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {ConfirmDialogModule,ConfirmationService} from 'primeng/primeng';
-import * as _ from "lodash";
-import * as moment from "moment"
-import { locale } from 'moment';
 import { LocalDataSource } from 'ng2-smart-table';
 import { FileUploader } from 'ng2-file-upload';
 import { PerimetreService } from '../../services/perimetre.service'
-import {ProjetService} from '../../services/projet.service';
 
 const URL = 'http://localhost:8080/api/upload';
 
@@ -20,6 +16,7 @@ const URL = 'http://localhost:8080/api/upload';
 
 
 export class ImportPage implements OnInit {
+    public canUpload: boolean;
     constructor(
         private perimetreservice:PerimetreService,
     ){}
@@ -29,9 +26,11 @@ export class ImportPage implements OnInit {
     selectedc;
     collection;
     collectionList;
-    SupportList
+    SupportList;
     source : LocalDataSource;
     loading : boolean = true;
+    show : boolean = false;
+    allowedMimeType = ['application/geo+json'];
     uploader: FileUploader = new FileUploader({url: URL}); //Empty options to avoid having a target URL
 
     settings = {
@@ -70,27 +69,59 @@ export class ImportPage implements OnInit {
         //     parent_id: name._id
         // };
         this.uploader.options.url = URL + '?id=' + name._id;
-        this.uploader.uploadAll()
+        this.uploader.queue[this.uploader.queue.length-1].upload()
+        // this.uploader.uploadAll()
     }
+    check(name){
+        if (this.collectionList.filter(e => e.name === name).length > 0) {
+            return true
+        }else{
+            return false
+        }
+    }
+
     getSupport(id){
+        this.show = true;
+        this.loading = true;
         this.perimetreservice.getSupport(id).then((data : any) =>{
-            this.SupportList = data
-            let results = []
-            console.log(data)
+            this.SupportList = data;
+            let results = [];
+            console.log(data);
             data.forEach(element => {
                 Object.keys(element.properties).forEach(p =>{
                     this.settings.columns[p] = {'title':p}
-                })
+                });
                 results.push(element.properties)
             });
             this.source = new LocalDataSource(results);
+            this.show = false;
             this.loading = false
         } )
+    }
+
+    onWhenAddingFileFailed(item, filter: any, options: any) {
+        switch (filter.name) {
+            case 'mimeType':
+                const allowedTypes = this.allowedMimeType.join();
+                console.log(`Type "${item.type} is not allowed. Allowed types: "${allowedTypes}"`);
+                break;
+            default:
+                console.log(`Unknown error (filter is ${filter.name}`);
+        }
     }
     ngOnInit(){
         this.uploader.onAfterAddingFile = (item => {
             item.withCredentials = false;
+            if(item.file.name.split('.').pop() == 'geojson'){
+                this.canUpload = true
+            }else{
+                item.remove();
+                this.canUpload = false
+            }
+
          });
+
+        this.uploader.onWhenAddingFileFailed = (item, filter, options) => this.onWhenAddingFileFailed(item, filter, options);
         this.getCollection();
 
         this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
