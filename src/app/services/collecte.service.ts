@@ -37,15 +37,18 @@ getCollectes(){
 
 }
 
-getCollectesByProjet(id,niveau,status,region,province){
+getCollectesByProjet(id,niveau,status,region,province,commune){
     if(typeof region == "undefined" || region == null){
         region = 0
     }
     if(typeof province == "undefined" || province == null){
         province = 0
     }
+    if(typeof commune == "undefined" || commune == null){
+        commune = 0
+    }
     return new Promise((resolve, reject) => {
-        this.http.get('collectes/projet/' + id + '?niveau=' + niveau + "&status=" + status + "&region=" + region + "&province=" +province)
+        this.http.get('collectes/projet/' + id + '?niveau=' + niveau + "&status=" + status + "&region=" + region + "&province=" +province +"&commune=" + commune)
             .map(res => res.json())
             .subscribe(data => {
                 resolve(data);
@@ -56,16 +59,19 @@ getCollectesByProjet(id,niveau,status,region,province){
 
 }
 
-getCollecteEnTraitement(id,index,region,province){
+getCollecteEnTraitement(id,index,region,province,commune){
     if(typeof region == "undefined" || region == null){
         region = 0
     }
     if(typeof province == "undefined" || province == null){
         province = 0
     }
+    if(typeof commune == "undefined" || commune == null){
+        commune = 0
+    }
     console.log('wallah c traitement khoya')
     return new Promise((resolve, reject) => {
-        this.http.get('collectes/traitement/'+ id + "?region=" + region + "&province=" +province + "&index=" + index)
+        this.http.get('collectes/traitement/'+ id + "?region=" + region + "&province=" +province + "&index=" + index +"&commune=" + commune)
             .map(res => res.json())
             .subscribe(data => {
                 resolve(data);

@@ -29,9 +29,15 @@
 
                 <div class="form-group col-md-3">  
                     <label >Province: </label>
-                    <select [disabled]="!projet || this.user.role == 'superviseurP' || this.user.role == 'agent'" [(ngModel)]="_province" name="province" class="form-control">
+                    <select [disabled]="!projet || this.user.role == 'superviseurP' || this.user.role == 'agent'" [(ngModel)]="_province" name="province" class="form-control" (change)="OnProvinceSelect(_province)">
                             <option *ngIf="user.role == 'superviseurP' || user.role == 'agent'" [ngValue]="user?.perimetre?.province?.id_province" disabled selected>{{user?.perimetre?.province?.name}}</option>
                             <option [hidden]="p.id_region != _region" *ngFor="let p of projet?.perimetre.province" [ngValue]="p.id_province">{{p.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label> Commune :</label>
+                    <select [(ngModel)]='_commune' name="commune" class="form-control">
+                        <option *ngFor="let c of communelist" [ngValue]="c.id_commune">{{c.name}}</option>
                     </select>
                 </div>
 
@@ -62,7 +68,7 @@
 
         <div class="row">
         <div class="pull-right col-md-12">
-            <button [disabled]="projet == null || status == null" class="btn btn-primary" (click)="search(projet,status,_region,_province,_value)"><i class="fa fa-search fa-lg" aria-hidden="true"></i> Recherche</button>
+            <button [disabled]="projet == null || status == null" class="btn btn-primary" (click)="search(projet,status,_region,_province,_commune,_value)"><i class="fa fa-search fa-lg" aria-hidden="true"></i> Recherche</button>
             <button class="btn btn-danger" (click)="reset()"><i class="fa fa-undo fa-lg" aria-hidden="true"></i> Reinitialiser</button>
         </div>
         </div>

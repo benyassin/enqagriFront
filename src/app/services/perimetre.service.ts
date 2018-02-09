@@ -55,6 +55,18 @@ export class PerimetreService {
                 });
         });
     }
+    getCommune(id){
+        return new Promise((resolve, reject) => {
+            this.http.get('perimetre/commune/'+ id)
+                .map(res => res.json())
+                .subscribe(data => {
+                    resolve(data);
+                }, (err) => {
+                    reject(err);
+                });
+        });
+
+    }
 
     getDpaOffice(){
         return new Promise((resolve, reject) => {

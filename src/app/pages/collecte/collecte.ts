@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { CollecteService}           from '../../services/collecte.service'
 import { ProjetService } from '../../services/projet.service'
 import { UserService } from '../../services/user.service'
+import { PerimetreService} from '../../services/perimetre.service';
 import { Router } from '@angular/router';
 import {ConfirmDialogModule,ConfirmationService} from 'primeng/primeng';
 import * as _ from "lodash";
@@ -9,6 +10,7 @@ import * as moment from "moment"
 import { locale } from 'moment';
 import { LocalDataSource } from 'ng2-smart-table';
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
+import {forEach} from '@angular/router/src/utils/collection';
 
 
 
@@ -22,14 +24,15 @@ import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 export class CollectePage implements OnInit {
     public status: null;
     constructor(
+        private perimetreservice:PerimetreService,
         private collecteservice:CollecteService,
         private projetservice:ProjetService,
         private userservice:UserService,
         private router:Router
     ){
     }
-    msgs : any = []
-    dataload : boolean = true
+    msgs : any = [];
+    dataload : boolean = true;
     projet : any;
     collectes : any = [];
     projets : any;
@@ -38,14 +41,16 @@ export class CollectePage implements OnInit {
     user;
     _region;
     _province;
-    hide : boolean = true
+    _commune;
+    hide : boolean = true;
     index;
-    extrapolation
-    anass
-    _filtre
-    _value
-    source : LocalDataSource 
-    csv
+    extrapolation;
+    anass;
+    _filtre;
+    _value;
+    source : LocalDataSource;
+    csv;
+    communelist;
     compareById(obj1, obj2) {
         if(localStorage.getItem('storage') !== null ){
         return obj1._id === obj2._id;
@@ -65,24 +70,34 @@ export class CollectePage implements OnInit {
             perPage:25
         },
         noDataMessage:' '
-    }
+    };
     exportData(){
-        var options = { 
+        let options = {
             fieldSeparator: ',',
             quoteStrings: '',
             decimalseparator: '.',
-            showLabels: true, 
+            showLabels: true,
             showTitle: false,
             useBom: false,
             headers: Object.keys(this.csv[0])
           };
-        console.log(this.csv)
+        console.log(this.csv);
         new Angular2Csv(this.csv,'Test',options)
     }
+
+    OnProvinceSelect(id){
+        console.log(id)
+        this.perimetreservice.getCommune(id).then((data)=>{
+            this.communelist = data
+        },(err)=>{
+            console.log('err fetching communes');
+            console.log(err)
+        })
+    }
     filtreData(filtre,data: any){
-        let result = []
-        let extra = []
-        let calc = []
+        let result = [];
+        let extra = [];
+        let calc = [];
         this.settings.columns =  {
             projet:{
                 title:'Enquete',
@@ -97,43 +112,49 @@ export class CollectePage implements OnInit {
         this.extrapolation.forEach(api => {
 
             if(api.type == 'extra'){
-            this.settings.columns[api.field.key] = {'title':api.label}
+            this.settings.columns[api.field.key] = {'title':api.label};
             extra.push(api.field.key)
             }
             if(api.type == 'cal'){
-                this.settings.columns[api.label] = {'title':api.label}
+                this.settings.columns[api.label] = {'title':api.label};
                 calc.push(api)
             }
 
         });
-        this.settings.columns['date'] = {'title': 'Date Synchornisation'}
-        data.forEach(element => {
-            if(( this._filtre != null && element.collecte[0].data[0].formdata.data[this._filtre.field.key] == this._value ) || this._filtre == null){
-            let row = {
-                'projet':this.anass.name,
-                'type':this.anass.theme,
-                'agent':element.agent.nom +' '+ element.agent.prenom,
-                'date':moment(new Date(element.createdAt)).format("DD-MM-YYYY à h:mm"),
-                'id':element._id
-            }
-            calc.forEach(c => {
-                row[c.label] = this.calculate(element.collecte[0].data[0].formdata.data,c.formule)
-            });
-            extra.forEach(f => { 
-                row[f] = element.collecte[0].data[0].formdata.data[f]
-                
-            });
-            console.log(row)
-            result.push(row)
-        }
-        });
-        console.log(extra)
-        this.csv = result
 
-        this.source = new LocalDataSource(result)
-        console.log(this.source)
-        this.extrapolate(result,extra)
-        this.msgs = []
+        this.settings.columns['date'] = {'title': 'Date Synchornisation'};
+        data.forEach(element => {
+            element.collecte.forEach(formulaire => {
+                formulaire.data.forEach(fdata => {
+                    if((this._filtre != null && fdata.formdata.data[this._filtre.field.key] == this._value) || this._filtre == null){
+                        let row = {
+                            'projet':this.anass.name,
+                            'type':this.anass.theme,
+                            'agent':element.agent.nom +' '+ element.agent.prenom,
+                            'date':moment(new Date(element.createdAt)).format("DD-MM-YYYY à h:mm"),
+                            'id':element._id
+                        };
+                        calc.forEach(c => {
+                            row[c.label] = this.calculate(fdata.formdata.data,c.formule)
+                        });
+                        extra.forEach(f => {
+                            if(fdata.formdata.data[f]) {
+                                row[f] = fdata.formdata.data[f]
+                            }else {
+                                row[f] = 0
+                            }
+
+                        });
+                        result.push(row)
+                    }
+                })
+            })
+        });
+        this.csv = result;
+
+        this.source = new LocalDataSource(result);
+        this.extrapolate(result,extra);
+        this.msgs = [];
         if(result.length > 0){
             this.msgs.push({severity:'success', summary:'', detail:'Nombre de collectes correspondant à vos critères de recherche : '+ result.length });
             this.dataload = false
@@ -142,33 +163,39 @@ export class CollectePage implements OnInit {
             this.dataload = true
         }
     }
-    ExtrapolatedData 
+    ExtrapolatedData;
     extrapolate(data,keys){
         if(data.length == 0){
-            this.ExtrapolatedData = []
+            this.ExtrapolatedData = [];
             return
         }
-        let results = [] 
+        let results = [];
         keys.forEach(key => {
-        
-        let sum = 0;
-        for(let i = 0; i < data.length; i++) {
-          sum += (data[i][key]);
-        }
-        var avg : number  = sum/data.length;
-        let varr : number  = 0
 
+        let sum = 0;
+        let count = 0
         for(let i = 0; i < data.length; i++) {
-            varr += Math.pow(((data[i][key]) - avg),2);
+            if(data[i][key] != 0) {
+                sum += (data[i][key]);
+                count++
+            }
         }
-        
-        varr /= data.length
-        
-        let ec = Math.sqrt(varr)
+        let avg : number  = sum/count;
+        let varr : number  = 0;
+
+        for(let i = 0; i < count; i++) {
+            if(data[i][key] != 0 ){
+                varr += Math.pow(((data[i][key]) - avg),2);
+            }
+        }
+
+        varr /= count
+
+        let ec = Math.sqrt(varr);
 
         results.push({'key': key, 'somme':sum,'moyenne':avg,'variance':varr,'ecarttype':ec})
         });
-        this.ExtrapolatedData = results
+        this.ExtrapolatedData = results;
         console.log(results)
     }
 
@@ -178,10 +205,8 @@ export class CollectePage implements OnInit {
         region:0,
         province:0
     }
-    search(projet,status,region,province,filtre,valeur){
+    search(projet,status,region,province,commune,filtre,valeur){
         this.dataload = true
-        console.log(region)
-        console.log(province)
     this.hide = false
     this.anass = {theme:projet.theme,name:projet.name}
     if(projet == null || status == null ){
@@ -191,9 +216,9 @@ export class CollectePage implements OnInit {
     if(this.projet !== null){
         localStorage.setItem('storage',JSON.stringify({'projet':this.projet,'status':status,'region':region,'province':province}));
     }
-    // if(this.Downloaded.id == projet._id 
-    //     && this.Downloaded.status == status 
-    //     && this.Downloaded.region == region 
+    // if(this.Downloaded.id == projet._id
+    //     && this.Downloaded.status == status
+    //     && this.Downloaded.region == region
     //     && this.Downloaded.province == province ){
     //     console.log('data already loaded using it')
     //     this.filtreData('test',this.collectes)
@@ -207,8 +232,8 @@ export class CollectePage implements OnInit {
     if(this.user.role == 'controleur'){
 
         this.index = this.projet.validation.findIndex(x => x.agent==this.user._id);
-            
-        this.collecteservice.getCollectesByProjet(projet._id,this.index,status,region,province).then((data) => {
+
+        this.collecteservice.getCollectesByProjet(projet._id,this.index,status,region,province,commune).then((data) => {
             this.filtreData('test',data)
             this.collectes = data;
         },(err)=> {
@@ -217,7 +242,7 @@ export class CollectePage implements OnInit {
         })
 
     }else{
-        this.hide = false        
+        this.hide = false
         if(this.user.role == 'superviseurP'){
             region = this.user.perimetre.region.id_region;
             province = this.user.perimetre.province.id_province
@@ -226,7 +251,7 @@ export class CollectePage implements OnInit {
         this.index = this.projet.validation.length - 1;
         switch(status){
             case 'valid' :
-            this.collecteservice.getCollectesByProjet(projet._id,this.index,status,region,province).then((data) => {
+            this.collecteservice.getCollectesByProjet(projet._id,this.index,status,region,province,commune).then((data) => {
                 this.collectes = data
                 this.filtreData('test',data)
             },(err)=> {
@@ -235,8 +260,8 @@ export class CollectePage implements OnInit {
             })
             break
 
-            case 'new':           
-            this.collecteservice.getCollectesByProjet(projet._id,0,status,region,province).then((data) => {
+            case 'new':
+            this.collecteservice.getCollectesByProjet(projet._id,0,status,region,province,commune).then((data) => {
                 this.collectes = data
                 this.filtreData('test',data)
             },(err)=> {
@@ -246,7 +271,7 @@ export class CollectePage implements OnInit {
             break
 
             case 'reject':
-            this.collecteservice.getCollecteEnTraitement(projet._id,this.index,region,province).then((data) => {
+            this.collecteservice.getCollecteEnTraitement(projet._id,this.index,region,province,commune).then((data) => {
                 this.collectes = data
                 this.filtreData('test',data)
             },(err)=> {
@@ -335,7 +360,8 @@ export class CollectePage implements OnInit {
             this.status = data.status;
             this._province = data.province;
             this._region = data.region;
-            this.search(this.projet,this.status,this._region,this._province,'test','test');
+            this.OnProvinceSelect(data.province);
+            this.search(this.projet,this.status,this._region,this._province,this._commune,'test','test');
             console.log('here')
         }
     }
@@ -359,28 +385,32 @@ export class CollectePage implements OnInit {
         })
     }
     calculate(data,formule){
-        let result 
-        switch (formule.operateur) {
-            case '+':
-                result = data[formule.variables[0]] + data[formule.variables[1]]
+        let result;
+        if(data[formule.variables[0]] && data[formule.variables[1]]){
+            switch (formule.operateur) {
+                case '+':
+                    result = data[formule.variables[0]] + data[formule.variables[1]]
+                    break;
+                case '-':
+                    result = data[formule.variables[0]] - data[formule.variables[1]]
+                    break;
+                case '*':
+                    result = data[formule.variables[0]] * data[formule.variables[1]]
                 break;
-            case '-':
-                result = data[formule.variables[0]] - data[formule.variables[1]]
+                case '/':
+                    result = data[formule.variables[0]] / data[formule.variables[1]]
                 break;
-            case '*':
-                result = data[formule.variables[0]] * data[formule.variables[1]]
-            break;     
-            case '/':
-                result = data[formule.variables[0]] / data[formule.variables[1]]
-            break;      
-            default:
-                break;
+                default:
+                    break;
+            }
+            return result
+        }else {
+            return 0
         }
-        return result
     }
     _status:Array<Object>
     ngOnInit(){
-        this.user = JSON.parse(localStorage.getItem('user')) 
+        this.user = JSON.parse(localStorage.getItem('user'))
         if(this.user.role == 'controleur'){
             this._status = [
                 {name:"Validé", value:'valid'},
@@ -396,14 +426,14 @@ export class CollectePage implements OnInit {
 
             if(this.user.role == 'superviseurR'){
                 this._region = this.user.perimetre.region.id_region
-            } 
+            }
             if(this.user.role == 'superviseurP' || this.user.role == 'agent'){
                 this._province = this.user.perimetre.province.id_province
                 this._region = this.user.perimetre.region.id_region
             }
-            
+
 
         }
-        this.getProjets()                
+        this.getProjets()
     }
  }

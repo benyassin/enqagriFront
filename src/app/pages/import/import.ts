@@ -110,7 +110,22 @@ export class ImportPage implements OnInit {
         }
     }
     ngOnInit(){
+        this.reader.onload = (ev: any) => {
+            let data = JSON.parse(ev.target.result);
+            console.log(data);
+            const keys = data.features[0].properties;
+            if(keys.id_commune && keys.id_province && keys.id_region){
+                console.log('allowed to upload')
+            }
+            else {
+                console.log('missing properties');
+                this.canUpload = false
+            }
+        };
+
+
         this.uploader.onAfterAddingFile = (item => {
+            this.reader.readAsText(item._file);
             item.withCredentials = false;
             if(item.file.name.split('.').pop() == 'geojson'){
                 this.canUpload = true
@@ -120,6 +135,7 @@ export class ImportPage implements OnInit {
             }
 
          });
+
 
         this.uploader.onWhenAddingFileFailed = (item, filter, options) => this.onWhenAddingFileFailed(item, filter, options);
         this.getCollection();
