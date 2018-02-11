@@ -99,11 +99,14 @@ export class CollectePage implements OnInit {
         let extra = [];
         let calc = [];
         this.settings.columns =  {
-            projet:{
-                title:'Enquete',
+            collecte:{
+                title:'id collecte',
             },
-            type:{
-                title:'Type',
+            formname:{
+                title:'Questionnaire'
+            },
+            instance:{
+                title:'Instance'
             },
             agent:{
                 title:'Agent'
@@ -122,18 +125,25 @@ export class CollectePage implements OnInit {
 
         });
 
+
+
         this.settings.columns['date'] = {'title': 'Date Synchornisation'};
         data.forEach(element => {
             element.collecte.forEach(formulaire => {
                 formulaire.data.forEach(fdata => {
                     if((this._filtre != null && fdata.formdata.data[this._filtre.field.key] == this._value) || this._filtre == null){
                         let row = {
-                            'projet':this.anass.name,
-                            'type':this.anass.theme,
+                            'collecte':element.numero,
+                            'formname':formulaire.formname,
+                            'instance':fdata.numero,
                             'agent':element.agent.nom +' '+ element.agent.prenom,
                             'date':moment(new Date(element.createdAt)).format("DD-MM-YYYY à h:mm"),
                             'id':element._id
                         };
+                        Object.keys(fdata.support).forEach( s => {
+                            this.settings.columns[s] = {'title':s};
+                            row[s] = fdata.support[s]
+                        })
                         calc.forEach(c => {
                             row[c.label] = this.calculate(fdata.formdata.data,c.formule)
                         });
@@ -141,7 +151,7 @@ export class CollectePage implements OnInit {
                             if(fdata.formdata.data[f]) {
                                 row[f] = fdata.formdata.data[f]
                             }else {
-                                row[f] = 0
+                                row[f] = '-'
                             }
 
                         });
@@ -173,9 +183,9 @@ export class CollectePage implements OnInit {
         keys.forEach(key => {
 
         let sum = 0;
-        let count = 0
+        let count = 0;
         for(let i = 0; i < data.length; i++) {
-            if(data[i][key] != 0) {
+            if(data[i][key] != '-') {
                 sum += (data[i][key]);
                 count++
             }
@@ -184,7 +194,7 @@ export class CollectePage implements OnInit {
         let varr : number  = 0;
 
         for(let i = 0; i < count; i++) {
-            if(data[i][key] != 0 ){
+            if(data[i][key] != '-' ){
                 varr += Math.pow(((data[i][key]) - avg),2);
             }
         }
@@ -405,7 +415,7 @@ export class CollectePage implements OnInit {
             }
             return result
         }else {
-            return 0
+            return '-'
         }
     }
     _status:Array<Object>

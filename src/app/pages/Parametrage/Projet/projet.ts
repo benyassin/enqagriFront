@@ -224,18 +224,18 @@ export class ProjetPage implements OnInit  {
     }
     OnRegionDeselect(region){
         if(Array.isArray(region)){
-            this._listprovinces = []
+            this._listprovinces = [];
             this.projet.provinces = []
         }else{
             let provinces = this._listprovinces.filter(function(el){
                 return el.id_region !== region.id
-            })
-            console.log(this.projet.provinces)
+            });
+            console.log(this.projet.provinces);
             let _provinces = this.projet.provinces.filter(function(el){
                 return el.id_region !== region.id
-            })
+            });
             this.projet.provinces = _provinces;
-            console.log(this.projet.provinces)        
+            console.log(this.projet.provinces);
             this._listprovinces = provinces;
         }
     }
