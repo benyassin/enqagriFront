@@ -40,6 +40,13 @@
                         <option *ngFor="let c of communelist" [ngValue]="c.id_commune">{{c.name}}</option>
                     </select>
                 </div>
+                <div class="form-group col-md-3">
+                    <label> Formulaire :</label>
+                    <select [(ngModel)]='_formulaire' name="formulaire" class="form-control">
+                        <option [ngValue]="null"></option>
+                        <option *ngFor="let f of projet?.forms" [ngValue]="f.id_fields">{{f.name}}</option>
+                    </select>
+                </div>
 
                 <div class="form-group col-md-3">  
                         <label >Filtre: </label>
@@ -75,7 +82,6 @@
     </div>
 </div>
 <div class="col-md-12">
-        <button (click)="exportData()">export</button>          
 
         <div *ngIf="!dataload" class="panel panel-success">
                 <div class="panel-body">
@@ -106,6 +112,8 @@
                 </div>
         </div>
     <div *ngIf="!dataload" class="panel panel-success">
+        <button class="btn btn-primary" (click)="exportData()"><i class="far fa-file-excel"></i> Export</button>
+
         <div class="panel-body">
                 <!-- <ng2-smart-table *ngIf="!loading" [settings]="settings" [source]="collectes"></ng2-smart-table> -->
                 <!-- <label> projet</label>

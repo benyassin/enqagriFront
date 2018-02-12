@@ -94,6 +94,8 @@ export class CollectePage implements OnInit {
             console.log(err)
         })
     }
+    _formulaire
+
     filtreData(filtre,data: any){
         let result = [];
         let extra = [];
@@ -126,38 +128,41 @@ export class CollectePage implements OnInit {
         });
 
 
-
         this.settings.columns['date'] = {'title': 'Date Synchornisation'};
         data.forEach(element => {
             element.collecte.forEach(formulaire => {
-                formulaire.data.forEach(fdata => {
-                    if((this._filtre != null && fdata.formdata.data[this._filtre.field.key] == this._value) || this._filtre == null){
+                if((this._formulaire != null && formulaire.form == this._formulaire) || this._formulaire == null) {
+                    formulaire.data.forEach(fdata => {
+                        if ((this._filtre != null && fdata.formdata.data[this._filtre.field.key] == this._value) || this._filtre == null) {
+                        }
+
                         let row = {
-                            'collecte':element.numero,
-                            'formname':formulaire.formname,
-                            'instance':fdata.numero,
-                            'agent':element.agent.nom +' '+ element.agent.prenom,
-                            'date':moment(new Date(element.createdAt)).format("DD-MM-YYYY à h:mm"),
-                            'id':element._id
+                            'collecte': element.numero,
+                            'formname': formulaire.formname,
+                            'instance': fdata.numero,
+                            'agent': element.agent.nom + ' ' + element.agent.prenom,
+                            'date': moment(new Date(element.createdAt)).format("DD-MM-YYYY à h:mm"),
+                            'id': element._id
                         };
-                        Object.keys(fdata.support).forEach( s => {
-                            this.settings.columns[s] = {'title':s};
+                        Object.keys(fdata.support).forEach(s => {
+                            this.settings.columns[s] = {'title': s};
                             row[s] = fdata.support[s]
                         })
                         calc.forEach(c => {
-                            row[c.label] = this.calculate(fdata.formdata.data,c.formule)
+                            row[c.label] = this.calculate(fdata.formdata.data, c.formule)
                         });
                         extra.forEach(f => {
-                            if(fdata.formdata.data[f]) {
+                            if (fdata.formdata.data[f]) {
                                 row[f] = fdata.formdata.data[f]
-                            }else {
+                            } else {
                                 row[f] = '-'
                             }
 
                         });
                         result.push(row)
-                    }
-                })
+
+                    })
+                }
             })
         });
         this.csv = result;
