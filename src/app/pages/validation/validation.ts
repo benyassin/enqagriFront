@@ -25,28 +25,28 @@ export class ValidationPage implements AfterViewInit  {
       private router:Router,
       private confirmationservice:ConfirmationService
     ){}
-    msgs : any = []
-    collecte : any
-    _parcelle : any = ''
-    _type : any = ''
-    url : any
-    Parcelles : any = []
-    ExploitationMap
-    ParcelleMap
-    parcelleLayers
-    selectedParcelle
+    msgs : any = [];
+    collecte : any;
+    _parcelle : any = '';
+    _type : any = '';
+    url : any;
+    Parcelles : any = [];
+    ExploitationMap;
+    ParcelleMap;
+    parcelleLayers;
+    selectedParcelle;
     markers = new L.LayerGroup();
-    drawnItems = new L.FeatureGroup()
-    selected
-    hidden = true
+    drawnItems = new L.FeatureGroup();
+    selected;
+    hidden = true;
     
-    validation
-    user
-    lenght
-    index
+    validation;
+    user;
+    lenght;
+    index;
     rmessage
-    testvar = null
-    srcformio 
+    testvar = null;
+    srcformio ;
     action(action){
       this.confirmationservice.confirm({
         message: "Voulez-vous confirmer cette opération?",
@@ -275,6 +275,7 @@ export class ValidationPage implements AfterViewInit  {
       // this.ParcelleMap.addControl(drawControl);
 
     }
+    identification
     ngOnInit(){
       //init map
 
@@ -286,7 +287,8 @@ export class ValidationPage implements AfterViewInit  {
           this.router.navigate(['collectes/'])
         }
         this._type = this.collecte.collecte[0]
-        this.srcformio="http://localhost:8080/api/forms/"+this._type.form+"/fields"
+        this.identification ="http://localhost:8080/api/forms/"+this.collecte.exploitation.form+"/fields";
+        this.srcformio="http://localhost:8080/api/forms/"+this._type.form+"/fields";
 
         // this.OnParcelleChange(this._type.data[0])
         

@@ -44,7 +44,7 @@
                     <label> Formulaire :</label>
                     <select [(ngModel)]='_formulaire' name="formulaire" class="form-control">
                         <option [ngValue]="null"></option>
-                        <option *ngFor="let f of projet?.forms" [ngValue]="f.id_fields">{{f.name}}</option>
+                        <option [hidden]="projet?.forms.length > 1 && f.geometry == 'none'" *ngFor="let f of projet?.forms" [ngValue]="f.id_fields">{{f.name}}</option>
                     </select>
                 </div>
 
@@ -97,7 +97,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let apikey of ExtrapolatedData">
+                            <tr [hidden]="apikey.id_field !== _formulaire"  *ngFor="let apikey of ExtrapolatedData">
                                     <th>{{apikey?.key}}</th>
                                     <th>{{apikey?.somme | number:'1.0-2'}}</th>
                                     <th>{{apikey?.moyenne | number:'1.0-2'}}</th>
@@ -171,7 +171,7 @@
                 <div class="col-md-6">
                 </div>
             </div> -->
-            <div class="row">
+            <div class="row smart-table-container">
                     <ng2-smart-table #table *ngIf="!dataload"  [settings]="settings" [source]="source" (custom)="consulter($event.data.id,projet)"></ng2-smart-table>
 
             </div>

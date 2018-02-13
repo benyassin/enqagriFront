@@ -64,7 +64,7 @@ export class CollectePage implements OnInit {
             edit  : false,
             delete: false,
             custom: [{ name: 'consulter', title: `<a type="button" title="Plus de details" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> Consulter</a>` }],
-            position: 'right'
+            position: 'left'
         },
         pager:{
             perPage:25
@@ -86,7 +86,7 @@ export class CollectePage implements OnInit {
     }
 
     OnProvinceSelect(id){
-        console.log(id)
+        console.log(id);
         this.perimetreservice.getCommune(id).then((data)=>{
             this.communelist = data
         },(err)=>{
@@ -94,7 +94,7 @@ export class CollectePage implements OnInit {
             console.log(err)
         })
     }
-    _formulaire
+    _formulaire;
 
     filtreData(filtre,data: any){
         let result = [];
@@ -113,20 +113,7 @@ export class CollectePage implements OnInit {
             agent:{
                 title:'Agent'
             },
-        },
-        this.extrapolation.forEach(api => {
-
-            if(api.type == 'extra'){
-            this.settings.columns[api.field.key] = {'title':api.label};
-            extra.push(api.field.key)
-            }
-            if(api.type == 'cal'){
-                this.settings.columns[api.label] = {'title':api.label};
-                calc.push(api)
-            }
-
-        });
-
+        };
 
         this.settings.columns['date'] = {'title': 'Date Synchornisation'};
         data.forEach(element => {
@@ -147,17 +134,27 @@ export class CollectePage implements OnInit {
                         Object.keys(fdata.support).forEach(s => {
                             this.settings.columns[s] = {'title': s};
                             row[s] = fdata.support[s]
-                        })
-                        calc.forEach(c => {
-                            row[c.label] = this.calculate(fdata.formdata.data, c.formule)
                         });
-                        extra.forEach(f => {
-                            if (fdata.formdata.data[f]) {
-                                row[f] = fdata.formdata.data[f]
-                            } else {
-                                row[f] = '-'
-                            }
+                        this.extrapolation.forEach(api =>{
+                            if(api.type == 'extra'){
+                                if (fdata.formdata.data[api.field.key]) {
+                                    row[api.field.key] = fdata.formdata.data[api.field.key]
+                                } else {
+                                    row[api.field.key] = '-'
+                                }
+                                if(!this.settings.columns[api.field.key]){
+                                    this.settings.columns[api.field.key] = {'title':api.label};
+                                }
 
+
+                            }
+                            if(api.type == 'cal'){
+                                row[api.label] = this.calculate(fdata.formdata.data, api.formule);
+
+                                if(!this.settings.columns[api.label]){
+                                    this.settings.columns[api.label] = {'title':api.label}
+                                }
+                            }
                         });
                         result.push(row)
 
@@ -168,7 +165,7 @@ export class CollectePage implements OnInit {
         this.csv = result;
 
         this.source = new LocalDataSource(result);
-        this.extrapolate(result,extra);
+        this.extrapolate(result,this.extrapolation);
         this.msgs = [];
         if(result.length > 0){
             this.msgs.push({severity:'success', summary:'', detail:'Nombre de collectes correspondant à vos critères de recherche : '+ result.length });
@@ -186,12 +183,19 @@ export class CollectePage implements OnInit {
         }
         let results = [];
         keys.forEach(key => {
-
+        if(key.type !== 'filtre'){
+            let k;
+            if(key.type == 'cal'){
+                k = key.label
+            }else{
+                k = key.field.key
+            }
         let sum = 0;
         let count = 0;
+        console.log(key);
         for(let i = 0; i < data.length; i++) {
-            if(data[i][key] != '-') {
-                sum += (data[i][key]);
+            if(data[i][k] != '-') {
+                sum += (data[i][k]);
                 count++
             }
         }
@@ -199,8 +203,8 @@ export class CollectePage implements OnInit {
         let varr : number  = 0;
 
         for(let i = 0; i < count; i++) {
-            if(data[i][key] != '-' ){
-                varr += Math.pow(((data[i][key]) - avg),2);
+            if(data[i][k] != '-' ){
+                varr += Math.pow(((data[i][k]) - avg),2);
             }
         }
 
@@ -208,7 +212,8 @@ export class CollectePage implements OnInit {
 
         let ec = Math.sqrt(varr);
 
-        results.push({'key': key, 'somme':sum,'moyenne':avg,'variance':varr,'ecarttype':ec})
+        results.push({'key': key.label,'id_field':key.form, 'somme':sum,'moyenne':avg,'variance':varr,'ecarttype':ec})
+        }
         });
         this.ExtrapolatedData = results;
         console.log(results)
@@ -337,6 +342,8 @@ export class CollectePage implements OnInit {
         this.ExtrapolatedData = []
         this.dataload = true
         this._value = null
+        this._formulaire = null
+        this._commune = null
       }
 
     getProjets(){
@@ -375,7 +382,9 @@ export class CollectePage implements OnInit {
             this.status = data.status;
             this._province = data.province;
             this._region = data.region;
-            this.OnProvinceSelect(data.province);
+            if(data.province){
+                this.OnProvinceSelect(data.province);
+            }
             this.search(this.projet,this.status,this._region,this._province,this._commune,'test','test');
             console.log('here')
         }

@@ -52,12 +52,8 @@
                                  
                                     <tbody>
                                         <tr>
-                                            <th>ID Segment</th>
+                                            <th>ID Collecte</th>
                                             <td>{{selectedParcelle?.id_segment}}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>ID Parcelle</th>
-                                            <td>{{selectedParcelle?.id_parcelle}}</td>
                                         </tr>
                                         <!--<tr>-->
                                             <!--<th>superficie</th>-->
@@ -95,13 +91,30 @@
                </div>
             </div>
             </div>
-            <div class="col-md-12">
-                <div class="panel panel-success">
-                   <div class="panel-body ">
-                        <formio *ngIf="!hidden" src="{{srcformio}}" [submission]=selectedParcelle?.formdata (change)="onSubmit($event)"></formio>
-                       </div>
-                    </div>
-            </div>
+<div class="col-md-12">
+    <ul class="nav nav-tabs nav-justified">
+        <li class="active">
+            <a href="#default-tab-1" data-toggle="tab" aria-expanded="true">
+                <span class="visible-xs">Instance</span>
+                <span class="hidden-xs">Instance</span>
+            </a>
+        </li>
+        <li *ngIf="collecte.exploitation.form" class="">
+            <a href="#default-tab-2" data-toggle="tab" aria-expanded="false">
+                <span class="visible-xs">Identification</span>
+                <span class="hidden-xs">Identification</span>
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane fade active in" id="default-tab-1">
+            <formio *ngIf="!hidden" src="{{srcformio}}" [submission]=selectedParcelle?.formdata (change)="onSubmit($event)"></formio>
+        </div>
+        <div class="tab-pane fade" id="default-tab-2">
+            <formio src="{{identification}}" [submission]=collecte?.exploitation.formdata ></formio>
+        </div>
+    </div>
+</div>
             <div class="modal fade" id="modal-dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
