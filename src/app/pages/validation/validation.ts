@@ -11,6 +11,7 @@ import 'leaflet.pm/dist/leaflet.pm.css'
 import 'leaflet-fullscreen';
 import * as moment from 'moment';
 import * as turf from '@turf/turf';
+import {forEach} from '@angular/router/src/utils/collection';
 // import * as Draw from 'leaflet-draw'
 @Component({
     selector: 'Validation',
@@ -97,15 +98,11 @@ export class ValidationPage implements AfterViewInit  {
     // fitBounds = this.couche.getBounds()
     // onMapReady(map : L.Map) {
     // }
-    
-    @ViewChild('iframe') iframe: ElementRef;
-    @ViewChild('parcelle') parcelle: ElementRef;
-    
-      receiveMessage: EventListener;
-      private isInited: boolean;
-    
+
+
 
     OnParcelleChange(parcelle :any){
+        this.hidden = true;
       parcelle.date_creation = moment(new Date(parcelle.date_creation)).format("DD.MM.YYYY à h:mm");
       this.selectedParcelle = parcelle;
       // this.parcelle.nativeElement.contentWindow.postMessage({"window":"parcelle","message":'data',"data":parcelle.formdata}, 'http://localhost/demo.html');
@@ -123,27 +120,35 @@ export class ValidationPage implements AfterViewInit  {
       // }}})
       this.loadMapData()
     }
-    OnTypeChange(data){
-      this.srcformio = "http://localhost:8080/api/forms/"+data.form+"/fields"
+    OnTypeChange(data : any){
+      this.srcformio = "http://localhost:8080/api/forms/"+data.form+"/fields";
       this.hidden = true;
       // document.getElementById('data').setAttribute('src', `http://localhost/demo.html?myParam=${query}`);
     } 
     saveChange(){
-      console.log(this.selectedParcelle.formdata)
-      let cdata = {'id':this.collecte._id,data:this.selectedParcelle.formdata}
-      this.collecteservice.updateCollecte(cdata).then((data) => {
+        // console.log(this.collecte);
+        // console.log(this.selectedParcelle)
+        // let test = this.collecte
+        // test.delete('instance')
+        // console.log(test)
+      this.collecteservice.updateCollecte(this.collecte).then((data) => {
         console.log(data)
       })
     }
     onSubmit(submission: any) {
-      console.log('submission')
-      console.log(submission.data)
+      console.log('submission');
+      console.log(submission.data);
       if(submission.data){
         this.selectedParcelle.formdata.data = submission.data
       }
       // this.selectedParcelle.formdata = submission.data
-      console.log('selectedParcelle')
+      console.log('selectedParcelle');
       console.log(this.selectedParcelle.formdata.data); // This will print out the full submission from Form.io API.
+    }
+    OnSubmitId(submission:any){
+        if(submission.data){
+            this.collecte.exploitation.formdata.data = submission.data
+        }
     }
     clear(){
       this.drawnItems.clearLayers()
@@ -286,7 +291,7 @@ export class ValidationPage implements AfterViewInit  {
         }else{
           this.router.navigate(['collectes/'])
         }
-        this._type = this.collecte.collecte[0]
+        this._type = this.collecte.collecte[this.collecte.form];
         this.identification ="http://localhost:8080/api/forms/"+this.collecte.exploitation.form+"/fields";
         this.srcformio="http://localhost:8080/api/forms/"+this._type.form+"/fields";
 
@@ -295,9 +300,9 @@ export class ValidationPage implements AfterViewInit  {
         // let query = this.collecte.exploitation.form
         // document.getElementById('data').setAttribute('src', `http://localhost/demo.html?myParam=${query}`)
         this.validation = this.collecte.validation
-        this.user = JSON.parse(localStorage.getItem('user'))
-        this.lenght = this.collecte.projet.validation.length
-        this.index = this.collecte.projet.validation.findIndex(x => x.agent==this.user._id)  
+        this.user = JSON.parse(localStorage.getItem('user'));
+        this.lenght = this.collecte.projet.validation.length;
+        this.index = this.collecte.projet.validation.findIndex(x => x.agent==this.user._id);
 
         if(this.collecte.rmessage != null && this.validation[this.index] == 'reject'){
           this.msgs.push({severity:'error', summary:'message:', detail:this.collecte.rmessage});
@@ -376,20 +381,22 @@ export class ValidationPage implements AfterViewInit  {
       var Fullscreen = new L.Control.Fullscreen();
         this.ParcelleMap.addControl(Fullscreen);
     //     this.ParcelleMap.fitBounds(this.parcelleLayers.getBounds())
-      this.AddParcelleLayer(this.collecte.collecte[0].data[0].id_segment)
-      let that = this
+    //   this.AddParcelleLayer(this.collecte.collecte[0].data[0].id_segment)
+
+
         // this.ParcelleMap.on(L.Draw.Event.CREATED,function(e){
         //   var type = e.layerType,
         //       layer = e.layer
         //       that.drawnItems.addLayer(layer)
         //     });
 
-        this._parcelle = this.collecte.collecte[0].data[0]
-        this.OnParcelleChange(this.collecte.collecte[0].data[0])
+        this._parcelle = this.collecte.collecte[this.collecte.form].data[this.collecte.instance-1];
+        this.OnParcelleChange(this.collecte.collecte[this.collecte.form].data[this.collecte.instance-1])
     }
 
     AddParcelleLayer(id){
       console.info('id_segment ',id)
+
       this.collecteservice.getSegment(id).then((data : any ) => {
         let Parcelles = [];
         data.segment.parcelles.forEach(element => {
@@ -418,10 +425,10 @@ export class ValidationPage implements AfterViewInit  {
         "opacity": 1,
         "fillOpacity": 1
         };
-      let voisin = []
-      let intersect = []
+      let voisin = [];
+      let intersect = [];
         data.voisin.forEach(element => {
-          let e = element.collecte[0].data[0]
+          let e = element.collecte[0].data[0];
           if(this.collecte.collecte[0].data[0].numero != e.numero){
           voisin.push({"type":"Feature","properties":{"numero":e.numero},geometry:e.gjson})
           let _int = turf.intersect(this.collecte.collecte[0].data[0].gjson,e.gjson)
@@ -430,24 +437,20 @@ export class ValidationPage implements AfterViewInit  {
           }
         }
         });
-        let _intersection = new L.GeoJSON(intersect,{style:styleI})
-        _intersection.addTo(this.ParcelleMap)
-        let _voisin = new L.GeoJSON(voisin,{style: styleV,pmIgnore: true })
+        let _intersection = new L.GeoJSON(intersect,{style:styleI});
+        _intersection.addTo(this.ParcelleMap);
+        let _voisin = new L.GeoJSON(voisin,{style: styleV,pmIgnore: true });
         _voisin.addTo(this.ParcelleMap)
-       let layer = new L.GeoJSON(Parcelles,{style: styleP,pmIgnore: true })
-        layer.addTo(this.ParcelleMap)
+       let layer = new L.GeoJSON(Parcelles,{style: styleP,pmIgnore: true });
+        layer.addTo(this.ParcelleMap);
         let aa = {"type": "Feature","properties":{"numero":data.segment.id},geometry:data.segment.geometry}
        let test = new L.GeoJSON(aa,{style:styleS,pmIgnore: true})
-       test.addTo(this.ParcelleMap)
+       test.addTo(this.ParcelleMap);
 
       let control =  L.control.layers({},{"segment":test,"parcelles":layer,"voisins":_voisin,"intersection":_intersection})
         control.addTo(this.ParcelleMap)
       })
 
-
-    }
-
-    ngOnDestroy() {
 
     }
     ngAfterViewInit() {

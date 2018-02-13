@@ -117,15 +117,16 @@ export class CollectePage implements OnInit {
 
         this.settings.columns['date'] = {'title': 'Date Synchornisation'};
         data.forEach(element => {
+            let f = 0
             element.collecte.forEach(formulaire => {
                 if((this._formulaire != null && formulaire.form == this._formulaire) || this._formulaire == null) {
                     formulaire.data.forEach(fdata => {
                         if ((this._filtre != null && fdata.formdata.data[this._filtre.field.key] == this._value) || this._filtre == null) {
                         }
-
                         let row = {
                             'collecte': element.numero,
                             'formname': formulaire.formname,
+                            'formid':f,
                             'instance': fdata.numero,
                             'agent': element.agent.nom + ' ' + element.agent.prenom,
                             'date': moment(new Date(element.createdAt)).format("DD-MM-YYYY à h:mm"),
@@ -160,6 +161,7 @@ export class CollectePage implements OnInit {
 
                     })
                 }
+                f++
             })
         });
         this.csv = result;
@@ -389,10 +391,12 @@ export class CollectePage implements OnInit {
             console.log('here')
         }
     }
-    consulter(collecte,projet){
+    consulter(collecte,instance,form){
         this.collecteservice.getCollecte(collecte).then((data : any) => {
-            this.collecteservice.collecte = data
-            console.log(data)
+            this.collecteservice.collecte = data;
+            this.collecteservice.collecte['instance'] = instance;
+            this.collecteservice.collecte['form'] = form;
+            console.log(this.collecteservice.collecte);
             // this.collecteservice.collecte.projet = projet;
             // this.collecteservice.collecte.agent = collecte.agent;
             if(this.collecteservice.collecte.geo == false ){
