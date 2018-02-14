@@ -122,4 +122,15 @@ getSegment(id){
             });
     });
 }
+getVoisin(projet,support,collectid){
+    return new Promise((resolve, reject) => {
+        this.http.get('collectes/voisin/?pid=' + projet + '&sid=' + support + '&cid='+collectid )
+            .map(res => res.json())
+            .subscribe(data => {
+                resolve(data);
+            }, (err) => {
+                reject(err);
+            });
+    });
+}
 }

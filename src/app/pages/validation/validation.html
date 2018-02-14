@@ -3,94 +3,94 @@
 
 <div class="row">
     <div class="bt-group pull-right">
-            <button (click)="saveChange()" class="btn btn-primary btn-lg m-r-5"><i class="fa fa-floppy-o pull-left"></i>Enregistrer</button>
-            <button  [disabled]="(user?.role != 'controleur') || (validation[index] == 'valid') || (index == lenght - 1 && validation[index] =='valid')" (click)="action('valid')" class="btn btn-success btn-lg m-r-5"><i class="fa fa-check pull-left"></i>Valider</button>
-            <button  [disabled]="(user?.role != 'controleur') || (validation[index] == 'valid') || (index == 0)" href="#modal-refus"  class="btn btn-danger btn-lg m-r-5" data-toggle="modal"><i class="fa fa-ban pull-left"></i>Rejeter</button>
+        <button (click)="saveChange()" class="btn btn-primary btn-lg m-r-5"><i class="fa fa-floppy-o pull-left"></i>Enregistrer</button>
+        <button  [disabled]="(user?.role != 'controleur') || (validation[index] == 'valid') || (index == lenght - 1 && validation[index] =='valid')" (click)="action('valid')" class="btn btn-success btn-lg m-r-5"><i class="fa fa-check pull-left"></i>Valider</button>
+        <button  [disabled]="(user?.role != 'controleur') || (validation[index] == 'valid') || (index == 0)" href="#modal-refus"  class="btn btn-danger btn-lg m-r-5" data-toggle="modal"><i class="fa fa-ban pull-left"></i>Rejeter</button>
 
 
-        </div>
-<div class="col-md-2">
-</div>
+    </div>
+    <div class="col-md-2">
+    </div>
 </div>
 <br>
 <div class="row">
     <div class="col-md-6">
-            <div class="panel panel-success">
-               <div class="panel-body ">
+        <div class="panel panel-success">
+            <div class="panel-body ">
 
-                            <div id="map" style="height: 300px;"></div>
-                        </div>
-                    </div>
-                </div>
+                <div id="map" style="height: 300px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-success">
+            <div class="panel-body ">
+                <form class="form-horizontal">
                     <div class="col-md-6">
-                    <div class="panel panel-success">
-                            <div class="panel-body ">
-                        <form class="form-horizontal">
-                            <div class="col-md-6">
                         <div class="form-group">
                             <!-- <label for="type">Questionnaire: </label>                        -->
                             <select id="type" name="type" [(ngModel)]="_type" required class="form-control" (ngModelChange)="OnTypeChange($event)">
-                                    <option value="" disabled="true" [selected]="!_type">Questionnaire </option>
-                                    <option *ngFor="let data of collecte?.collecte" [ngValue]="data">{{data.formname}}</option>
-                                </select>
+                                <option value="" disabled="true" [selected]="!_type">Questionnaire </option>
+                                <option *ngFor="let data of collecte?.collecte" [ngValue]="data">{{data.formname}}</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">  
+                        <div class="form-group">
 
                             <div class="col-md-8">
-                                    <!-- <label for="parcelle">Instance: </label> -->
-                            <select id="parcelle" name="parcelle" [(ngModel)]="_parcelle" required class="form-control" (ngModelChange)="OnParcelleChange($event)">
+                                <!-- <label for="parcelle">Instance: </label> -->
+                                <select id="parcelle" name="parcelle" [(ngModel)]="_parcelle" required class="form-control" (ngModelChange)="OnParcelleChange($event)">
                                     <option value="" disabled="true" [selected]="!_parcelle">Bloc</option>
                                     <option *ngFor="let data of _type?.data" [ngValue]="data">{{data.numero}}</option>
-                            </select>
+                                </select>
                             </div>
                         </div>
                     </div>
-                        </form>  
-                            <table id="data-table" class="table table-striped table-bordered text-center">
-                                 
-                                    <tbody>
-                                        <tr>
-                                            <th>ID Collecte</th>
-                                            <td>{{selectedParcelle?.id_segment}}</td>
-                                        </tr>
-                                        <!--<tr>-->
-                                            <!--<th>superficie</th>-->
-                                            <!--<td>{{selectedParcelle?.superficie}}</td>-->
-                                        <!--</tr>-->
-                                        <tr>
-                                            <th>Numéro</th>
-                                            <td>{{selectedParcelle?.numero}}</td>
-                                        </tr>
-                                        
-                                        <!-- <tr>
-                                            <td>Type</td>
-                                            <td>{{selectedParcelle?.gjson?.type}}</td>
-                                        </tr> -->
-                                        <!-- <tr>
-                                            <td>Capture</td>
-                                            <td><button [disabled]="!selectedParcelle" href="#modal-dialog" class="btn btn-sm btn-success" data-toggle="modal">Ouvrir</button></td>
-                                        </tr> -->
-                                        <tr>
-                                            <th>Date Creation</th>
-                                            <td>{{selectedParcelle?.date_creation}}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Region</th>
-                                            <td>{{collecte?.agent.region?.name}}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Province</th>
-                                         <td>{{collecte?.agent.province?.name}}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                       
-               </div>
-               </div>
+                </form>
+                <table id="data-table" class="table table-striped table-bordered text-center">
+
+                    <tbody>
+                    <tr>
+                        <th>ID Collecte</th>
+                        <td>{{selectedParcelle?.id_segment}}</td>
+                    </tr>
+                    <!--<tr>-->
+                    <!--<th>superficie</th>-->
+                    <!--<td>{{selectedParcelle?.superficie}}</td>-->
+                    <!--</tr>-->
+                    <tr>
+                        <th>NumÃ©ro</th>
+                        <td>{{selectedParcelle?.numero}}</td>
+                    </tr>
+
+                    <!-- <tr>
+                        <td>Type</td>
+                        <td>{{selectedParcelle?.gjson?.type}}</td>
+                    </tr> -->
+                    <!-- <tr>
+                        <td>Capture</td>
+                        <td><button [disabled]="!selectedParcelle" href="#modal-dialog" class="btn btn-sm btn-success" data-toggle="modal">Ouvrir</button></td>
+                    </tr> -->
+                    <tr>
+                        <th>Date Creation</th>
+                        <td>{{selectedParcelle?.date_creation}}</td>
+                    </tr>
+                    <tr>
+                        <th>Region</th>
+                        <td>{{collecte?.agent.region?.name}}</td>
+                    </tr>
+                    <tr>
+                        <th>Province</th>
+                        <td>{{collecte?.agent.province?.name}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+
             </div>
-            </div>
+        </div>
+    </div>
+</div>
 <div class="col-md-12">
     <ul class="nav nav-tabs nav-justified">
         <li class="active">
@@ -115,41 +115,40 @@
         </div>
     </div>
 </div>
-            <div class="modal fade" id="modal-dialog">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-                            <h4 class="modal-title">Capture</h4>
-                        </div>
-                        <div class="modal-body">
-                            <img src="{{selectedParcelle?.capture}}" alt="Capture" />
-                                
-                        </div>
-                        <div class="modal-footer">
-                            <a href="javascript:;" class="btn btn-sm btn-white" data-dismiss="modal">Fermer</a>
-                        </div>
-                    </div>
-                </div>
+<div class="modal fade" id="modal-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                <h4 class="modal-title">Capture</h4>
             </div>
-            <div class="modal fade" id="modal-refus">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-                            <h4 class="modal-title">Message</h4>
-                        </div>
-                        <div class="modal-body">
-                            <textarea class="form-control" [(ngModel)]="rmessage" name="rmessage" rows="5" placeholder="message ..."></textarea>                                
-                        </div>
-                        <div class="modal-footer">
-                            <a href="javascript:;" class="btn btn-sm btn-white" data-dismiss="modal">Fermer</a>
-                            <a (click)="action('reject')" class="btn btn-sm btn-primary" data-dismiss="modal">Rejeter</a>
-                        </div>
-                    </div>
-                </div>
+            <div class="modal-body">
+                <img src="{{selectedParcelle?.capture}}" alt="Capture" />
+
             </div>
+            <div class="modal-footer">
+                <a href="javascript:;" class="btn btn-sm btn-white" data-dismiss="modal">Fermer</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-refus">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                <h4 class="modal-title">Message</h4>
+            </div>
+            <div class="modal-body">
+                <textarea class="form-control" [(ngModel)]="rmessage" name="rmessage" rows="5" placeholder="message ..."></textarea>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:;" class="btn btn-sm btn-white" data-dismiss="modal">Fermer</a>
+                <a (click)="action('reject')" class="btn btn-sm btn-primary" data-dismiss="modal">Rejeter</a>
+            </div>
+        </div>
+    </div>
+</div>
 
 
-               <!-- <iframe [hidden]="hidden" #parcelle frameBorder="0" class="iframe-map" scrolling="no" width="100%" height="800" id="data" name="parcelle" (load)="onIframeLoad(this)"></iframe> -->
-
+<!-- <iframe [hidden]="hidden" #parcelle frameBorder="0" class="iframe-map" scrolling="no" width="100%" height="800" id="data" name="parcelle" (load)="onIframeLoad(this)"></iframe> -->

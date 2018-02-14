@@ -399,10 +399,10 @@ export class CollectePage implements OnInit {
             console.log(this.collecteservice.collecte);
             // this.collecteservice.collecte.projet = projet;
             // this.collecteservice.collecte.agent = collecte.agent;
-            if(this.collecteservice.collecte.geo == false ){
+            if(this.collecteservice.collecte.collecte.geo == false ){
               return this.router.navigate(['collectes/geoless'])
             }
-            if(data.projet.theme == 'rna'){
+            if(data.collecte.projet.theme == 'rna'){
                 this.router.navigate(['collectes/rnacollecte'])
             }else{
                 this.router.navigate(['collectes/collecte'])
