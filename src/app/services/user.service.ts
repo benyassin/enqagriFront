@@ -100,9 +100,23 @@ export class UserService {
         });
     });
 
-    }  
-         
-  setAffectation(data){
+    }
+
+    getControlleursByRegion(region){
+
+        return new Promise((resolve, reject) => {
+            this.http.get('users/controlleurs/'+region)
+                .map(res => res.json())
+                .subscribe(data => {
+                    resolve(data);
+                }, (err) => {
+                    reject(err);
+                });
+        });
+
+    }
+
+    setAffectation(data){
     return new Promise((resolve, reject) => {
       console.log('here')
       this.http.post('users/affectation', data)

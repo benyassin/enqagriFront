@@ -24,7 +24,7 @@ export class testProjetPage implements OnInit  {
     projet : any = {};
 
     opendemo(id){
-        window.open("http://localhost/demo.html?myParam=" + id ,"popup","width=900,height=600,right=10,top=150")
+        window.open("http://localhost:8080/public/demo.html?myParam=" + id ,"popup","width=900,height=600,right=10,top=150")
     }
     getProjet(id){
         this.projetservice.getProjet(id).then((data) =>{

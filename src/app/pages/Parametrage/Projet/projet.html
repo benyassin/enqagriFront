@@ -1,7 +1,6 @@
 <p-messages [(value)]="msgs"></p-messages>
-
 <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
-<div class="col-md-7">
+<div class="col-md-6">
 <div class="panel panel-success" data-sortable-id="form-plugins-4">
           <div class="panel-heading">
 
@@ -78,30 +77,62 @@
 </div>
 </div>
 </div>
-<div class="col-md-5">
+<div class="col-md-6">
     <div class="panel panel-success">
         <div class="panel-heading">
             <h4 class="panel-title">Validation</h4>
         </div>
       <div class="panel-body">
         <div class="form-horizontal form-bordered">
+            <div class="form-group form-inline">
+                <label class="col-md-3 control-label">Niveau :</label>
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button [disabled]="!lock" (click)="decCount()" type="button" class="btn btn-primary dropdown-toggle" aria-expanded="false">
+                            <span class="fa fa-minus"></span>
+                        </button>
+                    </div>
+                    <input [disabled]="true" [(ngModel)]="_niveau" value="0" type="text" class="form-control">
+                    <div  class="input-group-btn">
+                        <button [disabled]="!lock" (click)="incCount()"   type="button" class="btn btn-success dropdown-toggle">
+                            <span class="fa fa-plus"></span>
+                        </button>
+                        <button (click)="test()"  type="button" class="btn btn-primary">edit</button>
+                    </div>
+                </div>
+            </div>
             <div class="form-group">
                 <label class="col-md-3 control-label">Alias :</label>
                 <div class="col-md-9">
                         {{ error }}                        
-                    <input [(ngModel)]="_name" type="text" class="form-control" />
+                    <input [disabled]="lock" [(ngModel)]="_name" type="text" class="form-control" />
                 </div>
-                <label class="col-md-3 control-label">Agent :</label>
+            </div>
+            <div class="form-group">
+
+            <label class="col-md-3 control-label">Region :</label>
                 <div class="col-md-9">
-                    <select [(ngModel)]="_agent" class="form-control">
-                        <option [hidden]="agentExists(t.id)" *ngFor="let t of controllers" [ngValue]="t.id">{{t.name}}</option>
+                    <select [disabled]="lock" [(ngModel)]="__region" class="form-control" (ngModelChange)="getControllers($event)">
+                        <option *ngFor="let r of projet.regions" [ngValue]="r.id">{{r.itemName}}</option>
+                    </select>
+
+                    {{projet.region | json}}
+                </div>
+            </div>
+            <div class="form-group">
+
+            <label class="col-md-3 control-label">Agent :</label>
+                <div class="col-md-9">
+                    <select [disabled]="lock" [(ngModel)]="_agent" class="form-control">
+                        <option [hidden]="agentExists(t.id,__region)" *ngFor="let t of controllers" [ngValue]="t.id">{{t.name}}</option>
                     </select>
                 </div>
             </div>
+            </div>
             <div>
-            <button *ngIf="updatinglevel == null" (click)="addLevel(_name,_agent)" class="btn btn-primary btn-sm m-r-5">Ajouter</button>
-            <button type="submit" *ngIf="updatinglevel != null"  (click)="updateLevel(_name,_agent)" class="btn btn-sm btn-primary m-r-5">Valider</button>
-            <button type="submit" *ngIf="updatinglevel != null" (click)="cancel(false)" class="btn btn-sm btn-primary m-r-5">Annuler</button>
+            <button [disabled]="lock" *ngIf="updatinglevel == null" (click)="addLevel(_name,_agent,__region)" class="btn btn-primary btn-sm m-r-5">Ajouter</button>
+            <button [disabled]="lock" type="submit" *ngIf="updatinglevel != null"  (click)="updateLevel(_name,_agent,__region)" class="btn btn-sm btn-primary m-r-5">Valider</button>
+            <button [disabled]="lock" type="submit" *ngIf="updatinglevel != null" (click)="cancel(false)" class="btn btn-sm btn-primary m-r-5">Annuler</button>
         </div>
         </div>
         <div class="smart-table-container">
@@ -114,18 +145,17 @@
         </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let level of projet.validation; let i = index" [attr.data-index]="i">
+                <tr *ngFor="let level of validation[__region]; let i = index" [attr.data-index]="i">
                     <td>{{ i + 1}}</td>
                     <td>{{level.alias}}</td>
                     <td>{{level.name}}</td>
-                    <td><a (click)="removeLevel(i)">Supprimer</a> <a (click)="setLevel(i)">Modifier</a></td>
+                    <td><a (click)="removeLevel(i,__region)">Supprimer</a> <a (click)="setLevel(i,__region)">Modifier</a></td>
                 </tr>
             </tbody>
         </table>
       </div>
     </div>
     </div>
-</div>
 
 <div class="col-md-12">
 <div class="panel panel-success" data-sortable-id="form-stuff-1">

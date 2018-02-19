@@ -138,7 +138,6 @@ export class FormulairePage implements OnInit {
     themes:Array<Object> = [
         {name:"Annuelle", value:"annuelle"},
         {name:"Modulaire", value:"modulaire"},
-        {name:"Complémentaire", value:"complementaire"},
         // {name:"Pillier I", value:"pillier1"},
         // {name:"Pillier II", value:"pillier2"},
         // {name:"Projet Financier",value:"financier"}        

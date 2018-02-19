@@ -56,8 +56,8 @@ export class CreationUtilisateurPage implements OnInit {
         this.createForm();
         this.myform.get('role').valueChanges.subscribe(
             (role:string) =>{
-                if(role !== 'admin' && role !== 'controleur'){
-                    if(role === 'superviseurR'){
+                if(role !== 'admin' ){
+                    if(role === 'superviseurR' || role === 'controleur'){
                     this.myform.get('province').clearValidators();
                     this.myform.get('region').setValidators([Validators.required]);
                     this.myform.patchValue({

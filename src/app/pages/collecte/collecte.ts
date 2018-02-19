@@ -253,7 +253,7 @@ export class CollectePage implements OnInit {
     // console.log(this.Downloaded)
     if(this.user.role == 'controleur'){
 
-        this.index = this.projet.validation.findIndex(x => x.agent==this.user._id);
+        this.index = this.projet.validation[region].findIndex(x => x.agent==this.user._id);
 
         this.collecteservice.getCollectesByProjet(projet._id,this.index,status,region,province,commune).then((data) => {
             this.filtreData('test',data)
@@ -445,6 +445,8 @@ export class CollectePage implements OnInit {
                 {name:"En attente de validation",value:'new'},
                 {name:"Refusé",value:'reject'}
             ];
+            this._region = this.user.perimetre.region.id_region
+            console.log('controlleur id region',this._region)
         }else{
             this._status = [
                 {name:"Validé", value:'valid'},
@@ -453,6 +455,7 @@ export class CollectePage implements OnInit {
             ]
 
             if(this.user.role == 'superviseurR'){
+                console.log('my role is admin')
                 this._region = this.user.perimetre.region.id_region
             }
             if(this.user.role == 'superviseurP' || this.user.role == 'agent'){

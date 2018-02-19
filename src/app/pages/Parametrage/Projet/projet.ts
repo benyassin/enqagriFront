@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild,ElementRef } from '@angular/core';
 
 import { FormService }  from '../../../services/form.service'
 import { PerimetreService } from '../../../services/perimetre.service'
@@ -10,6 +10,8 @@ import { Router} from '@angular/router'
 import { take } from 'rxjs/operator/take';
 import * as _ from 'lodash';
 import { keyframes } from '@angular/animations/src/animation_metadata';
+import {D3SliderDirective} from 'ng-d3-slider/d3-slider.directive'
+
 
 @Component({
   selector: 'projet',
@@ -47,58 +49,96 @@ export class ProjetPage implements OnInit  {
     controllers = [];
     apiKey;
     label;
-    updating
-    advanced = false
-    _name
-    _agent
+    updating;
+    advanced = false;
+    _name;
+    _agent;
   // public options: Select2Options;
   // public valueRegion: string[];
   // public valueProvince: string[];
   // public current: string;
-    error : String 
-    addLevel(alias,agent){
+    error : String;
+    lock = false;
+    __region
+    @ViewChild('slider') input:ElementRef;
+    validation : Object = {};
+    addLevel(alias,agent,region){
+        console.log('validation ==== ')
+        console.log(this.validation)
         if(!alias){
             this.error = "Alias est obligatoire"
         }else{
-        if(this.projet.validation.length < 5 && !this.agentExists(agent)){
-        let index = this.controllers.findIndex(x => x.id==agent)
-            this.projet.validation.push({"alias":alias,'agent':this.controllers[index].id,'name':this.controllers[index].name})
+            let r = region
+            if(!this.validation[r]){
+                this.validation[r] = []
+            }
+        if(this.validation[region].length < this._niveau && !this.agentExists(agent,region)){
+
+        let index = this.controllers.findIndex(x => x.id==agent);
+            this.validation[region].push({"alias":alias,'agent':this.controllers[index].id,'name':this.controllers[index].name});
         }
         this.error = ""
     }
-    this._name = ""
+    console.log(this.validation)
+    this._name = "";
     this._agent = ""
     }
-    removeLevel(key){
-        this.projet.validation.splice(key,1)
+
+
+
+    test(){
+        this.lock = !this.lock
+
+    }
+    _niveau = 0
+    public incCount() {
+        if (this._niveau < 5){
+            this._niveau += 1;
+        }
+    }
+    public decCount(){
+        if(this._niveau > 0 || this.validation[Object.keys(this.validation)[0]].lenght < this._niveau){
+        this._niveau -= 1;
+        }
+    }
+
+    clearLast(){
+        Object.keys(this.validation).forEach(key =>{
+            this.validation[key].splice(this._niveau,5)
+        })
+    }
+
+    removeLevel(key,region){
+        this.projet.validation[region].splice(key,1)
     }
     updatinglevel : any = null
-    setLevel(i){
+    setLevel(i,region){
         this.updatinglevel = i
-        this._name = this.projet.validation[i].alias
-        this._agent = this.projet.validation[i].agent
+        this._name = this.validation[region][i].alias
+        this._agent = this.validation[region][i].agent
     }
-    updateLevel(alias,agent){
+    updateLevel(alias,agent,region){
         if(!alias){
             this.error = "Alias est obligatoire"
         }else{
         let index = this.controllers.findIndex(x => x.id==agent)
-        this.projet.validation[this.updatinglevel].alias = alias
-        this.projet.validation[this.updatinglevel].agent = this.controllers[index].id
-        this.projet.validation[this.updatinglevel].name = this.controllers[index].name
+        this.validation[region][this.updatinglevel].alias = alias
+        this.validation[region][this.updatinglevel].agent = this.controllers[index].id
+        this.validation[region][this.updatinglevel].name = this.controllers[index].name
         this.updatinglevel = null
         this.error = ""
         }      
     }
-    agentExists(id) {
-        if(this.projet.validation != null){
-       return this.projet.validation.some(function(el) {
+    agentExists(id,region) {
+        if(this.validation[region] != null){
+       return this.validation[region].some(function(el) {
           return el.agent === id;
         });
     }
       }
-    getControllers(){
-        this.userservice.getControlleurs().then((data : any)=> {
+    getControllers(id){
+        this.controllers = [];
+        this.userservice.getControlleursByRegion(id).then((data : any)=> {
             data.forEach(element => {
                 this.controllers.push({'name':element.nom + ' ' + element.prenom,'id':element._id})
             });
@@ -198,11 +238,13 @@ export class ProjetPage implements OnInit  {
         this.list_regions = regions
         console.log(regions)
         let array :any  = []
+        if(this.projet['perimetre']){
         this.projet['perimetre'].region.forEach(element => {
             let object = {'id': element.id_region,'itemName': element.name,'_id':element._id}
             array.push(object)
             this.OnRegionChange(object)
         });
+        }
         this.projet.regions = array
     }, (err) => {
       console.log("can't retreive regions ");
@@ -248,10 +290,12 @@ export class ProjetPage implements OnInit  {
             this.list_provinces = provinces
 
             let array :any  = []
-            this.projet['perimetre'].province.forEach(element => {
-                array.push({'id':element.id_province,'itemName':element.name,'id_region':element.id_region,'_id':element._id})
-            });
-            this.projet.provinces = array
+
+                this.projet['perimetre'].province.forEach(element => {
+                    array.push({'id': element.id_province, 'itemName': element.name, 'id_region': element.id_region, '_id': element._id})
+                });
+                this.projet.provinces = array
+
         })
     }
     onItemSelect(item){
@@ -506,10 +550,13 @@ export class ProjetPage implements OnInit  {
                 delete this.projet['regions'];
                 delete this.projet['perimetre'];
                 this.projet['extrapolation'] = this.table;
+
+                this.projet.validation = this.validation;
+                this.projet.niveau = this._niveau;
                 this.projetservice.createProjet(this.projet).then((data) => {
                     console.log('projet created')
                     console.log(data)
-                    this.router.navigate(['Parametrage/Parametrage'])
+                    this.router.navigate(['Parametrage/Parametrage']);
                     localStorage.removeItem('storage')
                 }, (err) => {
                     this.msgs = [];                    
@@ -523,20 +570,22 @@ export class ProjetPage implements OnInit  {
     }
 
     clearProjet(){
-        this.projet = {}
-        this.forms_selected = []
-        this.table = []
-        this.projet.validation = []
-        this.label = ""
-        this.extrapolation = []
-        this.disabled = []
-        this._name = ""
-        this._agent = ""
-        this.forms_disponnible = []
-        this.advanced = false
-        this.apikey1 = null
-        this.apikey2 = null
-        this.operateur = null
+        this.projet = {};
+        this.forms_selected = [];
+        this.table = [];
+        this.projet.validation = [];
+        this.label = "";
+        this.extrapolation = [];
+        this.disabled = [];
+        this._name = "";
+        this._agent = "";
+        this.forms_disponnible = [];
+        this.advanced = false;
+        this.apikey1 = null;
+        this.apikey2 = null;
+        this.operateur = null;
+        this.validation = {};
+        this._niveau = 0
     }
 
     moveAll(from,to){
@@ -548,7 +597,6 @@ export class ProjetPage implements OnInit  {
     themes:Array<Object> = [
         {name:"Annuelle", value:"annuelle"},
         {name:"Modulaire", value:"modulaire"},
-        {name:"Complémentaire", value:"complementaire"},
         {name:"RNA", value:"rna"},
     ];
 //
@@ -557,6 +605,8 @@ export class ProjetPage implements OnInit  {
 //         this.current = data.value.join(' | ');
 //     }
     ngOnInit () {
+        window.dispatchEvent(new CustomEvent('form-slider-switcher-ready'));
+
         this.updating = null;
     this.RegionSettings = {
             singleSelection: false,
@@ -580,7 +630,6 @@ export class ProjetPage implements OnInit  {
     
 
 
-    this.getControllers();
     this.getCollection();
     // this.exampleData = []
     // this.regionsData = []
@@ -608,13 +657,12 @@ export class ProjetPage implements OnInit  {
         console.log(array)
         this.projet['provinces'] = this.projet['perimetre'].province
     }else{
-        this.projet.validation = []
+        this.projet.validation = {}
     }
     this.getProvinces();
     this.getRegions();
-
-
-
+    this.validation = this.projet.validation || {};
+    this._niveau = this.projet.niveau || 0
     }
   
 }

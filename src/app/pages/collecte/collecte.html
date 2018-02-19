@@ -21,7 +21,7 @@
                       
                 <div class="form-group col-md-3">  
                         <label >Region: </label>
-                    <select [disabled]="!projet || user.role == 'superviseurP' || user.role == 'superviseurR' || this.user.role == 'agent'" [(ngModel)]="_region" name="region" class="form-control">
+                    <select [disabled]="!projet || user.role !== 'admin' " [(ngModel)]="_region" name="region" class="form-control">
                             <option  *ngIf="user.role == 'superviseurP' || user.role == 'superviseurR' || user.role == 'agent'" [ngValue]="user?.perimetre?.region?.id_region" disabled selected>{{user?.perimetre?.region?.name}}</option>
                             <option *ngFor="let r of projet?.perimetre.region" [ngValue]="r.id_region">{{r.name}}</option>
                     </select>
@@ -47,7 +47,7 @@
                         <option [hidden]="projet?.forms.length > 1 && f.geometry == 'none'" *ngFor="let f of projet?.forms" [ngValue]="f.id_fields">{{f.name}}</option>
                     </select>
                 </div>
-
+                {{projet?.forms | json}}
                 <div class="form-group col-md-3">  
                         <label >Filtre: </label>
                         <select [disabled]="!projet" [(ngModel)]="_filtre" name="_filtre" class="form-control">
@@ -75,6 +75,7 @@
 
         <div class="row">
         <div class="pull-right col-md-12">
+            {{_region}}
             <button [disabled]="projet == null || status == null" class="btn btn-primary" (click)="search(projet,status,_region,_province,_commune,_value)"><i class="fa fa-search fa-lg" aria-hidden="true"></i> Recherche</button>
             <button class="btn btn-danger" (click)="reset()"><i class="fa fa-undo fa-lg" aria-hidden="true"></i> Reinitialiser</button>
         </div>

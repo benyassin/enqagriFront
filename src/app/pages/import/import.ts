@@ -84,13 +84,16 @@ export class ImportPage implements OnInit {
         this.show = true;
         this.loading = true;
         this.perimetreservice.getSupport(id).then((data : any) =>{
-            this.SupportList = data;
+            this.SupportList = data.support;
             let results = [];
             console.log(data);
-            data.forEach(element => {
-                Object.keys(element.properties).forEach(p =>{
-                    this.settings.columns[p] = {'title':p}
-                });
+            console.log('object =====>')
+            console.log(data.support[0].properties)
+            this.settings.columns = {};
+            data.order.forEach(p =>{
+                this.settings.columns[p] = {'title':p}
+            });
+            this.SupportList.forEach(element => {
                 results.push(element.properties)
             });
             this.source = new LocalDataSource(results);

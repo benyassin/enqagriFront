@@ -12,6 +12,7 @@ import { ProjetService } from './services/projet.service';
 import { CollecteService } from './services/collecte.service';
 import { ReportingService } from './services/reporting.service'
 
+
 import {MessagesModule} from 'primeng/primeng';
 import {ConfirmDialogModule,ConfirmationService} from 'primeng/primeng';
 import { Ng2Permission } from 'angular2-permission'

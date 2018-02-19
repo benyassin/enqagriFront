@@ -1,8 +1,12 @@
+@import url('/assets/plugins/switchery/switchery.min.css');
+@import url('/assets/plugins/powerange/powerange.min.css');
+
 .subject-info-box-1,
 .subject-info-box-2 {
     float: left;
     width: 45%;
 }
+
 .subject-info-box-1 select,
 .subject-info-box-2 select {
     height: 200px;
@@ -41,4 +45,6 @@
     overflow: auto;
 }
 
-.smart-table-container{ overflow-x: scroll; }
+.smart-table-container{ overflow: scroll; }
+
+

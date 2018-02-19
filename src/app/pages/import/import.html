@@ -65,19 +65,23 @@
         <div class="panel-body ">
             <div class="row">
             <div class="form-group col-md-4">
-                <label >Collection: </label>
+                <div class="input-group">
                 <select [(ngModel)]="collection" name="collection"  class="form-control">
                     <option *ngFor="let c of collectionList" [ngValue]="c._id">{{c.name}}</option>
                 </select>
+                    <div  class="input-group-btn">
+                        <button [disabled]="!collection" (click)="getSupport(collection)" class="btn btn-primary">Load data</button>
+                    </div>
+                </div>
             </div>
-                <button [disabled]="!collection" (click)="getSupport(collection)" class="btn btn-primary">Load data</button>
             </div>
             <hr />
-            <div class="center-block" style="margin-left: auto; margin-right:auto;">
-                <img *ngIf="show" src="assets/chargement.gif" alt="">
+            <div *ngIf="show" class="col-md-4"></div>
+            <div *ngIf="show" class="col-md-4 "><img src="assets/chargement.gif" alt=""></div>
+            <div *ngIf="!loading" class="smart-table-container">
+                <ng2-smart-table [settings]="settings" [source]="source"></ng2-smart-table>
             </div>
 
-            <ng2-smart-table *ngIf="!loading" [settings]="settings" [source]="source"></ng2-smart-table>
         </div>
     </div>
 </div>
