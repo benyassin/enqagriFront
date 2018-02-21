@@ -92,7 +92,7 @@
                             <span class="fa fa-minus"></span>
                         </button>
                     </div>
-                    <input [disabled]="true" [(ngModel)]="_niveau" value="0" type="text" class="form-control">
+                    <input [disabled]="true" [(ngModel)]="_niveau" value="0" type="text" class="form-control" (ngModelChange)="clearLast($event)">
                     <div  class="input-group-btn">
                         <button [disabled]="!lock" (click)="incCount()"   type="button" class="btn btn-success dropdown-toggle">
                             <span class="fa fa-plus"></span>

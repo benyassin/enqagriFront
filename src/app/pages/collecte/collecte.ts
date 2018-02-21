@@ -270,7 +270,7 @@ export class CollectePage implements OnInit {
             province = this.user.perimetre.province.id_province
         }
         console.log(status)
-        this.index = this.projet.validation.length - 1;
+        this.index = this.projet.niveau -1;
         switch(status){
             case 'valid' :
             this.collecteservice.getCollectesByProjet(projet._id,this.index,status,region,province,commune).then((data) => {
@@ -280,6 +280,7 @@ export class CollectePage implements OnInit {
                 console.log('error trying to fetch collectes');
                 console.log(err)
             })
+
             break
 
             case 'new':

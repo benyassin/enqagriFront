@@ -99,14 +99,16 @@ export class ProjetPage implements OnInit  {
     public decCount(){
         if(this._niveau > 0 || this.validation[Object.keys(this.validation)[0]].lenght < this._niveau){
         this._niveau -= 1;
-        }
-    }
-
-    clearLast(){
         Object.keys(this.validation).forEach(key =>{
             this.validation[key].splice(this._niveau,5)
         })
+        }
     }
+
+    // clearLast(event){
+    //     console.log(event)
+    //
+    // }
 
     removeLevel(key,region){
         this.projet.validation[region].splice(key,1)
