@@ -3,6 +3,9 @@ import { ReportingService } from '../../../services/reporting.service'
 import { ProjetService} from '../../../services/projet.service';
 import { UserService} from '../../../services/user.service';
 import * as moment from "moment"
+import 'moment/locale/fr';
+
+
 @Component({
     selector: 'dashboard-v1',
     templateUrl: './dashboard-v1.html',
@@ -14,15 +17,15 @@ export class DashboardV1Page implements OnInit {
     constructor(
         private reportingservice:ReportingService,
         private projetservice:ProjetService,
-        private userservice:UserService
-    ){}
+        private userservice:UserService,
+){}
     user = this.userservice.user || {'nom': 'undefined','prenom':'undefined'}
-    total : any 
-    daily : any 
-    loading : boolean = true
-    data : any
-    projets
-    show : boolean = false
+    total : any;
+    daily : any;
+    loading : boolean = true;
+    data : any;
+    projets;
+    show : boolean = false;
       // Pie
       public doughnutChartLabels:string[] = ['Synchroniser','Valider', 'En Cours','En Attente'];
       public doughnutChartData:number[] = [];
@@ -71,7 +74,7 @@ export class DashboardV1Page implements OnInit {
   
     // lineChart
     public lineChartData:Array<any> = [
-        {data: [], label: 'Synchoniser'},
+        {data: [], label: 'Synchonisé'},
         {data: [], label: 'Valider'},
       ];
       public lineChartLegend:boolean = true;      
@@ -80,28 +83,42 @@ export class DashboardV1Page implements OnInit {
 
 
     getData(projet){
-        this.reportingservice.getDashboardData().then((data : any) => {
-            this.total = data.total;
-            this.daily = data.daily;
-            this.doughnutChartData = [this.total.polygone, this.total.polyline, this.total.point]
-            data.daily.forEach(element => {
-                this.lineChartData[0].data.push(element.polygone);
-                this.lineChartData[1].data.push(element.polyline);
-                this.lineChartLabels.push(moment(new Date(element.createdAt)).format("dddd"))
-            });
-            console.log(this.lineChartData)
-        },(err)=> {
-            console.log("error");
-            console.log(err)
-        })
+        // this.reportingservice.getDashboardData().then((data : any) => {
+        //     this.total = data.total;
+        //     this.daily = data.daily;
+        //     this.doughnutChartData = [this.total.polygone, this.total.polyline, this.total.point]
+        //     data.daily.forEach(element => {
+        //         this.lineChartData[0].data.push(element.polygone);
+        //         this.lineChartData[1].data.push(element.polyline);
+        //         this.lineChartLabels.push(moment(new Date(element.createdAt)).format("dddd"))
+        //     });
+        //     console.log(this.lineChartData)
+        // },(err)=> {
+        //     console.log("error");
+        //     console.log(err)
+        // })
         this.reportingservice.getDashboard2(projet,0,'new',0,0,0,1).then((data:any)=>{
             this.data = data;
-            let v = {data: [],label:[]}
-            this.doughnutChartData = [data.total,data.valid,data.entraitment,data.wait]
+            moment.locale('fr');
+
+            // fix pour dss a changer urgent
+            this.lineChartLabels =[];
+            this.lineChartData[0].data = [0,0,0,0,0,0,0];
+            this.lineChartData[1].data = [0,0,0,0,0,0,0];
+            this.doughnutChartData = [data.total,data.valid,data.entraitment,data.wait];
+            for(let i=1; i<=7; i++) {
+                this.lineChartLabels.push(moment().subtract(i, 'days').format("dddd"));
+            }
+            this.lineChartLabels = this.lineChartLabels.reverse();
             data.totalPerDay.forEach(day =>{
-                this.lineChartData[0].data.push(day.count);
-                this.lineChartLabels.push(moment(new Date(day._id.date)).format("dddd"));
+               let index = this.lineChartLabels.indexOf(moment(day._id.date).format("dddd"));
+                this.lineChartData[0].data[index] = day.count;
             });
+            data.validePerDay.forEach(day =>{
+                let index = this.lineChartLabels.indexOf(moment(day._id.date).format("dddd"));
+                this.lineChartData[1].data[index] = day.count;
+            });
+
             console.log(this.lineChartData);
             console.log(this.lineChartLabels);
             this.loading = false
