@@ -110,7 +110,7 @@ export class ValidationPage implements AfterViewInit  {
         // this.parcelle.nativeElement.contentWindow.postMessage({"window":"parcelle","message":'data',"data":parcelle.formdata}, 'http://localhost/demo.html');
         // this.parcelleLayers.redraw()
         this.hidden = false;
-
+        if(this.parcelleLayers){
         this.parcelleLayers.eachLayer(layer => {
             if(layer.feature.properties.numero == parcelle.numero){
                 layer.setStyle({fillColor:'red',color:"red"})
@@ -119,6 +119,7 @@ export class ValidationPage implements AfterViewInit  {
             }
 
         })
+        }
         // this.loadMapData()
         // this.parcelleLayers.addData(this.Parcelles)
         // this.parcelleLayers.addData(this.Parcelles,{style: function(element){
@@ -318,14 +319,14 @@ export class ValidationPage implements AfterViewInit  {
         // let query = this.collecte.exploitation.form
         // document.getElementById('data').setAttribute('src', `http://localhost/demo.html?myParam=${query}`)
         this.validation = this.collecte.validation
-        this.user = JSON.parse(localStorage.getItem('user'));
-        this.lenght = this.collecte.projet.validation.length;
-        this.index = this.collecte.projet.validation.findIndex(x => x.agent==this.user._id);
-
-        if(this.collecte.rmessage != null && this.validation[this.index] == 'reject'){
-            this.msgs.push({severity:'error', summary:'message:', detail:this.collecte.rmessage});
-        }
-
+        // this.user = JSON.parse(localStorage.getItem('user'));
+        // this.lenght = this.collecte.projet.validation.length;
+        // this.index = this.collecte.projet.validation[this.user.perimetre.region].findIndex(x => x.agent==this.user._id);
+        //
+        // if(this.collecte.rmessage != null && this.validation[this.index] == 'reject'){
+        //     this.msgs.push({severity:'error', summary:'message:', detail:this.collecte.rmessage});
+        // }
+        //
         // this.receiveMessage = (event: MessageEvent) => {
         //     if(event.origin != 'http://localhost' ){
         //         return

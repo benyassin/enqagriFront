@@ -21,8 +21,6 @@ import { testProjetPage }               from './pages/Parametrage/Projet/inspect
 import { ProfilePage }              from './pages/utilisateur/profile'
 
 import { ReportingPage }          from './pages/reporting/reporting'
-import { ReportingRegionPage }          from './pages/reporting/reportingRegion';
-import { ReportingAgentPage }          from './pages/reporting/reportingAgent';
 
 
 // Chart
@@ -163,9 +161,6 @@ const routes: Routes = [
 
     { path: 'collectes', component: CollectePage, data:{title: 'Collectes'},canActivate:[AuthGuard]},
     { path: 'reporting', component: ReportingPage, data:{title: 'Reporting'},canActivate:[AuthGuard]},
-    { path: 'reporting/Region', component: ReportingRegionPage, data:{title: 'Reporting des Regions'},canActivate:[AuthGuard]},
-    
-    { path: 'reporting/Agent', component: ReportingAgentPage, data:{title: 'Reporting des Agents '},canActivate:[AuthGuard]},
     
     
     { path: 'chart/flot', component: ChartFlotPage, data: { title: 'Chart Flot'} },

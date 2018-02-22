@@ -40,42 +40,13 @@
                         <option *ngFor="let c of communelist" [ngValue]="c.id_commune">{{c.name}}</option>
                     </select>
                 </div>
-                <div class="form-group col-md-3">
-                    <label> Formulaire :</label>
-                    <select [(ngModel)]='_formulaire' name="formulaire" class="form-control">
-                        <option [ngValue]="null"></option>
-                        <option [hidden]="projet?.forms.length > 1 && f.geometry == 'none'" *ngFor="let f of projet?.forms" [ngValue]="f.id_fields">{{f.name}}</option>
-                    </select>
-                </div>
-                <div class="form-group col-md-3">
-                        <label >Filtre: </label>
-                        <select [disabled]="!projet" [(ngModel)]="_filtre" name="_filtre" class="form-control">
-                                <option [ngValue]="null"></option>
-                               <option [hidden]="e.type !== 'filtre'" *ngFor="let e of projet?.extrapolation" [ngValue]="e">{{e.label}}</option>                        
-                        </select>
-                </div>
-                <div class="form-group col-md-3">  
-                        <label >Valeur: </label>
-                        <select [disabled]="!_filtre"  [(ngModel)]="_value" name="_value" class="form-control">
-                                <ng-container *ngIf=" _filtre != null &&  _filtre?.field.type == 'select'">
-                               <option *ngFor="let v of _filtre?.field.values.values" [ngValue]="v.value">{{v.label}}</option>
-                                </ng-container>
-                                <ng-container *ngIf="_filtre != null && _filtre?.field.type == 'checkbox'">
-                                    <option value="true">True</option>
-                                    <option value="false">False</option>
-                                </ng-container>
-                                <ng-container *ngIf="_filtre?.field.type == 'radio' || _filtre?.field.type == 'selectboxes'">
-                                        <option *ngFor="let v of _filtre?.field.values" [ngValue]="v.value">{{v.label}}</option>
-                                </ng-container>                        
-                        </select>
-                </div>
             </div>    
         </form>
 
         <div class="row">
         <div class="pull-right col-md-12">
             {{_region}}
-            <button [disabled]="projet == null || status == null" class="btn btn-primary" (click)="search(projet,status,_region,_province,_commune,_value)"><i class="fa fa-search fa-lg" aria-hidden="true"></i> Recherche</button>
+            <button [disabled]="projet == null || status == null" class="btn btn-primary" (click)="search(projet,status,_region,_province,_commune)"><i class="fa fa-search fa-lg" aria-hidden="true"></i> Recherche</button>
             <button class="btn btn-danger" (click)="reset()"><i class="fa fa-undo fa-lg" aria-hidden="true"></i> Reinitialiser</button>
         </div>
         </div>

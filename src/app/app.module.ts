@@ -73,8 +73,6 @@ import { GeolessPage } from './pages/validation/geoless';
 
 import { CollectePage }           from './pages/collecte/collecte';
 import { ReportingPage }          from './pages/reporting/reporting';
-import { ReportingRegionPage }          from './pages/reporting/reportingRegion';
-import { ReportingAgentPage }          from './pages/reporting/reportingAgent';
 
 
 import { ExtraProfilePage }         from './pages/extra/extra-profile/extra-profile';
@@ -235,8 +233,6 @@ import { HelperCssPage }        from './pages/helper/helper-css/helper-css';*/
         ChartMorrisPage,
         ChartD3Page,
         ReportingPage,
-        ReportingRegionPage,
-        ReportingAgentPage,
         ButtonRenderComponent,
         ImportPage,
        /*EmailInboxV1Page,

@@ -98,17 +98,9 @@ export class CollectePage implements OnInit {
 
     filtreData(filtre,data: any){
         let result = [];
-        let extra = [];
-        let calc = [];
         this.settings.columns =  {
             collecte:{
                 title:'id collecte',
-            },
-            formname:{
-                title:'Questionnaire'
-            },
-            instance:{
-                title:'Instance'
             },
             agent:{
                 title:'Agent'
@@ -117,57 +109,18 @@ export class CollectePage implements OnInit {
 
         this.settings.columns['date'] = {'title': 'Date Synchornisation'};
         data.forEach(element => {
-            let f = 0
-            element.collecte.forEach(formulaire => {
-                if((this._formulaire != null && formulaire.form == this._formulaire) || this._formulaire == null) {
-                    formulaire.data.forEach(fdata => {
-                        if ((this._filtre != null && fdata.formdata.data[this._filtre.field.key] == this._value) || this._filtre == null) {
-                        }
                         let row = {
                             'collecte': element.numero,
-                            'formname': formulaire.formname,
-                            'formid':f,
-                            'instance': fdata.numero,
                             'agent': element.agent.nom + ' ' + element.agent.prenom,
                             'date': moment(new Date(element.createdAt)).format("DD-MM-YYYY à h:mm"),
                             'id': element._id
                         };
-                        Object.keys(fdata.support).forEach(s => {
-                            this.settings.columns[s] = {'title': s};
-                            row[s] = fdata.support[s]
-                        });
-                        this.extrapolation.forEach(api =>{
-                            if(api.type == 'extra'){
-                                if (fdata.formdata.data[api.field.key]) {
-                                    row[api.field.key] = fdata.formdata.data[api.field.key]
-                                } else {
-                                    row[api.field.key] = '-'
-                                }
-                                if(!this.settings.columns[api.field.key]){
-                                    this.settings.columns[api.field.key] = {'title':api.label};
-                                }
-
-
-                            }
-                            if(api.type == 'cal'){
-                                row[api.label] = this.calculate(fdata.formdata.data, api.formule);
-
-                                if(!this.settings.columns[api.label]){
-                                    this.settings.columns[api.label] = {'title':api.label}
-                                }
-                            }
-                        });
                         result.push(row)
 
-                    })
-                }
-                f++
-            })
         });
         this.csv = result;
 
         this.source = new LocalDataSource(result);
-        this.extrapolate(result,this.extrapolation);
         this.msgs = [];
         if(result.length > 0){
             this.msgs.push({severity:'success', summary:'', detail:'Nombre de collectes correspondant à vos critères de recherche : '+ result.length });
@@ -274,7 +227,7 @@ export class CollectePage implements OnInit {
         switch(status){
             case 'valid' :
             this.collecteservice.getCollectesByProjet(projet._id,this.index,status,region,province,commune).then((data) => {
-                this.collectes = data
+                this.collectes = data;
                 this.filtreData('test',data)
             },(err)=> {
                 console.log('error trying to fetch collectes');
@@ -285,7 +238,7 @@ export class CollectePage implements OnInit {
 
             case 'new':
             this.collecteservice.getCollectesByProjet(projet._id,0,status,region,province,commune).then((data) => {
-                this.collectes = data
+                this.collectes = data;
                 this.filtreData('test',data)
             },(err)=> {
                 console.log('error trying to fetch collectes');
@@ -298,7 +251,7 @@ export class CollectePage implements OnInit {
                 this.collectes = data
                 this.filtreData('test',data)
             },(err)=> {
-                console.log('error trying to fetch collectes')
+                console.log('error trying to fetch collectes');
                 console.log(err)
             })
             break

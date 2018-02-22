@@ -47,17 +47,11 @@ export class SidebarComponent implements AfterViewInit {
         link:'/import'
     },{
         title: 'Reporting',
-        roles: [],
+        roles: ['admin'],
         icon: 'fa fa-cogs',
         submenu: [{
-            title: 'Region',
-            link: 'reporting/Region'
-        },{
-            title: 'Province',
+            title: 'Extrapolation',
             link: 'reporting'
-        },{
-            title: 'Agents',
-            link: 'reporting/Agent'
         }]
     },{
         title: 'Collectes',

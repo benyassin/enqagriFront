@@ -1,11 +1,180 @@
 
-    <h1 class="page-header">Reporting </h1>
-    
+<p-messages [(value)]="msgs"></p-messages>
+<div class="col-md-12">
     <div class="panel panel-success">
-        
-                    <div class="panel-body">
-                            <div class="smart-table-container">
-<ng2-smart-table *ngIf="!loading"  [settings]="settings" [source]="data"></ng2-smart-table>
-</div>
-</div>
-</div>
+        <div class="panel-body">
+            <form>
+                <div class="row">
+
+                    <div class="form-group col-md-3">
+                        <label >Projet: </label>
+                        <select [(ngModel)]="projet" name="projet" [compareWith]="compareById" class="form-control">
+                            <option *ngFor="let p of projets" [ngValue]="p">{{p?.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label >Status: </label>
+                        <select [(ngModel)]="status" name="status" class="form-control">
+                            <option [hidden]="(s.value == 'new' || s.value == 'reject') && projet?.validation.length == 0" *ngFor="let s of _status" [ngValue]="s.value">{{s.name}}</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label >Region: </label>
+                        <select [disabled]="!projet || user.role !== 'admin' " [(ngModel)]="_region" name="region" class="form-control">
+                            <option  *ngIf="user.role == 'superviseurP' || user.role == 'superviseurR' || user.role == 'agent'" [ngValue]="user?.perimetre?.region?.id_region" disabled selected>{{user?.perimetre?.region?.name}}</option>
+                            <option *ngFor="let r of projet?.perimetre.region" [ngValue]="r.id_region">{{r.name}}</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label >Province: </label>
+                        <select [disabled]="!projet || this.user.role == 'superviseurP' || this.user.role == 'agent'" [(ngModel)]="_province" name="province" class="form-control" (change)="OnProvinceSelect(_province)">
+                            <option *ngIf="user.role == 'superviseurP' || user.role == 'agent'" [ngValue]="user?.perimetre?.province?.id_province" disabled selected>{{user?.perimetre?.province?.name}}</option>
+                            <option [hidden]="p.id_region != _region" *ngFor="let p of projet?.perimetre.province" [ngValue]="p.id_province">{{p.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label> Commune :</label>
+                        <select [(ngModel)]='_commune' name="commune" class="form-control">
+                            <option *ngFor="let c of communelist" [ngValue]="c.id_commune">{{c.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label> Formulaire :</label>
+                        <select [(ngModel)]='_formulaire' name="formulaire" class="form-control">
+                            <option [ngValue]="null"></option>
+                            <option [hidden]="projet?.forms.length > 1 && f.geometry == 'none'" *ngFor="let f of projet?.forms" [ngValue]="f.id_fields">{{f.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label >Filtre: </label>
+                        <select [disabled]="!projet" [(ngModel)]="_filtre" name="_filtre" class="form-control">
+                            <option [ngValue]="null"></option>
+                            <option [hidden]="e.type !== 'filtre'" *ngFor="let e of projet?.extrapolation" [ngValue]="e">{{e.label}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label >Valeur: </label>
+                        <select [disabled]="!_filtre"  [(ngModel)]="_value" name="_value" class="form-control">
+                            <ng-container *ngIf=" _filtre != null &&  _filtre?.field.type == 'select'">
+                                <option *ngFor="let v of _filtre?.field.values.values" [ngValue]="v.value">{{v.label}}</option>
+                            </ng-container>
+                            <ng-container *ngIf="_filtre != null && _filtre?.field.type == 'checkbox'">
+                                <option value="true">True</option>
+                                <option value="false">False</option>
+                            </ng-container>
+                            <ng-container *ngIf="_filtre?.field.type == 'radio' || _filtre?.field.type == 'selectboxes'">
+                                <option *ngFor="let v of _filtre?.field.values" [ngValue]="v.value">{{v.label}}</option>
+                            </ng-container>
+                        </select>
+                    </div>
+                </div>
+            </form>
+
+            <div class="row">
+                <div class="pull-right col-md-12">
+                    {{_region}}
+                    <button [disabled]="projet == null || status == null" class="btn btn-primary" (click)="search(projet,status,_region,_province,_commune,_value)"><i class="fa fa-search fa-lg" aria-hidden="true"></i> Recherche</button>
+                    <button class="btn btn-danger" (click)="reset()"><i class="fa fa-undo fa-lg" aria-hidden="true"></i> Reinitialiser</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+
+        <div *ngIf="!dataload" class="panel panel-success">
+            <div class="panel-body">
+
+                <table class="table table-condensed table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Champs d'extrapolation</th>
+                        <th>Somme</th>
+                        <th>Moyenne</th>
+                        <th>Variance</th>
+                        <th>Ecart Type</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr [hidden]="apikey.id_field !== _formulaire"  *ngFor="let apikey of ExtrapolatedData">
+                        <th>{{apikey?.key}}</th>
+                        <th>{{apikey?.somme | number:'1.0-2'}}</th>
+                        <th>{{apikey?.moyenne | number:'1.0-2'}}</th>
+                        <th>{{apikey?.variance | number:'1.0-2'}}</th>
+                        <th>{{apikey?.ecarttype | number:'1.0-2'}}</th>
+                        <!-- <ng-container *ngIf="apikey.type == 'cal' && apikey.hidden == false">
+                            <th>{{apikey.label}}</th>
+                        </ng-container> -->
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div *ngIf="!dataload" class="panel panel-success">
+            <button class="btn btn-primary" (click)="exportData()"><i class="far fa-file-excel"></i> Export</button>
+
+            <div class="panel-body">
+                <!-- <ng2-smart-table *ngIf="!loading" [settings]="settings" [source]="collectes"></ng2-smart-table> -->
+                <!-- <label> projet</label>
+                <select [(ngModel)]="projet" class="form-control">
+                    <option *ngFor="let p of projets" [ngValue]="p">{{p.name}}</option>
+                </select>
+                <label>status</label>
+                <select [(ngModel)]="status" class="form-control">
+                    <option *ngFor="let s of _status" [ngValue]="s.value">{{s.name}}</option>
+                </select>
+                status value : {{ status | json}} -->
+                <!-- <form>
+                    <div class="row">
+
+                    <div class="form-group col-md-3">
+                        {{ projet || json}}
+                        <label >Projet: </label>
+                    <select [(ngModel)]="projet" name="projet" [compareWith]="compareById" class="form-control">
+                            <option *ngFor="let p of projets" [ngValue]="p">{{p.name}}</option>
+                    </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label >Status: </label>
+                        <select [(ngModel)]="status" name="status" class="form-control">
+                                <option *ngFor="let s of _status" [ngValue]="s.value">{{s.name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-3">
+                            <label >Region: </label>
+                        <select [disabled]="user.role == 'superviseurP' || user.role == 'superviseurR'" [(ngModel)]="_region" name="region" class="form-control">
+                                <option  *ngIf="user.role == 'superviseurP' || user.role == 'superviseurR'" [ngValue]="user?.perimetre?.region?.id_region" disabled selected>{{user?.perimetre?.region?.name}}</option>
+                                <option *ngFor="let r of projet?.perimetre.region" [ngValue]="r.id_region">{{r.name}}</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label >Province: </label>
+                        <select [disabled]="!projet || this.user.role == 'superviseurP'" [(ngModel)]="_province" name="province" class="form-control">
+                                <option *ngIf="user.role == 'superviseurP'" [ngValue]="user?.perimetre?.province?.id_province" disabled selected>{{user?.perimetre?.province?.name}}</option>
+                                <option [hidden]="p.id_region != _region" *ngFor="let p of projet?.perimetre.province" [ngValue]="p.id_province">{{p.name}}</option>
+                        </select>
+                    </div>
+            </div>
+
+
+            </form>
+            <div class="row">
+            <div class="col-md-6">
+                <button class="btn btn-sm btn-primary m-r-5" (click)="search(projet,status,_region,_province)">Recherche</button>
+                <button class="btn btn-sm btn-warning m-r-5" (click)="reset()">Reinitialiser</button>
+
+            </div>
+                <div class="col-md-6">
+                </div>
+            </div> -->
+                <div class="row smart-table-container">
+                    <ng2-smart-table #table *ngIf="!dataload"  [settings]="settings" [source]="source" (custom)="consulter($event.data.id,$event.data.instance,$event.data.formid)"></ng2-smart-table>
+
+                </div>
+            </div>
+        </div>
+    </div>
