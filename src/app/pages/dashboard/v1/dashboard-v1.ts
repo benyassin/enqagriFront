@@ -27,7 +27,7 @@ export class DashboardV1Page implements OnInit {
     projets;
     show : boolean = false;
       // Pie
-      public doughnutChartLabels:string[] = ['Synchroniser','Valider', 'En Cours','En Attente'];
+      public doughnutChartLabels:string[] = ['Synchronisé','Validée', 'En Cours','En Attente'];
       public doughnutChartData:number[] = [];
       public doughnutChartType:string = 'doughnut';
       public doughnutChartLegend:boolean = false;      
@@ -62,7 +62,7 @@ export class DashboardV1Page implements OnInit {
         }else{
             this.projetservice.getProjetsByPerimetre().then((data : any)=>{
                 this.projets = data;
-                this.getData(this.projets[0]._id);
+                this.getData(this.projets[0]);
             })
         }
 
@@ -75,7 +75,7 @@ export class DashboardV1Page implements OnInit {
     // lineChart
     public lineChartData:Array<any> = [
         {data: [], label: 'Synchonisé'},
-        {data: [], label: 'Valider'},
+        {data: [], label: 'Validée'},
       ];
       public lineChartLegend:boolean = true;      
       public lineChartLabels:Array<any> = [];
@@ -127,7 +127,7 @@ export class DashboardV1Page implements OnInit {
         //     console.log("error");
         //     console.log(err)
         // })
-        this.reportingservice.getDashboard2(projet,0,'new',0,0,0,1).then((data:any)=>{
+        this.reportingservice.getDashboard2(projet._id,0,'new',this.user.perimetre.region,this.user.perimetre.province,0,projet.niveau -1).then((data:any)=>{
             this.data = data;
             moment.locale('fr');
 

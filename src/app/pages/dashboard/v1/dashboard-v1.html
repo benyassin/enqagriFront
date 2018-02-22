@@ -16,7 +16,7 @@
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
-                <li (click)="getData(p._id)" *ngFor="let p of projets"><a>{{p.name}}</a></li>
+                <li (click)="getData(p)" *ngFor="let p of projets"><a>{{p.name}}</a></li>
             </ul>
         </div>
         <h4 class="panel-title">DASHBOARD</h4>
@@ -29,7 +29,7 @@
         <div class="widget widget-stats bg-green">
             <div class="stats-icon"><i class="ion-earth"></i></div>
             <div class="stats-info">
-                <h4>Total</h4>
+                <h4>Synchonisé</h4>
                 <p>{{data?.total || 0}}</p>
             </div>
         </div>
@@ -51,7 +51,7 @@
         <div class="widget widget-stats bg-purple">
             <div class="stats-icon"><i class="fa fa-line-chart "></i></div>
             <div class="stats-info">
-                <h4>Valid</h4>
+                <h4>Validée</h4>
                 <p>{{data?.valid || 0}}</p>
             </div>
         </div>

@@ -47,8 +47,7 @@
                         <option [hidden]="projet?.forms.length > 1 && f.geometry == 'none'" *ngFor="let f of projet?.forms" [ngValue]="f.id_fields">{{f.name}}</option>
                     </select>
                 </div>
-                {{projet?.forms | json}}
-                <div class="form-group col-md-3">  
+                <div class="form-group col-md-3">
                         <label >Filtre: </label>
                         <select [disabled]="!projet" [(ngModel)]="_filtre" name="_filtre" class="form-control">
                                 <option [ngValue]="null"></option>

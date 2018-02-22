@@ -228,9 +228,9 @@ export class CollectePage implements OnInit {
         province:0
     }
     search(projet,status,region,province,commune,filtre,valeur){
-        this.dataload = true
-    this.hide = false
-    this.anass = {theme:projet.theme,name:projet.name}
+        this.dataload = true;
+    this.hide = false;
+    this.anass = {theme:projet.theme,name:projet.name};
     if(projet == null || status == null ){
         return
     }
