@@ -3,21 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="3c4f2c77-2496-4a4e-8085-4393e3dbccb7" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/app/app-routing.module.ts" afterPath="$PROJECT_DIR$/src/app/app-routing.module.ts" />
-      <change beforePath="$PROJECT_DIR$/src/app/app.module.ts" afterPath="$PROJECT_DIR$/src/app/app.module.ts" />
       <change beforePath="$PROJECT_DIR$/src/app/pages/collecte/collecte.html" afterPath="$PROJECT_DIR$/src/app/pages/collecte/collecte.html" />
       <change beforePath="$PROJECT_DIR$/src/app/pages/collecte/collecte.ts" afterPath="$PROJECT_DIR$/src/app/pages/collecte/collecte.ts" />
-      <change beforePath="$PROJECT_DIR$/src/app/pages/import/import.ts" afterPath="$PROJECT_DIR$/src/app/pages/import/import.ts" />
-      <change beforePath="$PROJECT_DIR$/src/app/pages/reporting/reporting.css" afterPath="$PROJECT_DIR$/src/app/pages/reporting/reporting.css" />
-      <change beforePath="$PROJECT_DIR$/src/app/pages/reporting/reporting.html" afterPath="$PROJECT_DIR$/src/app/pages/reporting/reporting.html" />
-      <change beforePath="$PROJECT_DIR$/src/app/pages/reporting/reporting.json" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/app/pages/reporting/reporting.ts" afterPath="$PROJECT_DIR$/src/app/pages/reporting/reporting.ts" />
-      <change beforePath="$PROJECT_DIR$/src/app/pages/reporting/reportingAgent.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/app/pages/reporting/reportingAgent.ts" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/app/pages/reporting/reportingRegion.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/app/pages/reporting/reportingRegion.ts" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/dashboard/v1/dashboard-v1.ts" afterPath="$PROJECT_DIR$/src/app/pages/dashboard/v1/dashboard-v1.ts" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/import/import.html" afterPath="$PROJECT_DIR$/src/app/pages/import/import.html" />
       <change beforePath="$PROJECT_DIR$/src/app/pages/validation/validation.ts" afterPath="$PROJECT_DIR$/src/app/pages/validation/validation.ts" />
-      <change beforePath="$PROJECT_DIR$/src/app/sidebar/sidebar.component.ts" afterPath="$PROJECT_DIR$/src/app/sidebar/sidebar.component.ts" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/dist/" />
@@ -32,11 +22,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="collecte.ts" pinned="false" current-in-tab="true">
+      <file leaf-file-name="collecte.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/pages/collecte/collecte.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="402">
-              <caret line="123" column="23" lean-forward="true" selection-start-line="123" selection-start-column="0" selection-end-line="124" selection-end-column="0" />
+            <state relative-caret-position="293">
+              <caret line="349" column="49" lean-forward="false" selection-start-line="349" selection-start-column="49" selection-end-line="349" selection-end-column="49" />
               <folding />
             </state>
           </provider>
@@ -45,94 +35,88 @@
       <file leaf-file-name="validation.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/pages/validation/validation.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="326" column="65" lean-forward="false" selection-start-line="326" selection-start-column="65" selection-end-line="326" selection-end-column="65" />
+            <state relative-caret-position="-61">
+              <caret line="412" column="54" lean-forward="false" selection-start-line="412" selection-start-column="54" selection-end-line="412" selection-end-column="54" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app.module.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/app.module.ts">
+      <file leaf-file-name="dashboard-v1.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/pages/dashboard/v1/dashboard-v1.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="414">
-              <caret line="64" column="0" lean-forward="true" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#57#0" expanded="true" />
-                <element signature="e#2427#2510#0" expanded="true" />
-                <element signature="e#3109#3178#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="reporting.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/pages/reporting/reporting.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-468">
-              <caret line="19" column="28" lean-forward="false" selection-start-line="19" selection-start-column="28" selection-end-line="19" selection-end-column="28" />
+            <state relative-caret-position="54">
+              <caret line="21" column="41" lean-forward="false" selection-start-line="21" selection-start-column="32" selection-end-line="21" selection-end-column="41" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="reporting.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/pages/reporting/reporting.html">
+      <file leaf-file-name="dashboard-v1.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/pages/dashboard/v1/dashboard-v1.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3006">
-              <caret line="167" column="65" lean-forward="false" selection-start-line="167" selection-start-column="65" selection-end-line="167" selection-end-column="65" />
+            <state relative-caret-position="228">
+              <caret line="138" column="29" lean-forward="false" selection-start-line="138" selection-start-column="29" selection-end-line="138" selection-end-column="29" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="collecte.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/pages/collecte/collecte.css">
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/node_modules/formiojs/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="28" selection-end-column="102" />
+            <state relative-caret-position="360">
+              <caret line="85" column="30" lean-forward="false" selection-start-line="85" selection-start-column="30" selection-end-line="85" selection-end-column="30" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="reporting.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/pages/reporting/reporting.css">
+      <file leaf-file-name="CHANGELOG.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/node_modules/angular-formio/CHANGELOG.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="504">
-              <caret line="28" column="100" lean-forward="false" selection-start-line="28" selection-start-column="100" selection-end-line="28" selection-end-column="100" />
+            <state relative-caret-position="36">
+              <caret line="2" column="149" lean-forward="false" selection-start-line="2" selection-start-column="76" selection-end-line="2" selection-end-column="149" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app-routing.module.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/app-routing.module.ts">
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/node_modules/angular-formio/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="416">
-              <caret line="169" column="4" lean-forward="true" selection-start-line="169" selection-start-column="4" selection-end-line="169" selection-end-column="4" />
+            <state relative-caret-position="36">
+              <caret line="2" column="26" lean-forward="false" selection-start-line="2" selection-start-column="25" selection-end-line="2" selection-end-column="26" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="sidebar.component.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/sidebar/sidebar.component.ts">
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/node_modules/angular-formio/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="417">
-              <caret line="42" column="7" lean-forward="true" selection-start-line="42" selection-start-column="7" selection-end-line="42" selection-end-column="7" />
-              <folding>
-                <element signature="e#0#64#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="-486">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="collecte.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/pages/collecte/collecte.html">
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/node_modules/formiojs/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="188">
-              <caret line="17" column="54" lean-forward="false" selection-start-line="17" selection-start-column="49" selection-end-line="17" selection-end-column="54" />
+            <state relative-caret-position="-378">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Changelog.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/node_modules/formiojs/Changelog.md">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="522">
+              <caret line="29" column="0" lean-forward="true" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -151,8 +135,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>addlevel</find>
-      <find>superviseurRsuperviseurR</find>
       <find>superviseurR</find>
       <find>controleur</find>
       <find>removeLevel</find>
@@ -181,6 +163,8 @@
       <find>line</find>
       <find>control</find>
       <find>reporting</find>
+      <find>upload</find>
+      <find>consulter</find>
     </findStrings>
     <replaceStrings>
       <replace>id_province</replace>
@@ -204,25 +188,25 @@
         <option value="$PROJECT_DIR$/src/app/pages/Parametrage/Formulaire/formulaire.ts" />
         <option value="$PROJECT_DIR$/src/app/pages/Parametrage/Projet/inspect.html" />
         <option value="C:/Downloads/shp to geojson/Support.geojson" />
-        <option value="$PROJECT_DIR$/src/app/pages/import/import.html" />
         <option value="$PROJECT_DIR$/src/app/header/header.component.html" />
         <option value="$PROJECT_DIR$/src/app/services/reporting.service.ts" />
         <option value="$PROJECT_DIR$/src/app/pages/Parametrage/Projet/projet.html" />
         <option value="$PROJECT_DIR$/src/app/pages/Parametrage/Projet/projet.ts" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/src/app/pages/dashboard/v1/dashboard-v1.ts" />
-        <option value="$PROJECT_DIR$/src/app/pages/import/import.ts" />
         <option value="$PROJECT_DIR$/src/app/header/header.component.ts" />
         <option value="$PROJECT_DIR$/src/app/pages/dashboard/v1/dashboard-v1.html" />
-        <option value="$PROJECT_DIR$/src/app/pages/validation/validation.ts" />
         <option value="$PROJECT_DIR$/src/app/app-routing.module.ts" />
         <option value="$PROJECT_DIR$/src/app/sidebar/sidebar.component.ts" />
         <option value="$PROJECT_DIR$/src/app/app.module.ts" />
         <option value="$PROJECT_DIR$/src/app/pages/reporting/reporting.ts" />
         <option value="$PROJECT_DIR$/src/app/pages/reporting/reporting.html" />
         <option value="$PROJECT_DIR$/src/app/pages/reporting/reporting.css" />
+        <option value="$PROJECT_DIR$/src/app/pages/import/import.ts" />
+        <option value="$PROJECT_DIR$/src/app/pages/import/import.html" />
         <option value="$PROJECT_DIR$/src/app/pages/collecte/collecte.html" />
         <option value="$PROJECT_DIR$/src/app/pages/collecte/collecte.ts" />
+        <option value="$PROJECT_DIR$/src/app/pages/validation/validation.ts" />
+        <option value="$PROJECT_DIR$/src/app/pages/dashboard/v1/dashboard-v1.ts" />
       </list>
     </option>
   </component>
@@ -238,10 +222,10 @@
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="292" />
-    <option name="y" value="138" />
-    <option name="width" value="1319" />
-    <option name="height" value="881" />
+    <option name="x" value="39" />
+    <option name="y" value="96" />
+    <option name="width" value="1317" />
+    <option name="height" value="873" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -271,6 +255,23 @@
               <item name="dss" type="b2602c69:ProjectViewProjectNode" />
               <item name="dss" type="462c0819:PsiDirectoryNode" />
               <item name=".vscode" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="dss" type="b2602c69:ProjectViewProjectNode" />
+              <item name="dss" type="462c0819:PsiDirectoryNode" />
+              <item name="node_modules" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="dss" type="b2602c69:ProjectViewProjectNode" />
+              <item name="dss" type="462c0819:PsiDirectoryNode" />
+              <item name="node_modules" type="462c0819:PsiDirectoryNode" />
+              <item name="angular-formio" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="dss" type="b2602c69:ProjectViewProjectNode" />
+              <item name="dss" type="462c0819:PsiDirectoryNode" />
+              <item name="node_modules" type="462c0819:PsiDirectoryNode" />
+              <item name="formiojs" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="dss" type="b2602c69:ProjectViewProjectNode" />
@@ -311,7 +312,40 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="pages" type="462c0819:PsiDirectoryNode" />
+              <item name="dashboard" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="dss" type="b2602c69:ProjectViewProjectNode" />
+              <item name="dss" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="pages" type="462c0819:PsiDirectoryNode" />
+              <item name="dashboard" type="462c0819:PsiDirectoryNode" />
+              <item name="v1" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="dss" type="b2602c69:ProjectViewProjectNode" />
+              <item name="dss" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="pages" type="462c0819:PsiDirectoryNode" />
+              <item name="import" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="dss" type="b2602c69:ProjectViewProjectNode" />
+              <item name="dss" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="pages" type="462c0819:PsiDirectoryNode" />
               <item name="reporting" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="dss" type="b2602c69:ProjectViewProjectNode" />
+              <item name="dss" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="pages" type="462c0819:PsiDirectoryNode" />
+              <item name="validation" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="dss" type="b2602c69:ProjectViewProjectNode" />
@@ -409,12 +443,12 @@
       <workItem from="1519147215826" duration="9748000" />
       <workItem from="1519226612076" duration="3202000" />
       <workItem from="1519289275691" duration="3474000" />
-      <workItem from="1519309376883" duration="5792000" />
+      <workItem from="1519309376883" duration="13179000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="195066000" />
+    <option name="totallyTimeSpent" value="202453000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="63" y="-4" width="1857" height="1084" extended-state="6" />
@@ -481,55 +515,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/app/services/perimetre.service.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1856">
-          <caret line="119" column="18" lean-forward="false" selection-start-line="119" selection-start-column="4" selection-end-line="119" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/angular-formio/formio.component.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="28" column="4" lean-forward="false" selection-start-line="28" selection-start-column="4" selection-end-line="28" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/pages/utilisateur/dashboard.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1492">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/pages/form-stuff/form-slider-switcher/form-slider-switcher.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="173" column="0" lean-forward="false" selection-start-line="173" selection-start-column="0" selection-end-line="177" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.es6.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="8176" column="4" lean-forward="false" selection-start-line="8176" selection-start-column="4" selection-end-line="8176" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/pages/form-stuff/form-slider-switcher/form-slider-switcher.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="11" column="66" lean-forward="true" selection-start-line="11" selection-start-column="46" selection-end-line="11" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/assets/js/form-slider-switcher.demo.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="70" column="45" lean-forward="false" selection-start-line="70" selection-start-column="45" selection-end-line="70" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/pages/form-stuff/form-slider-switcher/form-slider-switcher.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -637,13 +622,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/pages/import/import.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
-          <caret line="49" column="0" lean-forward="false" selection-start-line="49" selection-start-column="0" selection-end-line="51" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/pages/email/detail/email-detail.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -711,26 +689,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/pages/dashboard/v1/dashboard-v1.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1386">
-          <caret line="82" column="0" lean-forward="true" selection-start-line="82" selection-start-column="0" selection-end-line="82" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#69#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/pages/import/import.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1548">
-          <caret line="91" column="15" lean-forward="true" selection-start-line="90" selection-start-column="17" selection-end-line="91" selection-end-column="15" />
-          <folding>
-            <element signature="e#0#50#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/pages/dashboard/v1/dashboard-v1.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -763,20 +721,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/pages/dashboard/v1/dashboard-v1.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="21" column="41" lean-forward="false" selection-start-line="21" selection-start-column="32" selection-end-line="21" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/app.component.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#0#50#0" expanded="true" />
+            <element signature="e#0#50#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -794,27 +744,19 @@
         <state relative-caret-position="417">
           <caret line="42" column="7" lean-forward="true" selection-start-line="42" selection-start-column="7" selection-end-line="42" selection-end-column="7" />
           <folding>
-            <element signature="e#0#64#0" expanded="true" />
+            <element signature="e#0#64#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/pages/validation/validation.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="326" column="65" lean-forward="false" selection-start-line="326" selection-start-column="65" selection-end-line="326" selection-end-column="65" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/app.module.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="414">
-          <caret line="64" column="0" lean-forward="true" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+          <caret line="64" column="0" lean-forward="false" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
           <folding>
-            <element signature="e#0#57#0" expanded="true" />
-            <element signature="e#2427#2510#0" expanded="true" />
-            <element signature="e#3109#3178#0" expanded="true" />
+            <element signature="e#0#57#0" expanded="false" />
+            <element signature="e#2427#2510#0" expanded="false" />
+            <element signature="e#3109#3178#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -851,18 +793,118 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/ng2-file-upload/file-upload/file-item.class.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="25" column="7" lean-forward="false" selection-start-line="25" selection-start-column="7" selection-end-line="25" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/pages/import/import.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1275">
+          <caret line="33" column="4" lean-forward="false" selection-start-line="33" selection-start-column="4" selection-end-line="33" selection-end-column="4" />
+          <folding>
+            <element signature="e#0#50#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/pages/import/import.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="409">
+          <caret line="25" column="40" lean-forward="true" selection-start-line="25" selection-start-column="40" selection-end-line="25" selection-end-column="40" />
+          <folding>
+            <element signature="n#style#0;n#i#0;n#button#0;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/pages/collecte/collecte.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="17" column="54" lean-forward="false" selection-start-line="17" selection-start-column="49" selection-end-line="17" selection-end-column="54" />
+        <state relative-caret-position="405">
+          <caret line="145" column="137" lean-forward="false" selection-start-line="145" selection-start-column="137" selection-end-line="145" selection-end-column="137" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/pages/collecte/collecte.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="402">
-          <caret line="123" column="23" lean-forward="true" selection-start-line="123" selection-start-column="0" selection-end-line="124" selection-end-column="0" />
+        <state relative-caret-position="293">
+          <caret line="349" column="49" lean-forward="false" selection-start-line="349" selection-start-column="49" selection-end-line="349" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/pages/validation/validation.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-61">
+          <caret line="412" column="54" lean-forward="false" selection-start-line="412" selection-start-column="54" selection-end-line="412" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/pages/dashboard/v1/dashboard-v1.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="21" column="41" lean-forward="false" selection-start-line="21" selection-start-column="32" selection-end-line="21" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/pages/dashboard/v1/dashboard-v1.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="138" column="29" lean-forward="false" selection-start-line="138" selection-start-column="29" selection-end-line="138" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/formiojs/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="85" column="30" lean-forward="false" selection-start-line="85" selection-start-column="30" selection-end-line="85" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/angular-formio/CHANGELOG.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="2" column="149" lean-forward="false" selection-start-line="2" selection-start-column="76" selection-end-line="2" selection-end-column="149" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/angular-formio/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="2" column="26" lean-forward="false" selection-start-line="2" selection-start-column="25" selection-end-line="2" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/angular-formio/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-486">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/formiojs/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-378">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/formiojs/Changelog.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="522">
+          <caret line="29" column="0" lean-forward="true" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
           <folding />
         </state>
       </provider>

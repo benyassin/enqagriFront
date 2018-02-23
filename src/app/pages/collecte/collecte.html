@@ -143,7 +143,7 @@
                 </div>
             </div> -->
             <div class="row smart-table-container">
-                    <ng2-smart-table #table *ngIf="!dataload"  [settings]="settings" [source]="source" (custom)="consulter($event.data.id,$event.data.instance,$event.data.formid)"></ng2-smart-table>
+                    <ng2-smart-table #table *ngIf="!dataload"  [settings]="settings" [source]="source" (custom)="consulter($event.data.id)"></ng2-smart-table>
 
             </div>
             </div>

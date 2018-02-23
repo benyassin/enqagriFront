@@ -51,9 +51,15 @@
                         <option *ngFor="let c of collectionList" [ngValue]="c">{{c.name}}</option>
                     </select>
                 </div>
+
                 </div>
                 <hr />
-                <button [disabled]="!canUpload" class="btn btn-sm btn-primary" (click)="upload(selectedc)">upload</button>
+
+                <button [disabled]="!canUpload" class="btn btn-sm btn-primary" (click)="upload(selectedc)" [disabled]="uploader.isUploading">Upload
+                    <i *ngIf="uploader.isUploading" class="fa fa-spinner fa-spin" style="font-size:15px"></i>
+                </button>
+
+
 
             </div>
         </div>

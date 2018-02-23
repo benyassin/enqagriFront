@@ -305,12 +305,12 @@ export class ValidationPage implements AfterViewInit  {
         console.log(this.collecteservice.collecte);
 
         if(this.collecteservice.collecte !== null){
-            this.collecte = this.collecteservice.collecte.collecte
+            this.collecte = this.collecteservice.collecte.collecte;
             this.voisin = this.collecteservice.collecte.voisin
         }else{
             this.router.navigate(['collectes/'])
         }
-        this._type = this.collecte.collecte[this.collecteservice.collecte.form];
+        this._type = this.collecte.collecte[0];
         this.identification ="http://localhost:8080/api/forms/"+this.collecte.exploitation.form+"/fields";
         this.srcformio="http://localhost:8080/api/forms/"+this._type.form+"/fields";
 
@@ -318,7 +318,7 @@ export class ValidationPage implements AfterViewInit  {
 
         // let query = this.collecte.exploitation.form
         // document.getElementById('data').setAttribute('src', `http://localhost/demo.html?myParam=${query}`)
-        this.validation = this.collecte.validation
+        this.validation = this.collecte.validation;
         // this.user = JSON.parse(localStorage.getItem('user'));
         // this.lenght = this.collecte.projet.validation.length;
         // this.index = this.collecte.projet.validation[this.user.perimetre.region].findIndex(x => x.agent==this.user._id);
@@ -409,8 +409,8 @@ export class ValidationPage implements AfterViewInit  {
         //       that.drawnItems.addLayer(layer)
         //     });
         this.loadMapData()
-        this._parcelle = this.collecte.collecte[this.collecteservice.collecte.form].data[this.collecteservice.collecte.instance-1];
-        this.OnParcelleChange(this.collecte.collecte[this.collecteservice.collecte.form].data[this.collecteservice.collecte.instance-1])
+        this._parcelle = this.collecte.collecte[0].data[0];
+        this.OnParcelleChange(this.collecte.collecte[0].data[0])
 
     }
     voisinLayer

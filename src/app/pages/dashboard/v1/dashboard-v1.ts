@@ -136,7 +136,7 @@ export class DashboardV1Page implements OnInit {
             this.lineChartData[0].data = [0,0,0,0,0,0,0];
             this.lineChartData[1].data = [0,0,0,0,0,0,0];
             this.doughnutChartData = [data.total,data.valid,data.entraitment,data.wait];
-            for(let i=1; i<=7; i++) {
+            for(let i=0; i<=6; i++) {
                 this.lineChartLabels.push(moment().subtract(i, 'days').format("dddd"));
             }
             this.lineChartLabels = this.lineChartLabels.reverse();

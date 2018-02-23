@@ -345,11 +345,9 @@ export class CollectePage implements OnInit {
             console.log('here')
         }
     }
-    consulter(collecte,instance,form){
+    consulter(collecte){
         this.collecteservice.getCollecte(collecte).then((data : any) => {
             this.collecteservice.collecte = data;
-            this.collecteservice.collecte['instance'] = instance;
-            this.collecteservice.collecte['form'] = form;
             console.log(this.collecteservice.collecte);
             // this.collecteservice.collecte.projet = projet;
             // this.collecteservice.collecte.agent = collecte.agent;
