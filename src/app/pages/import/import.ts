@@ -114,7 +114,7 @@ export class ImportPage implements OnInit {
             let data = JSON.parse(ev.target.result);
             console.log(data);
             const keys = data.features[0].properties;
-            if(keys.id_commune && keys.id_province && keys.id_region){
+            if(keys.id_commune && keys.id_province && keys.id_region && keys.id_echantillon){
                 console.log('allowed to upload')
             }
             else {
