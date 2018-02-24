@@ -369,16 +369,16 @@ export class CollectePage implements OnInit {
         if(data[formule.variables[0]] && data[formule.variables[1]]){
             switch (formule.operateur) {
                 case '+':
-                    result = data[formule.variables[0]] + data[formule.variables[1]]
+                    result = data[formule.variables[0]] + data[formule.variables[1]];
                     break;
                 case '-':
-                    result = data[formule.variables[0]] - data[formule.variables[1]]
+                    result = data[formule.variables[0]] - data[formule.variables[1]];
                     break;
                 case '*':
-                    result = data[formule.variables[0]] * data[formule.variables[1]]
+                    result = data[formule.variables[0]] * data[formule.variables[1]];
                 break;
                 case '/':
-                    result = data[formule.variables[0]] / data[formule.variables[1]]
+                    result = data[formule.variables[0]] / data[formule.variables[1]];
                 break;
                 default:
                     break;
@@ -390,7 +390,7 @@ export class CollectePage implements OnInit {
     }
     _status:Array<Object>
     ngOnInit(){
-        this.user = JSON.parse(localStorage.getItem('user'))
+        this.user = JSON.parse(localStorage.getItem('user'));
         if(this.user.role == 'controleur'){
             this._status = [
                 {name:"Validé", value:'valid'},

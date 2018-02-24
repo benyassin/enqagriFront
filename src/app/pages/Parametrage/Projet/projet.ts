@@ -171,6 +171,15 @@ export class ProjetPage implements OnInit  {
           console.log("can't retreive Forms ");
       });
    }
+    Support : any = [];
+    onCollectionChange(cid){
+        this.Support = [];
+        this.perimetreservice.getSupportKeys(cid).then((data) =>{
+            this.Support = data
+        },(err) =>{
+            console.log(err)
+        })
+    }
 //    onProvinceChange(province){
 //        this.projet['province'] = province.value
 //    }
@@ -503,7 +512,6 @@ export class ProjetPage implements OnInit  {
                 console.log('fields loaded correctly')
             })
         }
-
     }
     fieldtype
     contains(key,value){
@@ -513,7 +521,7 @@ export class ProjetPage implements OnInit  {
         }else if(this.fieldtype == 'number' && value.type != this.fieldtype){
             return true
         }else{
-        var isThere =  this.table.some(function(element) {
+        let isThere =  this.table.some(function(element) {
             if(element.type == 'extra' || element.type == 'filtre'){
             return element[key].key == value.key
             }
@@ -527,8 +535,7 @@ export class ProjetPage implements OnInit  {
 
     }
     extrapolation : any = [];
-    getfields(form){
-    }
+
     createProjet() {
         this.confirmationservice.confirm({
             message: "Voulez vous confirmer l'enregistrement ?",

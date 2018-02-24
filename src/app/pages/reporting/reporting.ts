@@ -149,8 +149,10 @@ export class ReportingPage implements OnInit {
 
 
                             }
+
                             if(api.type == 'cal'){
-                                row[api.label] = this.calculate(fdata.formdata.data, api.formule);
+                                let data = Object.assign(fdata.formdata.data,fdata.support);
+                                row[api.label] = this.calculate(data, api.formule);
 
                                 if(!this.settings.columns[api.label]){
                                     this.settings.columns[api.label] = {'title':api.label}

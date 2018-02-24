@@ -117,6 +117,17 @@ export class PerimetreService {
                 });
         });
     }
+    getSupportKeys(id){
+        return new Promise((resolve, reject) => {
+            this.http.get('perimetre/supportkeys?id='+id)
+                .map(res => res.json())
+                .subscribe(data => {
+                    resolve(data);
+                }, (err) => {
+                    reject(err);
+                });
+        });
+    }
     getSupportByid(id){
         return new Promise((resolve, reject) => {
             this.http.get('perimetre/supportbyid?id='+id)

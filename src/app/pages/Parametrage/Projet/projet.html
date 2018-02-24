@@ -42,7 +42,7 @@
             <div class="form-group">
                 <label class="col-md-2 control-label">Support :</label>
                 <div class="col-md-10">
-                    <select [(ngModel)]="projet.cid" id="cid" name="cid" #cid="ngModel" required class="form-control">
+                    <select [(ngModel)]="projet.cid" id="cid" name="cid" #cid="ngModel" (ngModelChange)="onCollectionChange($event)" required class="form-control">
                         <option *ngFor="let c of CollectionList" [ngValue]="c._id">{{c.name}}</option>
                     </select>
                 </div>
@@ -230,7 +230,9 @@
                         <form class="form-inline" *ngIf="advanced">
                             <div class="form-group m-r-10">
                                 <select [disabled]="extrapolation.length == 0" [(ngModel)]="apikey1" name="apikey1" class="form-control" width="150px">
-                                                <option  [hidden]="s.type !== 'number'" *ngFor="let s of extrapolation;let f = index" [ngValue]="s.key">{{ s.key }}</option>
+                                    <option  [hidden]="s.type !== 'number'" *ngFor="let s of extrapolation;let f = index" [ngValue]="s.key">{{ s.key }}</option>
+                                    <option *ngFor="let s of Support" [ngValue]="s">{{s}}</option>
+
                                 </select>                   
                             </div>
                             <div class="form-group m-r-10">
@@ -244,6 +246,7 @@
                             <div class="form-group m-r-10">
                             <select [disabled]="extrapolation.length == 0" [(ngModel)]="apikey2" name="apikey2" class="form-control" width="150px">
                                 <option [hidden]="s.type !== 'number'" *ngFor="let s of extrapolation;let f = index" [ngValue]="s.key">{{ s.key }}</option>
+                                <option *ngFor="let s of Support" [ngValue]="s">{{s}}</option>
                             </select>
                             </div>
                             <div class="form-group m-r-10">
