@@ -63,7 +63,7 @@ export class ReportingPage implements OnInit {
             add   : false,
             edit  : false,
             delete: false,
-            custom: [{ name: 'consulter', title: `<a type="button" title="Plus de details" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> Consulter</a>` }],
+            // custom: [{ name: 'consulter', title: `<a type="button" title="Plus de details" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> Consulter</a>` }],
             position: 'left'
         },
         pager:{
@@ -122,7 +122,6 @@ export class ReportingPage implements OnInit {
                 if((this._formulaire != null && formulaire.form == this._formulaire) || this._formulaire == null) {
                     formulaire.data.forEach(fdata => {
                         if ((this._filtre != null && fdata.formdata.data[this._filtre.field.key] == this._value) || this._filtre == null) {
-                        }
                         let row = {
                             'collecte': element.numero,
                             'formname': formulaire.formname,
@@ -130,7 +129,7 @@ export class ReportingPage implements OnInit {
                             'instance': fdata.numero,
                             'agent': element.agent.nom + ' ' + element.agent.prenom,
                             'date': moment(new Date(element.createdAt)).format("DD-MM-YYYY à h:mm"),
-                            'id': element._id
+                            // 'id': element._id
                         };
                         Object.keys(fdata.support).forEach(s => {
                             this.settings.columns[s] = {'title': s};
@@ -172,8 +171,10 @@ export class ReportingPage implements OnInit {
 
                         });
                         result.push(row)
+                        }
 
                     })
+
                 }
                 f++
             })
