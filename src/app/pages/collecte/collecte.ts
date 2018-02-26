@@ -126,7 +126,7 @@ export class CollectePage implements OnInit {
             this.msgs.push({severity:'success', summary:'', detail:'Nombre de collectes correspondant à vos critères de recherche : '+ result.length });
             this.dataload = false
         }else{
-            this.msgs.push({severity:'warn', summary:'', detail:'Aucune collecte ne correspond à vos critères de recherche' })
+            this.msgs.push({severity:'warn', summary:'', detail:'Aucune collecte ne correspond à vos critères de recherche' });
             this.dataload = true
         }
     }

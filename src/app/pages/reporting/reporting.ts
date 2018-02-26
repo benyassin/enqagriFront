@@ -147,7 +147,6 @@ export class ReportingPage implements OnInit {
                                     this.settings.columns[api.field.key] = {'title':api.label};
                                 }
 
-
                             }
 
                             if(api.type == 'cal'){
@@ -158,6 +157,19 @@ export class ReportingPage implements OnInit {
                                     this.settings.columns[api.label] = {'title':api.label}
                                 }
                             }
+                            if(api.type == 'filtre'){
+                                console.log(api);
+                                if(fdata.formdata.data[api.field.key]){
+                                    row[api.field.key] = fdata.formdata.data[api.field.key]
+
+                                }else{
+                                    row[api.field.key] = '-'
+                                }
+                                if(!this.settings.columns[api.field.key]){
+                                    this.settings.columns[api.field.key] = {'title':api.field.key};
+                                }
+                            }
+
                         });
                         result.push(row)
 
