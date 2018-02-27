@@ -35,6 +35,7 @@ import { ValidationPage }           from './pages/validation/validation'
 import { CollectePage }             from './pages/collecte/collecte';
 import { GeolessPage }              from './pages/validation/geoless';
 import { ImportPage }               from './pages/import/import';
+import { PermissionGuard, IPermissionGuardModel } from 'angular2-permission';
 
 /*
 // Email
@@ -150,9 +151,24 @@ const routes: Routes = [
     { path: 'Parametrage/Questionnaire', component: FormulairePage, data: { title: 'Questionnaire'},canActivate: [AuthGuard]},
     { path: 'Parametrage/Bloc', component: BlocPage, data: { title: 'Bloc'},canActivate: [AuthGuard]},
     { path: 'form/plugins', component: FormPluginsPage, data: { title: 'Form Plugins'},canActivate: [AuthGuard] },
-    { path: 'utilisateur', component: UtilisateurPage, data: { title: 'Utilisateur'},canActivate: [AuthGuard] },
-    { path: 'utilisateur/profile', component: ProfilePage, data: {title: "ProfilePage"},canActivate: [AuthGuard]},
-    { path: 'utilisateur/creation',component: CreationUtilisateurPage, data: {title: "Creation Utilisateur"}, canActivate:[AuthGuard]},
+    { path: 'utilisateur', component: UtilisateurPage, data: { title: 'Utilisateur',
+            Permission: {
+                Only: ['admin'],
+                RedirectTo: 'dashboard/v1'
+            } as IPermissionGuardModel},canActivate: [AuthGuard,PermissionGuard] },
+
+    { path: 'utilisateur/profile', component: ProfilePage, data: {title: "ProfilePage",
+            Permission: {
+                Only: ['admin'],
+                RedirectTo: 'dashboard/v1'
+            } as IPermissionGuardModel},canActivate: [AuthGuard,PermissionGuard] },
+
+    { path: 'utilisateur/creation',component: CreationUtilisateurPage, data: {title: "Creation Utilisateur",
+            Permission: {
+                Only: ['admin'],
+                RedirectTo: 'dashboard/v1'
+            } as IPermissionGuardModel},canActivate: [AuthGuard,PermissionGuard] },
+
     { path: 'collectes/rnacollecte', component: RnaValidationPage, data:{title: 'Rna Collecte'},canActivate:[AuthGuard]},
     { path: 'collectes/collecte', component: ValidationPage,data :{title: 'Collecte'},canActivate:[AuthGuard]},
     { path: 'collectes/geoless', component: GeolessPage, data:{title: 'Collecte Sans Geometrie'},canActivate:[AuthGuard]},

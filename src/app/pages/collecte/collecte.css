@@ -14,7 +14,11 @@
 .column-size {
   width: 80px
 }
-  
+
+input[type=submit]
+{
+  visibility:hidden
+}
 
 /* 
   tr.border_bottom td {

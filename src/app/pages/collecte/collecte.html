@@ -54,34 +54,34 @@
 </div>
 <div class="col-md-12">
 
-        <div *ngIf="!dataload" class="panel panel-success">
-                <div class="panel-body">
-                    
-                    <table class="table table-condensed table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Champs d'extrapolation</th>
-                                <th>Somme</th>
-                                <th>Moyenne</th>
-                                <th>Variance</th>
-                                <th>Ecart Type</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr [hidden]="apikey.id_field !== _formulaire"  *ngFor="let apikey of ExtrapolatedData">
-                                    <th>{{apikey?.key}}</th>
-                                    <th>{{apikey?.somme | number:'1.0-2'}}</th>
-                                    <th>{{apikey?.moyenne | number:'1.0-2'}}</th>
-                                    <th>{{apikey?.variance | number:'1.0-2'}}</th>
-                                    <th>{{apikey?.ecarttype | number:'1.0-2'}}</th>
-                                <!-- <ng-container *ngIf="apikey.type == 'cal' && apikey.hidden == false">
-                                    <th>{{apikey.label}}</th>
-                                </ng-container> -->
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-        </div>
+        <!--<div *ngIf="!dataload" class="panel panel-success">-->
+                <!--<div class="panel-body">-->
+                    <!---->
+                    <!--<table class="table table-condensed table-bordered">-->
+                        <!--<thead>-->
+                            <!--<tr>-->
+                                <!--<th>Champs d'extrapolation</th>-->
+                                <!--<th>Somme</th>-->
+                                <!--<th>Moyenne</th>-->
+                                <!--<th>Variance</th>-->
+                                <!--<th>Ecart Type</th>-->
+                            <!--</tr>-->
+                        <!--</thead>-->
+                        <!--<tbody>-->
+                            <!--<tr [hidden]="apikey.id_field !== _formulaire"  *ngFor="let apikey of ExtrapolatedData">-->
+                                    <!--<th>{{apikey?.key}}</th>-->
+                                    <!--<th>{{apikey?.somme | number:'1.0-2'}}</th>-->
+                                    <!--<th>{{apikey?.moyenne | number:'1.0-2'}}</th>-->
+                                    <!--<th>{{apikey?.variance | number:'1.0-2'}}</th>-->
+                                    <!--<th>{{apikey?.ecarttype | number:'1.0-2'}}</th>-->
+                                <!--&lt;!&ndash; <ng-container *ngIf="apikey.type == 'cal' && apikey.hidden == false">-->
+                                    <!--<th>{{apikey.label}}</th>-->
+                                <!--</ng-container> &ndash;&gt;-->
+                            <!--</tr>-->
+                        <!--</tbody>-->
+                    <!--</table>-->
+                <!--</div>-->
+        <!--</div>-->
     <div *ngIf="!dataload" class="panel panel-success">
         <button class="btn btn-primary" (click)="exportData()"><i class="far fa-file-excel"></i> Export</button>
 

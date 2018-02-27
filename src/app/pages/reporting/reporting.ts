@@ -96,7 +96,7 @@ export class ReportingPage implements OnInit {
     }
     _formulaire;
 
-    filtreData(filtre,data: any){
+    filtreData(order,data: any){
         let result = [];
         let extra = [];
         let calc = [];
@@ -131,10 +131,14 @@ export class ReportingPage implements OnInit {
                             'date': moment(new Date(element.createdAt)).format("DD-MM-YYYY à h:mm"),
                             // 'id': element._id
                         };
-                        Object.keys(fdata.support).forEach(s => {
+
+                        order.forEach(s => {
+                            if(!this.settings.columns[s]){
                             this.settings.columns[s] = {'title': s};
+                            }
                             row[s] = fdata.support[s]
                         });
+
                         this.extrapolation.forEach(api =>{
                             if(api.type == 'extra'){
                                 if (fdata.formdata.data[api.field.key]) {
@@ -270,9 +274,9 @@ export class ReportingPage implements OnInit {
 
             this.index = this.projet.validation[region].findIndex(x => x.agent==this.user._id);
 
-            this.collecteservice.getCollectesByProjet(projet._id,this.index,status,region,province,commune).then((data) => {
-                this.filtreData('test',data)
-                this.collectes = data;
+            this.collecteservice.getCollectesByProjet(projet._id,this.index,status,region,province,commune).then((data : any) => {
+                this.filtreData(data.order,data.collectes)
+                this.collectes = data.collectes;
             },(err)=> {
                 console.log('error trying to fetch collectes');
                 console.log(err)
@@ -288,9 +292,9 @@ export class ReportingPage implements OnInit {
             this.index = this.projet.niveau -1;
             switch(status){
                 case 'valid' :
-                    this.collecteservice.getCollectesByProjet(projet._id,this.index,status,region,province,commune).then((data) => {
-                        this.collectes = data;
-                        this.filtreData('test',data)
+                    this.collecteservice.getCollectesByProjet(projet._id,this.index,status,region,province,commune).then((data : any) => {
+                        this.collectes = data.collectes;
+                        this.filtreData(data.order,data.collectes)
                     },(err)=> {
                         console.log('error trying to fetch collectes');
                         console.log(err)
@@ -299,9 +303,9 @@ export class ReportingPage implements OnInit {
                     break
 
                 case 'new':
-                    this.collecteservice.getCollectesByProjet(projet._id,0,status,region,province,commune).then((data) => {
-                        this.collectes = data;
-                        this.filtreData('test',data)
+                    this.collecteservice.getCollectesByProjet(projet._id,0,status,region,province,commune).then((data : any) => {
+                        this.collectes = data.collectes;
+                        this.filtreData(data.order,data.collectes)
                     },(err)=> {
                         console.log('error trying to fetch collectes');
                         console.log(err)
@@ -309,9 +313,9 @@ export class ReportingPage implements OnInit {
                     break
 
                 case 'reject':
-                    this.collecteservice.getCollecteEnTraitement(projet._id,this.index,region,province,commune).then((data) => {
-                        this.collectes = data
-                        this.filtreData('test',data)
+                    this.collecteservice.getCollecteEnTraitement(projet._id,this.index,region,province,commune).then((data : any) => {
+                        this.collectes = data.collectes
+                        this.filtreData(data.order,data.collectes)
                     },(err)=> {
                         console.log('error trying to fetch collectes');
                         console.log(err)
@@ -433,16 +437,16 @@ export class ReportingPage implements OnInit {
         if(data[formule.variables[0]] && data[formule.variables[1]]){
             switch (formule.operateur) {
                 case '+':
-                    result = data[formule.variables[0]] + data[formule.variables[1]]
+                    result = data[formule.variables[0]] + data[formule.variables[1]];
                     break;
                 case '-':
-                    result = data[formule.variables[0]] - data[formule.variables[1]]
+                    result = data[formule.variables[0]] - data[formule.variables[1]];
                     break;
                 case '*':
-                    result = data[formule.variables[0]] * data[formule.variables[1]]
+                    result = data[formule.variables[0]] * data[formule.variables[1]];
                     break;
                 case '/':
-                    result = data[formule.variables[0]] / data[formule.variables[1]]
+                    result = data[formule.variables[0]] / data[formule.variables[1]];
                     break;
                 default:
                     break;

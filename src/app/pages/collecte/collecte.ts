@@ -208,9 +208,9 @@ export class CollectePage implements OnInit {
 
         this.index = this.projet.validation[region].findIndex(x => x.agent==this.user._id);
 
-        this.collecteservice.getCollectesByProjet(projet._id,this.index,status,region,province,commune).then((data) => {
-            this.filtreData('test',data)
-            this.collectes = data;
+        this.collecteservice.getCollectesByProjet(projet._id,this.index,status,region,province,commune).then((data : any ) => {
+            this.filtreData(data.order,data.collectes)
+            this.collectes = data.collectes;
         },(err)=> {
             console.log('error trying to fetch collectes');
             console.log(err)
@@ -226,9 +226,9 @@ export class CollectePage implements OnInit {
         this.index = this.projet.niveau -1;
         switch(status){
             case 'valid' :
-            this.collecteservice.getCollectesByProjet(projet._id,this.index,status,region,province,commune).then((data) => {
-                this.collectes = data;
-                this.filtreData('test',data)
+            this.collecteservice.getCollectesByProjet(projet._id,this.index,status,region,province,commune).then((data : any) => {
+                this.collectes = data.collectes;
+                this.filtreData(data.order,data.collectes)
             },(err)=> {
                 console.log('error trying to fetch collectes');
                 console.log(err)
@@ -237,9 +237,9 @@ export class CollectePage implements OnInit {
             break
 
             case 'new':
-            this.collecteservice.getCollectesByProjet(projet._id,0,status,region,province,commune).then((data) => {
-                this.collectes = data;
-                this.filtreData('test',data)
+            this.collecteservice.getCollectesByProjet(projet._id,0,status,region,province,commune).then((data : any) => {
+                this.collectes = data.collectes;
+                this.filtreData(data.order,data.collectes)
             },(err)=> {
                 console.log('error trying to fetch collectes');
                 console.log(err)
@@ -247,9 +247,9 @@ export class CollectePage implements OnInit {
             break
 
             case 'reject':
-            this.collecteservice.getCollecteEnTraitement(projet._id,this.index,region,province,commune).then((data) => {
-                this.collectes = data
-                this.filtreData('test',data)
+            this.collecteservice.getCollecteEnTraitement(projet._id,this.index,region,province,commune).then((data : any) => {
+                this.collectes = data.collectes
+                this.filtreData(data.order,data.collectes)
             },(err)=> {
                 console.log('error trying to fetch collectes');
                 console.log(err)
