@@ -43,8 +43,8 @@ export class SidebarComponent implements AfterViewInit {
     },{
         title: 'Support Spatial',
         roles: ['admin'],
-        icon: 'fa fa-users',
-        link:'/import'
+        icon: 'fa fa-upload',
+        link:'/support'
     },{
         title: 'Reporting',
         roles: ['admin'],

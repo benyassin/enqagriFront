@@ -26,8 +26,9 @@ export class DashboardV1Page implements OnInit {
     data : any;
     projets;
     show : boolean = false;
+    title : string;
       // Pie
-      public doughnutChartLabels:string[] = ['Synchronisé','Validée', 'En Cours','En Attente'];
+      public doughnutChartLabels:string[] = ['Synchronisé','Validé', 'En Cours','En Attente'];
       public doughnutChartData:number[] = [];
       public doughnutChartType:string = 'doughnut';
       public doughnutChartLegend:boolean = false;      
@@ -75,7 +76,7 @@ export class DashboardV1Page implements OnInit {
     // lineChart
     public lineChartData:Array<any> = [
         {data: [], label: 'Synchonisé'},
-        {data: [], label: 'Validée'},
+        {data: [], label: 'Validé'},
       ];
       public lineChartLegend:boolean = true;      
       public lineChartLabels:Array<any> = [];
@@ -152,6 +153,7 @@ export class DashboardV1Page implements OnInit {
             console.log(this.lineChartData);
             console.log(this.lineChartLabels);
             this.loading = false
+            this.title = projet.name
         })
     }
     ngOnInit() {

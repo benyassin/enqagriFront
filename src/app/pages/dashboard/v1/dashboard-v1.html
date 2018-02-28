@@ -19,7 +19,7 @@
                 <li (click)="getData(p)" *ngFor="let p of projets"><a>{{p.name}}</a></li>
             </ul>
         </div>
-        <h4 class="panel-title">DASHBOARD</h4>
+        <h4 class="panel-title">{{title}}</h4>
 
     </div>
     <div class="panel-body">
@@ -51,7 +51,7 @@
         <div class="widget widget-stats bg-purple">
             <div class="stats-icon"><i class="fa fa-line-chart "></i></div>
             <div class="stats-info">
-                <h4>Validée</h4>
+                <h4>Validé</h4>
                 <p>{{data?.valid || 0}}</p>
             </div>
         </div>
@@ -72,16 +72,37 @@
     </div>
 </div>
 
+<!--<div class="col-md-8">-->
+        <!--<div class="panel panel-success" data-sortable-id="flot-chart-2">-->
+            <!--<div class="panel-heading">-->
+                <!--<h4 class="panel-title">Statistiques des 7 derniers jours</h4>-->
+            <!--</div>-->
+            <!--<div class="panel-body">-->
+                    <!--<div id="dashboard-interactive-chart" class="height-sm"></div>-->
+                <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
 <div class="col-md-8">
-        <div class="panel panel-success" data-sortable-id="flot-chart-2">
-            <div class="panel-heading">
-                <h4 class="panel-title">Statistiques des 7 derniers jours</h4>
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <div class="btn-group pull-right">
+                <button (click)="switch()" type="button" class="btn btn-success btn-xs">{{lineChartType}}</button>
             </div>
-            <div class="panel-body">
-                    <div id="dashboard-interactive-chart" class="height-sm"></div>
-                </div>
+            <h4 class="panel-title">Statistiques des 7 derniers jours</h4>
+        </div>
+        <div class="panel-body">
+            <canvas *ngIf="!loading" baseChart
+                    [datasets]="lineChartData"
+                    [labels]="lineChartLabels"
+                    [colors]="lineChartColors"
+                    [legend]="lineChartLegend"
+                    [chartType]="lineChartType"
+                    (chartHover)="chartHovered($event)"
+                    (chartClick)="chartClicked($event)"></canvas>
         </div>
     </div>
+</div>
+
     <div class="col-md-4">
             <div class="panel panel-success">
             <div class="panel-heading">
@@ -97,25 +118,5 @@
         </div>
     </div>
     </div>
-    <div class="col-md-8">
-    <div class="panel panel-success">
-            <div class="panel-heading">
-                <div class="btn-group pull-right">
-                    <button (click)="switch()" type="button" class="btn btn-success btn-xs">{{lineChartType}}</button>
-                </div>
-                    <h4 class="panel-title">Statistiques des 7 derniers jours</h4>
-                </div>
-        <div class="panel-body">
-        <canvas *ngIf="!loading" baseChart
-        [datasets]="lineChartData"
-        [labels]="lineChartLabels"
-        [colors]="lineChartColors"
-        [legend]="lineChartLegend"
-        [chartType]="lineChartType"
-        (chartHover)="chartHovered($event)"
-        (chartClick)="chartClicked($event)"></canvas>
-        </div>
-    </div>
-</div>
 
 

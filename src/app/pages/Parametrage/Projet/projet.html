@@ -42,7 +42,8 @@
             <div class="form-group">
                 <label class="col-md-2 control-label">Support :</label>
                 <div class="col-md-10">
-                    <select [(ngModel)]="projet.cid" id="cid" name="cid" #cid="ngModel" (ngModelChange)="onCollectionChange($event)" required class="form-control">
+                    <select [(ngModel)]="projet.cid" id="cid" name="cid" #cid="ngModel" (ngModelChange)="onCollectionChange($event)" class="form-control">
+                        <option value=""></option>
                         <option *ngFor="let c of CollectionList" [ngValue]="c._id">{{c.name}}</option>
                     </select>
                 </div>
@@ -104,7 +105,7 @@
             <div class="form-group">
                 <label class="col-md-3 control-label">Alias :</label>
                 <div class="col-md-9">
-                        {{ error }}                        
+                        {{ error }}
                     <input [disabled]="lock" [(ngModel)]="_name" type="text" class="form-control" />
                 </div>
             </div>
@@ -115,8 +116,6 @@
                     <select [disabled]="lock" [(ngModel)]="__region" class="form-control" (ngModelChange)="getControllers($event)">
                         <option *ngFor="let r of projet.regions" [ngValue]="r.id">{{r.itemName}}</option>
                     </select>
-
-                    {{projet.region | json}}
                 </div>
             </div>
             <div class="form-group">
@@ -170,8 +169,8 @@
                         <label >Questionnaires Disponnibles :</label>
 
                         <select  [(ngModel)]="forms" size="7" id='forms' class="form-control">
-                            <option [hidden]="a.id_fields == undefined"
-                            *ngFor="let a of forms_disponnible" [ngValue]="a">{{ a.name }} - [{{ a.geometry }}]</option>
+                            <option [hidden]="a.id_fields == undefined" [disabled]="(a.geometry !== 'none' && disabled.includes('none')) || (disabled.includes(a.geometry) && a.geometry !== 'none')"
+                                    *ngFor="let a of forms_disponnible" [ngValue]="a">{{ a.name }} - [{{ a.geometry }}]</option>
                         </select>
                     </div>
                     <div class="col-md-4 subject-info-arrows text-center">
@@ -200,19 +199,19 @@
                                 <div class="form-group m-r-10">
                                         <select [disabled]="forms_selected.length == 0" [(ngModel)]="formulaire" name="formulaire" class="form-control" width="150px" (ngModelChange)="onFormSelect($event)">
                                                 <option  *ngFor="let s of forms_selected;let f = index" [ngValue]="s.id_fields">{{ s.name }}</option>
-                                        </select>                            
+                                        </select>
                                 </div>
                                 <div class="form-group m-r-10">
                                         <select [disabled]="forms_selected.length == 0" [(ngModel)]="fieldtype" name="fieldtype" class="form-control" width="150px">
                                                 <option value="other" >Champs de filtres</option>
                                                 <option value="number" >Champs numérique</option>
 
-                                        </select>                            
+                                        </select>
                                 </div>
                             <div class="form-group m-r-10" *ngIf=!advanced>
                                     <select [disabled]="forms_selected.length == 0 || fieldtype == null || formulaire == null" [(ngModel)]="apiKey" name="apiKey" class="form-control" width="150px">
                                                     <option [hidden]="contains('field',s)" *ngFor="let s of extrapolation;let f = index" [ngValue]="s.key">{{ s.key }}</option>
-                                    </select>                            
+                                    </select>
                             </div>
                             <!-- {{apiKey}} -->
                             <div class="form-group m-r-10">
@@ -231,9 +230,10 @@
                             <div class="form-group m-r-10">
                                 <select [disabled]="extrapolation.length == 0" [(ngModel)]="apikey1" name="apikey1" class="form-control" width="150px">
                                     <option  [hidden]="s.type !== 'number'" *ngFor="let s of extrapolation;let f = index" [ngValue]="s.key">{{ s.key }}</option>
+                                    <option value="" [disabled]="true">-----------------------------------</option>
                                     <option *ngFor="let s of Support" [ngValue]="s">{{s}}</option>
 
-                                </select>                   
+                                </select>
                             </div>
                             <div class="form-group m-r-10">
                                 <select [disabled]="extrapolation.length == 0" [(ngModel)]="operateur" name="operateur" class="form-control" width="150px">
@@ -241,7 +241,7 @@
                                     <option value="-">-</option>
                                     <option value="*">*</option>
                                     <option value="/">/</option>
-                                </select>   
+                                </select>
                             </div>
                             <div class="form-group m-r-10">
                             <select [disabled]="extrapolation.length == 0" [(ngModel)]="apikey2" name="apikey2" class="form-control" width="150px">

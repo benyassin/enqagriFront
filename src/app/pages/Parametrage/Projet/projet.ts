@@ -652,6 +652,7 @@ export class ProjetPage implements OnInit  {
     if(this.projetservice.Projet !== null){
         this.projet = this.projetservice.Projet ;
         this.onThemeChange(this.projet['theme']);
+        this.onCollectionChange(this.projet.cid);
         this.forms_selected = this.projet['forms'] || [];
         this.table = this.projet['extrapolation']
         this.forms_selected.forEach(element => {

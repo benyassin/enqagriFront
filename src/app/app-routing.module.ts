@@ -145,7 +145,7 @@ const routes: Routes = [
 
     { path: 'user/login', component: LoginPage, data: { title: 'Login'} },
     
-    { path: 'Parametrage/Enquete',component: ProjetPage, data:{title: 'Enquête'},canActivate:[AuthGuard]},
+    { path: 'Parametrage/Enquete',component: ProjetPage, data: {title: 'Enquête'},canActivate:[AuthGuard]},
     { path: 'Parametrage/Enquete/inspect', component: testProjetPage, data: { title: 'Inspect'},canActivate: [AuthGuard]},
     { path: 'Parametrage/Parametrage',component: DashboardPage, data:{title: 'Gestion des Enquêtes'},canActivate: [AuthGuard]},
     { path: 'Parametrage/Questionnaire', component: FormulairePage, data: { title: 'Questionnaire'},canActivate: [AuthGuard]},
@@ -173,7 +173,7 @@ const routes: Routes = [
     { path: 'collectes/collecte', component: ValidationPage,data :{title: 'Collecte'},canActivate:[AuthGuard]},
     { path: 'collectes/geoless', component: GeolessPage, data:{title: 'Collecte Sans Geometrie'},canActivate:[AuthGuard]},
     
-    { path: 'import', component: ImportPage, data:{title: 'Support Spatial'},canActivate:[AuthGuard]},
+    { path: 'support', component: ImportPage, data:{title: 'Support Spatial'},canActivate:[AuthGuard]},
 
     { path: 'collectes', component: CollectePage, data:{title: 'Collectes'},canActivate:[AuthGuard]},
     { path: 'reporting', component: ReportingPage, data:{title: 'Reporting'},canActivate:[AuthGuard]},

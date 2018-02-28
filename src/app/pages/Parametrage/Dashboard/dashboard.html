@@ -64,7 +64,6 @@
                             <th>Nom</th>
                             <th>Type</th>
                             <th>Questionnaires</th>
-                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -77,7 +76,6 @@
                             <td *ngIf="projet.theme == 'financier'">Projet Financier</td>
                             <td *ngIf="projet.theme !== 'financier' && projet.theme !== 'pillier1' && projet.theme !== 'pillier2'">{{ projet.theme}}</td>                            
                             <td>{{ projet.forms.length}}</td>
-                            <td>{{ projet.statut}}</td>
                             <td>
                             <button type="button" (click)="updateProjet(projet)" class="btn btn-primary btn-xs"><i class="fa fa-pencil-square-o"></i>  Modifier </button>
                             <button type="button" (click)="deleteProjet(projet._id)" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>  Supprimer</button>
@@ -100,7 +98,6 @@
                             <th>Nom</th>
                             <th>Type</th>
                             <th>Questionnaires</th>
-                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -110,7 +107,6 @@
                             <td>{{ projet?.name}}</td>
                             <td>{{ projet?.theme}}</td>
                             <td>{{ projet?.forms.length}}</td>
-                            <td>{{ projet?.statut}}</td>
                             <td>
                             <button type="button" (click)="inspect(projet?._id)" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i>  Consulter </button>
                             </td>
