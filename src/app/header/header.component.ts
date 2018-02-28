@@ -22,6 +22,15 @@ export class HeaderComponent implements OnInit {
     logout(){
         this.router.navigate(['/utilisateur/profile']);
     }
+
+    clearNotification(){
+        this.userservice.clearNotification().then((data) =>{
+            this.user.notification = []
+        },(error) =>{
+            console.log("can't clear notification for user")
+        })
+    }
+
     ngOnInit() {
 
     }

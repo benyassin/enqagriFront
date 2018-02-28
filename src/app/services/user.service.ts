@@ -131,4 +131,19 @@ export class UserService {
       });
   
     }
+
+    clearNotification(){
+        return new Promise((resolve, reject) => {
+            this.http.delete('users/notification')
+                .map(res => res.json())
+                .subscribe(res => {
+                    resolve(res);
+                }, (err:Response) => {
+                    let details = err.json();
+                    reject(details)
+                });
+
+        });
+
+    }
 }      

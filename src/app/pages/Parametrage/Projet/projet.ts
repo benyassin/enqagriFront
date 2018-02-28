@@ -615,6 +615,7 @@ export class ProjetPage implements OnInit  {
 //     }
     ngOnInit () {
         window.dispatchEvent(new CustomEvent('form-slider-switcher-ready'));
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
 
         this.updating = null;
     this.RegionSettings = {
@@ -636,7 +637,8 @@ export class ProjetPage implements OnInit  {
         searchPlaceholderText:'Rechercher',
         badgeShowLimit:10
     }
-    
+
+
 
 
     this.getCollection();
