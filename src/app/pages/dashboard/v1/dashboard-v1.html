@@ -19,7 +19,7 @@
                 <li (click)="getData(p)" *ngFor="let p of projets"><a>{{p.name}}</a></li>
             </ul>
         </div>
-        <h4 class="panel-title">{{title}}</h4>
+        <h4 class="panel-title">{{title || 'Chargement...'}}</h4>
 
     </div>
     <div class="panel-body">
