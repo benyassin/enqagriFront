@@ -280,7 +280,7 @@
                         <button  (click)="createProjet()" [disabled]="!f.valid" id="saveProject" type="button" class="btn btn-primary btn-block">Enregistrer</button>
                         </div>
                         <div class="col-md-4">
-                                <button (click)="clearProjet()" type="button" class="btn btn-danger btn-block">Réinitialiser</button>
+                                <button [disabled]="editable" (click)="clearProjet()" type="button" class="btn btn-danger btn-block">Réinitialiser</button>
                         </div>
                 </div>
 
