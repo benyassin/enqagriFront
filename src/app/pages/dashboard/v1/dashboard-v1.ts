@@ -45,9 +45,9 @@ export class DashboardV1Page implements OnInit {
                 this.projets = data;
                 // this.region = data.perimetre.region;
                 // this.province = data.perimetre.province;
+                this.getData(this.projets[0]);
             },(err : any) => {
                 console.log('error fetching collectes',err)
-                this.getData(this.projets[0]._id);
 
             })
         }else if(this.user.role == 'agent'){
@@ -57,13 +57,17 @@ export class DashboardV1Page implements OnInit {
                     projets.push(element.projet)
                 });
                 this.projets = projets
-                this.getData(this.projets[0]._id);
+                this.getData(projets[0]);
 
+            },(err)=>{
+                console.log(err)
             })
         }else{
             this.projetservice.getProjetsByPerimetre().then((data : any)=>{
                 this.projets = data;
                 this.getData(this.projets[0]);
+            },(err)=>{
+                console.log(err)
             })
         }
 
@@ -128,7 +132,20 @@ export class DashboardV1Page implements OnInit {
         //     console.log("error");
         //     console.log(err)
         // })
-        this.reportingservice.getDashboard2(projet._id,0,'new',this.user.perimetre.region,this.user.perimetre.province,0,projet.niveau -1).then((data:any)=>{
+        let perimetre : any = {}
+        if(this.user.role == 'admin'){
+            perimetre = this.user.perimetre
+        }else{
+            perimetre.region = this.user.perimetre.region.id_region;
+            if(this.user.perimetre.province !== null) {
+                perimetre.province = this.user.perimetre.province.id_province;
+            }
+
+        }
+        console.log(this.user)
+        console.log('perimetre')
+        console.log(perimetre)
+        this.reportingservice.getDashboard2(projet._id,0,'new',perimetre.region,perimetre.province,0,projet.niveau -1).then((data:any)=>{
             this.data = data;
             moment.locale('fr');
 

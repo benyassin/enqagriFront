@@ -29,7 +29,7 @@ export class SidebarComponent implements AfterViewInit {
         title: 'Dashboard',
         icon:'fa fa-home  ',
         link: '/dashboard/v1',
-        roles: ['admin','superviseurP','superviseurR']
+        roles: ['admin','superviseurP','superviseurR','agent','controleur']
     },{
         title: 'Gestion des Enquêtes',
         icon: 'fa fa-cogs',

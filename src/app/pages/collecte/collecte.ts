@@ -280,10 +280,10 @@ export class CollectePage implements OnInit {
     reset(){
         this.projet = null;
         this.status = null;
-        if(this.user.role != 'superviseurR' && this.user.role != 'superviseurP'){
+        if(this.user.role == 'admin'){
             this._region = null
         }
-        if(this.user.role != 'superviseurP'){
+        if(this.user.role != 'superviseurP' && this.user.role != 'agent'){
             this._province = null
         }
         this.collectes = []
@@ -411,8 +411,9 @@ export class CollectePage implements OnInit {
                 this._region = this.user.perimetre.region.id_region
             }
             if(this.user.role == 'superviseurP' || this.user.role == 'agent'){
-                this._province = this.user.perimetre.province.id_province
-                this._region = this.user.perimetre.region.id_region
+                this._province = this.user.perimetre.province.id_province;
+                this._region = this.user.perimetre.region.id_region;
+                this.OnProvinceSelect(this._province);
             }
 
 
