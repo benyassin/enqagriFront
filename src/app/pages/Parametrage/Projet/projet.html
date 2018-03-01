@@ -13,7 +13,7 @@
 
         <label class="col-md-2 control-label">Nom :</label>
         <div class="col-md-10">
-          <input type="text" id="nom" name="nom" #nom="ngModel" class="form-control" required placeholder="" value="" [(ngModel)]="projet.name" />
+          <input [disabled]="editable" type="text" id="nom" name="nom" #nom="ngModel" class="form-control" required placeholder="" value="" [(ngModel)]="projet.name" />
         </div>
                 <div *ngIf="nom.invalid && (nom.dirty || nom.touched)"
                      class="help-block">
@@ -28,7 +28,7 @@
         <div class="form-group">
         <label class="col-md-2 control-label">Type :</label>
         <div class="col-md-10">
-          <select [(ngModel)]="projet.theme" id="type" name="type" #type="ngModel" required class="form-control" (ngModelChange)="onThemeChange($event)">
+          <select [disabled]="editable" [(ngModel)]="projet.theme" id="type" name="type" #type="ngModel" required class="form-control" (ngModelChange)="onThemeChange($event)">
                       <option *ngFor="let t of themes" [ngValue]="t.value">{{t.name}}</option>
           </select>
         </div>
@@ -42,7 +42,7 @@
             <div class="form-group">
                 <label class="col-md-2 control-label">Support :</label>
                 <div class="col-md-10">
-                    <select [(ngModel)]="projet.cid" id="cid" name="cid" #cid="ngModel" (ngModelChange)="onCollectionChange($event)" class="form-control">
+                    <select [disabled]="editable" [(ngModel)]="projet.cid" id="cid" name="cid" #cid="ngModel" (ngModelChange)="onCollectionChange($event)" class="form-control">
                         <option value=""></option>
                         <option *ngFor="let c of CollectionList" [ngValue]="c._id">{{c.name}}</option>
                     </select>
@@ -57,7 +57,7 @@
             <!--[width]="240"            -->
             <!--(valueChanged)="onRegionChange($event)"-->
             <!--&gt;</select2>-->
-            <angular2-multiselect [data]="list_regions" [(ngModel)]="projet.regions" [settings]="RegionSettings" (onSelect)="OnRegionChange($event)" (onSelectAll)="OnRegionChange($event)" (onDeSelect)="OnRegionDeselect($event)" (onDeSelectAll)="OnRegionDeselect($event)"></angular2-multiselect>
+            <angular2-multiselect  [data]="list_regions" [(ngModel)]="projet.regions" [settings]="RegionSettings" (onSelect)="OnRegionChange($event)" (onSelectAll)="OnRegionChange($event)" (onDeSelect)="OnRegionDeselect($event)" (onDeSelectAll)="OnRegionDeselect($event)"></angular2-multiselect>
         </div>
         </div>
         <div class="form-group">
@@ -169,14 +169,14 @@
                         <label >Questionnaires Disponnibles :</label>
 
                         <select  [(ngModel)]="forms" size="7" id='forms' class="form-control">
-                            <option [hidden]="a.id_fields == undefined" [disabled]="(a.geometry !== 'none' && disabled.includes('none')) || (disabled.includes(a.geometry) && a.geometry !== 'none')"
+                            <option [hidden]="a.id_fields == undefined" [disabled]="disabled.includes(a.geometry) || disabled[0] == 'none'"
                                     *ngFor="let a of forms_disponnible" [ngValue]="a">{{ a.name }} - [{{ a.geometry }}]</option>
                         </select>
                     </div>
                     <div class="col-md-4 subject-info-arrows text-center">
                         <label  id ="label">Option</label>
-                        <input type="button" id="btnAdd" value=">" (click)="move(forms,forms_disponnible,forms_selected)" class="btn btn-primary" /><br />
-                        <input type="button" id="btnRemove" value="<" (click)="removeitem(selected,forms_selected,forms_disponnible)" class="btn btn-primary" /><br />
+                        <input [disabled]="editable" type="button" id="btnAdd" value=">" (click)="move(forms,forms_disponnible,forms_selected)" class="btn btn-primary" /><br />
+                        <input [disabled]="editable" type="button" id="btnRemove" value="<" (click)="removeitem(selected,forms_selected,forms_disponnible)" class="btn btn-primary" /><br />
                     </div>
                     <div class="col-md-4 form-group subject-info-box-2">
                         <label >Questionnaires Sélectionnés :</label>

@@ -110,7 +110,11 @@ export class DashboardPage implements OnInit {
                 this.getProjets();
         },(err) => {
             console.log("error trying to delete bloc " + err)
-        }) 
+                this.msgs = []
+                document.body.scrollTop = document.documentElement.scrollTop = 0;
+                this.msgs.push({severity:'error', summary:'Erreur', detail:err.message});
+
+            })
     }
     })
     }
@@ -119,8 +123,19 @@ export class DashboardPage implements OnInit {
         this.router.navigate(['Parametrage/Questionnaire']);
     }
     updateProjet(projet){
-        this.projetservice.Projet = projet
-        this.router.navigate(['Parametrage/Enquete'])
+        this.projetservice.CheckProjet(projet._id).then((data) =>{
+            console.log(data)
+            this.projetservice.Projet = projet
+            if(data >= 1){
+                this.projetservice.Projet.edit = false
+            }else{
+                this.projetservice.Projet.edit = true
+            }
+            this.router.navigate(['Parametrage/Enquete'])
+        },(err) =>{
+            console.log(err)
+        })
+        // this.projetservice.Projet = projet
     }
     duplicateForm(form){
         delete form._id

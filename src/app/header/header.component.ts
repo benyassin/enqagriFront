@@ -20,7 +20,8 @@ export class HeaderComponent implements OnInit {
     }
     user = this.userservice.user || {'nom': 'undefined','prenom':'undefined'}
     logout(){
-        this.router.navigate(['/utilisateur/profile']);
+        this.authenticationService.logout()
+        this.router.navigate(['/user/login']);
     }
 
     clearNotification(){

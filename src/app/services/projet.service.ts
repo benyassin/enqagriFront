@@ -88,7 +88,7 @@ export class ProjetService {
                 .subscribe(res => {
                   resolve(res);
                 },(err:Response) => {
-                    let details = err.json()
+                    let details = err.json();
                     reject(details)                   
                 })
             });
@@ -108,6 +108,18 @@ export class ProjetService {
             });
     
         }
+    CheckProjet(id){
+        return new Promise((resolve, reject) => {
+            this.http.get('projets/' + id + '/check')
+                .map(res => res.json())
+                .subscribe(data => {
+                    resolve(data);
+                }, (err) => {
+                    reject(err);
+                });
+        });
+
+    }
 
  
 }

@@ -613,8 +613,10 @@ export class ProjetPage implements OnInit  {
 //         console.log(data.value)
 //         this.current = data.value.join(' | ');
 //     }
+
+    editable :boolean = false
     ngOnInit () {
-        window.dispatchEvent(new CustomEvent('form-slider-switcher-ready'));
+        // window.dispatchEvent(new CustomEvent('form-slider-switcher-ready'));
         document.body.scrollTop = document.documentElement.scrollTop = 0;
 
         this.updating = null;
@@ -626,6 +628,7 @@ export class ProjetPage implements OnInit  {
             enableSearchFilter: true,
             searchPlaceholderText:'Rechercher',
             badgeShowLimit:10,
+            disabled:false
 
     };
     this.ProvinceSettings = {
@@ -635,8 +638,10 @@ export class ProjetPage implements OnInit  {
         unSelectAllText:'Tout désélectionner',
         enableSearchFilter: true,
         searchPlaceholderText:'Rechercher',
-        badgeShowLimit:10
+        badgeShowLimit:10,
+        disabled:false
     }
+
 
 
 
@@ -664,7 +669,11 @@ export class ProjetPage implements OnInit  {
             // this.getfields(element)
         });
         let array = []
-
+        if(this.projet !== null && this.projet.edit == false){
+            this.RegionSettings['disabled'] = true
+            this.ProvinceSettings['disabled'] = true
+            this.editable = true
+        }
         console.log('array')
         console.log(array)
         this.projet['provinces'] = this.projet['perimetre'].province
