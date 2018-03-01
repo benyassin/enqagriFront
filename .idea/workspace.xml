@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3c4f2c77-2496-4a4e-8085-4393e3dbccb7" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/app/pages/collecte/collecte.html" afterPath="$PROJECT_DIR$/src/app/pages/collecte/collecte.html" />
-      <change beforePath="$PROJECT_DIR$/src/app/pages/collecte/collecte.ts" afterPath="$PROJECT_DIR$/src/app/pages/collecte/collecte.ts" />
       <change beforePath="$PROJECT_DIR$/src/app/pages/dashboard/v1/dashboard-v1.ts" afterPath="$PROJECT_DIR$/src/app/pages/dashboard/v1/dashboard-v1.ts" />
-      <change beforePath="$PROJECT_DIR$/src/app/pages/reporting/reporting.html" afterPath="$PROJECT_DIR$/src/app/pages/reporting/reporting.html" />
-      <change beforePath="$PROJECT_DIR$/src/app/sidebar/sidebar.component.ts" afterPath="$PROJECT_DIR$/src/app/sidebar/sidebar.component.ts" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/dist/" />
@@ -67,7 +62,7 @@
       <file leaf-file-name="dashboard-v1.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/pages/dashboard/v1/dashboard-v1.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
+            <state relative-caret-position="-1201">
               <caret line="25" column="17" lean-forward="true" selection-start-line="25" selection-start-column="17" selection-end-line="25" selection-end-column="17" />
               <folding />
             </state>
@@ -109,8 +104,8 @@
       <file leaf-file-name="dashboard-v1.ts" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/app/pages/dashboard/v1/dashboard-v1.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="388">
-              <caret line="49" column="53" lean-forward="false" selection-start-line="49" selection-start-column="44" selection-end-line="49" selection-end-column="53" />
+            <state relative-caret-position="711">
+              <caret line="180" column="0" lean-forward="false" selection-start-line="180" selection-start-column="0" selection-end-line="189" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -212,11 +207,11 @@
         <option value="$PROJECT_DIR$/src/app/pages/dashboard/v1/dashboard-v1.html" />
         <option value="$PROJECT_DIR$/src/app/pages/Parametrage/Projet/projet.html" />
         <option value="$PROJECT_DIR$/src/app/app.module.ts" />
-        <option value="$PROJECT_DIR$/src/app/pages/dashboard/v1/dashboard-v1.ts" />
         <option value="$PROJECT_DIR$/src/app/pages/reporting/reporting.html" />
         <option value="$PROJECT_DIR$/src/app/pages/collecte/collecte.ts" />
         <option value="$PROJECT_DIR$/src/app/sidebar/sidebar.component.ts" />
         <option value="$PROJECT_DIR$/src/app/pages/collecte/collecte.html" />
+        <option value="$PROJECT_DIR$/src/app/pages/dashboard/v1/dashboard-v1.ts" />
       </list>
     </option>
   </component>
@@ -466,12 +461,12 @@
       <workItem from="1519309376883" duration="16796000" />
       <workItem from="1519464025393" duration="7234000" />
       <workItem from="1519633903155" duration="21473000" />
-      <workItem from="1519808573175" duration="28407000" />
+      <workItem from="1519808573175" duration="30610000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="263184000" />
+    <option name="totallyTimeSpent" value="265387000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="59" y="-4" width="1861" height="1084" extended-state="6" />
@@ -936,7 +931,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/pages/dashboard/v1/dashboard-v1.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
+        <state relative-caret-position="-1201">
           <caret line="25" column="17" lean-forward="true" selection-start-line="25" selection-start-column="17" selection-end-line="25" selection-end-column="17" />
           <folding />
         </state>
@@ -944,8 +939,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/pages/dashboard/v1/dashboard-v1.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="388">
-          <caret line="49" column="53" lean-forward="false" selection-start-line="49" selection-start-column="44" selection-end-line="49" selection-end-column="53" />
+        <state relative-caret-position="711">
+          <caret line="180" column="0" lean-forward="false" selection-start-line="180" selection-start-column="0" selection-end-line="189" selection-end-column="31" />
           <folding />
         </state>
       </provider>

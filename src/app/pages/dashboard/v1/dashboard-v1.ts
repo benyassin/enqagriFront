@@ -40,7 +40,7 @@ export class DashboardV1Page implements OnInit {
 
     getProjets(){
         if(this.user.role == 'controleur'){
-            console.log('im a controller')
+            console.log('im a controller');
             this.projetservice.getProjetsByController().then((data : any) =>{
                 this.projets = data;
                 // this.region = data.perimetre.region;
@@ -51,12 +51,12 @@ export class DashboardV1Page implements OnInit {
 
             })
         }else if(this.user.role == 'agent'){
-            let projets = []
+            let projets = [];
             this.projetservice.getAgentsProjet().then((data: any) =>{
                 data.forEach(element => {
                     projets.push(element.projet)
                 });
-                this.projets = projets
+                this.projets = projets;
                 this.getData(projets[0]);
 
             },(err)=>{
@@ -132,7 +132,10 @@ export class DashboardV1Page implements OnInit {
         //     console.log("error");
         //     console.log(err)
         // })
-        let perimetre : any = {}
+        if(projet == undefined){
+            return
+        }
+        let perimetre : any = {};
         if(this.user.role == 'admin'){
             perimetre = this.user.perimetre
         }else{
@@ -142,9 +145,9 @@ export class DashboardV1Page implements OnInit {
             }
 
         }
-        console.log(this.user)
-        console.log('perimetre')
-        console.log(perimetre)
+        console.log(this.user);
+        console.log('perimetre');
+        console.log(perimetre);
         this.reportingservice.getDashboard2(projet._id,0,'new',perimetre.region,perimetre.province,0,projet.niveau -1).then((data:any)=>{
             this.data = data;
             moment.locale('fr');
@@ -154,10 +157,7 @@ export class DashboardV1Page implements OnInit {
             this.lineChartData[0].data = [0,0,0,0,0,0,0];
             this.lineChartData[1].data = [0,0,0,0,0,0,0];
             this.doughnutChartData = [data.total,data.valid,data.entraitment,data.wait];
-            for(let i=0; i<=6; i++) {
-                this.lineChartLabels.push(moment().subtract(i, 'days').format("dddd"));
-            }
-            this.lineChartLabels = this.lineChartLabels.reverse();
+
             data.totalPerDay.forEach(day =>{
                let index = this.lineChartLabels.indexOf(moment(day._id.date).format("dddd"));
                 this.lineChartData[0].data[index] = day.count;
@@ -178,5 +178,15 @@ export class DashboardV1Page implements OnInit {
         this.user = this.userservice.user;
         this.getProjets()
 
+        // this.lineChartLabels =[];
+        //
+        // this.lineChartData[0].data = [0,0,0,0,0,0,0];
+        // this.lineChartData[1].data = [0,0,0,0,0,0,0];
+        // for(let i=0; i<=6; i++) {
+        //     this.lineChartLabels.push(moment().subtract(i, 'days').format("dddd"));
+        // }
+        // this.lineChartLabels = this.lineChartLabels.reverse();
+        //
+        // this.loading = false
     }
 }
