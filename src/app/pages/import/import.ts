@@ -23,6 +23,7 @@ export class ImportPage implements OnInit {
     reader: FileReader = new FileReader();
     msgs : any = [];
     cName : String;
+    type
     selectedc;
     collection;
     collectionList;
@@ -51,12 +52,18 @@ export class ImportPage implements OnInit {
     createCollection(name,type){
         this.perimetreservice.createCollection({name:name,type:type}).then((data) =>{
             this.getCollection()
+            this.cName = null;
+            this.type = null
+        },(err) =>{
+            console.log(err)
         })
     }
     getCollection(){
         this.perimetreservice.getCollection().then((data) => {
             this.collectionList = data
-        } );
+        },(err)=>{
+            console.log(err)
+        });
     }
     FileSelected(name) {
         this.uploader.onBeforeUploadItem = (item) => {

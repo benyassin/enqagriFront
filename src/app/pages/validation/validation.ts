@@ -311,8 +311,8 @@ export class ValidationPage implements AfterViewInit  {
             this.router.navigate(['collectes/'])
         }
         this._type = this.collecte.collecte[0];
-        this.identification ="http://localhost:8080/api/forms/"+this.collecte.exploitation.form+"/fields";
-        this.srcformio="http://localhost:8080/api/forms/"+this._type.form+"/fields";
+        this.identification ="http://localhost:8080/api/forms/"+this.collecte.exploitation.form+"/fields?rsubmit=true";
+        this.srcformio="http://localhost:8080/api/forms/"+this._type.form+"/fields?rsubmit=true";
 
         // this.OnParcelleChange(this._type.data[0])
 
