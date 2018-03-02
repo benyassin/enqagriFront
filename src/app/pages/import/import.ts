@@ -81,8 +81,9 @@ export class ImportPage implements OnInit {
     }
     delete(collection){
         this.perimetreservice.deleteCollection(collection._id).then((data)=>{
-            console.log(data)
-            this.collectionList.splice(this.collectionList.indexOf(x => x._id == collection._id),1)
+            // console.log('index',this.collectionList.indexOf(collection))
+
+           this.collectionList.splice(this.collectionList.indexOf(collection),1)
         },(err)=>{
             console.log(err)
         })

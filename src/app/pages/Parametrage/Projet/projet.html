@@ -10,7 +10,7 @@
         <div class="form-horizontal form-bordered">
         <form #f="ngForm" novalidate>
         <div class="form-group">
-
+            <!--{{f.isvalid}}-->
         <label class="col-md-2 control-label">Nom :</label>
         <div class="col-md-10">
           <input [disabled]="editable" type="text" id="nom" name="nom" #nom="ngModel" class="form-control" required placeholder="" value="" [(ngModel)]="projet.name" />
