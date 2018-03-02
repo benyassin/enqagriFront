@@ -261,11 +261,12 @@ export class ProjetPage implements OnInit  {
       console.log("can't retreive regions ");
     });
     }
-    _listprovinces = []
+    _listprovinces = [];
     OnRegionChange(region){
         if(Array.isArray(region)){
             this._listprovinces = this.list_provinces
         }else{
+            console.log(this.list_provinces);
         this.list_provinces.forEach(element => {
             if(element.id_region == region.id){
                 this._listprovinces.push(element)
