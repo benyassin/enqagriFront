@@ -72,33 +72,6 @@ export class ValidationPage implements AfterViewInit  {
             }})
     }
 
-    invalidate(){
-        let  that = this
-        // window.dispatchEvent(new Event('resize'));
-        setTimeout(function(){ that.ParcelleMap.invalidateSize()
-            that.ParcelleMap.fitBounds(that.parcelleLayers.getBounds())
-        }, 400);
-    }
-    invalidatex(){
-        let  that = this
-        setTimeout(function(){ that.ExploitationMap.invalidateSize()}, 400);
-    }
-
-    // couche = L.geoJSON(this.collecteservice.collecte.blocs[0].gjson);
-    // options = {
-    //   layers: [
-    //       L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' })
-    //   ],
-    //   fullscreenControl: true,
-    //   zoom: 17,
-    //   center: L.latLng([34.0229,-6.8426 ])
-    // };
-    // layers = [
-    //     this.couche
-    //   ];
-    // fitBounds = this.couche.getBounds()
-    // onMapReady(map : L.Map) {
-    // }
 
 
 
@@ -120,14 +93,6 @@ export class ValidationPage implements AfterViewInit  {
 
         })
         }
-        // this.loadMapData()
-        // this.parcelleLayers.addData(this.Parcelles)
-        // this.parcelleLayers.addData(this.Parcelles,{style: function(element){
-        //   if(element.properties.numero == parcelle.numero) {
-        //     return {"color": "#ff7800",
-        //     "weight": 5,
-        //     "opacity": 0.65};
-        // }}})
     }
     OnTypeChange(data : any){
         this.srcformio = "http://localhost:8080/api/forms/"+data.form+"/fields";
@@ -139,31 +104,26 @@ export class ValidationPage implements AfterViewInit  {
         if(this.voisinLayer){
             this.voisinLayer.eachLayer(layer => {
                 if(layer instanceof L.Polygon && this._type.type == 'polygone'){
-                    layer.setStyle({opacity:0.4,fillOpacity:0.3})
+                    layer.setStyle({opacity:0.4,fillOpacity:0.3});
                     console.log('im a polygone')
                 }
                 else if((layer instanceof L.Polyline && !(layer instanceof L.Polygon)) && this._type.type == "polyline"){
-                    layer.setStyle({opacity:1,fillOpacity:1})
+                    layer.setStyle({opacity:1,fillOpacity:1});
                     console.log('im a polyline')
 
                 }else{
-                    layer.setStyle({fillOpacity:0,opacity:0})
+                    layer.setStyle({fillOpacity:0,opacity:0});
                     console.log('aaaaaaa')
                 }
 
             })
         }
         this.loadMapData()
-        // document.getElementById('data').setAttribute('src', `http://localhost/demo.html?myParam=${query}`);
     }
     saveChange(){
-        // console.log(this.collecte);
-        // console.log(this.selectedParcelle)
-        // let test = this.collecte
-        // test.delete('instance')
-        // console.log(test)
         this.collecteservice.updateCollecte({'id':this.collecte._id,'exploitation':this.collecte.exploitation,'collecte':this.collecte.collecte}).then((data) => {
             console.log(data)
+            this.msgs.push({severity:'success', summary:'message:', detail:'updated'});
         },(err) =>{
             console.log('error updating colelcte')
             console.log(err)
@@ -187,6 +147,9 @@ export class ValidationPage implements AfterViewInit  {
     loadMapData(){
         let Parcelles = [];
         this._type.data.forEach(element => {
+            if(element.gjson.hasOwnProperty('geometry')){
+                element.gjson =element.gjson.geometry
+            }
             Parcelles.push({"type": "Feature","properties":{"numero":element.numero},geometry:element.gjson})
         });
         let that = this;
@@ -194,14 +157,15 @@ export class ValidationPage implements AfterViewInit  {
         this.parcelleLayers = new L.GeoJSON(Parcelles,{onEachFeature: onEachFeature})
         // markers
         function onEachFeature(feature, layer) {
-            let type = that._type.type
-            var center
+            let type = that._type.type;;
+            let center;
+
             // console.log(layer)
             // console.log(feature)
             if(type !== 'point'){
                 center = layer.getBounds().getCenter();
                 console.info('center',center)
-                var labelPoint = L.marker([center.lat, center.lng], {
+                let labelPoint = L.marker([center.lat, center.lng], {
                     icon: L.divIcon({
                         // className: "labelPoint",
                         // html: num,
@@ -212,17 +176,18 @@ export class ValidationPage implements AfterViewInit  {
                     })
                 });
 
-                that.drawnItems.addLayer(layer)
+                that.drawnItems.addLayer(layer);
                 that.markers.addLayer(labelPoint);
 
             }else{
-                let icon = 'assets/marker-icon.png'
-                if(feature.properties.numero == that.selectedParcelle.numero){
+                let icon = 'assets/marker-icon.png';
+
+                if(feature.properties.numero == 1){
                     icon = 'assets/marker-icon-green.png'
                 }
-                center = layer.getLatLng()
+                center = layer.getLatLng();
 
-                var labelPoint = L.marker([center.lat, center.lng], {
+                let labelPoint = L.marker([center.lat, center.lng], {
                     icon: L.icon({
                         // className: "labelPoint",
                         // html: num,
@@ -298,6 +263,81 @@ export class ValidationPage implements AfterViewInit  {
         // this.ParcelleMap.addControl(drawControl);
 
     }
+    voisinLayer
+    AddParcelleLayer(collecte){
+        let Parcelles = [];
+        let listsupport = [];
+        collecte.forEach(c =>{
+            c.data.forEach(element => {
+                if(!listsupport.includes(element.id_support._id)){
+                    listsupport.push(element.id_support._id);
+                    Parcelles.push({"type": "Feature","properties":element.id_support.properties,geometry:element.id_support.geometry})
+
+                }
+            });
+        });
+        console.log('list support utiliser ====>');
+        console.log(listsupport);
+
+
+        let styleP = {"color": '#faff06',
+            "weight": 2,
+            "opacity": 1,
+            "fillOpacity": 0
+        };
+        let styleS = {"color": "#ffffff",
+            "weight": 2,
+            "opacity": 1,
+            "fillOpacity": 0
+        };
+        let styleV = {
+            weight: 2,
+            opacity: 0.4,
+            color: 'black',
+            dashArray: '3',
+            fillOpacity: 0.3,
+            fillColor: 'green'
+        };
+        let styleI = {"color": "black",
+            "weight": 2,
+            "opacity": 1,
+            "fillOpacity": 1
+        };
+        let voisin = [];
+        // this.collecteservice.getVoisin(this.collecte._id,)
+        this.voisin.forEach(element => {
+            if(element.hasOwnProperty('geometry')){
+                element =element.geometry
+            }
+            voisin.push({"type":"Feature","properties":{},geometry:element})
+        })
+        let intersect = [];
+        // data.voisin.forEach(element => {
+        //     let e = element.collecte[0].data[0];
+        //     if(this.collecte.collecte[0].data[0].numero != e.numero){
+        //         voisin.push({"type":"Feature","properties":{"numero":e.numero},geometry:e.gjson})
+        //         let _int = turf.intersect(this.collecte.collecte[0].data[0].gjson,e.gjson)
+        //         if(_int){
+        //             intersect.push(_int)
+        //         }
+        //     }
+        // });
+        // let _intersection = new L.GeoJSON(intersect,{style:styleI});
+        // _intersection.addTo(this.ParcelleMap);
+        this.voisinLayer = new L.GeoJSON(voisin,{style: styleV,pmIgnore: true });
+        this.voisinLayer.addTo(this.ParcelleMap)
+        let layer = new L.GeoJSON(Parcelles,{style: styleP,pmIgnore: true });
+        layer.addTo(this.ParcelleMap);
+        // let aa = {"type": "Feature","properties":{"numero":''},geometry:{}}
+        // let test = new L.GeoJSON(aa,{style:styleS,pmIgnore: true})
+        // test.addTo(this.ParcelleMap);
+        //
+        // let control =  L.control.layers({},{"segment":test,"parcelles":layer,"voisins":_voisin,"intersection":_intersection})
+        // control.addTo(this.ParcelleMap)
+
+
+    }
+
     identification
     ngOnInit(){
         //init map
@@ -310,8 +350,12 @@ export class ValidationPage implements AfterViewInit  {
         }else{
             this.router.navigate(['collectes/'])
         }
+        console.log('collecte ')
+        console.log(this.collecte.collecte[0]);
         this._type = this.collecte.collecte[0];
+        if(this.collecte.hasOwnProperty('exploitation')){
         this.identification ="http://localhost:8080/api/forms/"+this.collecte.exploitation.form+"/fields?rsubmit=true";
+        }
         this.srcformio="http://localhost:8080/api/forms/"+this._type.form+"/fields?rsubmit=true";
 
         // this.OnParcelleChange(this._type.data[0])
@@ -319,24 +363,19 @@ export class ValidationPage implements AfterViewInit  {
         // let query = this.collecte.exploitation.form
         // document.getElementById('data').setAttribute('src', `http://localhost/demo.html?myParam=${query}`)
         this.validation = this.collecte.validation;
-        // this.user = JSON.parse(localStorage.getItem('user'));
-        // this.lenght = this.collecte.projet.validation.length;
-        // this.index = this.collecte.projet.validation[this.user.perimetre.region].findIndex(x => x.agent==this.user._id);
-        //
-        // if(this.collecte.rmessage != null && this.validation[this.index] == 'reject'){
-        //     this.msgs.push({severity:'error', summary:'message:', detail:this.collecte.rmessage});
-        // }
-        //
-        // this.receiveMessage = (event: MessageEvent) => {
-        //     if(event.origin != 'http://localhost' ){
-        //         return
-        //     }
-        //     if(event.data.window == 'exploitation' && event.data.message === 'loaded'){
-        //       event.source.postMessage({"window":event.data.window,"message":'data',"data":this.collecte.collecte[0].data[0].formdata.data}, event.origin)
-        //     }
-        //   };
-        //   this.isInited = true;
+        this.user = JSON.parse(localStorage.getItem('user'));
+        this.lenght = this.collecte.projet.niveau;
+        if(this.user.role === 'admin'){
+            this.index = 0
+        }else{
+        this.index = this.collecte.projet.validation[this.user.perimetre.region.id_region].findIndex(x => x.agent==this.user._id);
+        }
+        if(this.collecte.rmessage != null && this.validation[this.index] == 'reject'){
+            this.msgs.push({severity:'error', summary:'message:', detail:this.collecte.rmessage});
+        }
 
+
+        // DEFINE MAP
         this.ParcelleMap = new L.Map('map').setView([0, 0], 3);
         console.log('map created')
 
@@ -352,187 +391,27 @@ export class ValidationPage implements AfterViewInit  {
             maxZoom: 20,
             subdomains:['mt0','mt1','mt2','mt3'],
         }).addTo(this.ParcelleMap);
-        //   L.tileLayer.wms('http://192.168.1.77:8086/geoserver/DSS/wms?',
-        // {
-        //     layers:'DSS:region',
-        //     format:'image/png',
-        //     transparent:true,
-        //     CQL_filtre:"id_region in (0,42)"
-        // }).addTo(this.ParcelleMap)
 
 
-        //   L.tileLayer.wms('http://192.168.1.77:8086/geoserver/DSS/wms',
-        //   {
-        //       layers:'DSS:region',
-        //       format:"image/png",
-        //       transparent:true,
-        //       CQL_FILTER:"id_region=(1*" +this.collecte.region +")",
-        //       tileSize:256,
-        //       tiled:true
-        //   },{buffer: 0}).addTo(this.ParcelleMap)
-
-        //  L.tileLayer.wms('http://192.168.1.77:8086/geoserver/DSS/wms',
-        //  {
-        //       layers:'DSS:province',
-        //       format:"image/png",
-        //       transparent:true,
-        //       CQL_FILTER:"id_province=(1*" +this.collecte.province +")",
-        //       tileSize:256,
-        //       tiled:true
-        //  },{buffer: 0}).addTo(this.ParcelleMap)
-
-
-        //     this.markers.addTo(this.ParcelleMap);
-        //     drawnItems.addLayer(this.parcelleLayers)
-        //     this.drawnItems.addTo(this.ParcelleMap)
-        var options = {
-            position: 'topleft', // toolbar position, options are 'topleft', 'topright', 'bottomleft', 'bottomright'
-            drawMarker: true, // adds button to draw markers
-            drawPolyline: true, // adds button to draw a polyline
-            drawRectangle: false, // adds button to draw a rectangle
-            drawPolygon: true, // adds button to draw a polygon
-            drawCircle: false, // adds button to draw a cricle
-            cutPolygon: true, // adds button to cut a hole in a polygon
-            editMode: true, // adds button to toggle edit mode for all layers
-            removalMode: true, // adds a button to remove layers
-        };
-        this.ParcelleMap.pm.addControls(options);
+        // CHECK COMMITS BEFORE 2MARS for backup
         var Fullscreen = new L.Control.Fullscreen();
         this.ParcelleMap.addControl(Fullscreen);
         //     this.ParcelleMap.fitBounds(this.parcelleLayers.getBounds())
-          this.AddParcelleLayer(this.collecte.collecte);
+        this.AddParcelleLayer(this.collecte.collecte);
 
 
-        // this.ParcelleMap.on(L.Draw.Event.CREATED,function(e){
-        //   var type = e.layerType,
-        //       layer = e.layer
-        //       that.drawnItems.addLayer(layer)
-        //     });
-        this.loadMapData()
-        this._parcelle = this.collecte.collecte[0].data[0];
-        this.OnParcelleChange(this.collecte.collecte[0].data[0])
+        //separate
+        console.log('parcelle 1');
+        console.log(this._type.data[0]);
+        this.loadMapData();
+        this._parcelle = this._type.data[0];
+        this.OnParcelleChange(this._type.data[0])
 
     }
-    voisinLayer
-    AddParcelleLayer(collecte){
-        let Parcelles = [];
-        let listsupport = [];
-            collecte.forEach(c =>{
-                c.data.forEach(element => {
-                    if(!listsupport.includes(element.id_support._id)){
-                        listsupport.push(element.id_support._id);
-                        Parcelles.push({"type": "Feature","properties":element.id_support.properties,geometry:element.id_support.geometry})
-
-                    }
-                });
-            });
-            console.log('list support utiliser ====>');
-            console.log(listsupport);
 
 
-            let styleP = {"color": '#faff06',
-                "weight": 2,
-                "opacity": 1,
-                "fillOpacity": 0
-            };
-            let styleS = {"color": "#ffffff",
-                "weight": 2,
-                "opacity": 1,
-                "fillOpacity": 0
-            };
-            let styleV = {
-                weight: 2,
-                opacity: 0.4,
-                color: 'black',
-                dashArray: '3',
-                fillOpacity: 0.3,
-                fillColor: 'green'
-            };
-            let styleI = {"color": "black",
-                "weight": 2,
-                "opacity": 1,
-                "fillOpacity": 1
-            };
-            let voisin = [];
-            // this.collecteservice.getVoisin(this.collecte._id,)
-            this.voisin.forEach(element => {
-                voisin.push({"type":"Feature","properties":{},geometry:element})
-            })
-            let intersect = [];
-            // data.voisin.forEach(element => {
-            //     let e = element.collecte[0].data[0];
-            //     if(this.collecte.collecte[0].data[0].numero != e.numero){
-            //         voisin.push({"type":"Feature","properties":{"numero":e.numero},geometry:e.gjson})
-            //         let _int = turf.intersect(this.collecte.collecte[0].data[0].gjson,e.gjson)
-            //         if(_int){
-            //             intersect.push(_int)
-            //         }
-            //     }
-            // });
-            // let _intersection = new L.GeoJSON(intersect,{style:styleI});
-            // _intersection.addTo(this.ParcelleMap);
-            this.voisinLayer = new L.GeoJSON(voisin,{style: styleV,pmIgnore: true });
-            this.voisinLayer.addTo(this.ParcelleMap)
-            let layer = new L.GeoJSON(Parcelles,{style: styleP,pmIgnore: true });
-            layer.addTo(this.ParcelleMap);
-            // let aa = {"type": "Feature","properties":{"numero":''},geometry:{}}
-            // let test = new L.GeoJSON(aa,{style:styleS,pmIgnore: true})
-            // test.addTo(this.ParcelleMap);
-            //
-            // let control =  L.control.layers({},{"segment":test,"parcelles":layer,"voisins":_voisin,"intersection":_intersection})
-            // control.addTo(this.ParcelleMap)
 
-
-    }
     ngAfterViewInit() {
 
-
-
-        // Test Exploitation map
-        //     this.ExploitationMap = new L.Map('map').setView([51.505, -0.09], 13);
-        //     let blocs : any = []
-        //     this.collecteservice.collecte.blocs.forEach(element => {
-        //        blocs.push(element.gjson)
-        //     });
-        //     let BlocLayers =new  L.GeoJSON(blocs).addTo(this.ExploitationMap)
-        //     this.ExploitationMap.fitBounds(BlocLayers.getBounds())
-
-        //     var myStyle: any = {
-        //       "color": "#ff7800",
-        //       "weight": 5,
-        //       "opacity": 0.65
-        //   };
-        //     // Test Parcelle map
-        //     this.ParcelleMap = new L.Map('map2').setView([51.505, -0.09], 13);
-        //     console.log('map created')
-        //     let CustomMarker = L.Icon.extend({
-        //       options: {
-        //           iconAnchor: new L.Point(12, 12),
-        //           iconUrl: 'assets/marker-icon.png',
-        //           shadowUrl: null
-        //       }
-        //   });
-        //   L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        //     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        // }).addTo(this.ParcelleMap);
-        // Draw Control
-
-
-
-        //   var drawControl = new L.Control.Draw(optionsDraw);
-        // //     this.markers.addTo(this.ParcelleMap);
-        // //     drawnItems.addLayer(this.parcelleLayers)
-        // //     this.drawnItems.addTo(this.ParcelleMap)
-        //   var Fullscreen = new L.Control.Fullscreen();
-
-        //     this.ParcelleMap.addControl(Fullscreen);
-        //     this.ParcelleMap.addControl(drawControl);
-        // //     this.ParcelleMap.fitBounds(this.parcelleLayers.getBounds())
-        //   let that = this
-        //     this.ParcelleMap.on(L.Draw.Event.CREATED,function(e){
-        //       var type = e.layerType,
-        //           layer = e.layer
-        //           that.drawnItems.addLayer(layer)
-        //         });
     }
 }

@@ -32,20 +32,7 @@ export class GeolessPage implements AfterViewInit  {
     drawnItems = new L.FeatureGroup()
     selected
     hidden = true
-    
-    
-    invalidate(){
-     let  that = this
-      // window.dispatchEvent(new Event('resize'));
-      setTimeout(function(){ that.ParcelleMap.invalidateSize()
-        that.ParcelleMap.fitBounds(that.parcelleLayers.getBounds())      
-      }, 400);
-      console.log("invalidated")
-    }
-    invalidatex(){
-      let  that = this
-      setTimeout(function(){ that.ExploitationMap.invalidateSize()}, 400);
-    }
+
  
     // couche = L.geoJSON(this.collecteservice.collecte.blocs[0].gjson);
     // options = {
@@ -178,31 +165,48 @@ export class GeolessPage implements AfterViewInit  {
     //     this.ParcelleMap.fitBounds(this.parcelleLayers.getBounds())
 
     // }
+    saveChange(){
+        // console.log(this.collecte);
+        // console.log(this.selectedParcelle)
+        // let test = this.collecte
+        // test.delete('instance')
+        // console.log(test)
+        this.collecteservice.updateCollecte({'id':this.collecte._id,'exploitation':this.collecte.exploitation,'collecte':this.collecte.collecte}).then((data) => {
+            console.log(data)
+        },(err) =>{
+            console.log('error updating colelcte')
+            console.log(err)
+        })
+    }
+    onSubmit(submission: any) {
+        if(submission.changed && submission.isValid == true){
+            this.dataformio.data = JSON.parse(JSON.stringify(submission.data))
+        }
+        // this.selectedParcelle.formdata = submission.data
+    }
+    _type
+    srcformio
+    dataformio
+    validation
     ngOnInit(){
       //init map
 
       
       console.log(this.collecteservice.collecte)
         if(this.collecteservice.collecte !== null){
-            this.collecte = this.collecteservice.collecte
+            this.collecte = this.collecteservice.collecte.collecte
             this.collecte.collecte[0].data[0].date_creation = moment(new Date(this.collecte.collecte[0].data[0].date_creation)).format("DD.MM.YYYY - hh:mm")
         }else{
           this.router.navigate(['collectes/'])
         }
-        let query = this.collecte.collecte[0].form
-        document.getElementById('data').setAttribute('src', `http://localhost/demo.html?myParam=${query}`)
-        
-    
-        
-        this.receiveMessage = (event: MessageEvent) => {
-            if(event.origin != 'http://localhost' ){
-                return
-            }
-            if(event.data.window == 'exploitation' && event.data.message === 'loaded'){
-              event.source.postMessage({"window":event.data.window,"message":'data',"data":this.collecte.collecte[0].data[0].formdata}, event.origin)
-            }
-            console.log(event.data)
-          };
+        this._type = this.collecte.collecte[0];
+        this.dataformio = this.collecte.collecte[0].data[0].formdata
+        this.srcformio="http://localhost:8080/api/forms/"+this._type.form+"/fields?rsubmit=true";
+
+
+        this.validation = this.collecte.validation;
+
+
     }
     ngOnDestroy() {
         window.removeEventListener('message', this.receiveMessage);
@@ -310,9 +314,7 @@ export class GeolessPage implements AfterViewInit  {
       }
 
     onIframeLoad(element) {
-        if (this.isInited) {
-            window.addEventListener('message', this.receiveMessage, false);
-        }
+
       }  
 
  }

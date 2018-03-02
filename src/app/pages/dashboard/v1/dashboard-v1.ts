@@ -145,16 +145,25 @@ export class DashboardV1Page implements OnInit {
             }
 
         }
+        if(projet.niveau == 0 ) projet.niveau = -1;
+
+
 
         this.reportingservice.getDashboard2(projet._id,0,'new',perimetre.region,perimetre.province,0,projet.niveau).then((data:any)=>{
             this.data = data;
             moment.locale('fr');
+
 
             // fix pour dss a changer urgent
             this.lineChartLabels =[];
             this.lineChartData[0].data = [0,0,0,0,0,0,0];
             this.lineChartData[1].data = [0,0,0,0,0,0,0];
             this.doughnutChartData = [data.total,data.valid,data.entraitment,data.wait];
+
+            for(let i=0; i<=6; i++) {
+                this.lineChartLabels.push(moment().subtract(i, 'days').format("dddd"));
+            }
+            this.lineChartLabels = this.lineChartLabels.reverse();
 
             data.totalPerDay.forEach(day =>{
                let index = this.lineChartLabels.indexOf(moment(day._id.date).format("dddd"));
@@ -180,10 +189,8 @@ export class DashboardV1Page implements OnInit {
         //
         // this.lineChartData[0].data = [0,0,0,0,0,0,0];
         // this.lineChartData[1].data = [0,0,0,0,0,0,0];
-        // for(let i=0; i<=6; i++) {
-        //     this.lineChartLabels.push(moment().subtract(i, 'days').format("dddd"));
-        // }
-        // this.lineChartLabels = this.lineChartLabels.reverse();
+
+
         //
         // this.loading = false
     }
