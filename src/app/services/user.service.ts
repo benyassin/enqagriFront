@@ -134,7 +134,7 @@ export class UserService {
 
     clearNotification(){
         return new Promise((resolve, reject) => {
-            this.http.delete('users/notification')
+            this.http.delete('users/notification/clear')
                 .map(res => res.json())
                 .subscribe(res => {
                     resolve(res);

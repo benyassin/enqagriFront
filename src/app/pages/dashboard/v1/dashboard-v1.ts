@@ -145,10 +145,8 @@ export class DashboardV1Page implements OnInit {
             }
 
         }
-        console.log(this.user);
-        console.log('perimetre');
-        console.log(perimetre);
-        this.reportingservice.getDashboard2(projet._id,0,'new',perimetre.region,perimetre.province,0,projet.niveau -1).then((data:any)=>{
+
+        this.reportingservice.getDashboard2(projet._id,0,'new',perimetre.region,perimetre.province,0,projet.niveau).then((data:any)=>{
             this.data = data;
             moment.locale('fr');
 
