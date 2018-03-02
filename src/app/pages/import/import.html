@@ -15,7 +15,7 @@
                 <div class="row">
                     <div class="form-group col-md-6">
                         <label>Nom Collection</label>
-                        <input type="text" [(ngModel)]="cName" class="form-control" placeholder="Name collection">
+                        <input type="text" [(ngModel)]="cName" class="form-control" placeholder="collection">
                     </div>
                     <div class="form-group">
                         <div class="form-group">
@@ -42,8 +42,8 @@
             <div class="panel-body ">
                 <div class="row">
                 <div class="form-group col-md-6">
-                    <label>Select file</label>
-                    <input  type="file" class="form-control" ng2FileSelect [uploader]="uploader" />
+                    <label>Choisir un fichier</label>
+                    <input placeholder="test"  type="file" class="form-control" ng2FileSelect [uploader]="uploader" />
                 </div>
                 <div class="form-group col-md-6">
                     <label >Collection: </label>
@@ -55,7 +55,7 @@
                 </div>
                 <hr />
 
-                <button [disabled]="!canUpload || uploader.isUploading" class="btn btn-sm btn-primary" (click)="upload(selectedc)">Upload
+                <button [disabled]="!canUpload || uploader.isUploading" class="btn btn-sm btn-primary" (click)="upload(selectedc)">Téléverser
                     <i *ngIf="uploader.isUploading" class="fa fa-spinner fa-spin" style="font-size:15px"></i>
                 </button>
 
@@ -76,7 +76,7 @@
                     <option *ngFor="let c of collectionList" [ngValue]="c._id">{{c.name}}</option>
                 </select>
                     <div  class="input-group-btn">
-                        <button [disabled]="!collection" (click)="getSupport(collection)" class="btn btn-primary">Load data</button>
+                        <button [disabled]="!collection" (click)="getSupport(collection)" class="btn btn-primary">Charger</button>
                     </div>
                 </div>
             </div>

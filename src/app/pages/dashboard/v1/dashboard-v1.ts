@@ -28,7 +28,7 @@ export class DashboardV1Page implements OnInit {
     show : boolean = false;
     title : string;
       // Pie
-      public doughnutChartLabels:string[] = ['Synchronisé','Validé', 'En Cours','En Attente'];
+      public doughnutChartLabels:string[] = ['Synchronisé','Validé', 'En traitement','En Attente'];
       public doughnutChartData:number[] = [];
       public doughnutChartType:string = 'doughnut';
       public doughnutChartLegend:boolean = false;      

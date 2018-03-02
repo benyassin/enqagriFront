@@ -246,6 +246,7 @@
                             <div class="form-group m-r-10">
                             <select [disabled]="extrapolation.length == 0" [(ngModel)]="apikey2" name="apikey2" class="form-control" width="150px">
                                 <option [hidden]="s.type !== 'number'" *ngFor="let s of extrapolation;let f = index" [ngValue]="s.key">{{ s.key }}</option>
+                                <option value="" [disabled]="true">-----------------------------------</option>
                                 <option *ngFor="let s of Support" [ngValue]="s">{{s}}</option>
                             </select>
                             </div>
