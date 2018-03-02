@@ -140,4 +140,16 @@ export class PerimetreService {
         });
     }
 
+    deleteCollection(id){
+        return new Promise((resolve, reject) => {
+            this.http.delete('perimetre/collection/'+id)
+                .map(res => res.json())
+                .subscribe(data => {
+                    resolve(data);
+                }, (err) => {
+                    reject(err);
+                });
+        });
+    }
+
 }

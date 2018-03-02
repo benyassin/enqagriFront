@@ -79,6 +79,14 @@ export class ImportPage implements OnInit {
         this.uploader.queue[this.uploader.queue.length-1].upload()
         // this.uploader.uploadAll()
     }
+    delete(collection){
+        this.perimetreservice.deleteCollection(collection._id).then((data)=>{
+            console.log(data)
+            this.collectionList.splice(this.collectionList.indexOf(x => x._id == collection._id),1)
+        },(err)=>{
+            console.log(err)
+        })
+    }
     check(name){
         if (this.collectionList.filter(e => e.name === name).length > 0) {
             return true
