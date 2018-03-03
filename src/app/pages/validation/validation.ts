@@ -73,6 +73,21 @@ export class ValidationPage implements AfterViewInit  {
     }
 
 
+    LeafIcon = L.Icon.extend({
+        options: {
+            iconSize: [25, 42],
+            iconAnchor: [0, 0],
+            popupAnchor: [2, 0]
+        }
+    });
+    IconGreen = new this.LeafIcon({
+        iconUrl: "assets/marker-icon-green.png"
+    });
+
+    IconBlue = new this.LeafIcon({
+       iconUrl: 'assets/marker-icon.png'
+    });
+
 
 
     OnParcelleChange(parcelle :any){
@@ -83,13 +98,33 @@ export class ValidationPage implements AfterViewInit  {
         // this.parcelle.nativeElement.contentWindow.postMessage({"window":"parcelle","message":'data',"data":parcelle.formdata}, 'http://localhost/demo.html');
         // this.parcelleLayers.redraw()
         this.hidden = false;
+
         if(this.parcelleLayers){
         this.parcelleLayers.eachLayer(layer => {
+            console.log('eeeeeeeeeeeeeeeeeeeee')
+            console.log(layer.feature.properties.numero);
+            console.log(parcelle.numero);
             if(layer.feature.properties.numero == parcelle.numero){
-                layer.setStyle({fillColor:'red',color:"red"})
+                if(layer instanceof L.Marker) {
+                    layer.setIcon(this.IconBlue);
+                }else{
+                    layer.setStyle({fillColor: 'red', color: "red"})
+                }
+
+                // layer.setIcon({iconUrl:})
             }else{
-                layer.setStyle({fillColor:'blue',color:"blue"})
+                if(layer instanceof L.Marker) {
+                    layer.setIcon(this.IconGreen);
+                }else{
+                    layer.setStyle({fillColor:'blue',color:"blue"})
+                }
+
             }
+            // if(layer.feature.properties.numero == parcelle.numero){
+            //     layer.setStyle({fillColor:'red',color:"red"})
+            // }else{
+            //     layer.setStyle({fillColor:'blue',color:"blue"})
+            // }
 
         })
         }
@@ -112,7 +147,7 @@ export class ValidationPage implements AfterViewInit  {
                     console.log('im a polyline')
 
                 }else{
-                    layer.setStyle({fillOpacity:0,opacity:0});
+                    layer.setIcon({iconUrl:"assets/marker-icon-green.png"})
                     console.log('aaaaaaa')
                 }
 
@@ -179,15 +214,16 @@ export class ValidationPage implements AfterViewInit  {
                 that.drawnItems.addLayer(layer);
                 that.markers.addLayer(labelPoint);
 
-            }else{
+            }
+                else{
                 let icon = 'assets/marker-icon.png';
 
-                if(feature.properties.numero == 1){
-                    icon = 'assets/marker-icon-green.png'
-                }
+                // if(feature.properties.numero == this.selectedParcelle.numero){
+                //     icon = 'assets/marker-icon-green.png'
+                // }
                 center = layer.getLatLng();
 
-                let labelPoint = L.marker([center.lat, center.lng], {
+                let marker = L.marker([center.lat, center.lng], {
                     icon: L.icon({
                         // className: "labelPoint",
                         // html: num,
@@ -198,7 +234,8 @@ export class ValidationPage implements AfterViewInit  {
                     })
                 });
 
-                that.drawnItems.addLayer(labelPoint)
+                that.drawnItems.addLayer(layer);
+                // that.markers.addLayer(marker);
 
 
             }
@@ -267,6 +304,7 @@ export class ValidationPage implements AfterViewInit  {
     AddParcelleLayer(collecte){
         let Parcelles = [];
         let listsupport = [];
+        if(this.collecte.projet.cid != null){
         collecte.forEach(c =>{
             c.data.forEach(element => {
                 if(!listsupport.includes(element.id_support._id)){
@@ -276,6 +314,7 @@ export class ValidationPage implements AfterViewInit  {
                 }
             });
         });
+        }
         console.log('list support utiliser ====>');
         console.log(listsupport);
 
