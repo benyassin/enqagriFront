@@ -85,6 +85,7 @@ export class CollectePage implements OnInit {
         new Angular2Csv(this.csv,'Test',options)
     }
     OnProjetSelect(){
+        this.communelist = []
         this.status = null
         if(this.user.role == 'superviseurR'){
             this._province = 0;
@@ -106,6 +107,7 @@ export class CollectePage implements OnInit {
     OnProvinceSelect(id){
         this._commune = 0;
         this.perimetreservice.getCommune(id).then((data)=>{
+            this.communelist = []
             this.communelist = data
         },(err)=>{
             console.log('err fetching communes');
@@ -130,7 +132,7 @@ export class CollectePage implements OnInit {
                         let row = {
                             'collecte': element.numero,
                             'agent': element.agent.nom + ' ' + element.agent.prenom,
-                            'date': moment(new Date(element.createdAt)).format("DD-MM-YYYY à h:mm"),
+                            'date': moment(new Date(element.createdAt)).format("DD-MM-YYYY à HH:MM"),
                             'id': element._id
                         };
                         result.push(row)

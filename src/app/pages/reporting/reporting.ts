@@ -85,6 +85,7 @@ export class ReportingPage implements OnInit {
         new Angular2Csv(this.csv,'Extrapolation '+this.projet.name,options)
     }
     OnProjetSelect(){
+        this.communelist = []
         this.status = null
         if(this.user.role == 'superviseurR'){
             this._province = 0;
@@ -107,6 +108,7 @@ export class ReportingPage implements OnInit {
         this._commune = 0
         console.log(id);
         this.perimetreservice.getCommune(id).then((data)=>{
+            this.communelist = []
             this.communelist = data
         },(err)=>{
             console.log('err fetching communes');
@@ -147,7 +149,7 @@ export class ReportingPage implements OnInit {
                             'formid':f,
                             'instance': fdata.numero,
                             'agent': element.agent.nom + ' ' + element.agent.prenom,
-                            'date': moment(new Date(element.createdAt)).format("DD-MM-YYYY à h:mm"),
+                            'date': moment(new Date(element.createdAt)).format("DD-MM-YYYY à HH:MM"),
                             // 'id': element._id
                         };
 

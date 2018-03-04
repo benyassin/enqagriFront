@@ -508,9 +508,15 @@ export class ProjetPage implements OnInit  {
         console.log(form)
         this.apiKey = null
         if(form){
-            this.formservice.getExtrapolation(form).then((data) => {
-                this.extrapolation = data
+            this.formservice.getExtrapolation(form).then((data :any) => {
                 console.log('fields loaded correctly')
+                console.log(data.length)
+                if(data.length > 0){
+                    this.extrapolation = data
+
+                    console.log('fields loaded correctly')
+                }
+
             })
         }
     }
