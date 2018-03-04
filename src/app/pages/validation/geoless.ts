@@ -19,6 +19,7 @@ import * as moment from "moment"
 export class GeolessPage implements AfterViewInit  {
     constructor(
       private collecteservice:CollecteService,
+      private confirmationservice:ConfirmationService,
       private router:Router
     ){}
     collecte : any
@@ -85,8 +86,29 @@ export class GeolessPage implements AfterViewInit  {
     //   this.clear()
     //   this.loadMapData()
     // }
-    getData(){
-      this.parcelle.nativeElement.contentWindow.postMessage({"window":"parcelle","message":'submit'}, 'http://localhost/demo.html')
+    msgs : any = [];
+    rmessage
+    action(action){
+        this.confirmationservice.confirm({
+            message: "Voulez-vous confirmer cette opération?",
+            accept: () => {
+
+                let update : any = {}
+                update.niveau  = this.index;
+                update.action = action;
+                update.id = this.collecte._id
+                if(action == 'reject'){
+                    if(this.rmessage == "" || this.rmessage == null){
+                        update.rmessage = "le contrôleur n'a laissé aucun message"
+                    }else{
+                        update.rmessage = this.rmessage
+                    }
+                }
+                console.log(update)
+                this.collecteservice.action(update).then((data) => {
+                    this.router.navigate(['collectes/'])
+                })
+            }})
     }
     clear(){
       console.log(this.drawnItems)
@@ -188,24 +210,46 @@ export class GeolessPage implements AfterViewInit  {
     srcformio
     dataformio
     validation
+    user
+    index
+    lenght
     ngOnInit(){
       //init map
 
       
-      console.log(this.collecteservice.collecte)
         if(this.collecteservice.collecte !== null){
-            this.collecte = this.collecteservice.collecte.collecte
-            this.collecte.collecte[0].data[0].date_creation = moment(new Date(this.collecte.collecte[0].data[0].date_creation)).format("DD.MM.YYYY - hh:mm")
+            this.collecte = this.collecteservice.collecte.collecte;
+            this.collecte.collecte[0].data[0].date_creation = moment(new Date(this.collecte.collecte[0].data[0].date_creation)).format("DD.MM.YYYY à HH:MM")
         }else{
           this.router.navigate(['collectes/'])
         }
+        console.log('this.collecte');
+        console.log(this.collecte);
+        console.log('collecte[0]');
+        console.log(this.collecte.collecte[0]);
         this._type = this.collecte.collecte[0];
-        this.dataformio = this.collecte.collecte[0].data[0].formdata
+        this.dataformio = this.collecte.collecte[0].data[0].formdata;
         this.srcformio="http://localhost:8080/api/forms/"+this._type.form+"/fields?rsubmit=true";
 
-
+        this.hidden = false;
         this.validation = this.collecte.validation;
+        this.lenght = this.collecte.projet.niveau;
 
+        this.user = JSON.parse(localStorage.getItem('user'));
+        if(this.user.role === 'admin'){
+            this.index = 0
+        }else{
+            this.index = this.collecte.projet.validation[this.user.perimetre.region.id_region].findIndex(x => x.agent==this.user._id);
+        }
+
+        if(this.collecte.rmessage != null && this.validation[this.index] == 'reject'){
+            this.msgs.push({severity:'error', summary:'message:', detail:this.collecte.rmessage});
+        }
+        this.ExploitationMap = new L.Map('map').setView([34.0375,-6.7516], 6);
+        L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+            maxZoom: 20,
+            subdomains:['mt0','mt1','mt2','mt3'],
+        }).addTo(this.ExploitationMap);
 
     }
     ngOnDestroy() {
@@ -217,7 +261,6 @@ export class GeolessPage implements AfterViewInit  {
 
 
         // Test Exploitation map
-        this.ExploitationMap = new L.Map('map').setView([this.collecteservice.collecte.lat, this.collecteservice.collecte.lng], 13);
         // let blocs : any = []
         // this.collecteservice.collecte..forEach(element => {
         //    blocs.push(element.gjson)
@@ -238,17 +281,16 @@ export class GeolessPage implements AfterViewInit  {
     //           iconUrl: 'assets/marker-icon.png',
     //           shadowUrl: null
     //       }
-    //   });   
-      L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(this.ExploitationMap);
-    L.marker([this.collecteservice.collecte.lat, this.collecteservice.collecte.lng],{
-      icon: L.icon({
+    //   });
 
-            iconUrl: 'assets/marker-icon.png',
-            shadowUrl: 'assets/marker-shadow.png'
-            })
-      }).addTo(this.ExploitationMap)
+
+    // L.marker([this.collecteservice.collecte.lat, this.collecteservice.collecte.lng],{
+    //   icon: L.icon({
+    //
+    //         iconUrl: 'assets/marker-icon.png',
+    //         shadowUrl: 'assets/marker-shadow.png'
+    //         })
+    //   }).addTo(this.ExploitationMap)
 
     //   // Draw Control
     //   var optionsDraw = {

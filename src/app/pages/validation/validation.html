@@ -3,11 +3,9 @@
 
 <div class="row">
     <div class="bt-group pull-right">
-        <button (click)="saveChange()" class="btn btn-primary btn-lg m-r-5"><i class="fa fa-floppy-o pull-left"></i>Enregistrer</button>
+        <button  [disabled]="(index != 0 || user?.role != 'controleur')" (click)="saveChange()" class="btn btn-primary btn-lg m-r-5"><i class="fa fa-floppy-o pull-left"></i>Enregistrer</button>
         <button  [disabled]="(user?.role != 'controleur') || (validation[index] == 'valid') || (index == lenght - 1 && validation[index] =='valid')" (click)="action('valid')" class="btn btn-success btn-lg m-r-5"><i class="fa fa-check pull-left"></i>Valider</button>
         <button  [disabled]="(user?.role != 'controleur') || (validation[index] == 'valid') || (index == 0)" href="#modal-refus"  class="btn btn-danger btn-lg m-r-5" data-toggle="modal"><i class="fa fa-ban pull-left"></i>Rejeter</button>
-
-
     </div>
     <div class="col-md-2">
     </div>
@@ -41,7 +39,7 @@
                             <div class="col-md-8">
                                 <!-- <label for="parcelle">Instance: </label> -->
                                 <select id="parcelle" name="parcelle" [(ngModel)]="_parcelle" required class="form-control" (ngModelChange)="OnParcelleChange($event)">
-                                    <option value="" disabled="true" [selected]="!_parcelle">Bloc</option>
+                                    <option value="" disabled="true" [selected]="!_parcelle">Instance</option>
                                     <option *ngFor="let data of _type?.data" [ngValue]="data">{{data.numero}}</option>
                                 </select>
                             </div>
@@ -78,11 +76,15 @@
                     </tr>
                     <tr>
                         <th>Region</th>
-                        <td>{{collecte?.agent.region?.name}}</td>
+                        <td>{{collecte?.region}}</td>
                     </tr>
                     <tr>
                         <th>Province</th>
-                        <td>{{collecte?.agent.province?.name}}</td>
+                        <td>{{collecte?.province}}</td>
+                    </tr>
+                    <tr>
+                        <th>Commune</th>
+                        <td>{{collecte?.commune}}</td>
                     </tr>
                     </tbody>
                 </table>

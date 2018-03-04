@@ -73,20 +73,38 @@ export class CollectePage implements OnInit {
     };
     exportData(){
         let options = {
-            fieldSeparator: ',',
+            fieldSeparator: ';',
             quoteStrings: '',
             decimalseparator: '.',
             showLabels: true,
             showTitle: false,
-            useBom: false,
+            useBom: true,
             headers: Object.keys(this.csv[0])
           };
         console.log(this.csv);
         new Angular2Csv(this.csv,'Test',options)
     }
-
+    OnProjetSelect(){
+        this.status = null
+        if(this.user.role == 'superviseurR'){
+            this._province = 0;
+            this._commune = 0
+        }
+        if(this.user.role == 'superviseurP'){
+            this._commune = 0
+        }
+        if(this.user.role == 'admin'){
+            this._region = 0;
+            this._province = 0;
+            this._commune = 0
+        }
+    }
+    OnRegionSelect(){
+        this._province = 0
+        this._commune = 0
+    }
     OnProvinceSelect(id){
-        console.log(id);
+        this._commune = 0;
         this.perimetreservice.getCommune(id).then((data)=>{
             this.communelist = data
         },(err)=>{
@@ -261,10 +279,6 @@ export class CollectePage implements OnInit {
 
     }
 
-    OnProjetSelect(projet){
-        this.projet = projet;
-        console.log(projet)
-    }
     action(id,action){
         let update : any = {};
         update.niveau  = this.index;

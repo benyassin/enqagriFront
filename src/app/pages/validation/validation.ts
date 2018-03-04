@@ -51,7 +51,7 @@ export class ValidationPage implements AfterViewInit  {
     srcformio ;
     action(action){
         this.confirmationservice.confirm({
-            message: "Voulez-vous confirmer cette opÃ©ration?",
+            message: "Voulez-vous confirmer cette opération?",
             accept: () => {
 
                 let update : any = {}
@@ -60,7 +60,7 @@ export class ValidationPage implements AfterViewInit  {
                 update.id = this.collecte._id
                 if(action == 'reject'){
                     if(this.rmessage == "" || this.rmessage == null){
-                        update.rmessage = "le contrÃ´leur n'a laissÃ© aucun message"
+                        update.rmessage = "le contrôleur n'a laissé aucun message"
                     }else{
                         update.rmessage = this.rmessage
                     }
@@ -93,7 +93,7 @@ export class ValidationPage implements AfterViewInit  {
     OnParcelleChange(parcelle :any){
         this.hidden = true;
         this.selectedParcelle = JSON.parse(JSON.stringify(parcelle));
-        this.selectedParcelle.date_creation = moment(new Date(this.selectedParcelle.date_creation)).format("DD.MM.YYYY â  h:mm");
+        this.selectedParcelle.date_creation = moment(new Date(this.selectedParcelle.date_creation)).format("DD.MM.YYYY à HH:MM");
 
         // this.parcelle.nativeElement.contentWindow.postMessage({"window":"parcelle","message":'data',"data":parcelle.formdata}, 'http://localhost/demo.html');
         // this.parcelleLayers.redraw()
@@ -158,7 +158,8 @@ export class ValidationPage implements AfterViewInit  {
     saveChange(){
         this.collecteservice.updateCollecte({'id':this.collecte._id,'exploitation':this.collecte.exploitation,'collecte':this.collecte.collecte}).then((data) => {
             console.log(data)
-            this.msgs.push({severity:'success', summary:'message:', detail:'updated'});
+            this.msgs = [];
+            this.msgs.push({severity:'success', summary:'message:', detail:'Modification avec succès'});
         },(err) =>{
             console.log('error updating colelcte')
             console.log(err)

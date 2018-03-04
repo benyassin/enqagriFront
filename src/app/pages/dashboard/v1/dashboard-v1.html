@@ -16,7 +16,7 @@
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
-                <li (click)="getData(p)" *ngFor="let p of projets"><a>{{p.name}}</a></li>
+                <li (click)="getData(p)" *ngFor="let p of projets"><a>{{p?.name}}</a></li>
             </ul>
         </div>
         <h4 class="panel-title">{{title || 'Chargement...'}}</h4>
@@ -27,7 +27,7 @@
     <!-- begin col-3 -->
     <div class="col-md-3 col-sm-6">
         <div class="widget widget-stats bg-green">
-            <div class="stats-icon"><i class="ion-earth"></i></div>
+            <div class="stats-icon"><i class="fa fa-refresh"></i></div>
             <div class="stats-info">
                 <h4>Synchonisé</h4>
                 <p>{{data?.total || 0}}</p>
@@ -38,7 +38,7 @@
     <!-- begin col-3 -->
     <div class="col-md-3 col-sm-6">
         <div class="widget widget-stats bg-blue">
-            <div class="stats-icon"><i class="fa fa-object-ungroup"></i></div>
+            <div class="stats-icon"><i class="fa fa-hourglass-half"></i></div>
             <div class="stats-info">
                 <h4>En Attente </h4>
                 <p>{{data?.wait || 0}}</p>
@@ -49,7 +49,7 @@
     <!-- begin col-3 -->
     <div class="col-md-3 col-sm-6">
         <div class="widget widget-stats bg-purple">
-            <div class="stats-icon"><i class="fa fa-line-chart "></i></div>
+            <div class="stats-icon"><i class="fa fa-check "></i></div>
             <div class="stats-info">
                 <h4>Validé</h4>
                 <p>{{data?.valid || 0}}</p>
@@ -60,11 +60,21 @@
     <!-- begin col-3 -->
     <div class="col-md-3 col-sm-6">
         <div class="widget widget-stats bg-red">
-            <div class="stats-icon"><i class="fa fa-users"></i></div>
-            <div class="stats-info">
-                <h4>En Traitement</h4>
-                <p>{{data?.entraitment || 0}}</p>
-            </div>
+            <ng-container *ngIf="user.role != 'controleur'">
+                <div class="stats-icon"><i class="fa fa-edit"></i></div>
+                <div  class="stats-info">
+                    <h4>En Traitement</h4>
+                    <p>{{data?.entraitment || 0}}</p>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="user.role == 'controleur'">
+                <div class="stats-icon"><i class="fa fa-ban"></i></div>
+                <div  class="stats-info">
+                    <h4>Refusé</h4>
+                    <p>{{data?.refus || 0}}</p>
+                </div>
+            </ng-container>
+
         </div>
     </div>
     <!-- end col-3 -->
@@ -113,6 +123,7 @@
                         [data]="doughnutChartData"
                         [labels]="doughnutChartLabels"
                         [chartType]="doughnutChartType"
+                        [colors]="doughnutChartColors"
                         (chartHover)="chartHovered($event)"
                         (chartClick)="chartClicked($event)"></canvas>
         </div>

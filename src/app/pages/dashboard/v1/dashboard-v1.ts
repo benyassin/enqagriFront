@@ -28,7 +28,8 @@ export class DashboardV1Page implements OnInit {
     show : boolean = false;
     title : string;
       // Pie
-      public doughnutChartLabels:string[] = ['Synchronisé','Validé', 'En traitement','En Attente'];
+      public doughnutChartLabels:string[] = ['Synchronisé','En Attente','Validé','En Traitement'];
+
       public doughnutChartData:number[] = [];
       public doughnutChartType:string = 'doughnut';
       public doughnutChartLegend:boolean = false;      
@@ -38,8 +39,12 @@ export class DashboardV1Page implements OnInit {
     console.log(e);
   }
 
+
     getProjets(){
+
         if(this.user.role == 'controleur'){
+            this.doughnutChartLabels = ['Synchronisé','En Attente','Validé','Refusé']
+
             console.log('im a controller');
             this.projetservice.getProjetsByController().then((data : any) =>{
                 this.projets = data;
@@ -48,7 +53,6 @@ export class DashboardV1Page implements OnInit {
                 this.getData(this.projets[0]);
             },(err : any) => {
                 console.log('error fetching collectes',err)
-
             })
         }else if(this.user.role == 'agent'){
             let projets = [];
@@ -117,6 +121,8 @@ export class DashboardV1Page implements OnInit {
             pointHoverBorderColor: 'rgba(148,159,177,0.8)'
         }
     ];
+
+    doughnutChartColors: any[] = [{ backgroundColor: ["#39a34b","#348fe2","#727cb6","#ff5b57"] }]
     getData(projet){
         // this.reportingservice.getDashboardData().then((data : any) => {
         //     this.total = data.total;
@@ -147,9 +153,13 @@ export class DashboardV1Page implements OnInit {
         }
         if(projet.niveau == 0 ) projet.niveau = -1;
 
+        let index  = 0
+        if(this.user.role == 'controleur'){
+            index = projet.validation[perimetre.region].findIndex(x => x.agent==this.user._id);
+        }
 
 
-        this.reportingservice.getDashboard2(projet._id,0,'new',perimetre.region,perimetre.province,0,projet.niveau).then((data:any)=>{
+        this.reportingservice.getDashboard2(projet._id,index,'new',perimetre.region,perimetre.province,0,projet.niveau-1).then((data:any)=>{
             this.data = data;
             moment.locale('fr');
 
@@ -158,7 +168,10 @@ export class DashboardV1Page implements OnInit {
             this.lineChartLabels =[];
             this.lineChartData[0].data = [0,0,0,0,0,0,0];
             this.lineChartData[1].data = [0,0,0,0,0,0,0];
-            this.doughnutChartData = [data.total,data.valid,data.entraitment,data.wait];
+            this.doughnutChartData = [data.total,data.wait,data.valid,data.entraitment];
+            if(this.user.role == 'controleur'){
+                this.doughnutChartData = [data.total,data.wait,data.valid,data.refus]
+            }
 
             for(let i=0; i<=6; i++) {
                 this.lineChartLabels.push(moment().subtract(i, 'days').format("dddd"));

@@ -8,7 +8,7 @@
                     
                 <div class="form-group col-md-3">
                     <label >Projet: </label>
-                <select [(ngModel)]="projet" name="projet" [compareWith]="compareById" class="form-control">
+                <select [(ngModel)]="projet" name="projet" [compareWith]="compareById" class="form-control" (change)="OnProjetSelect()">
                         <option *ngFor="let p of projets" [ngValue]="p">{{p?.name}}</option>
                 </select>
                 </div>
@@ -21,7 +21,7 @@
                       
                 <div class="form-group col-md-3">  
                         <label >Region: </label>
-                    <select [disabled]="!projet || user.role !== 'admin' " [(ngModel)]="_region" name="region" class="form-control">
+                    <select [disabled]="!projet || user.role !== 'admin' " [(ngModel)]="_region" name="region" class="form-control" (change)="OnRegionSelect()">
                         <option  *ngIf="user.role !== 'admin'" [ngValue]="user?.perimetre?.region?.id_region" disabled selected>{{user?.perimetre?.region?.name}}</option>
                         <option value=0></option>
                             <option *ngFor="let r of projet?.perimetre.region" [ngValue]="r.id_region">{{r.name}}</option>
