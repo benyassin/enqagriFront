@@ -11,7 +11,7 @@ import { locale } from 'moment';
 import { LocalDataSource } from 'ng2-smart-table';
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 import {forEach} from '@angular/router/src/utils/collection';
-
+import {saveAs} from 'file-saver'
 
 
 @Component({
@@ -50,6 +50,11 @@ export class ReportingPage implements OnInit {
     _value;
     source : LocalDataSource;
     csv;
+    GeoData : any  = {
+        "type": "FeatureCollection",
+        "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+        "features": []
+        }
     communelist;
     compareById(obj1, obj2) {
         if(localStorage.getItem('storage') !== null ){
@@ -83,6 +88,10 @@ export class ReportingPage implements OnInit {
         };
         console.log(this.csv);
         new Angular2Csv(this.csv,'Extrapolation '+this.projet.name,options)
+    }
+
+    exportGeoData(){
+        saveAs(new Blob([JSON.stringify(this.GeoData)], { type: "text" }), 'data.txt');
     }
     OnProjetSelect(){
         this.communelist = []
@@ -152,7 +161,7 @@ export class ReportingPage implements OnInit {
                             'date': moment(new Date(element.createdAt)).format("DD-MM-YYYY à HH:MM"),
                             // 'id': element._id
                         };
-
+                        this.GeoData.features.push({"type":"Feature","properties":{numero:fdata.numero,collecte:element.numero,support:fdata.id_support},"geometry":fdata.gjson})
                         order.forEach(s => {
                             if(!this.settings.columns[s]){
                             this.settings.columns[s] = {'title': s};

@@ -11,6 +11,8 @@ import { locale } from 'moment';
 import { LocalDataSource } from 'ng2-smart-table';
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 import {forEach} from '@angular/router/src/utils/collection';
+import { saveAs } from 'file-saver';
+
 
 
 
@@ -83,6 +85,9 @@ export class CollectePage implements OnInit {
           };
         console.log(this.csv);
         new Angular2Csv(this.csv,'Test',options)
+    }
+    exportGeoData(){
+        saveAs(new Blob(['hello world'], { type: "text" }), 'data.txt');
     }
     OnProjetSelect(){
         this.communelist = []
@@ -207,7 +212,7 @@ export class CollectePage implements OnInit {
     if(projet == null || status == null ){
         return
     }
-    this.extrapolation = projet.extrapolation
+    this.extrapolation = projet.extrapolation;
     if(this.projet !== null){
         localStorage.setItem('storage',JSON.stringify({'projet':this.projet,'status':status,'region':region,'province':province}));
     }
