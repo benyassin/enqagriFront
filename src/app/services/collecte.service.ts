@@ -133,4 +133,17 @@ getVoisin(projet,support,collectid){
             });
     });
 }
+
+deleteCollecte(id){
+        return new Promise((resolve, reject) => {
+            this.http.delete('collectes/'+id)
+                .map(res => res.json())
+                .subscribe(data => {
+                    resolve(data);
+                }, (err) => {
+                    reject(err);
+                });
+        });
+
+    }
 }

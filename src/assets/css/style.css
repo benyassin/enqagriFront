@@ -1125,7 +1125,6 @@ legend {
     border-color: #eee;
 }
 .dropdown-menu.media-list {
-    max-width: 280px;
     padding: 0;
 }
 .dropdown-menu.media-list p {

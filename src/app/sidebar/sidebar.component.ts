@@ -26,7 +26,7 @@ export class SidebarComponent implements AfterViewInit {
     }
     // menu list
     menu = [{
-        title: 'Dashboard',
+        title: 'Tableau de bord',
         icon:'fa fa-home  ',
         link: '/dashboard/v1',
         roles: ['admin','superviseurP','superviseurR','agent','controleur']

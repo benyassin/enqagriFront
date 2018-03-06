@@ -155,6 +155,20 @@ export class ValidationPage implements AfterViewInit  {
         }
         this.loadMapData()
     }
+    delete(){
+        this.confirmationservice.confirm({
+            message: "Voulez-vous confirmer cette opération?",
+            accept: () => {
+                this.collecteservice.deleteCollecte(this.collecte._id).then((data)=>{
+                    this.router.navigate(['collectes/'])
+                },(err)=>{
+                    this.msgs = [];
+                    this.msgs.push({severity:'error', summary:'message:', detail:'Impossible de supprimer cette collecte'});
+                })
+            }
+        })
+
+    }
     saveChange(){
         this.collecteservice.updateCollecte({'id':this.collecte._id,'exploitation':this.collecte.exploitation,'collecte':this.collecte.collecte}).then((data) => {
             console.log(data)
