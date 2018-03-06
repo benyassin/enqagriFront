@@ -92,6 +92,7 @@ export class ValidationPage implements AfterViewInit  {
 
     OnParcelleChange(parcelle :any){
         this.hidden = true;
+        // this.selectedParcelle = {}
         this.selectedParcelle = JSON.parse(JSON.stringify(parcelle));
         this.selectedParcelle.date_creation = moment(new Date(this.selectedParcelle.date_creation)).format("DD.MM.YYYY à HH:MM");
 
@@ -106,15 +107,16 @@ export class ValidationPage implements AfterViewInit  {
             console.log(parcelle.numero);
             if(layer.feature.properties.numero == parcelle.numero){
                 if(layer instanceof L.Marker) {
-                    layer.setIcon(this.IconBlue);
+                    layer.setIcon(this.IconGreen);
                 }else{
                     layer.setStyle({fillColor: 'red', color: "red"})
+                    this.ParcelleMap.fitBounds(layer.getBounds())
                 }
 
                 // layer.setIcon({iconUrl:})
             }else{
                 if(layer instanceof L.Marker) {
-                    layer.setIcon(this.IconGreen);
+                    layer.setIcon(this.IconBlue);
                 }else{
                     layer.setStyle({fillColor:'blue',color:"blue"})
                 }
@@ -127,6 +129,7 @@ export class ValidationPage implements AfterViewInit  {
             // }
 
         })
+
         }
     }
     OnTypeChange(data : any){
