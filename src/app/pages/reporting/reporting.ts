@@ -52,7 +52,6 @@ export class ReportingPage implements OnInit {
     csv;
     GeoData : any  = {
         "type": "FeatureCollection",
-        "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
         "features": []
         }
     communelist;
@@ -91,7 +90,18 @@ export class ReportingPage implements OnInit {
     }
 
     exportGeoData(){
-        saveAs(new Blob([JSON.stringify(this.GeoData)], { type: "text" }), 'data.txt');
+        saveAs(new Blob([JSON.stringify(this.GeoData)], { type: "text" }), 'data.geojson');
+    }
+    export(projet,args){
+        for (let key in args) {
+            if (args[key] == 0) delete args[key];
+        }
+        this.collecteservice.exportData(projet._id,args).then((data)=>{
+            console.log(data)
+        },(err)=>{
+            console.log('error exporting data')
+            console.log(err)
+        })
     }
     OnProjetSelect(){
         this.communelist = []
@@ -161,8 +171,14 @@ export class ReportingPage implements OnInit {
                             'date': moment(new Date(element.createdAt)).format("DD-MM-YYYY à HH:MM"),
                             // 'id': element._id
                         };
+                        if(element.geo == true){
+                        if(fdata.gjson.hasOwnProperty('geometry')){
+                            fdata.gjson =fdata.gjson.geometry
+                        }
+                        }
                         this.GeoData.features.push({"type":"Feature","properties":{numero:fdata.numero,collecte:element.numero,support:fdata.id_support},"geometry":fdata.gjson})
                         order.forEach(s => {
+
                             if(!this.settings.columns[s]){
                             this.settings.columns[s] = {'title': s};
                             }

@@ -32,14 +32,19 @@ export class DashboardV1Page implements OnInit {
 
       public doughnutChartData:number[] = [];
       public doughnutChartType:string = 'doughnut';
-      public doughnutChartLegend:boolean = false;      
-      
-  // events
-  public chartClicked(e:any):void {
-    console.log(e);
-  }
+      public doughnutChartLegend:boolean = false;
 
-
+    options = {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    max: 5,
+                    min: 0,
+                    stepSize: 1
+                }
+            }]
+        }
+    };
     getProjets(){
 
         if(this.user.role == 'controleur'){
@@ -89,6 +94,7 @@ export class DashboardV1Page implements OnInit {
       public lineChartLegend:boolean = true;      
       public lineChartLabels:Array<any> = [];
       public lineChartType:string = 'line';
+      public
 
 
     switch() {
