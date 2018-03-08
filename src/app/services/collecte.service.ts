@@ -147,22 +147,21 @@ deleteCollecte(id){
 
     }
 
-    exportData(id,query){
-        let path = 'collectes/export/'+ id;
-        const requestURL =  url.format({
-            pathname: path,
-            query: query
-        });
-        console.log(requestURL)
-        return new Promise((resolve, reject) => {
-            this.http.get(requestURL)
-                .map(res => res.json())
-                .subscribe(data => {
-                    resolve(data);
-                }, (err) => {
-                    reject(err);
-                });
-        });
-    }
+exportData(id,query){
+    let path = 'collectes/export/'+ id;
+    const requestURL =  url.format({
+        pathname: path,
+        query: query
+    });
+    return new Promise((resolve, reject) => {
+        this.http.getBlob(requestURL)
+            .map(res => res.blob())
+            .subscribe(data => {
+                resolve(data);
+            }, (err) => {
+                reject(err);
+            });
+    });
+}
 }
 

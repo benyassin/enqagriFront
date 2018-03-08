@@ -96,8 +96,10 @@ export class ReportingPage implements OnInit {
         for (let key in args) {
             if (args[key] == 0) delete args[key];
         }
-        this.collecteservice.exportData(projet._id,args).then((data)=>{
+        this.collecteservice.exportData(projet._id,args).then((data : any)=>{
             console.log(data)
+            saveAs(data, 'data.xlsx');
+
         },(err)=>{
             console.log('error exporting data')
             console.log(err)

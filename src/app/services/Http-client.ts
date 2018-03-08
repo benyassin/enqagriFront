@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
+import { Http, Headers,ResponseContentType } from '@angular/http';
 
 @Injectable()
 export class HttpClient {
@@ -17,6 +17,13 @@ export class HttpClient {
         this.injectHeader(headers);
         return this.http.get(this.url + endpoint,{headers: headers});
     }
+
+    getBlob(endpoint) {
+        let headers = new Headers();
+        this.injectHeader(headers);
+        return this.http.get(this.url + endpoint,{headers: headers,responseType: ResponseContentType.Blob },);
+    }
+
 
     getWithParams(endpoint,optional) {
         let headers = new Headers();
