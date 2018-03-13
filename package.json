@@ -27,7 +27,7 @@
     "@types/leaflet-fullscreen": "^1.0.3",
     "@types/lodash": "^4.14.77",
     "angular-2-data-table": "^0.1.2",
-    "angular-formio": "1.17.0",
+    "angular-formio": "*",
     "angular-sortablejs": "^2.0.6",
     "angular2-csv": "^0.2.5",
     "angular2-jwt": "^0.2.3",

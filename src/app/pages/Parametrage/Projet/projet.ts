@@ -500,13 +500,13 @@ export class ProjetPage implements OnInit  {
     }
     advance(){
         this.advanced = !this.advanced
-        this.apikey1 = null
-        this.apikey2 = null
+        this.apikey1 = null;
+        this.apikey2 = null;
         this.operateur = null
     }
     onFormSelect(form){
-        console.log(form)
-        this.apiKey = null
+        console.log(form);
+        this.apiKey = null;
         if(form){
             this.formservice.getExtrapolation(form).then((data :any) => {
                 console.log('fields loaded correctly')

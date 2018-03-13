@@ -54,7 +54,7 @@ export class CollectePage implements OnInit {
     csv;
     communelist;
     compareById(obj1, obj2) {
-        if(localStorage.getItem('storage') !== null ){
+        if(localStorage.getItem('storage') !== null && obj1 !== null && obj2 !== null){
         return obj1._id === obj2._id;
         }
     }

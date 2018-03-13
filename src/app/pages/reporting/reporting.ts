@@ -101,7 +101,7 @@ export class ReportingPage implements OnInit {
             saveAs(data, 'data.xlsx');
 
         },(err)=>{
-            console.log('error exporting data')
+            console.log('error exporting data');
             console.log(err)
         })
     }
@@ -359,6 +359,15 @@ export class ReportingPage implements OnInit {
                         console.log(err)
                     })
                     break
+                case 'all':
+                    this.collecteservice.getCollectesByProjet(projet._id,0,'all',region,province,commune).then((data : any) => {
+                        this.collectes = data.collectes;
+                        this.filtreData(data.order,data.collectes)
+                    },(err)=> {
+                        console.log('error trying to fetch collectes');
+                        console.log(err)
+                    })
+                    break
 
                 case 'reject':
                     this.collecteservice.getCollecteEnTraitement(projet._id,this.index,region,province,commune).then((data : any) => {
@@ -406,16 +415,16 @@ export class ReportingPage implements OnInit {
             region:0,
             province:0
         }
-        this.ExtrapolatedData = []
-        this.dataload = true
-        this._value = null
-        this._formulaire = null
+        this.ExtrapolatedData = [];
+        this.dataload = true;
+        this._value = null;
+        this._formulaire = null;
         this._commune = null
     }
 
     getProjets(){
         if(this.user.role == 'controleur'){
-            console.log('im a controller')
+            console.log('im a controller');
             this.projetservice.getProjetsByController().then((data : any) =>{
                 this.projets = data;
                 // this.region = data.perimetre.region;
