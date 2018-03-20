@@ -51,14 +51,14 @@ import { ThemePanelComponent }      from './theme-panel/theme-panel.component';
 
 // Dashboard
 import { DashboardV1Page }          from './pages/dashboard/v1/dashboard-v1';
-import { DashboardV2Page }          from './pages/dashboard/v2/dashboard-v2';
+// import { DashboardV2Page }          from './pages/dashboard/v2/dashboard-v2';
 import { LoginPage }                from './pages/user/login/login';
 
 //Parametrage
 import { DashboardPage }            from './pages/Parametrage/Dashboard/dashboard';
 import { FormulairePage }                 from './pages/Parametrage/Formulaire/formulaire';
 import { BlocPage }                       from './pages/Parametrage/Bloc/bloc';
-import { FormPluginsPage }          from './pages/form-stuff/form-plugins/form-plugins';
+// import { FormPluginsPage }          from './pages/form-stuff/form-plugins/form-plugins';
 import { ProjetPage }               from './pages/Parametrage/Projet/projet';
 import { ButtonRenderComponent } from './pages/Parametrage/Projet/button.render.component';
 import { testProjetPage }               from './pages/Parametrage/Projet/inspect';
@@ -75,7 +75,7 @@ import { CollectePage }           from './pages/collecte/collecte';
 import { ReportingPage }          from './pages/reporting/reporting';
 
 
-import { ExtraProfilePage }         from './pages/extra/extra-profile/extra-profile';
+// import { ExtraProfilePage }         from './pages/extra/extra-profile/extra-profile';
 import { UtilisateurPage }          from './pages/utilisateur/dashboard'
 import { CreationUtilisateurPage }           from './pages/utilisateur/utilisateur'
 import { ProfilePage }  from './pages/utilisateur/profile';
@@ -90,10 +90,10 @@ import { ValuesPipe } from './values.pipe';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 
 // Chart
-import { ChartFlotPage }            from './pages/chart/chart-flot/chart-flot';
-import { ChartJsPage }              from './pages/chart/chart-js/chart-js';
-import { ChartMorrisPage }          from './pages/chart/chart-morris/chart-morris';
-import { ChartD3Page }              from './pages/chart/chart-d3/chart-d3';
+// import { ChartFlotPage }            from './pages/chart/chart-flot/chart-flot';
+// import { ChartJsPage }              from './pages/chart/chart-js/chart-js';
+// import { ChartMorrisPage }          from './pages/chart/chart-morris/chart-morris';
+// import { ChartD3Page }              from './pages/chart/chart-d3/chart-d3';
 /*
 
 
@@ -209,12 +209,11 @@ import { HelperCssPage }        from './pages/helper/helper-css/helper-css';*/
         MegaMenuComponent,
         FooterComponent,
         DashboardV1Page,
-        DashboardV2Page,
+        // DashboardV2Page,
         FormulairePage,
         BlocPage,
-        FormPluginsPage,
         LoginPage,
-        ExtraProfilePage,
+        // ExtraProfilePage,
         UtilisateurPage,
         ProfilePage,
         DashboardPage,
@@ -228,10 +227,6 @@ import { HelperCssPage }        from './pages/helper/helper-css/helper-css';*/
         ValidationPage,
         CollectePage,
         GeolessPage,
-        ChartFlotPage,
-        ChartJsPage,
-        ChartMorrisPage,
-        ChartD3Page,
         ReportingPage,
         ButtonRenderComponent,
         ImportPage,

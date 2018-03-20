@@ -167,30 +167,44 @@
                                        <p *ngIf="email.errors.required">Ce champ est obligatoire</p>
                                        <p *ngIf="email.errors.pattern">Email address incorrect</p>
                                         </div>
-                                        </div>	
-        
-            
+                                        </div>
+
+                                        <div  class="col-sm-3 form-group" [ngClass]="{
+                                                'has-danger': office.invalid && (office.dirty || office.touched),
+                                                'has-success': office.valid && (office.dirty || office.touched)
+                                               }">
+                                            <label>Prestataire</label>
+                                            <select class="form-control" formControlName="prestataire">
+                                                <option value="" [selected]="true"></option>
+                                                <option *ngFor="let p of prestataires" [ngValue]="p._id">{{p.nom}} {{p.prenom}}</option>
+                                                <div  class="help-block" *ngIf="prestataire.errors && (prestataire.dirty || prestataire.touched)">
+                                                    <p *ngIf="prestataire.errors.required">Ce champ est obligatoire</p>
+                                                </div>
+                                            </select>
+                                        </div>
+
+
                                             <!-- <div class="col-sm-3 form-group" [ngClass]="{
                                                 'has-danger': dpa.invalid && (dpa.dirty || dpa.touched),
                                                 'has-success': dpa.valid && (dpa.dirty || dpa.touched)
                                                }">
                                                 <label>Dpa</label>
                                                 <select  class="form-control" formControlName="dpa">
-                                                    <option value="" [selected]="true"></option>                                                    
+                                                    <option value="" [selected]="true"></option>
                                                     <option [hidden]="d.id_province != myform.value.province" *ngFor="let d of list_dpa" [ngValue]="d._id">{{d.DPA}}</option>
                                                     <div  class="help-block" *ngIf="dpa.errors && (dpa.dirty || dpa.touched)">
                                                             <p *ngIf="dpa.errors.required">Ce champ est obligatoire</p>
                                                     </div>
                                                 </select>
                                             </div>
-                                            
+
                                             <div  class="col-sm-3 form-group" [ngClass]="{
                                                 'has-danger': office.invalid && (office.dirty || office.touched),
                                                 'has-success': office.valid && (office.dirty || office.touched)
                                                }">
                                                 <label>Office</label>
                                                 <select class="form-control" formControlName="office">
-                                                    <option value="" [selected]="true"></option>                                                    
+                                                    <option value="" [selected]="true"></option>
                                                     <option [hidden]="f.id_province != myform.value.province" *ngFor="let f of list_office" [ngValue]="f._id">{{f.OFFICE}}</option>
                                                     <div  class="help-block" *ngIf="office.errors && (office.dirty || office.touched)">
                                                             <p *ngIf="office.errors.required">Ce champ est obligatoire</p>

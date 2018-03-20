@@ -188,6 +188,9 @@ export class ValidationPage implements AfterViewInit  {
         }
         // this.selectedParcelle.formdata = submission.data
     }
+    OnTest(submission: any){
+        console.log(submission)
+    }
     OnSubmitId(submission:any){
         if(submission.data){
             this.collecte.exploitation.formdata.data = JSON.parse(JSON.stringify(submission.data))
@@ -411,9 +414,9 @@ export class ValidationPage implements AfterViewInit  {
         console.log(this.collecte.collecte[0]);
         this._type = this.collecte.collecte[0];
         if(this.collecte.hasOwnProperty('exploitation')){
-        this.identification ="http://localhost:8080/api/forms/"+this.collecte.exploitation.form+"/fields?rsubmit=true";
+        this.identification ="http://localhost:8080/api/forms/"+this.collecte.exploitation.form+"/fields";
         }
-        this.srcformio="http://localhost:8080/api/forms/"+this._type.form+"/fields?rsubmit=true";
+        this.srcformio="http://localhost:8080/api/forms/"+this._type.form+"/fields";
 
         // this.OnParcelleChange(this._type.data[0])
 

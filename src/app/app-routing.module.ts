@@ -3,31 +3,31 @@ import { RouterModule, Routes }    from '@angular/router';
 
 // Dashboard
 import { DashboardV1Page }          from './pages/dashboard/v1/dashboard-v1';
-import { DashboardV2Page }          from './pages/dashboard/v2/dashboard-v2';
+// import { DashboardV2Page }          from './pages/dashboard/v2/dashboard-v2';
 
 //parametrage
 import { DashboardPage }          from './pages/Parametrage/Dashboard/dashboard'
 import { FormulairePage }         from './pages/Parametrage/Formulaire/formulaire';
 import { ProjetPage }             from './pages/Parametrage/Projet/projet';
 import { BlocPage }               from './pages/Parametrage/Bloc/bloc';
-import { FormPluginsPage }          from './pages/form-stuff/form-plugins/form-plugins';
+// import { FormPluginsPage }          from './pages/form-stuff/form-plugins/form-plugins';
 
 import { LoginPage }                from './pages/user/login/login';
 import { AuthGuard }              from './guard/auth.guard'
-import { ExtraProfilePage }         from './pages/extra/extra-profile/extra-profile';
+// import { ExtraProfilePage }         from './pages/extra/extra-profile/extra-profile';
 import { UtilisateurPage }        from './pages/utilisateur/dashboard';
 import { CreationUtilisateurPage } from './pages/utilisateur/utilisateur'
 import { testProjetPage }               from './pages/Parametrage/Projet/inspect';
 import { ProfilePage }              from './pages/utilisateur/profile'
-
+                
 import { ReportingPage }          from './pages/reporting/reporting'
 
 
 // Chart
-import { ChartFlotPage }            from './pages/chart/chart-flot/chart-flot';
-import { ChartJsPage }              from './pages/chart/chart-js/chart-js';
-import { ChartMorrisPage }          from './pages/chart/chart-morris/chart-morris';
-import { ChartD3Page }              from './pages/chart/chart-d3/chart-d3';
+// import { ChartFlotPage }            from './pages/chart/chart-flot/chart-flot';
+// import { ChartJsPage }              from './pages/chart/chart-js/chart-js';
+// import { ChartMorrisPage }          from './pages/chart/chart-morris/chart-morris';
+// import { ChartD3Page }              from './pages/chart/chart-d3/chart-d3';
 //validation 
 
 import { RnaValidationPage }        from './pages/validation/rna'
@@ -138,9 +138,9 @@ import { HelperCssPage }        from './pages/helper/helper-css/helper-css';*/
 const routes: Routes = [
     { path: '', redirectTo: 'Parametrage/Parametrage', pathMatch: 'full',canActivate: [AuthGuard]},
     { path: 'dashboard/v1', component: DashboardV1Page, data: { title: 'Dashboard'},canActivate: [AuthGuard] },
-    { path: 'dashboard/v2', component: DashboardV2Page, data: { title: 'Dashboard V2'},canActivate: [AuthGuard] },
+    // { path: 'dashboard/v2', component: DashboardV2Page, data: { title: 'Dashboard V2'},canActivate: [AuthGuard] },
 
-    { path: 'extra/profile', component: ExtraProfilePage, data: { title: 'Profile'} },
+    // { path: 'extra/profile', component: ExtraProfilePage, data: { title: 'Profile'} },
     
 
     { path: 'user/login', component: LoginPage, data: { title: 'Login'} },
@@ -150,7 +150,6 @@ const routes: Routes = [
     { path: 'Parametrage/Parametrage',component: DashboardPage, data:{title: 'Gestion des Enquêtes'},canActivate: [AuthGuard]},
     { path: 'Parametrage/Questionnaire', component: FormulairePage, data: { title: 'Questionnaire'},canActivate: [AuthGuard]},
     { path: 'Parametrage/Bloc', component: BlocPage, data: { title: 'Bloc'},canActivate: [AuthGuard]},
-    { path: 'form/plugins', component: FormPluginsPage, data: { title: 'Form Plugins'},canActivate: [AuthGuard] },
     { path: 'utilisateur', component: UtilisateurPage, data: { title: 'Utilisateur',
             Permission: {
                 Only: ['admin'],
@@ -179,10 +178,10 @@ const routes: Routes = [
     { path: 'reporting', component: ReportingPage, data:{title: 'Reporting'},canActivate:[AuthGuard]},
     
     
-    { path: 'chart/flot', component: ChartFlotPage, data: { title: 'Chart Flot'} },
-    { path: 'chart/morris', component: ChartMorrisPage, data: { title: 'Chart Morris'} },
-    { path: 'chart/js', component: ChartJsPage, data: { title: 'Chart JS'} },
-    { path: 'chart/d3', component: ChartD3Page, data: { title: 'Chart D3'} },
+    // { path: 'chart/flot', component: ChartFlotPage, data: { title: 'Chart Flot'} },
+    // { path: 'chart/morris', component: ChartMorrisPage, data: { title: 'Chart Morris'} },
+    // { path: 'chart/js', component: ChartJsPage, data: { title: 'Chart JS'} },
+    // { path: 'chart/d3', component: ChartD3Page, data: { title: 'Chart D3'} },
     
     /*
     { path: 'email/inbox/v1', component: EmailInboxV1Page, data: { title: 'Email Inbox V1'} },
