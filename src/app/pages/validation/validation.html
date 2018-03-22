@@ -67,10 +67,10 @@
                         <td>Type</td>
                         <td>{{selectedParcelle?.gjson?.type}}</td>
                     </tr> -->
-                    <!-- <tr>
+                    <tr>
                         <td>Capture</td>
-                        <td><button [disabled]="!selectedParcelle" href="#modal-dialog" class="btn btn-sm btn-success" data-toggle="modal">Ouvrir</button></td>
-                    </tr> -->
+                        <td><button [disabled]="!selectedParcelle?.capture" href="#modal-dialog" class="btn btn-sm btn-success" data-toggle="modal">Ouvrir</button></td>
+                    </tr>
                     <tr>
                         <th>Date Creation</th>
                         <td>{{selectedParcelle?.date_creation}}</td>
