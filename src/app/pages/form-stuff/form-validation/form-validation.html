@@ -1,0 +1,124 @@
+<!-- begin breadcrumb -->
+<ol class="breadcrumb pull-right">
+    <li><a href="javascript:;">Home</a></li>
+    <li><a href="javascript:;">Form Stuff</a></li>
+    <li class="active">Form Validation</li>
+</ol>
+<!-- end breadcrumb -->
+<!-- begin page-header -->
+<h1 class="page-header">Form Validation <small>header small text goes here...</small></h1>
+<!-- end page-header -->
+
+
+<form class="form-horizontal" [formGroup]="validationForm" (ngSubmit)="submitForm(validationForm.value)" novalidate>
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="fullname">Full Name <span class="text-danger">*</span></label>
+        <div class="col-sm-6" [ngClass]="{
+            'has-error':!validationForm.controls['fullName'].valid && validationForm.controls['fullName'].touched,
+            'has-success':validationForm.controls['fullName'].valid && validationForm.controls['fullName'].touched
+        }">
+            <input type="text" class="form-control" name="fullName" placeholder="Required" [formControl]="validationForm.controls['fullName']" required />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-3">Required Select Box <span class="text-danger">*</span></label>
+        <div class="col-sm-6" [ngClass]="{
+            'has-error':!validationForm.controls['selectBox'].valid && validationForm.controls['selectBox'].touched,
+            'has-success':validationForm.controls['selectBox'].valid && validationForm.controls['selectBox'].touched
+        }">
+            <select class="form-control" name="selectBox" [formControl]="validationForm.controls['selectBox']">
+                <option value="">Please choose</option>
+                <option value="foo">Foo</option>
+                <option value="bar">Bar</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-3">Required Radio Button <span class="text-danger">*</span></label>
+        <div class="col-sm-6">
+            <div class="radio" [ngClass]="{
+                'has-error':!validationForm.controls['radioRequired'].valid && validationForm.controls['radioRequired'].touched,
+                'has-success':validationForm.controls['radioRequired'].valid && validationForm.controls['radioRequired'].touched
+            }">
+                <label>
+                    <input type="radio" name="radioRequired" value="foo" [formControl]="validationForm.controls['radioRequired']" /> Radio Button 1
+                </label>
+            </div>
+            <div class="radio">
+                <label>
+                    <input type="radio" name="radioRequired" value="bar" [formControl]="validationForm.controls['radioRequired']" /> Radio Button 2
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-3">Required Checkbox <span class="text-danger">*</span></label>
+        <div class="col-sm-6">
+            <div class="checkbox" [ngClass]="{
+                'has-error':!validationForm.controls['checkboxRequired'].valid && validationForm.controls['checkboxRequired'].touched,
+                'has-success':validationForm.controls['checkboxRequired'].valid && validationForm.controls['checkboxRequired'].touched
+            }">
+                <label>
+                    <input type="checkbox" name="checkboxRequired" value="foo" [formControl]="validationForm.controls['checkboxRequired']" /> Checkbox
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="message">Message (20 chars min, 200 max) <span class="text-danger">*</span></label>
+        <div class="col-sm-6" [ngClass]="{
+                'has-error':!validationForm.controls['message'].valid && validationForm.controls['message'].touched,
+                'has-success':validationForm.controls['message'].valid && validationForm.controls['message'].touched
+            }">
+            <textarea class="form-control" name="message" rows="4" placeholder="Range from 20 - 200" [formControl]="validationForm.controls['message']"></textarea>
+            <p *ngIf="validationForm.controls['message'].hasError('required') && validationForm.controls['message'].touched" class="help-block">You must include a message.</p>
+            <p *ngIf="validationForm.controls['message'].hasError('minlength') && validationForm.controls['message'].touched" class="help-block">Your message must be at least 20 characters long.</p>
+            <p *ngIf="validationForm.controls['message'].hasError('maxlength') && validationForm.controls['message'].touched" class="help-block">Your message cannot exceed 200 characters.</p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="email">Email Address</label>
+        <div class="col-sm-6" [ngClass]="{
+                'has-error':!validationForm.controls['email'].valid && validationForm.controls['email'].touched,
+                'has-success':validationForm.controls['email'].valid && validationForm.controls['email'].touched
+            }">
+            <input type="email" class="form-control" name="email" placeholder="Email" [formControl]="validationForm.controls['email']" pattern="[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$" />
+            <p *ngIf="(!validationForm.controls['email'].pristine && !validationForm.controls['email'].valid) && validationForm.controls['email'].touched" class="help-block">Please enter a valid email address</p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="website">Website</label>
+        <div class="col-sm-6" [ngClass]="{
+                'has-error':!validationForm.controls['website'].valid && validationForm.controls['website'].touched,
+                'has-success':validationForm.controls['website'].valid && validationForm.controls['website'].touched
+            }">
+            <input type="url" class="form-control" name="website" placeholder="url" [formControl]="validationForm.controls['website']" pattern="[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?" />
+            <p *ngIf="(!validationForm.controls['website'].pristine && !validationForm.controls['website'].valid) && validationForm.controls['website'].touched" class="help-block">Please enter a valid url</p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="message">Number</label>
+        <div class="col-sm-6" [ngClass]="{
+                'has-error':!validationForm.controls['number'].valid && validationForm.controls['number'].touched,
+                'has-success':validationForm.controls['number'].valid && validationForm.controls['number'].touched
+            }">
+            <input type="number" class="form-control" name="number" placeholder="Number" [formControl]="validationForm.controls['number']" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="message">Regular Expression</label>
+        <div class="col-sm-6" [ngClass]="{
+                'has-error':!validationForm.controls['alphabets'].valid && validationForm.controls['alphabets'].touched,
+                'has-success':validationForm.controls['alphabets'].valid && validationForm.controls['alphabets'].touched
+            }">
+            <input type="text" class="form-control" name="alphabets" placeholder="Alphabets" [formControl]="validationForm.controls['alphabets']" pattern="[A-z]+" />
+            <p *ngIf="(!validationForm.controls['email'].pristine && !validationForm.controls['email'].valid) && validationForm.controls['email'].touched" class="help-block">Only alphabets is allowed</p>
+        </div>
+    </div>
+    <div class="form-group m-b-0">
+        <label class="control-label col-sm-3"></label>
+        <div class="col-sm-6">
+            <button type="submit" class="btn btn-success width-xs" [ngClass]="{'disabled': !validationForm.valid}" [disabled]="!validationForm.valid">Validate</button>
+        </div>
+    </div>
+</form>

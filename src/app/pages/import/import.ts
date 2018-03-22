@@ -106,14 +106,9 @@ export class ImportPage implements OnInit {
             data.order.forEach(p =>{
                 this.settings.columns[p] = {'title':p}
             });
-            if(this.SupportList[0].hasOwnProperty('properties')){
-                this.SupportList.forEach(element => {
-                    results.push(element.properties)
-                });
-            }else{
-                results = this.SupportList
-            }
-
+            this.SupportList.forEach(element => {
+                results.push(element.properties)
+            });
             this.source = new LocalDataSource(results);
             this.show = false;
             this.loading = false
@@ -148,8 +143,7 @@ export class ImportPage implements OnInit {
         this.uploader.onAfterAddingFile = (item => {
             this.reader.readAsText(item._file);
             item.withCredentials = false;
-            let ext = item.file.name.split('.').pop()
-            if(ext == 'geojson' || ext == 'csv'){
+            if(item.file.name.split('.').pop() == 'geojson'){
                 this.canUpload = true
             }else{
                 item.remove();

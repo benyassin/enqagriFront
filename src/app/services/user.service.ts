@@ -146,16 +146,4 @@ export class UserService {
         });
 
     }
-
-    getPrestataires(){
-        return new Promise((resolve, reject) => {
-            this.http.get('users/prestataires/')
-                .map(res => res.json())
-                .subscribe(data => {
-                    resolve(data);
-                }, (err) => {
-                    reject(err);
-                });
-        });
-    }
 }      

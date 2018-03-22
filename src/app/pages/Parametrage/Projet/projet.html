@@ -120,15 +120,6 @@
             </div>
             <div class="form-group">
 
-                <label class="col-md-3 control-label">Prestataire :</label>
-                <div class="col-md-9">
-                    <select [disabled]="lock" [(ngModel)]="__region" class="form-control" (ngModelChange)="getControllers($event)">
-                        <option *ngFor="let r of projet.regions" [ngValue]="r.id">{{r.itemName}}</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-
             <label class="col-md-3 control-label">Agent :</label>
                 <div class="col-md-9">
                     <select [disabled]="lock" [(ngModel)]="_agent" class="form-control">

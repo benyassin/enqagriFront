@@ -44,8 +44,7 @@ export class CreationUtilisateurPage implements OnInit {
     province: FormControl;
     dpa: FormControl;
     office: FormControl;
-    prestataire: FormControl;
-    prestataires : any = []
+
     users: any;
     user : any;
     model: any = {};
@@ -58,23 +57,20 @@ export class CreationUtilisateurPage implements OnInit {
         this.myform.get('role').valueChanges.subscribe(
             (role:string) =>{
                 if(role !== 'admin' ){
-                    if(role === 'superviseurR' || role === 'controleur' || role === 'prestataire'){
+                    if(role === 'superviseurR' || role === 'controleur'){
                     this.myform.get('province').clearValidators();
                     this.myform.get('region').setValidators([Validators.required]);
                     this.myform.patchValue({
                         province:null,
                     })
                     this.myform.get('region').enable();
-                    this.myform.get('province').disable();
-                    if(role === 'controleur'){
-                        this.myform.get('prestataire').setValidators([Validators.required]);
-                        this.myform.get('prestataire').enable();
-                    }
-
+                    this.myform.get('province').disable()                    
+                    // this.myform.get('dpa').disable()
+                    // this.myform.get('office').disable();
                     }else{
-                    this.myform.get('region').setValidators([Validators.required]);
-                    this.myform.get('province').setValidators([Validators.required]);
-                    this.myform.get('region').enable();
+                    this.myform.get('region').setValidators([Validators.required]),
+                    this.myform.get('province').setValidators([Validators.required])
+                    this.myform.get('region').enable()
                     this.myform.get('province').enable()
                     // this.myform.get('dpa').enable()
                     // this.myform.get('office').enable();
@@ -83,7 +79,7 @@ export class CreationUtilisateurPage implements OnInit {
                 }else{
                     this.myform.get('province').clearValidators();
                     this.myform.get('region').clearValidators();
-                    this.myform.get('province').disable();
+                    this.myform.get('province').disable()
                     this.myform.get('region').disable();
                     // this.myform.get('dpa').disable()
                     // this.myform.get('office').disable();
@@ -98,9 +94,7 @@ export class CreationUtilisateurPage implements OnInit {
                 this.myform.get('province').updateValueAndValidity();    
             }
             
-        );
-        this.loadPrestataires();
-
+        )
         if(this.userService.selectedUser !== null){
             let user: any = this.userService.selectedUser
             if(user.role != 'admin' && user.role != 'controleur'){
@@ -142,8 +136,7 @@ export class CreationUtilisateurPage implements OnInit {
         this.province = new FormControl({value:'',disabled: true});
         this.dpa = new FormControl({value:'',disabled: true});
         this.office = new FormControl({value:'',disabled: true});
-        this.prestataire = new FormControl({value:'',disabled: true});
-
+        
         
     }
     createForm() {
@@ -158,24 +151,16 @@ export class CreationUtilisateurPage implements OnInit {
         telephone:this.telephone,
         region: this.region,
         province: this.province,
-        prestataire: this.prestataire,
         // dpa: this.dpa,
         // office: this.office
         }); 
     }
+    
 
-    loadPrestataires(){
-        this.userService.getPrestataires().then((data) =>{
-            this.prestataires = data
-        },(err) =>{
-            console.log("can't load prestataires");
-            console.log(err)
-        })
-    }
 
     
     loadUser(user){
-        console.log(user);
+        console.log(user)
         this.myform.patchValue({
             nom: user.nom,
             prenom: user.prenom,
@@ -187,15 +172,14 @@ export class CreationUtilisateurPage implements OnInit {
             role: user.role,
             region: user.perimetre.region,
             province: user.perimetre.province,
-            prestataire: user.perimetre.prestataire,
             // dpa: user.perimetre.dpa,
             // office: user.perimetre.office
-        });
-        this.user = user._id;
+        })
+        this.user = user._id
         this.myform.get('password').clearValidators();
         this.myform.get('confirmPassword').clearValidators();
         this.myform.get('password').setValidators([
-            Validators.minLength(8)]);
+            Validators.minLength(8)]),
         this.myform.get('password').updateValueAndValidity();
         this.myform.get('confirmPassword').updateValueAndValidity();
 
@@ -237,9 +221,9 @@ export class CreationUtilisateurPage implements OnInit {
             message: "Voulez vous confirmer l'enregistrement ?",
             accept: () => {
                 delete this.model.confirmPassword;
-                console.log(this.myform.value);
+                console.log(this.myform.value)
                 let data = this.myform.value;
-                console.log(data);
+                console.log(data)
                 if(this.user) {
                     data._id = this.user;
                 }
@@ -332,8 +316,6 @@ export class CreationUtilisateurPage implements OnInit {
         {value:"admin",name:"Admin"},
         {value:"superviseurR",name:"Superviseur Regional"},
         {value:"superviseurP",name:"Superviseur Provincial"},
-        {value:"prestataire",name:"Prestataire"},
-
         {value:"controleur",name:"Contrôleur"},
         {value:"agent",name:"Agent de Collecte"},
     ];

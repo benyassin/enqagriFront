@@ -1,0 +1,8 @@
+@import url('/assets/plugins/DataTables/media/css/dataTables.bootstrap.min.css');
+@import url('/assets/plugins/DataTables/extensions/Buttons/css/buttons.bootstrap.min.css');
+@import url('/assets/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css');
+@import url('/assets/plugins/DataTables/extensions/AutoFill/css/autoFill.bootstrap.min.css');
+@import url('/assets/plugins/DataTables/extensions/ColReorder/css/colReorder.bootstrap.min.css');
+@import url('/assets/plugins/DataTables/extensions/KeyTable/css/keyTable.bootstrap.min.css');
+@import url('/assets/plugins/DataTables/extensions/RowReorder/css/rowReorder.bootstrap.min.css');
+@import url('/assets/plugins/DataTables/extensions/Select/css/select.bootstrap.min.css');
