@@ -523,9 +523,10 @@ export class ProjetPage implements OnInit  {
     fieldtype
     contains(key,value){
         let types = ['select','checkbox','radio','selectboxes']
+        let types2 = ['number','textfield']
         if(this.fieldtype == 'other' && !types.includes(value.type)){
             return true
-        }else if(this.fieldtype == 'number' && value.type != this.fieldtype){
+        }else if(this.fieldtype == 'number' && !types2.includes(value.type)){
             return true
         }else{
         let isThere =  this.table.some(function(element) {

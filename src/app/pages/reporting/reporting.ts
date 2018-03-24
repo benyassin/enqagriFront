@@ -94,11 +94,26 @@ export class ReportingPage implements OnInit {
     }
     export(projet,args){
         for (let key in args) {
-            if (args[key] == 0) delete args[key];
+            console.log(args[key]);
+            if (args[key] == 0 || args[key] == null || args[key] == '') delete args[key];
         }
         this.collecteservice.exportData(projet._id,args).then((data : any)=>{
-            console.log(data)
+            console.log(data);
             saveAs(data, 'data.xlsx');
+
+        },(err)=>{
+            console.log('error exporting data');
+            console.log(err)
+        })
+    }
+    exportGeo(projet,args){
+        for (let key in args) {
+            console.log(args[key]);
+            if (args[key] == 0 || args[key] == null || args[key] == '') delete args[key];
+        }
+        this.collecteservice.exportGeo(projet._id,args).then((data : any)=>{
+            console.log(data);
+            saveAs(data, 'data.geojson');
 
         },(err)=>{
             console.log('error exporting data');
@@ -217,7 +232,7 @@ export class ReportingPage implements OnInit {
                                     row[api.field.key] = '-'
                                 }
                                 if(!this.settings.columns[api.field.key]){
-                                    this.settings.columns[api.field.key] = {'title':api.field.key};
+                                    this.settings.columns[api.field.key] = {'title':api.label};
                                 }
                             }
 
@@ -294,7 +309,7 @@ export class ReportingPage implements OnInit {
         region:0,
         province:0
     }
-    search(projet,status,region,province,commune,filtre,valeur){
+    search(projet,status,region,province,commune){
         this.dataload = true;
         this.hide = false;
         this.anass = {theme:projet.theme,name:projet.name};
@@ -323,7 +338,7 @@ export class ReportingPage implements OnInit {
             this.index = this.projet.validation[region].findIndex(x => x.agent==this.user._id);
 
             this.collecteservice.getCollectesByProjet(projet._id,this.index,status,region,province,commune).then((data : any) => {
-                this.filtreData(data.order,data.collectes)
+                this.filtreData(data.order,data.collectes);
                 this.collectes = data.collectes;
             },(err)=> {
                 console.log('error trying to fetch collectes');
@@ -331,12 +346,12 @@ export class ReportingPage implements OnInit {
             })
 
         }else{
-            this.hide = false
+            this.hide = false;
             if(this.user.role == 'superviseurP'){
                 region = this.user.perimetre.region.id_region;
                 province = this.user.perimetre.province.id_province
             }
-            console.log(status)
+            console.log(status);
             this.index = this.projet.niveau -1;
             switch(status){
                 case 'valid' :
@@ -346,9 +361,9 @@ export class ReportingPage implements OnInit {
                     },(err)=> {
                         console.log('error trying to fetch collectes');
                         console.log(err)
-                    })
+                    });
 
-                    break
+                    break;
 
                 case 'new':
                     this.collecteservice.getCollectesByProjet(projet._id,0,status,region,province,commune).then((data : any) => {
@@ -357,8 +372,8 @@ export class ReportingPage implements OnInit {
                     },(err)=> {
                         console.log('error trying to fetch collectes');
                         console.log(err)
-                    })
-                    break
+                    });
+                    break;
                 case 'all':
                     this.collecteservice.getCollectesByProjet(projet._id,0,'all',region,province,commune).then((data : any) => {
                         this.collectes = data.collectes;
@@ -366,8 +381,8 @@ export class ReportingPage implements OnInit {
                     },(err)=> {
                         console.log('error trying to fetch collectes');
                         console.log(err)
-                    })
-                    break
+                    });
+                    break;
 
                 case 'reject':
                     this.collecteservice.getCollecteEnTraitement(projet._id,this.index,region,province,commune).then((data : any) => {
@@ -376,7 +391,7 @@ export class ReportingPage implements OnInit {
                     },(err)=> {
                         console.log('error trying to fetch collectes');
                         console.log(err)
-                    })
+                    });
                     break
 
             }
@@ -451,7 +466,6 @@ export class ReportingPage implements OnInit {
     }
 
     checkStorage(){
-        console.log('im here');
         if(localStorage.getItem('storage') != null){
             let data = JSON.parse(localStorage.getItem('storage'));
             this.projet = data.projet;
@@ -461,8 +475,7 @@ export class ReportingPage implements OnInit {
             if(data.province){
                 this.OnProvinceSelect(data.province);
             }
-            this.search(this.projet,this.status,this._region,this._province,this._commune,'test','test');
-            console.log('here')
+            this.search(this.projet,this.status,this._region,this._province,this._commune);
         }
     }
     consulter(collecte,instance,form){

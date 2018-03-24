@@ -163,5 +163,21 @@ exportData(id,query){
             });
     });
 }
+exportGeo(id,query){
+    let path = 'collectes/exportgeo/'+ id;
+    const requestURL =  url.format({
+        pathname: path,
+        query: query
+    });
+    return new Promise((resolve, reject) => {
+        this.http.getBlob(requestURL)
+            .map(res => res.blob())
+            .subscribe(data => {
+                resolve(data);
+            }, (err) => {
+                reject(err);
+            });
+    });
+}
 }
 

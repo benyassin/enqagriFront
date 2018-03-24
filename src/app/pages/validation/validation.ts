@@ -312,7 +312,7 @@ export class ValidationPage implements AfterViewInit  {
                 },
             }
         };
-        console.log('parcelle layers')
+        console.log('parcelle layers');
         console.log(guideLayers)
         // var drawControl = new L.Control.Draw(optionsDraw);
         // this.ParcelleMap.addControl(drawControl);
