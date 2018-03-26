@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3c4f2c77-2496-4a4e-8085-4393e3dbccb7" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/src/app/pages/collecte/collecte.html" afterPath="$PROJECT_DIR$/src/app/pages/collecte/collecte.html" />
-      <change beforePath="$PROJECT_DIR$/src/app/pages/collecte/collecte.ts" afterPath="$PROJECT_DIR$/src/app/pages/collecte/collecte.ts" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/dist/" />
@@ -57,8 +55,8 @@
       <file leaf-file-name="collecte.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/app/pages/collecte/collecte.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="17" column="57" lean-forward="false" selection-start-line="17" selection-start-column="57" selection-end-line="17" selection-end-column="57" />
+            <state relative-caret-position="230">
+              <caret line="17" column="88" lean-forward="false" selection-start-line="17" selection-start-column="78" selection-end-line="17" selection-end-column="88" />
               <folding />
             </state>
           </provider>
@@ -101,8 +99,8 @@
       <file leaf-file-name="collecte.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/pages/collecte/collecte.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="381">
-              <caret line="282" column="0" lean-forward="false" selection-start-line="282" selection-start-column="0" selection-end-line="282" selection-end-column="0" />
+            <state relative-caret-position="230">
+              <caret line="337" column="40" lean-forward="false" selection-start-line="337" selection-start-column="30" selection-end-line="337" selection-end-column="40" />
               <folding />
             </state>
           </provider>
@@ -141,7 +139,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>onp</find>
       <find>extrapolation</find>
       <find>Onform</find>
       <find>moment</find>
@@ -171,6 +168,7 @@
       <find>collecte</find>
       <find>export</find>
       <find>all</find>
+      <find>controleur</find>
     </findStrings>
     <replaceStrings>
       <replace>id_province</replace>
@@ -407,12 +405,12 @@
       <workItem from="1521717295243" duration="666000" />
       <workItem from="1521718051623" duration="10000" />
       <workItem from="1521718080069" duration="10470000" />
-      <workItem from="1522050509338" duration="2553000" />
+      <workItem from="1522050509338" duration="3266000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="376209000" />
+    <option name="totallyTimeSpent" value="376922000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="59" y="-4" width="1861" height="1084" extended-state="6" />
@@ -812,14 +810,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/pages/collecte/collecte.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="381">
-          <caret line="282" column="0" lean-forward="false" selection-start-line="282" selection-start-column="0" selection-end-line="282" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/pages/reporting/reporting.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
@@ -828,10 +818,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/pages/collecte/collecte.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="230">
+          <caret line="337" column="40" lean-forward="false" selection-start-line="337" selection-start-column="30" selection-end-line="337" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/pages/collecte/collecte.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="17" column="57" lean-forward="false" selection-start-line="17" selection-start-column="57" selection-end-line="17" selection-end-column="57" />
+        <state relative-caret-position="230">
+          <caret line="17" column="88" lean-forward="false" selection-start-line="17" selection-start-column="78" selection-end-line="17" selection-end-column="88" />
           <folding />
         </state>
       </provider>
