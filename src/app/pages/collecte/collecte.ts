@@ -90,8 +90,8 @@ export class CollectePage implements OnInit {
         saveAs(new Blob(['hello world'], { type: "text" }), 'data.txt');
     }
     OnProjetSelect(){
-        this.communelist = []
-        this.status = null
+        this.communelist = [];
+        this.status = null;
         if(this.user.role == 'superviseurR'){
             this._province = 0;
             this._commune = 0
@@ -106,13 +106,13 @@ export class CollectePage implements OnInit {
         }
     }
     OnRegionSelect(){
-        this._province = 0
+        this._province = 0;
         this._commune = 0
     }
     OnProvinceSelect(id){
         this._commune = 0;
         this.perimetreservice.getCommune(id).then((data)=>{
-            this.communelist = []
+            this.communelist = [];
             this.communelist = data
         },(err)=>{
             console.log('err fetching communes');
@@ -268,8 +268,18 @@ export class CollectePage implements OnInit {
             },(err)=> {
                 console.log('error trying to fetch collectes');
                 console.log(err)
-            })
-            break
+            });
+            break;
+
+            case 'all':
+                this.collecteservice.getCollectesByProjet(projet._id,0,'all',region,province,commune).then((data : any) => {
+                    this.collectes = data.collectes;
+                    this.filtreData(data.order,data.collectes)
+                },(err)=> {
+                    console.log('error trying to fetch collectes');
+                    console.log(err)
+                });
+            break;
 
             case 'reject':
             this.collecteservice.getCollecteEnTraitement(projet._id,this.index,region,province,commune).then((data : any) => {
@@ -280,6 +290,7 @@ export class CollectePage implements OnInit {
                 console.log(err)
             })
             break
+
 
         }
     }

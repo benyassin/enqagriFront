@@ -15,7 +15,8 @@
                 <div class="form-group col-md-3">
                     <label >Status: </label>
                     <select [(ngModel)]="status" name="status" class="form-control">
-                            <option [hidden]="(s.value == 'new' || s.value == 'reject') && projet?.niveau == 0" *ngFor="let s of _status" [ngValue]="s.value">{{s.name}}</option>
+                        <option value="all">Tous</option>
+                        <option [hidden]="(s.value == 'new' || s.value == 'reject') && projet?.niveau == 0" *ngFor="let s of _status" [ngValue]="s.value">{{s.name}}</option>
                     </select>
                 </div>
                       
