@@ -89,6 +89,9 @@ export class CollectePage implements OnInit {
     exportGeoData(){
         saveAs(new Blob(['hello world'], { type: "text" }), 'data.txt');
     }
+
+
+
     OnProjetSelect(){
         this.communelist = [];
         this.status = null;
@@ -336,7 +339,7 @@ export class CollectePage implements OnInit {
 
     getProjets(){
         if(this.user.role == 'controleur'){
-            console.log('im a controller')
+            console.log('im a controller');
         this.projetservice.getProjetsByController().then((data : any) =>{
             this.projets = data;
             // this.region = data.perimetre.region;
@@ -346,12 +349,12 @@ export class CollectePage implements OnInit {
             console.log('error fetching collectes',err)
         })
     }else if(this.user.role == 'agent'){
-        let projets = []
+        let projets = [];
         this.projetservice.getAgentsProjet().then((data: any) =>{
             data.forEach(element => {
                 projets.push(element.projet)
             });
-            this.projets = projets
+            this.projets = projets;
             this.checkStorage();
         })
     }else{
@@ -392,7 +395,7 @@ export class CollectePage implements OnInit {
                 this.router.navigate(['collectes/collecte'])
             }
         },(err) =>{
-            console.log('error trying to fetch collecte id : ' + collecte)
+            console.log('error trying to fetch collecte id : ' + collecte);
             console.log(err)
         })
     }
@@ -429,7 +432,7 @@ export class CollectePage implements OnInit {
                 {name:"En attente de validation",value:'new'},
                 {name:"Refusé",value:'reject'}
             ];
-            this._region = this.user.perimetre.region.id_region
+            this._region = this.user.perimetre.region.id_region;
             console.log('controlleur id region',this._region)
         }else{
             this._status = [

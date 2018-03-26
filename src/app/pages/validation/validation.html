@@ -67,10 +67,10 @@
                         <td>Type</td>
                         <td>{{selectedParcelle?.gjson?.type}}</td>
                     </tr> -->
-                    <tr>
-                        <td>Capture</td>
-                        <td><button [disabled]="!selectedParcelle?.capture" href="#modal-dialog" class="btn btn-sm btn-success" data-toggle="modal">Ouvrir</button></td>
-                    </tr>
+                    <!--<tr>-->
+                        <!--<td>Capture</td>-->
+                        <!--<td><button [disabled]="!selectedParcelle?.capture" href="#modal-dialog" class="btn btn-sm btn-success" data-toggle="modal">Ouvrir</button></td>-->
+                    <!--</tr>-->
                     <tr>
                         <th>Date Creation</th>
                         <td>{{selectedParcelle?.date_creation}}</td>
@@ -111,10 +111,10 @@
     </ul>
     <div class="tab-content">
         <div class="tab-pane fade active in" id="default-tab-1">
-            <formio *ngIf="!hidden" src="{{srcformio}}" [submission]=selectedParcelle?.formdata (change)="onSubmit($event)"></formio>
+            <formio *ngIf="!hidden" src="{{srcformio}}" (submit)="onSubmit($event)" [submission]=selectedParcelle?.formdata></formio>
         </div>
         <div *ngIf="collecte?.exploitation?.form" class="tab-pane fade" id="default-tab-2">
-            <formio src="{{identification}}" [submission]=collecte?.exploitation.formdata (change)="OnSubmitId($event)" ></formio>
+            <formio src="{{identification}}" [submission]=collecte?.exploitation.formdata (submit)="OnSubmitId($event)" ></formio>
         </div>
     </div>
 </div>

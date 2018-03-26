@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import {ConfirmDialogModule,ConfirmationService} from 'primeng/primeng';
 import * as _ from "lodash";
 // import * as L from 'leaflet';
-declare const L:any
+declare const L:any;
 import 'leaflet'
 import 'leaflet.pm';
 import 'leaflet.pm/dist/leaflet.pm.css'
@@ -46,7 +46,7 @@ export class ValidationPage implements AfterViewInit  {
     user;
     lenght;
     index;
-    rmessage
+    rmessage;
     testvar = null;
     srcformio ;
     action(action){
@@ -54,10 +54,10 @@ export class ValidationPage implements AfterViewInit  {
             message: "Voulez-vous confirmer cette opération?",
             accept: () => {
 
-                let update : any = {}
+                let update : any = {};
                 update.niveau  = this.index;
                 update.action = action;
-                update.id = this.collecte._id
+                update.id = this.collecte._id;
                 if(action == 'reject'){
                     if(this.rmessage == "" || this.rmessage == null){
                         update.rmessage = "le contrôleur n'a laissé aucun message"
@@ -65,7 +65,7 @@ export class ValidationPage implements AfterViewInit  {
                         update.rmessage = this.rmessage
                     }
                 }
-                console.log(update)
+                console.log(update);
                 this.collecteservice.action(update).then((data) => {
                     this.router.navigate(['collectes/'])
                 })
@@ -102,14 +102,14 @@ export class ValidationPage implements AfterViewInit  {
 
         if(this.parcelleLayers){
         this.parcelleLayers.eachLayer(layer => {
-            console.log('eeeeeeeeeeeeeeeeeeeee')
+            console.log('eeeeeeeeeeeeeeeeeeeee');
             console.log(layer.feature.properties.numero);
             console.log(parcelle.numero);
             if(layer.feature.properties.numero == parcelle.numero){
                 if(layer instanceof L.Marker) {
                     layer.setIcon(this.IconGreen);
                 }else{
-                    layer.setStyle({fillColor: 'red', color: "red"})
+                    layer.setStyle({fillColor: 'red', color: "red"});
                     this.ParcelleMap.fitBounds(layer.getBounds())
                 }
 
@@ -150,7 +150,7 @@ export class ValidationPage implements AfterViewInit  {
                     console.log('im a polyline')
 
                 }else{
-                    layer.setIcon({iconUrl:"assets/marker-icon-green.png"})
+                    layer.setIcon({iconUrl:"assets/marker-icon-green.png"});
                     console.log('aaaaaaa')
                 }
 
@@ -174,24 +174,24 @@ export class ValidationPage implements AfterViewInit  {
     }
     saveChange(){
         this.collecteservice.updateCollecte({'id':this.collecte._id,'exploitation':this.collecte.exploitation,'collecte':this.collecte.collecte}).then((data) => {
-            console.log(data)
+            console.log(data);
             this.msgs = [];
             this.msgs.push({severity:'success', summary:'message:', detail:'Modification avec succès'});
         },(err) =>{
-            console.log('error updating colelcte')
+            console.log('error updating colelcte');
             console.log(err)
         })
     }
     onSubmit(submission: any) {
-        if(submission.changed && submission.isValid == true){
             this._parcelle.formdata.data = JSON.parse(JSON.stringify(submission.data))
-        }
+
         // this.selectedParcelle.formdata = submission.data
     }
     OnSubmitId(submission:any){
-        if(submission.data){
             this.collecte.exploitation.formdata.data = JSON.parse(JSON.stringify(submission.data))
-        }
+    }
+    Oninvalid(message:any){
+        console.log(message)
     }
     clear(){
         this.drawnItems.clearLayers();
@@ -207,17 +207,17 @@ export class ValidationPage implements AfterViewInit  {
         });
         let that = this;
 
-        this.parcelleLayers = new L.GeoJSON(Parcelles,{onEachFeature: onEachFeature})
+        this.parcelleLayers = new L.GeoJSON(Parcelles,{onEachFeature: onEachFeature});
         // markers
         function onEachFeature(feature, layer) {
-            let type = that._type.type;;
+            let type = that._type.type;
             let center;
 
             // console.log(layer)
             // console.log(feature)
             if(type !== 'point'){
                 center = layer.getBounds().getCenter();
-                console.info('center',center)
+                console.info('center',center);
                 let labelPoint = L.marker([center.lat, center.lng], {
                     icon: L.divIcon({
                         // className: "labelPoint",
@@ -265,10 +265,10 @@ export class ValidationPage implements AfterViewInit  {
         //  drawnItems.addLayer(this.parcelleLayers)
         this.drawnItems.addTo(this.ParcelleMap)   ;
 
-        this.ParcelleMap.fitBounds(this.parcelleLayers.getBounds())
+        this.ParcelleMap.fitBounds(this.parcelleLayers.getBounds());
 
-        let guideLayers = this.parcelleLayers
-        var optionsDraw = {
+        let guideLayers = this.parcelleLayers;
+        let optionsDraw = {
             position:'topright',
             edit: {
                 featureGroup: this.drawnItems,
@@ -318,7 +318,7 @@ export class ValidationPage implements AfterViewInit  {
         // this.ParcelleMap.addControl(drawControl);
 
     }
-    voisinLayer
+    voisinLayer;
     AddParcelleLayer(collecte){
         let Parcelles = [];
         let listsupport = [];
@@ -367,7 +367,7 @@ export class ValidationPage implements AfterViewInit  {
                 element =element.geometry
             }
             voisin.push({"type":"Feature","properties":{},geometry:element})
-        })
+        });
         let intersect = [];
         // data.voisin.forEach(element => {
         //     let e = element.collecte[0].data[0];
@@ -382,7 +382,7 @@ export class ValidationPage implements AfterViewInit  {
         // let _intersection = new L.GeoJSON(intersect,{style:styleI});
         // _intersection.addTo(this.ParcelleMap);
         this.voisinLayer = new L.GeoJSON(voisin,{style: styleV,pmIgnore: true });
-        this.voisinLayer.addTo(this.ParcelleMap)
+        this.voisinLayer.addTo(this.ParcelleMap);
         let layer = new L.GeoJSON(Parcelles,{style: styleP,pmIgnore: true });
         layer.addTo(this.ParcelleMap);
         // let aa = {"type": "Feature","properties":{"numero":''},geometry:{}}
@@ -395,7 +395,7 @@ export class ValidationPage implements AfterViewInit  {
 
     }
 
-    identification
+    identification;
     ngOnInit(){
         //init map
 
@@ -407,13 +407,13 @@ export class ValidationPage implements AfterViewInit  {
         }else{
             this.router.navigate(['collectes/'])
         }
-        console.log('collecte ')
+        console.log('collecte ');
         console.log(this.collecte.collecte[0]);
         this._type = this.collecte.collecte[0];
         if(this.collecte.hasOwnProperty('exploitation')){
-        this.identification ="http://localhost:8080/api/forms/"+this.collecte.exploitation.form+"/fields?rsubmit=true";
+        this.identification ="http://localhost:8080/api/forms/"+this.collecte.exploitation.form+"/fields";
         }
-        this.srcformio="http://localhost:8080/api/forms/"+this._type.form+"/fields?rsubmit=true";
+        this.srcformio="http://localhost:8080/api/forms/"+this._type.form+"/fields";
 
         // this.OnParcelleChange(this._type.data[0])
 
@@ -434,7 +434,7 @@ export class ValidationPage implements AfterViewInit  {
 
         // DEFINE MAP
         this.ParcelleMap = new L.Map('map').setView([0, 0], 3);
-        console.log('map created')
+        console.log('map created');
 
 
         let CustomMarker = L.Icon.extend({

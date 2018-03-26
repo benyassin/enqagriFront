@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3c4f2c77-2496-4a4e-8085-4393e3dbccb7" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/src/app/pages/collecte/collecte.html" afterPath="$PROJECT_DIR$/src/app/pages/collecte/collecte.html" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/collecte/collecte.ts" afterPath="$PROJECT_DIR$/src/app/pages/collecte/collecte.ts" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/validation/validation.html" afterPath="$PROJECT_DIR$/src/app/pages/validation/validation.html" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/validation/validation.ts" afterPath="$PROJECT_DIR$/src/app/pages/validation/validation.ts" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/dist/" />
@@ -52,11 +54,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="collecte.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="collecte.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/pages/collecte/collecte.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="230">
-              <caret line="17" column="88" lean-forward="false" selection-start-line="17" selection-start-column="78" selection-end-line="17" selection-end-column="88" />
+              <caret line="17" column="51" lean-forward="false" selection-start-line="17" selection-start-column="47" selection-end-line="17" selection-end-column="51" />
               <folding />
             </state>
           </provider>
@@ -65,9 +67,12 @@
       <file leaf-file-name="validation.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/pages/validation/validation.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5472">
-              <caret line="314" column="39" lean-forward="false" selection-start-line="314" selection-start-column="39" selection-end-line="314" selection-end-column="39" />
-              <folding />
+            <state relative-caret-position="248">
+              <caret line="185" column="35" lean-forward="false" selection-start-line="185" selection-start-column="27" selection-end-line="185" selection-end-column="35" />
+              <folding>
+                <element signature="e#0#133#0" expanded="true" />
+                <element signature="e#398#414#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -86,12 +91,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="validation.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="validation.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/app/pages/validation/validation.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1260">
-              <caret line="70" column="40" lean-forward="false" selection-start-line="70" selection-start-column="40" selection-end-line="70" selection-end-column="40" />
-              <folding />
+            <state relative-caret-position="464">
+              <caret line="69" column="0" lean-forward="false" selection-start-line="69" selection-start-column="0" selection-end-line="72" selection-end-column="29" />
+              <folding>
+                <marker date="1522077798321" expanded="true" signature="3822:4079" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -99,9 +106,11 @@
       <file leaf-file-name="collecte.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/pages/collecte/collecte.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="230">
-              <caret line="337" column="40" lean-forward="false" selection-start-line="337" selection-start-column="30" selection-end-line="337" selection-end-column="40" />
-              <folding />
+            <state relative-caret-position="-1948">
+              <caret line="92" column="0" lean-forward="false" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#57#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -139,8 +148,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>extrapolation</find>
-      <find>Onform</find>
       <find>moment</find>
       <find>OnProvinceSelect</find>
       <find>province</find>
@@ -154,7 +161,6 @@
       <find>fil</find>
       <find>fdata</find>
       <find>rein</find>
-      <find>formio</find>
       <find>haspor</find>
       <find>saveAs</find>
       <find>cli</find>
@@ -169,6 +175,9 @@
       <find>export</find>
       <find>all</find>
       <find>controleur</find>
+      <find>submit</find>
+      <find>formio</find>
+      <find>submot</find>
     </findStrings>
     <replaceStrings>
       <replace>id_province</replace>
@@ -214,15 +223,15 @@
         <option value="$PROJECT_DIR$/src/app/app.module.ts" />
         <option value="$PROJECT_DIR$/src/app/pages/import/import.ts" />
         <option value="$PROJECT_DIR$/package.json" />
-        <option value="$PROJECT_DIR$/src/app/pages/validation/validation.html" />
-        <option value="$PROJECT_DIR$/src/app/pages/validation/validation.ts" />
         <option value="$PROJECT_DIR$/src/app/pages/Parametrage/Projet/projet.ts" />
         <option value="$PROJECT_DIR$/src/app/pages/Parametrage/Projet/projet.html" />
         <option value="$PROJECT_DIR$/src/app/services/collecte.service.ts" />
         <option value="$PROJECT_DIR$/src/app/pages/reporting/reporting.ts" />
         <option value="$PROJECT_DIR$/src/app/pages/reporting/reporting.html" />
-        <option value="$PROJECT_DIR$/src/app/pages/collecte/collecte.ts" />
         <option value="$PROJECT_DIR$/src/app/pages/collecte/collecte.html" />
+        <option value="$PROJECT_DIR$/src/app/pages/collecte/collecte.ts" />
+        <option value="$PROJECT_DIR$/src/app/pages/validation/validation.ts" />
+        <option value="$PROJECT_DIR$/src/app/pages/validation/validation.html" />
       </list>
     </option>
   </component>
@@ -405,12 +414,12 @@
       <workItem from="1521717295243" duration="666000" />
       <workItem from="1521718051623" duration="10000" />
       <workItem from="1521718080069" duration="10470000" />
-      <workItem from="1522050509338" duration="3266000" />
+      <workItem from="1522050509338" duration="6584000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="376922000" />
+    <option name="totallyTimeSpent" value="380240000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="59" y="-4" width="1861" height="1084" extended-state="6" />
@@ -748,22 +757,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/pages/validation/validation.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1260">
-          <caret line="70" column="40" lean-forward="false" selection-start-line="70" selection-start-column="40" selection-end-line="70" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/pages/validation/validation.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5472">
-          <caret line="314" column="39" lean-forward="false" selection-start-line="314" selection-start-column="39" selection-end-line="314" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/pages/validation/rna.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -818,19 +811,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/pages/collecte/collecte.ts">
+    <entry file="file://$PROJECT_DIR$/src/app/pages/collecte/collecte.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="230">
-          <caret line="337" column="40" lean-forward="false" selection-start-line="337" selection-start-column="30" selection-end-line="337" selection-end-column="40" />
+          <caret line="17" column="51" lean-forward="false" selection-start-line="17" selection-start-column="47" selection-end-line="17" selection-end-column="51" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/pages/collecte/collecte.html">
+    <entry file="file://$PROJECT_DIR$/src/app/pages/collecte/collecte.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="17" column="88" lean-forward="false" selection-start-line="17" selection-start-column="78" selection-end-line="17" selection-end-column="88" />
-          <folding />
+        <state relative-caret-position="-1948">
+          <caret line="92" column="0" lean-forward="false" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#57#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/pages/validation/validation.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="248">
+          <caret line="185" column="35" lean-forward="false" selection-start-line="185" selection-start-column="27" selection-end-line="185" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#133#0" expanded="true" />
+            <element signature="e#398#414#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/pages/validation/validation.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="464">
+          <caret line="69" column="0" lean-forward="false" selection-start-line="69" selection-start-column="0" selection-end-line="72" selection-end-column="29" />
+          <folding>
+            <marker date="1522077798321" expanded="true" signature="3822:4079" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
