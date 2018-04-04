@@ -75,7 +75,7 @@ import { CollectePage }           from './pages/collecte/collecte';
 import { ReportingPage }          from './pages/reporting/reporting';
 
 
-import { ExtraProfilePage }         from './pages/extra/extra-profile/extra-profile';
+// import { ExtraProfilePage }         from './pages/extra/extra-profile/extra-profile';
 import { UtilisateurPage }          from './pages/utilisateur/dashboard'
 import { CreationUtilisateurPage }           from './pages/utilisateur/utilisateur'
 import { ProfilePage }  from './pages/utilisateur/profile';
@@ -214,7 +214,6 @@ import { HelperCssPage }        from './pages/helper/helper-css/helper-css';*/
         BlocPage,
         FormPluginsPage,
         LoginPage,
-        ExtraProfilePage,
         UtilisateurPage,
         ProfilePage,
         DashboardPage,
@@ -318,7 +317,7 @@ export class AppModule {
         router.events.subscribe((e) => {
             // change page title when url change
             if (e instanceof NavigationEnd) {
-                var title = 'Rna Collecte | ' + this.route.snapshot.firstChild.data['title'];
+                var title = 'beGIS | ' + this.route.snapshot.firstChild.data['title'];
                 this.titleService.setTitle(title);
                 
                 window.dispatchEvent(new CustomEvent('page-reload'));

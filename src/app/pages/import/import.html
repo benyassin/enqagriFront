@@ -55,10 +55,10 @@
                 </div>
                 <hr />
 
-                <button [disabled]="!canUpload || uploader.isUploading" class="btn btn-sm btn-primary" (click)="upload(selectedc)">Téléverser
+                <button [disabled]="!selectedc ||!canUpload || uploader.isUploading" class="btn btn-sm btn-primary" (click)="upload(selectedc)">Téléverser
                     <i *ngIf="uploader.isUploading" class="fa fa-spinner fa-spin" style="font-size:15px"></i>
                 </button>
-                <button [disabled]="uploader.isUploading" class="btn btn-sm btn-warning" (click)="delete(selectedc)">Supprimer
+                <button [disabled]="!selectedc || uploader.isUploading" class="btn btn-sm btn-warning" (click)="delete(selectedc)">Supprimer
                 </button>
 
 

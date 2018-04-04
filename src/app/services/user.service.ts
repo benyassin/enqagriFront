@@ -68,8 +68,9 @@ export class UserService {
                 .map(res => res.json())
                 .subscribe(res => {
                   resolve(res);
-                }, (err) => {
-                  reject(err);
+                }, (err:Response) => {
+                    let details = err.json();
+                    reject(details);
                 });
         })
     }

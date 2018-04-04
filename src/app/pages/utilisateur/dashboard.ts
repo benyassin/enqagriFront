@@ -1,19 +1,7 @@
 import { Component, OnInit, Input,ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
-import {PerimetreService } from '../../services/perimetre.service';
-// import { DatatableComponent } from '@swimlane/ngx-datatable/src/components/datatable.component';
 
-
-import { ReactiveFormsModule,
-    FormsModule,
-    FormGroup,
-    FormControl,
-    Validators,
-    ValidationErrors,
-    FormBuilder } from '@angular/forms';
-import {BrowserModule} from '@angular/platform-browser';
-import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 
 import {ConfirmDialogModule,ConfirmationService} from 'primeng/primeng';
 
@@ -35,7 +23,9 @@ export class UtilisateurPage implements OnInit {
         public userService: UserService,private confirmationService: ConfirmationService,private router:Router
     ){}
     users: any;
-    loading : boolean = true 
+    loading : boolean = true
+    msgs :any = [];
+
     settings = {
         columns: {
             nom:{
@@ -85,6 +75,8 @@ export class UtilisateurPage implements OnInit {
             this.getUsers();
         },(err) => {
             console.log("error deleting user");
+            this.msgs = [];
+            this.msgs.push({severity:'error', summary:"Erreur", detail: err.message })
         });
         } })
     }

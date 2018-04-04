@@ -10,7 +10,6 @@ import { Router} from '@angular/router'
 import { take } from 'rxjs/operator/take';
 import * as _ from 'lodash';
 import { keyframes } from '@angular/animations/src/animation_metadata';
-import {D3SliderDirective} from 'ng-d3-slider/d3-slider.directive'
 
 
 @Component({
@@ -174,7 +173,7 @@ export class ProjetPage implements OnInit  {
     Support : any = [];
     onCollectionChange(cid){
         this.Support = [];
-        this.perimetreservice.getSupportKeys(cid).then((data) =>{
+        this.perimetreservice.getSupportKeys(cid._id).then((data) =>{
             this.Support = data
         },(err) =>{
             console.log(err)
@@ -545,6 +544,12 @@ export class ProjetPage implements OnInit  {
     extrapolation : any = [];
 
     createProjet() {
+        if(this.projet.cid.type == 'tabulaire' && this.forms_selected[0].geometry !== 'none'){
+            this.msgs = [];
+            this.msgs.push({severity:'error', summary:'Error', detail:"message d'erreur"});
+            document.body.scrollTop = document.documentElement.scrollTop = 0;
+            return
+        }
         this.confirmationservice.confirm({
             message: "Voulez vous confirmer l'enregistrement ?",
             accept: () => {

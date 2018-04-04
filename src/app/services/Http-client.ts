@@ -3,11 +3,11 @@ import { Http, Headers,ResponseContentType } from '@angular/http';
 
 @Injectable()
 export class HttpClient {
-    token: string  
+    token: string;
 
     constructor(private http: Http){
     }
-    url = 'http://localhost:8080/api/';
+    url = location.protocol+'//'+location.hostname+'/api/';
     injectHeader(headers: Headers) {
         headers.append('Authorization',this.token || localStorage.getItem('token') );
     }

@@ -44,7 +44,7 @@
                 <div class="col-md-10">
                     <select [disabled]="editable" [(ngModel)]="projet.cid" id="cid" name="cid" #cid="ngModel" (ngModelChange)="onCollectionChange($event)" class="form-control">
                         <option value=""></option>
-                        <option *ngFor="let c of CollectionList" [ngValue]="c._id">{{c.name}}</option>
+                        <option *ngFor="let c of CollectionList" [ngValue]="c">{{c.name}} ({{c.type}})</option>
                     </select>
                 </div>
             </div>

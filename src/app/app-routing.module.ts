@@ -14,7 +14,6 @@ import { FormPluginsPage }          from './pages/form-stuff/form-plugins/form-p
 
 import { LoginPage }                from './pages/user/login/login';
 import { AuthGuard }              from './guard/auth.guard'
-import { ExtraProfilePage }         from './pages/extra/extra-profile/extra-profile';
 import { UtilisateurPage }        from './pages/utilisateur/dashboard';
 import { CreationUtilisateurPage } from './pages/utilisateur/utilisateur'
 import { testProjetPage }               from './pages/Parametrage/Projet/inspect';
@@ -140,8 +139,6 @@ const routes: Routes = [
     { path: 'dashboard/v1', component: DashboardV1Page, data: { title: 'Dashboard'},canActivate: [AuthGuard] },
     { path: 'dashboard/v2', component: DashboardV2Page, data: { title: 'Dashboard V2'},canActivate: [AuthGuard] },
 
-    { path: 'extra/profile', component: ExtraProfilePage, data: { title: 'Profile'} },
-    
 
     { path: 'user/login', component: LoginPage, data: { title: 'Login'} },
     

@@ -219,7 +219,7 @@ export class GeolessPage implements AfterViewInit  {
       
         if(this.collecteservice.collecte !== null){
             this.collecte = this.collecteservice.collecte.collecte;
-            this.collecte.collecte[0].data[0].date_creation = moment(new Date(this.collecte.collecte[0].data[0].date_creation)).format("DD.MM.YYYY à HH:MM")
+            this.collecte.collecte[0].data[0].date_creation = moment(new Date(this.collecte.collecte[0].data[0].date_creation)).add(-1,'hours').format("DD-MM-YYYY à hh:mm")
         }else{
           this.router.navigate(['collectes/'])
         }
@@ -229,7 +229,7 @@ export class GeolessPage implements AfterViewInit  {
         console.log(this.collecte.collecte[0]);
         this._type = this.collecte.collecte[0];
         this.dataformio = this.collecte.collecte[0].data[0].formdata;
-        this.srcformio="http://localhost:8080/api/forms/"+this._type.form+"/fields?rsubmit=true";
+        this.srcformio=location.protocol+'//'+location.hostname+"/api/forms/"+this._type.form+"/fields?rsubmit=true";
 
         this.hidden = false;
         this.validation = this.collecte.validation;

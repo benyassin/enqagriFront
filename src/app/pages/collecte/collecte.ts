@@ -16,6 +16,7 @@ import { saveAs } from 'file-saver';
 
 
 
+
 @Component({
     selector: 'Collecte',
     templateUrl: './collecte.html',
@@ -117,6 +118,8 @@ export class CollectePage implements OnInit {
         this.perimetreservice.getCommune(id).then((data)=>{
             this.communelist = [];
             this.communelist = data
+            console.log('if working 2')
+
         },(err)=>{
             console.log('err fetching communes');
             console.log(err)
@@ -140,7 +143,7 @@ export class CollectePage implements OnInit {
                         let row = {
                             'collecte': element.numero,
                             'agent': element.agent.nom + ' ' + element.agent.prenom,
-                            'date': moment(new Date(element.createdAt)).format("DD-MM-YYYY à HH:MM"),
+                            'date': moment(new Date(element.createdAt)).format("DD-MM-YYYY à hh:mm"),
                             'id': element._id
                         };
                         result.push(row)
@@ -448,6 +451,7 @@ export class CollectePage implements OnInit {
             if(this.user.role == 'superviseurP' || this.user.role == 'agent'){
                 this._province = this.user.perimetre.province.id_province;
                 this._region = this.user.perimetre.region.id_region;
+                console.log('if working')
                 this.OnProvinceSelect(this._province);
             }
 

@@ -7,7 +7,7 @@
                 <div class="row">
                     
                 <div class="form-group col-md-3">
-                    <label >Projet: </label>
+                    <label >Enquête: </label>
                 <select [(ngModel)]="projet" name="projet" [compareWith]="compareById" class="form-control" (change)="OnProjetSelect()">
                         <option *ngFor="let p of projets" [ngValue]="p">{{p?.name}}</option>
                 </select>
@@ -87,7 +87,7 @@
                 <!--</div>-->
         <!--</div>-->
     <div *ngIf="!dataload" class="panel panel-success">
-        <button class="btn btn-primary" (click)="exportGeoData()"><i class="far fa-file-excel"></i> Export</button>
+        <!--<button class="btn btn-primary" (click)="exportGeoData()"><i class="far fa-file-excel"></i> Export</button>-->
 
         <div class="panel-body">
                 <!-- <ng2-smart-table *ngIf="!loading" [settings]="settings" [source]="collectes"></ng2-smart-table> -->

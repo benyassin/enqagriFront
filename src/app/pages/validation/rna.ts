@@ -72,7 +72,7 @@ export class RnaValidationPage implements AfterViewInit  {
     
 
     OnParcelleChange(parcelle){
-      parcelle.date_creation = moment(new Date(parcelle.date_creation)).format("DD.MM.YYYY à h:mm")      
+      parcelle.date_creation = moment(new Date(parcelle.date_creation)).add(-1,'hours').format("DD-MM-YYYY à hh:mm")
       this.selectedParcelle = parcelle
       this.parcelle.nativeElement.contentWindow.postMessage({"window":"parcelle","message":'data',"data":JSON.parse(parcelle.formdata)}, 'http://localhost/demo.html')
       // this.parcelleLayers.redraw()
@@ -85,9 +85,6 @@ export class RnaValidationPage implements AfterViewInit  {
       //     "weight": 5,
       //     "opacity": 0.65};
       // }}})
-    }
-    getData(){
-      this.parcelle.nativeElement.contentWindow.postMessage({"window":"parcelle","message":'submit'}, 'http://localhost/demo.html')
     }
     onrender(){
       console.log('render')
@@ -102,10 +99,10 @@ export class RnaValidationPage implements AfterViewInit  {
       console.log(this.collecteservice.collecte)
         if(this.collecteservice.collecte !== null){
             this.collecte = this.collecteservice.collecte
-            this.collecte.exploitation.date_creation = moment(new Date(this.collecte.exploitation.date_creation)).format("DD.MM.YYYY à h:mm")  
+            this.collecte.exploitation.date_creation = moment(new Date(this.collecte.exploitation.date_creation)).format("DD.MM.YYYY à hh:mm")
         }
         // let query = this.collecte.exploitation.form
-        this.exploitationform = 'http://localhost:8080/api/forms/'+ this.collecte.exploitation.form +'/fields'
+        this.exploitationform = location.protocol+'//'+location.hostname+'/api/forms/'+ this.collecte.exploitation.form +'/fields'
         this.exploitationData = this.collecte.exploitation.formdata
         
         // let queryy = this.collecte.collecte[0].form
@@ -113,20 +110,8 @@ export class RnaValidationPage implements AfterViewInit  {
         // document.getElementById('parcelle').setAttribute('src', `http://localhost/demo.html?myParam=${queryy}`)
         
 
-        
-        this.receiveMessage = (event: MessageEvent) => {
-            if(event.origin != 'http://localhost' ){
-                return
-            }
-            if(event.data.window == 'exploitation' && event.data.message === 'loaded'){
-              event.source.postMessage({"window":event.data.window,"message":'data',"data":JSON.parse(this.collecte.exploitation.formdata)}, event.origin)
-            }
-            console.log(event.data)
-          };
+
     }
-    ngOnDestroy() {
-        window.removeEventListener('message', this.receiveMessage);
-      }
     ngAfterViewInit() {
         this.isInited = true;
 

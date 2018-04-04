@@ -185,7 +185,7 @@ export class ReportingPage implements OnInit {
                             'formid':f,
                             'instance': fdata.numero,
                             'agent': element.agent.nom + ' ' + element.agent.prenom,
-                            'date': moment(new Date(element.createdAt)).format("DD-MM-YYYY à HH:MM"),
+                            'date': moment(new Date(element.createdAt)).format("DD-MM-YYYY à hh:mm"),
                             // 'id': element._id
                         };
                         if(element.geo == true){

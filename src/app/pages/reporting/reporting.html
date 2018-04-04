@@ -7,7 +7,7 @@
                 <div class="row">
 
                     <div class="form-group col-md-3">
-                        <label >Projet: </label>
+                        <label >Enquête: </label>
                         <select [(ngModel)]="projet" name="projet" [compareWith]="compareById" class="form-control" (change)="OnProjetSelect()">
                             <option *ngFor="let p of projets" [ngValue]="p">{{p?.name}}</option>
                         </select>

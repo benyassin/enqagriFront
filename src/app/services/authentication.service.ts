@@ -9,8 +9,8 @@ import { HttpClient } from './Http-client'
 
 @Injectable()
 export class AuthenticationService {
-    public baseurl: string = "http://localhost:8080/api/";
-    
+    public baseurl: string = location.protocol+'//'+location.hostname+"/api/";
+
     constructor(private http: Http,private _userservice:UserService,private _permissionService: PermissionService,private httpClient:HttpClient) {
         // set token if saved in local storage
     }

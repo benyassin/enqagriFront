@@ -159,7 +159,7 @@ export class DashboardPage implements OnInit {
         this.router.navigate(['Parametrage/Enquete/inspect'])
     }
     opendemo(id){
-        window.open("http://localhost:8080/public/demo.html?myParam=" + id ,"popup","width=900,height=600,right=10,top=150")
+        window.open("/public/demo.html?myParam=" + id ,"popup","width=900,height=600,right=10,top=150")
     }
     themes = [
         {name: "Annuelle",value:"annuelle"},

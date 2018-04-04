@@ -146,8 +146,9 @@ export class PerimetreService {
                 .map(res => res.json())
                 .subscribe(data => {
                     resolve(data);
-                }, (err) => {
-                    reject(err);
+                }, (err:Response) => {
+                    let details = err.json();
+                    reject(details);
                 });
         });
     }

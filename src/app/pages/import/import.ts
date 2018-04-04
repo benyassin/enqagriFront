@@ -5,7 +5,7 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { FileUploader } from 'ng2-file-upload';
 import { PerimetreService } from '../../services/perimetre.service'
 
-const URL = 'http://localhost:8080/api/upload';
+const URL = location.protocol+'//'+location.hostname+'/api/upload';
 
 
 @Component({
@@ -85,6 +85,8 @@ export class ImportPage implements OnInit {
 
            this.collectionList.splice(this.collectionList.indexOf(collection),1)
         },(err)=>{
+            this.msgs = [];
+            this.msgs.push({severity:'error', summary:'Erreur de suppression', detail: err.error });
             console.log(err)
         })
     }
@@ -106,14 +108,16 @@ export class ImportPage implements OnInit {
             data.order.forEach(p =>{
                 this.settings.columns[p] = {'title':p}
             });
-            if(this.SupportList[0].hasOwnProperty('properties')){
+            if(this.SupportList[0].hasOwnProperty('properties') && data.support.length > 0 ){
+                console.log("can't trigger this if")
                 this.SupportList.forEach(element => {
                     results.push(element.properties)
                 });
             }else{
                 results = this.SupportList
             }
-
+            console.log('////////results///////////')
+            console.log(results);
             this.source = new LocalDataSource(results);
             this.show = false;
             this.loading = false
@@ -131,18 +135,18 @@ export class ImportPage implements OnInit {
         }
     }
     ngOnInit(){
-        this.reader.onload = (ev: any) => {
-            let data = JSON.parse(ev.target.result);
-            console.log(data);
-            const keys = data.features[0].properties;
-            if(keys.id_commune && keys.id_province && keys.id_region && keys.id_echantillon){
-                console.log('allowed to upload')
-            }
-            else {
-                console.log('missing properties');
-                this.canUpload = false
-            }
-        };
+        // this.reader.onload = (ev: any) => {
+        //     let data = JSON.parse(ev.target.result);
+        // //     console.log(data);
+        //     const keys = data.features[0].properties;
+        //     if(keys.id_commune && keys.id_province && keys.id_region && keys.id_echantillon){
+        //         console.log('allowed to upload')
+        //     }
+        //     else {
+        //         console.log('missing properties');
+        //         this.canUpload = false
+        //     }
+        // };
 
 
         this.uploader.onAfterAddingFile = (item => {
@@ -163,7 +167,13 @@ export class ImportPage implements OnInit {
 
         this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
             let responsePath = JSON.parse(response);
-            this.msgs.push({severity:'success', summary:'', detail:'Nombre de collectes correspondant à vos critères de recherche : '+ responsePath.inserted });
+            console.log(status)
+            if(status === 500){
+                this.msgs.push({severity:'error', summary:'', detail:responsePath.messages });
+
+            }else{
+                this.msgs.push({severity:'success', summary:'', detail:'Nombre de collectes correspondant à vos critères de recherche : '+ responsePath.inserted });
+            }
             console.log(response, responsePath);// the url will be in the response
         };
     }

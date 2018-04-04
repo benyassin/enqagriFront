@@ -49,6 +49,7 @@ export class SidebarComponent implements AfterViewInit {
         title: 'Reporting',
         roles: ['admin','superviseurR','superviseurP'],
         icon: 'fa fa-cogs',
+        link:'',
         submenu: [{
             title: 'Extrapolation',
             link: 'reporting'

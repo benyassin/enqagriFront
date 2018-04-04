@@ -32,6 +32,10 @@ export class HeaderComponent implements OnInit {
         })
     }
 
+    download() {
+        window.location.href=location.protocol+'//'+location.hostname+'/download';
+    }
+
     ngOnInit() {
 
     }

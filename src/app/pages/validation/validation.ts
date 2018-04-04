@@ -9,15 +9,19 @@ import 'leaflet'
 import 'leaflet.pm';
 import 'leaflet.pm/dist/leaflet.pm.css'
 import 'leaflet-fullscreen';
-import * as moment from 'moment';
-import * as turf from '@turf/turf';
-import {forEach} from '@angular/router/src/utils/collection';
-// import * as Draw from 'leaflet-draw'
+import * as moment from 'moment-timezone';
+import { createForm } from 'formiojs';
+import { FormioOptions } from 'angular-formio'
+declare global {
+    interface Window { setLanguage: any; }
+}
 @Component({
     selector: 'Validation',
     templateUrl: './validation.html',
     styleUrls: ['./validation.css']
 })
+
+
 
 
 export class ValidationPage implements AfterViewInit  {
@@ -49,6 +53,8 @@ export class ValidationPage implements AfterViewInit  {
     rmessage;
     testvar = null;
     srcformio ;
+    public options: FormioOptions;
+
     action(action){
         this.confirmationservice.confirm({
             message: "Voulez-vous confirmer cette opération?",
@@ -94,7 +100,7 @@ export class ValidationPage implements AfterViewInit  {
         this.hidden = true;
         // this.selectedParcelle = {}
         this.selectedParcelle = JSON.parse(JSON.stringify(parcelle));
-        this.selectedParcelle.date_creation = moment(new Date(this.selectedParcelle.date_creation)).format("DD.MM.YYYY à HH:MM");
+        this.selectedParcelle.date_creation = moment(new Date(this.selectedParcelle.date_creation)).add(-1,'hours').format("DD-MM-YYYY à hh:mm");
 
         // this.parcelle.nativeElement.contentWindow.postMessage({"window":"parcelle","message":'data',"data":parcelle.formdata}, 'http://localhost/demo.html');
         // this.parcelleLayers.redraw()
@@ -102,9 +108,6 @@ export class ValidationPage implements AfterViewInit  {
 
         if(this.parcelleLayers){
         this.parcelleLayers.eachLayer(layer => {
-            console.log('eeeeeeeeeeeeeeeeeeeee');
-            console.log(layer.feature.properties.numero);
-            console.log(parcelle.numero);
             if(layer.feature.properties.numero == parcelle.numero){
                 if(layer instanceof L.Marker) {
                     layer.setIcon(this.IconGreen);
@@ -133,7 +136,7 @@ export class ValidationPage implements AfterViewInit  {
         }
     }
     OnTypeChange(data : any){
-        this.srcformio = "http://localhost:8080/api/forms/"+data.form+"/fields";
+        this.srcformio = location.protocol+'//'+location.hostname+"/api/forms/"+data.form+"/fields";
         this.hidden = true;
 
         this.drawnItems.clearLayers();
@@ -190,8 +193,9 @@ export class ValidationPage implements AfterViewInit  {
     OnSubmitId(submission:any){
             this.collecte.exploitation.formdata.data = JSON.parse(JSON.stringify(submission.data))
     }
-    Oninvalid(message:any){
-        console.log(message)
+    invalid(submission:any){
+        console.log('invalide message')
+        console.log(submission)
     }
     clear(){
         this.drawnItems.clearLayers();
@@ -398,7 +402,8 @@ export class ValidationPage implements AfterViewInit  {
     identification;
     ngOnInit(){
         //init map
-
+        this.options = {
+             i18n: { 'en': { Submit: 'Sauvegarder',complete:'Modification avec succès' } } };
         console.log(this.collecteservice.collecte);
 
         if(this.collecteservice.collecte !== null){
@@ -411,9 +416,14 @@ export class ValidationPage implements AfterViewInit  {
         console.log(this.collecte.collecte[0]);
         this._type = this.collecte.collecte[0];
         if(this.collecte.hasOwnProperty('exploitation')){
-        this.identification ="http://localhost:8080/api/forms/"+this.collecte.exploitation.form+"/fields";
+        this.identification =location.protocol+'//'+location.hostname+"/api/forms/"+this.collecte.exploitation.form+"/fields";
         }
-        this.srcformio="http://localhost:8080/api/forms/"+this._type.form+"/fields";
+        this.srcformio=location.protocol+'//'+location.hostname+"/api/forms/"+this._type.form+"/fields";
+
+
+
+
+
 
         // this.OnParcelleChange(this._type.data[0])
 
@@ -422,7 +432,7 @@ export class ValidationPage implements AfterViewInit  {
         this.validation = this.collecte.validation;
         this.user = JSON.parse(localStorage.getItem('user'));
         this.lenght = this.collecte.projet.niveau;
-        if(this.user.role === 'admin'){
+        if(this.user.role === 'admin' || this.user.role === 'superviseurP' || this.user.role==='superviseurR'){
             this.index = 0
         }else{
         this.index = this.collecte.projet.validation[this.user.perimetre.region.id_region].findIndex(x => x.agent==this.user._id);

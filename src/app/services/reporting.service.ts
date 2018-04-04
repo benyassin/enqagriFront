@@ -12,6 +12,7 @@ export class ReportingService {
     constructor(
     private http:HttpClient
     ){}
+
 getDashboardData(){
     return new Promise((resolve, reject) => {
         this.http.get('reporting/dashboard')
