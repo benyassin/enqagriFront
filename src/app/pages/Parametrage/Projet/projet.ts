@@ -171,7 +171,13 @@ export class ProjetPage implements OnInit  {
       });
    }
     Support : any = [];
+    compareFn(c1,c2){
+        return c1 && c2 ? c1.id === c2.id : c1 === c2
+    }
     onCollectionChange(cid){
+        if(cid == undefined){
+            return
+        }
         this.Support = [];
         this.perimetreservice.getSupportKeys(cid._id).then((data) =>{
             this.Support = data
@@ -544,7 +550,12 @@ export class ProjetPage implements OnInit  {
     extrapolation : any = [];
 
     createProjet() {
-        if(this.projet.cid.type == 'tabulaire' && this.forms_selected[0].geometry !== 'none'){
+        if(this.projet.name == '' || this.projet.theme == undefined || this.projet.name == undefined){
+            this.msgs.push({severity:'error', summary:'Error', detail:"Erreur name & theme are required"});
+            document.body.scrollTop = document.documentElement.scrollTop = 0;
+            return
+        }
+        if(this.projet.cid !== undefined && this.projet.cid !== null  && this.projet.cid.type == 'spatial' && this.forms_selected[0].geometry == 'none'){
             this.msgs = [];
             this.msgs.push({severity:'error', summary:'Error', detail:"message d'erreur"});
             document.body.scrollTop = document.documentElement.scrollTop = 0;
@@ -660,14 +671,7 @@ export class ProjetPage implements OnInit  {
 
 
     this.getCollection();
-    // this.exampleData = []
-    // this.regionsData = []
-    // this.ProvinceData = []
-    // this.options = {
-    //     multiple: true
-    //   }
-    // this.valueRegion = ['Tanger-Tétouan-Al Hoceima']
-    //
+
     console.log(this.projetservice.Projet)
     if(this.projetservice.Projet !== null){
         this.projet = this.projetservice.Projet ;

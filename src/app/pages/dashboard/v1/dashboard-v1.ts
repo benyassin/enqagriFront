@@ -38,8 +38,6 @@ export class DashboardV1Page implements OnInit {
         scales: {
             yAxes: [{
                 ticks: {
-                    max: 5,
-                    min: 0,
                     stepSize: 1
                 }
             }]
@@ -157,7 +155,10 @@ export class DashboardV1Page implements OnInit {
             }
 
         }
-        if(projet.niveau == 0 ) projet.niveau = -1;
+        if(projet.niveau == 0 )
+        {
+            projet.niveau = -1;
+        }
 
         let index  = 0
         if(this.user.role == 'controleur'){
@@ -195,7 +196,7 @@ export class DashboardV1Page implements OnInit {
 
             console.log(this.lineChartData);
             console.log(this.lineChartLabels);
-            this.loading = false
+            this.loading = false;
             this.title = projet.name
         })
     }

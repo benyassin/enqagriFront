@@ -28,6 +28,9 @@ export class UtilisateurPage implements OnInit {
 
     settings = {
         columns: {
+            userId: {
+                title:'ID'
+            },
             nom:{
                 title:'Nom'
             },
@@ -103,7 +106,8 @@ export class UtilisateurPage implements OnInit {
         { nom: 'Austin', prenom: 'Male', login: 'Swimlane',email:'geocoding@geocoding.ma',role:'admin',action:'action' },
       ];
       columns = [
-        { prop: 'Nom' },
+          {prop:'ID'},
+        { name: 'Nom' },
         { name: 'Prenom' },
         { name: 'Login' },
         { name: 'Email' },

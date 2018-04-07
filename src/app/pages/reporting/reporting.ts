@@ -121,7 +121,7 @@ export class ReportingPage implements OnInit {
         })
     }
     OnProjetSelect(){
-        this.communelist = []
+        this.OnProvinceSelect(this._province);
         this.status = null
         if(this.user.role == 'superviseurR'){
             this._province = 0;
@@ -161,7 +161,7 @@ export class ReportingPage implements OnInit {
             collecte:{
                 title:'id collecte',
             },
-            formname:{
+            questionnaire:{
                 title:'Questionnaire'
             },
             instance:{
@@ -180,12 +180,11 @@ export class ReportingPage implements OnInit {
                     formulaire.data.forEach(fdata => {
                         if ((this._filtre != null && fdata.formdata.data[this._filtre.field.key] == this._value) || this._filtre == null) {
                         let row = {
-                            'collecte': element.numero,
-                            'formname': formulaire.formname,
-                            'formid':f,
+                            'collecte': element.id_collecte+'-'+element.numero,
+                            'questionnaire': formulaire.formname,
                             'instance': fdata.numero,
                             'agent': element.agent.nom + ' ' + element.agent.prenom,
-                            'date': moment(new Date(element.createdAt)).format("DD-MM-YYYY à hh:mm"),
+                            'date': moment(new Date(element.createdAt)).format("DD-MM-YYYY à HH:mm"),
                             // 'id': element._id
                         };
                         if(element.geo == true){

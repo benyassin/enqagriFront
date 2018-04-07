@@ -100,7 +100,7 @@ export class ValidationPage implements AfterViewInit  {
         this.hidden = true;
         // this.selectedParcelle = {}
         this.selectedParcelle = JSON.parse(JSON.stringify(parcelle));
-        this.selectedParcelle.date_creation = moment(new Date(this.selectedParcelle.date_creation)).add(-1,'hours').format("DD-MM-YYYY à hh:mm");
+        this.selectedParcelle.date_creation = moment(new Date(this.selectedParcelle.date_creation)).add(-1,'hours').format("DD-MM-YYYY à HH:mm");
 
         // this.parcelle.nativeElement.contentWindow.postMessage({"window":"parcelle","message":'data',"data":parcelle.formdata}, 'http://localhost/demo.html');
         // this.parcelleLayers.redraw()
@@ -432,7 +432,7 @@ export class ValidationPage implements AfterViewInit  {
         this.validation = this.collecte.validation;
         this.user = JSON.parse(localStorage.getItem('user'));
         this.lenght = this.collecte.projet.niveau;
-        if(this.user.role === 'admin' || this.user.role === 'superviseurP' || this.user.role==='superviseurR'){
+        if(this.user.role !== 'controleur'){
             this.index = 0
         }else{
         this.index = this.collecte.projet.validation[this.user.perimetre.region.id_region].findIndex(x => x.agent==this.user._id);
@@ -454,7 +454,7 @@ export class ValidationPage implements AfterViewInit  {
                 shadowUrl: null
             }
         });
-        L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+        L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
             maxZoom: 20,
             subdomains:['mt0','mt1','mt2','mt3'],
         }).addTo(this.ParcelleMap);

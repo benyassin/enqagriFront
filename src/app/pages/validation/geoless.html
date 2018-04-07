@@ -28,7 +28,7 @@
                                         <tbody>
                                             <tr>
                                                 <th>ID Collecte</th>
-                                                <td>{{collecte.numero}}</td>
+                                                <td>{{collecte.id_collecte+'-'+collecte.numero}}</td>
                                             </tr>
                                             <!-- <tr>
                                                 <td>superficie</td>
@@ -104,7 +104,7 @@
 </div>
 <div class="panel panel-success">
     <div class="panel-body ">
-                <formio *ngIf="!hidden" src="{{srcformio}}" [submission]=dataformio (change)="onSubmit($event)"></formio>
+                <formio *ngIf="!hidden" src="{{srcformio}}" [options]="options" [submission]=dataformio (change)="onSubmit($event)"></formio>
         </div>
 </div>
         <!-- <button 

@@ -33,7 +33,7 @@ export class GeolessPage implements AfterViewInit  {
     drawnItems = new L.FeatureGroup()
     selected
     hidden = true
-
+    options
  
     // couche = L.geoJSON(this.collecteservice.collecte.blocs[0].gjson);
     // options = {
@@ -216,10 +216,12 @@ export class GeolessPage implements AfterViewInit  {
     ngOnInit(){
       //init map
 
-      
+
+        this.options = {
+            i18n: { 'en': { Submit: 'Sauvegarder',complete:'Modification avec succès' } } };
         if(this.collecteservice.collecte !== null){
             this.collecte = this.collecteservice.collecte.collecte;
-            this.collecte.collecte[0].data[0].date_creation = moment(new Date(this.collecte.collecte[0].data[0].date_creation)).add(-1,'hours').format("DD-MM-YYYY à hh:mm")
+            this.collecte.collecte[0].data[0].date_creation = moment(new Date(this.collecte.collecte[0].data[0].date_creation)).add(-1,'hours').format("DD-MM-YYYY à HH:mm")
         }else{
           this.router.navigate(['collectes/'])
         }
@@ -229,7 +231,7 @@ export class GeolessPage implements AfterViewInit  {
         console.log(this.collecte.collecte[0]);
         this._type = this.collecte.collecte[0];
         this.dataformio = this.collecte.collecte[0].data[0].formdata;
-        this.srcformio=location.protocol+'//'+location.hostname+"/api/forms/"+this._type.form+"/fields?rsubmit=true";
+        this.srcformio=location.protocol+'//'+location.hostname+"/api/forms/"+this._type.form+"/fields";
 
         this.hidden = false;
         this.validation = this.collecte.validation;
@@ -246,7 +248,7 @@ export class GeolessPage implements AfterViewInit  {
             this.msgs.push({severity:'error', summary:'message:', detail:this.collecte.rmessage});
         }
         this.ExploitationMap = new L.Map('map').setView([34.0375,-6.7516], 6);
-        L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+        L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
             maxZoom: 20,
             subdomains:['mt0','mt1','mt2','mt3'],
         }).addTo(this.ExploitationMap);

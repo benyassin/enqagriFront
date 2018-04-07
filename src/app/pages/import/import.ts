@@ -102,6 +102,7 @@ export class ImportPage implements OnInit {
         this.show = true;
         this.loading = true;
         this.perimetreservice.getSupport(id).then((data : any) =>{
+            if(data.support.lenght > 0){
             this.SupportList = data.support;
             let results = [];
             this.settings.columns = {};
@@ -119,6 +120,7 @@ export class ImportPage implements OnInit {
             console.log('////////results///////////')
             console.log(results);
             this.source = new LocalDataSource(results);
+            }
             this.show = false;
             this.loading = false
         } )
@@ -167,8 +169,9 @@ export class ImportPage implements OnInit {
 
         this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
             let responsePath = JSON.parse(response);
-            console.log(status)
+            console.log(status);
             if(status === 500){
+                this.msgs = [];
                 this.msgs.push({severity:'error', summary:'', detail:responsePath.messages });
 
             }else{

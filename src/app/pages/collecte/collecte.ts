@@ -94,7 +94,7 @@ export class CollectePage implements OnInit {
 
 
     OnProjetSelect(){
-        this.communelist = [];
+        this.OnProvinceSelect(this._province);
         this.status = null;
         if(this.user.role == 'superviseurR'){
             this._province = 0;
@@ -108,6 +108,7 @@ export class CollectePage implements OnInit {
             this._province = 0;
             this._commune = 0
         }
+
     }
     OnRegionSelect(){
         this._province = 0;
@@ -141,9 +142,9 @@ export class CollectePage implements OnInit {
         this.settings.columns['date'] = {'title': 'Date Synchornisation'};
         data.forEach(element => {
                         let row = {
-                            'collecte': element.numero,
+                            'collecte': element.id_collecte+'-'+element.numero,
                             'agent': element.agent.nom + ' ' + element.agent.prenom,
-                            'date': moment(new Date(element.createdAt)).format("DD-MM-YYYY à hh:mm"),
+                            'date': moment(new Date(element.createdAt)).format("DD-MM-YYYY à HH:mm"),
                             'id': element._id
                         };
                         result.push(row)
