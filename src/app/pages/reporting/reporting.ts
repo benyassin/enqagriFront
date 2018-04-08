@@ -76,6 +76,13 @@ export class ReportingPage implements OnInit {
         noDataMessage:' '
     };
     exportData(){
+        const headers = Object.keys(this.csv[0]);
+        this.extrapolation.forEach(e =>{
+            let index = headers.indexOf(e.field.key);
+            if(index != -1){
+                headers[index] = e.label
+            }
+        });
         let options = {
             fieldSeparator: ';',
             quoteStrings: '',
@@ -83,7 +90,7 @@ export class ReportingPage implements OnInit {
             showLabels: true,
             showTitle: false,
             useBom: true,
-            headers: Object.keys(this.csv[0])
+            headers: headers
         };
         console.log(this.csv);
         new Angular2Csv(this.csv,'Extrapolation '+this.projet.name,options)
