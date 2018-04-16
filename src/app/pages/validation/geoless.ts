@@ -187,6 +187,20 @@ export class GeolessPage implements AfterViewInit  {
     //     this.ParcelleMap.fitBounds(this.parcelleLayers.getBounds())
 
     // }
+    delete(){
+        this.confirmationservice.confirm({
+            message: "Voulez-vous confirmer cette opération?",
+            accept: () => {
+                this.collecteservice.deleteCollecte(this.collecte._id).then((data)=>{
+                    this.router.navigate(['collectes/'])
+                },(err)=>{
+                    this.msgs = [];
+                    this.msgs.push({severity:'error', summary:'message:', detail:'Impossible de supprimer cette collecte'});
+                })
+            }
+        })
+
+    }
     saveChange(){
         // console.log(this.collecte);
         // console.log(this.selectedParcelle)
@@ -194,16 +208,16 @@ export class GeolessPage implements AfterViewInit  {
         // test.delete('instance')
         // console.log(test)
         this.collecteservice.updateCollecte({'id':this.collecte._id,'exploitation':this.collecte.exploitation,'collecte':this.collecte.collecte}).then((data) => {
-            console.log(data)
+            this.msgs = [];
+            this.msgs.push({severity:'success', summary:'message:', detail:'Modification avec succès'});
         },(err) =>{
             console.log('error updating colelcte')
             console.log(err)
         })
     }
     onSubmit(submission: any) {
-        if(submission.changed && submission.isValid == true){
-            this.dataformio.data = JSON.parse(JSON.stringify(submission.data))
-        }
+        this.collecte.collecte[0].data[0].formdata.data = JSON.parse(JSON.stringify(submission.data))
+
         // this.selectedParcelle.formdata = submission.data
     }
     _type
@@ -221,7 +235,7 @@ export class GeolessPage implements AfterViewInit  {
             i18n: { 'en': { Submit: 'Sauvegarder',complete:'Modification avec succès' } } };
         if(this.collecteservice.collecte !== null){
             this.collecte = this.collecteservice.collecte.collecte;
-            this.collecte.collecte[0].data[0].date_creation = moment(new Date(this.collecte.collecte[0].data[0].date_creation)).add(-1,'hours').format("DD-MM-YYYY à HH:mm")
+            this.collecte.collecte[0].data[0].date_creation
         }else{
           this.router.navigate(['collectes/'])
         }
@@ -229,8 +243,9 @@ export class GeolessPage implements AfterViewInit  {
         console.log(this.collecte);
         console.log('collecte[0]');
         console.log(this.collecte.collecte[0]);
-        this._type = this.collecte.collecte[0];
-        this.dataformio = this.collecte.collecte[0].data[0].formdata;
+        this._type = JSON.parse(JSON.stringify(this.collecte.collecte[0]));
+        this._type.data[0].date_creation = moment(new Date(this._type.data[0].date_creation)).add(-1,'hours').format("DD-MM-YYYY à HH:mm")
+        this.dataformio =  this._type.data[0].formdata;
         this.srcformio=location.protocol+'//'+location.hostname+"/api/forms/"+this._type.form+"/fields";
 
         this.hidden = false;

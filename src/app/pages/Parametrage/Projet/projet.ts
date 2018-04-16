@@ -551,13 +551,13 @@ export class ProjetPage implements OnInit  {
 
     createProjet() {
         if(this.projet.name == '' || this.projet.theme == undefined || this.projet.name == undefined){
-            this.msgs.push({severity:'error', summary:'Error', detail:"Erreur name & theme are required"});
+            this.msgs.push({severity:'error', summary:'Error', detail:"Champs 'Nom' et 'Type' sont obligatoire"});
             document.body.scrollTop = document.documentElement.scrollTop = 0;
             return
         }
-        if(this.projet.cid !== undefined && this.projet.cid !== null  && this.projet.cid.type == 'spatial' && this.forms_selected[0].geometry == 'none'){
+        if(this.projet.cid !== undefined && this.projet.cid !== null && this.forms_selected.length > 0  && this.projet.cid.type == 'spatial' && this.forms_selected[0].geometry == 'none'){
             this.msgs = [];
-            this.msgs.push({severity:'error', summary:'Error', detail:"message d'erreur"});
+            this.msgs.push({severity:'error', summary:'Error', detail:"Pas possible d'avoir un support spatial dans une enquête uniquement sans géométrie"});
             document.body.scrollTop = document.documentElement.scrollTop = 0;
             return
         }

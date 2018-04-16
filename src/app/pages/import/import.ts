@@ -39,8 +39,8 @@ export class ImportPage implements OnInit {
         },
         actions:{
             add   : false,
-            edit  : true,
-            delete: true,
+            edit  : false,
+            delete: false,
             position: 'right'
         },
         pager:{
@@ -102,10 +102,10 @@ export class ImportPage implements OnInit {
         this.show = true;
         this.loading = true;
         this.perimetreservice.getSupport(id).then((data : any) =>{
-            if(data.support.lenght > 0){
-            this.SupportList = data.support;
             let results = [];
             this.settings.columns = {};
+            if(data.support.length > 0){
+            this.SupportList = data.support;
             data.order.forEach(p =>{
                 this.settings.columns[p] = {'title':p}
             });
@@ -119,8 +119,9 @@ export class ImportPage implements OnInit {
             }
             console.log('////////results///////////')
             console.log(results);
-            this.source = new LocalDataSource(results);
             }
+            this.source = new LocalDataSource(results);
+
             this.show = false;
             this.loading = false
         } )

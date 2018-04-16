@@ -6,6 +6,8 @@
         <button  [disabled]="(index != 0 || user?.role != 'controleur')" (click)="saveChange()" class="btn btn-primary btn-lg m-r-5"><i class="fa fa-floppy-o pull-left"></i>Enregistrer</button>
         <button  [disabled]="(user?.role != 'controleur') || (validation[index] == 'valid') || (index == lenght - 1 && validation[index] =='valid')" (click)="action('valid')" class="btn btn-success btn-lg m-r-5"><i class="fa fa-check pull-left"></i>Valider</button>
         <button  [disabled]="(user?.role != 'controleur') || (validation[index] == 'valid') || (index == 0)" href="#modal-refus"  class="btn btn-danger btn-lg m-r-5" data-toggle="modal"><i class="fa fa-ban pull-left"></i>Rejeter</button>
+        <button  [disabled]="(validation[index] == 'valid' || user?.role != 'controleur' || index !== 0)" (click)="delete()" class="btn btn-primary btn-lg m-r-5"><i class="fa fa-floppy-o pull-left"></i>Supprimer</button>
+
     </div>
     <div class="col-md-2">
     </div>
@@ -48,7 +50,7 @@
                                             </tr> -->
                                             <tr>
                                                 <th>Date Creation</th>
-                                                <td>{{collecte?.collecte[0]?.data[0]?.date_creation}}</td>
+                                                <td>{{_type?.data[0]?.date_creation}}</td>
                                             </tr>
                                             <tr>
                                                 <th>Region</th>

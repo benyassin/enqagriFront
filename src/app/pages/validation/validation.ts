@@ -177,7 +177,6 @@ export class ValidationPage implements AfterViewInit  {
     }
     saveChange(){
         this.collecteservice.updateCollecte({'id':this.collecte._id,'exploitation':this.collecte.exploitation,'collecte':this.collecte.collecte}).then((data) => {
-            console.log(data);
             this.msgs = [];
             this.msgs.push({severity:'success', summary:'message:', detail:'Modification avec succès'});
         },(err) =>{
@@ -186,17 +185,19 @@ export class ValidationPage implements AfterViewInit  {
         })
     }
     onSubmit(submission: any) {
-            this._parcelle.formdata.data = JSON.parse(JSON.stringify(submission.data))
+        console.log('WATTTTTTTTTTTTTTTT')
+
+        this._parcelle.formdata.data = JSON.parse(JSON.stringify(submission.data))
 
         // this.selectedParcelle.formdata = submission.data
     }
-    OnSubmitId(submission:any){
-            this.collecte.exploitation.formdata.data = JSON.parse(JSON.stringify(submission.data))
+    OnSubmitId(submit:any){
+        console.log(submit.data)
+        console.log('WATTTTTTTTTTTTTTTT');
+            this.collecte.exploitation.formdata.data = JSON.parse(JSON.stringify(submit.data))
     }
-    invalid(submission:any){
-        console.log('invalide message')
-        console.log(submission)
-    }
+
+
     clear(){
         this.drawnItems.clearLayers();
         this.markers.clearLayers()
@@ -400,10 +401,17 @@ export class ValidationPage implements AfterViewInit  {
     }
 
     identification;
+    identificationData
     ngOnInit(){
         //init map
         this.options = {
-             i18n: { 'en': { Submit: 'Sauvegarder',complete:'Modification avec succès' } } };
+             i18n: { 'en': {
+                 Submit: 'Sauvegarder',
+                 error : "Veuillez corriger les erreurs suivantes avant de soumettre.",
+                 next:'Suivant',
+                 previous : "Précedent",
+                 complete:'Modification avec succès'
+             } } };
         console.log(this.collecteservice.collecte);
 
         if(this.collecteservice.collecte !== null){
@@ -417,6 +425,7 @@ export class ValidationPage implements AfterViewInit  {
         this._type = this.collecte.collecte[0];
         if(this.collecte.hasOwnProperty('exploitation')){
         this.identification =location.protocol+'//'+location.hostname+"/api/forms/"+this.collecte.exploitation.form+"/fields";
+        this.identificationData = JSON.parse(JSON.stringify(this.collecte.exploitation))
         }
         this.srcformio=location.protocol+'//'+location.hostname+"/api/forms/"+this._type.form+"/fields";
 

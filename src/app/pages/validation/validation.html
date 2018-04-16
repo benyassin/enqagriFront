@@ -115,7 +115,7 @@
             <formio  *ngIf="!hidden" src="{{srcformio}}" (submit)="onSubmit($event)" [options]="options" [submission]=selectedParcelle?.formdata></formio>
         </div>
         <div *ngIf="collecte?.exploitation?.form" class="tab-pane fade" id="default-tab-2">
-            <formio src="{{identification}}" [options]="options" [submission]=collecte?.exploitation.formdata (submit)="OnSubmitId($event)" ></formio>
+            <formio src="{{identification}}"  [options]="options" (submit)="OnSubmitId($event)" [submission]=identificationData?.formdata></formio>
         </div>
     </div>
 </div>
