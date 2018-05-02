@@ -190,7 +190,10 @@ export class CreationUtilisateurPage implements OnInit {
 
       //  console.log(user)
 
-        
+
+
+
+
     //    this.userService.getUser(id).then((data) => {
     //        this.model = data;
     //    this.msgs.push({severity:'info', summary:'Info Message', detail:'User information loaded loaded'});

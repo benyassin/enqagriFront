@@ -34,15 +34,15 @@ export class DashboardV1Page implements OnInit {
       public doughnutChartType:string = 'doughnut';
       public doughnutChartLegend:boolean = false;
 
-    options = {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    stepSize: 1
-                }
-            }]
-        }
-    };
+    // options = {
+    //     scales: {
+    //         yAxes: [{
+    //             ticks: {
+    //                 stepSize: 5
+    //             }
+    //         }]
+    //     }
+    // };
     getProjets(){
 
         if(this.user.role == 'controleur'){
