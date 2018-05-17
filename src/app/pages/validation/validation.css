@@ -5,7 +5,24 @@
     /*text-align: center;*/
     font-size: 150%;
  }
-
+.pagination {
+    display:none;
+}
 
  th {text-align:center}
 
+
+/*.myCSSClass {*/
+    /*background: green;*/
+    /*border: 2px solid cyan*/
+/*}*/
+/*.leaflet-tooltip-left.myCSSClass::before {*/
+    /*border-left-color: cyan;*/
+/*}*/
+/*.leaflet-tooltip-right.myCSSClass::before {*/
+    /*border-right-color: cyan;*/
+/*}*/
+
+.labelPoint{
+
+}

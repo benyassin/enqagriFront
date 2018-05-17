@@ -181,7 +181,7 @@ export class ReportingPage implements OnInit {
 
         this.settings.columns['date'] = {'title': 'Date Synchornisation'};
         data.forEach(element => {
-            let f = 0
+            let f = 0;
             element.collecte.forEach(formulaire => {
                 if((this._formulaire != null && formulaire.form == this._formulaire) || this._formulaire == null) {
                     formulaire.data.forEach(fdata => {
@@ -199,10 +199,14 @@ export class ReportingPage implements OnInit {
                             fdata.gjson =fdata.gjson.geometry
                         }
                         }
-                        this.GeoData.features.push({"type":"Feature","properties":{numero:fdata.numero,collecte:element.numero,support:fdata.id_support},"geometry":fdata.gjson})
-                        order.forEach(s => {
+                        this.GeoData.features.push({"type":"Feature","properties":{numero:fdata.numero,collecte:element.numero,support:fdata.id_support},"geometry":fdata.gjson});
 
-                            if(!this.settings.columns[s]){
+                        if(order[0] !== 'id_echantillon'){
+                            order.reverse();
+                        }
+                        order.forEach(s => {
+                            let banned = ['cid','_id','id'];
+                            if(!this.settings.columns[s] && !banned.includes(s)){
                             this.settings.columns[s] = {'title': s};
                             }
                             row[s] = fdata.support[s]

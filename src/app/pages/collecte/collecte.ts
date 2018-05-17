@@ -8,14 +8,16 @@ import {ConfirmDialogModule,ConfirmationService} from 'primeng/primeng';
 import * as _ from "lodash";
 import * as moment from "moment"
 import { locale } from 'moment';
-import { LocalDataSource } from 'ng2-smart-table';
+import {LocalDataSource, ServerDataSource} from 'ng2-smart-table';
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 import {forEach} from '@angular/router/src/utils/collection';
 import { saveAs } from 'file-saver';
-
-
-
-
+import { HttpClient } from '../../services/Http-client'
+import { Http } from '@angular/http';
+declare const L:any;
+import 'leaflet'
+import 'leaflet-sidebar-v2'
+import 'leaflet-fullscreen';
 
 @Component({
     selector: 'Collecte',
@@ -31,11 +33,14 @@ export class CollectePage implements OnInit {
         private collecteservice:CollecteService,
         private projetservice:ProjetService,
         private userservice:UserService,
-        private router:Router
+        private router:Router,
+        private http: Http
     ){
     }
     msgs : any = [];
+    map
     dataload : boolean = true;
+    testload : boolean = true;
     projet : any;
     collectes : any = [];
     projets : any;
@@ -52,8 +57,14 @@ export class CollectePage implements OnInit {
     _filtre;
     _value;
     source : LocalDataSource;
+    sources : ServerDataSource;
     csv;
     communelist;
+    mapSettings;
+
+
+
+
     compareById(obj1, obj2) {
         if(localStorage.getItem('storage') !== null && obj1 !== null && obj2 !== null){
         return obj1._id === obj2._id;
@@ -71,6 +82,39 @@ export class CollectePage implements OnInit {
         },
         pager:{
             perPage:25
+        },
+        noDataMessage:' '
+    };
+    settingss = {
+        columns: {
+            id:{
+                title:'ID',
+                valuePrepareFunction: (cell,row) => {
+                    return row.id_collecte+'-'+row.numero
+                }
+            },
+            agent:{
+                title:'Agent',
+                valuePrepareFunction: (agent) => {
+                    return agent.nom +' '+agent.prenom;
+                }
+            },
+            createdAt: {
+                title: 'Date Synchronisation',
+                valuePrepareFunction: (createdAt) => {
+                    return moment(new Date(createdAt)).format("DD-MM-YYYY à HH:mm");
+                }
+            }
+        },
+        actions:{
+            add   : false,
+            edit  : false,
+            delete: false,
+            custom: [{ name: 'consulter', title: `<a type="button" title="Plus de details" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> Consulter</a>` }],
+            position: 'left'
+        },
+        pager:{
+            perPage:5
         },
         noDataMessage:' '
     };
@@ -115,11 +159,9 @@ export class CollectePage implements OnInit {
         this._commune = 0
     }
     OnProvinceSelect(id){
-        this._commune = 0;
         this.perimetreservice.getCommune(id).then((data)=>{
             this.communelist = [];
             this.communelist = data
-            console.log('if working 2')
 
         },(err)=>{
             console.log('err fetching communes');
@@ -137,6 +179,9 @@ export class CollectePage implements OnInit {
             agent:{
                 title:'Agent'
             },
+            commune:{
+                title:'Commune'
+            }
         };
 
         this.settings.columns['date'] = {'title': 'Date Synchornisation'};
@@ -144,7 +189,8 @@ export class CollectePage implements OnInit {
                         let row = {
                             'collecte': element.id_collecte+'-'+element.numero,
                             'agent': element.agent.nom + ' ' + element.agent.prenom,
-                            'date': moment(new Date(element.createdAt)).format("DD-MM-YYYY à HH:mm"),
+                            'commune': this.communelist.find(x => x.id_commune == element.commune).name,
+                            'date': moment(new Date(element.createdAt)).format("YYYY-MM-DD à HH:mm"),
                             'id': element._id
                         };
                         result.push(row)
@@ -212,8 +258,14 @@ export class CollectePage implements OnInit {
         region:0,
         province:0
     }
+    showmap = false
     search(projet,status,region,province,commune,filtre,valeur){
         this.dataload = true;
+        this.showmap = true;
+        // this.sources = new ServerDataSource(this.http,{endPoint:'http://localhost/api/collectes/serverside/test/5acb7f03c4fb5b1ae8438670?region='+region,dataKey:'docs',totalKey:'total'});
+        //
+        // this.testload = false;
+
     this.hide = false;
     this.anass = {theme:projet.theme,name:projet.name};
     if(projet == null || status == null ){
@@ -221,7 +273,7 @@ export class CollectePage implements OnInit {
     }
     this.extrapolation = projet.extrapolation;
     if(this.projet !== null){
-        localStorage.setItem('storage',JSON.stringify({'projet':this.projet,'status':status,'region':region,'province':province}));
+        localStorage.setItem('storage',JSON.stringify({'projet':this.projet,'status':status,'region':region,'province':province,'commune':commune}));
     }
     // if(this.Downloaded.id == projet._id
     //     && this.Downloaded.status == status
@@ -241,8 +293,12 @@ export class CollectePage implements OnInit {
         this.index = this.projet.validation[region].findIndex(x => x.agent==this.user._id);
 
         this.collecteservice.getCollectesByProjet(projet._id,this.index,status,region,province,commune).then((data : any ) => {
-            this.filtreData(data.order,data.collectes)
+            this.filtreData(data.order,data.collectes);
             this.collectes = data.collectes;
+            if(typeof commune !== "undefined" && commune !== null && commune != 0){
+                this.loadMapData();
+                this.showmap = false
+            }
         },(err)=> {
             console.log('error trying to fetch collectes');
             console.log(err)
@@ -261,6 +317,13 @@ export class CollectePage implements OnInit {
             this.collecteservice.getCollectesByProjet(projet._id,this.index,status,region,province,commune).then((data : any) => {
                 this.collectes = data.collectes;
                 this.filtreData(data.order,data.collectes)
+                if(typeof commune !== "undefined" && commune !== null && commune != 0){
+                    console.log('debug');
+                    console.log(province);
+                    this.loadMapData()
+                    this.showmap = false
+
+                }
             },(err)=> {
                 console.log('error trying to fetch collectes');
                 console.log(err)
@@ -272,6 +335,11 @@ export class CollectePage implements OnInit {
             this.collecteservice.getCollectesByProjet(projet._id,0,status,region,province,commune).then((data : any) => {
                 this.collectes = data.collectes;
                 this.filtreData(data.order,data.collectes)
+                if(typeof commune !== "undefined" && commune !== null && commune != 0){
+                    this.loadMapData()
+                    this.showmap = false
+
+                }
             },(err)=> {
                 console.log('error trying to fetch collectes');
                 console.log(err)
@@ -282,6 +350,13 @@ export class CollectePage implements OnInit {
                 this.collecteservice.getCollectesByProjet(projet._id,0,'all',region,province,commune).then((data : any) => {
                     this.collectes = data.collectes;
                     this.filtreData(data.order,data.collectes)
+                    if(typeof commune !== "undefined" && commune !== null && commune != 0){
+                        console.log('debug');
+                        console.log(commune);
+                        this.loadMapData()
+                        this.showmap = false
+
+                    }
                 },(err)=> {
                     console.log('error trying to fetch collectes');
                     console.log(err)
@@ -290,8 +365,13 @@ export class CollectePage implements OnInit {
 
             case 'reject':
             this.collecteservice.getCollecteEnTraitement(projet._id,this.index,region,province,commune).then((data : any) => {
-                this.collectes = data.collectes
+                this.collectes = data.collectes;
                 this.filtreData(data.order,data.collectes)
+                if(typeof commune !== "undefined" && commune !== null && commune != 0){
+                    this.loadMapData()
+                    this.showmap = false
+
+                }
             },(err)=> {
                 console.log('error trying to fetch collectes');
                 console.log(err)
@@ -301,6 +381,8 @@ export class CollectePage implements OnInit {
 
         }
     }
+
+
 
     }
 
@@ -377,6 +459,7 @@ export class CollectePage implements OnInit {
             this.status = data.status;
             this._province = data.province;
             this._region = data.region;
+            this._commune = data.commune;
             if(data.province){
                 this.OnProvinceSelect(data.province);
             }
@@ -384,9 +467,299 @@ export class CollectePage implements OnInit {
             console.log('here')
         }
     }
-    consulter(collecte){
+    sidebar
+    controllayer
+    createMap(){
+        this.map = new L.Map('map').setView([0,0],3);
+        L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+            maxZoom: 20,
+            subdomains:['mt0','mt1','mt2','mt3'],
+        }).addTo(this.map);
+
+        this.sidebar = L.control.sidebar({
+            autopan: true,       // whether to maintain the centered map point when opening the sidebar
+            closeButton: true,    // whether t add a close button to the panes
+            container: 'sidebarr', // the DOM container or #ID of a predefined sidebar container that should be used
+            position: 'right',     // left or right
+        }).addTo(this.map);
+        let fullscreen = new L.Control.Fullscreen().addTo(this.map);
+
+
+        let map = this.map;
+        let markers = this.markers;
+
+        let control =  L.control.layers({},{
+            "Supports":this.support,
+            "Numero Support":this.supportMarkers,
+            "Numero Collecte":this.markers,
+            "Commune":this.communeMap
+        },{position: 'topleft',autoZIndex:false});
+
+
+        control.addTo(this.map);
+
+        map.on('zoomend', function() {
+            if (map.getZoom() <17) {
+                if (map.hasLayer(markers)) {
+                    map.removeLayer(markers);
+                }
+            }
+            if (map.getZoom() >= 17) {
+                if (map.hasLayer(markers)){
+                } else {
+                    map.addLayer(markers);
+                }
+            }
+        })
+        let parcelles = this.Parcelles;
+        parcelles.bringToFront()
+        map.on('overlayadd',function(e){
+            console.log(e);
+            if(e.name == 'Supports' || e.name == 'Commune'){
+                e.layer.bringToBack();
+                parcelles.bringToFront()
+            }
+        })
+    }
+
+    Parcelles = new L.FeatureGroup();
+    markers = new L.FeatureGroup();
+
+    loadMapData(){
+        this.Parcelles.clearLayers();
+        this.markers.clearLayers();
+        this.support.clearLayers();
+        this.communeMap.clearLayers();
+        if(this.collectes.length == 0){
+            return
+        }
+        let features =  [];
+        for(let i = 0;i < this.collectes.length;i++){
+            for(let x = 0;x < this.collectes[i].collecte.length;x++){
+                for(let y = 0;y < this.collectes[i].collecte[x].data.length;y++){
+                    let element = this.collectes[i].collecte[x].data[y];
+                    if(element.gjson.hasOwnProperty('geometry')){
+                        element.gjson =element.gjson.geometry
+                    }
+                    features.push({
+                        "type": "Feature",
+                        "properties":{
+                            "numero":this.collectes[i].collecte[x].data[y].numero,
+                            "id_collecte":this.collectes[i].id_collecte,
+                            "_id":this.collectes[i]._id},geometry:element.gjson})
+                    }
+                    // geojson[this.collectes[i].id_collecte] = new L.GeoJSON({
+                    //         "type": "Feature",
+                    //         "properties":{
+                    //             "numero":this.collectes[i].collecte[x].data[y].numero,
+                    //             "id_collecte":this.collectes[i].id_collecte,
+                    //             "_id":this.collectes[i]._id},
+                    //         "geometry":element.gjson
+                    //         },{onEachFeature:onEachFeature}).addTo(this.map)
+                    //     }
+            }
+        }
+        this.Parcelles = new L.GeoJSON(features,{
+            onEachFeature:onEachFeature,style:{color:this.mapSettings.colorCollectes,fillcolor:this.mapSettings.colorCollectes},
+        });
+        let lastClickedLayer;
+        let that = this;
+        function onEachFeature(feature,layer) {
+            layer.on({
+                click: function (e) {
+                    that.Parcelles.eachLayer((l) =>{
+                        let lid_collecte = e.target.feature.properties.id_collecte;
+                        let eid_collecte = l.feature.properties.id_collecte;
+                        if(lid_collecte === eid_collecte){
+                            l.setStyle({color:that.mapSettings.colorCollecte,fillColor:that.mapSettings.colorCollecte});
+                        }else{
+                            l.setStyle({color:that.mapSettings.colorCollectes,fillColor:that.mapSettings.colorCollectes})
+                        }
+                    });
+
+                    // if (lastClickedLayer) {
+                    //     // geojson[lastClickedLayer.feature.properties.id_collecte].resetStyle(lastClickedLayer)
+                    //     // geojson[lastClickedLayer.feature.properties.id_collecte].setStyle({color:'yellow',fillcolor:'yellow'})
+                    //     that.Parcelles.resetStyle(lastClickedLayer)
+                    // }
+                    let layer = e.target;
+                    // geojson[layer.feature.properties.id_collecte].setStyle({color:'green',fillcolor:'green'});
+                    layer.setStyle({fillColor: that.mapSettings.colorSelection, color: that.mapSettings.colorSelection});
+                    lastClickedLayer = layer;
+                    that.getData(feature.properties._id, feature.properties.numero);
+
+                },
+
+            });
+
+        }
+
+
+        this.setMarkers();
+        this.Parcelles.setZIndex(10)
+        this.Parcelles.addTo(this.map);
+        this.map.fitBounds(this.Parcelles.getBounds());
+        this.getSegments()
+
+
+    }
+    test(){
+    }
+    sideBarData;
+    instance;
+    lastCollecte;
+    getData(e,i){
+        if(this.lastCollecte && this.lastCollecte._id == e ){
+            this.sideBarData.collecte = this.keytovalues(this.lastCollecte.collecte[0].data[i-1]);
+            this.sideBarData.collecte.date_creation = moment(new Date(this.sideBarData.collecte.date_creation)).format("DD-MM-YYYY à HH:mm");
+
+            this.instance = i;
+        } else{
+        this.collecteservice.getCollecte(e,false).then((data : any) =>{
+
+            this.sideBarData = {'id':data.collecte.id_collecte,
+                'collecte':this.keytovalues(data.collecte.collecte[0].data[i-1]),
+                'agent':data.collecte.agent,
+                'createdAt':moment(new Date(data.collecte.createdAt)).format("DD-MM-YYYY à HH:mm"),
+                'identification':this.keytovalues(data.collecte.exploitation),
+                '_id':data.collecte._id
+            };
+            this.sideBarData.collecte.date_creation = moment(new Date(this.sideBarData.collecte.date_creation)).format("DD-MM-YYYY à HH:mm");
+            this.sidebar.open('home');
+            this.instance = i;
+            this.lastCollecte = data.collecte;
+            // let test = this.keytovalues(data.collecte.collecte[0].data[0])
+
+
+
+        },(err)=>{
+            console.log(err)
+        })
+        }
+    }
+
+    keytovalues(p){
+        let that = this
+
+        Object.keys(p.formdata.data).forEach(key => {
+            if(typeof p.formdata.data[key] === 'object' && p.formdata.data[key] !== null){
+                p.formdata.data[key] = truekeys(p.formdata.data,key)
+            }else{
+                let c = that.extrapolation.find(x => x.field.key === key);
+                if(c && c.type == 'filtre') {
+                    if(c.field.type == 'select'){
+                        let value = c.field.values.json.find(x => x.value == p.formdata.data[key]);
+                        if(value){
+                            p.formdata.data[key] = value.label
+                        }
+                    }else{
+                        let value = c.field.values.find(x => x.value == p.formdata.data[key]);
+                        if(value){
+                            p.formdata.data[key] = value.label
+                        }
+                    }
+
+
+                }
+
+            }
+
+        });
+        return p;
+        function truekeys(data,key){
+            let t = [];
+            let c =  that.extrapolation.find(x => x.field.key === key);
+            Object.keys(data[key]).forEach(k =>{
+                if(data[key][k] === true){
+                    if(c){
+                        let value = c.field.values.find(x => x.value === k);
+                        t.push(value.label)
+
+                    }
+                }
+            });
+            return t
+        }
+    }
+
+    setMarkers(){
+        this.markers.clearLayers();
+        let markers = this.markers;
+
+        this.Parcelles.eachLayer((layer) => {
+            let center ;
+            let properties = layer.feature.properties;
+            if(layer instanceof L.Marker){
+                center = layer.getLatLng()
+            }else{
+                center  = layer.getBounds().getCenter()
+            }
+            let myIcon = L.divIcon({
+                html: "<span style='color:"+this.mapSettings.colorTextCollecte+";font-weight: bold;'>"+properties.id_collecte+'('+properties.numero+')'+"</span>",
+                className: "labelClass",
+            });
+
+
+            let marker = new L.marker([center.lat,center.lng],{icon:myIcon});
+            markers.addLayer(marker,{interactive: false});
+        });
+        // markers.addTo(this.map)
+        // that.markers.addLayer(marker)
+    }
+    support = new L.GeoJSON();
+    supportMarkers = new L.FeatureGroup();
+    communeMap = new L.GeoJSON();
+    getSegments(){
+        this.collecteservice.getSupportByCommune(this._commune).then((data: any) =>{
+            this.support.addData(data.support);
+            this.communeMap.addData({"type":"Feature","properties":{},'geometry':data.commune});
+            this.support.setStyle({'color':this.mapSettings.colorSegments,'weight':2,'fillOpacity':0});
+            this.communeMap.setStyle({'color':this.mapSettings.colorCommune,'fillOpacity':0});
+            let markers = this.supportMarkers;
+            this.support.eachLayer((layer) =>{
+                let center ;
+                let properties = layer.feature.properties;
+                if(layer instanceof L.Marker){
+                    center = layer.getLatLng()
+                }else{
+                    center  = layer.getBounds().getCenter()
+                }
+                let myIcon = L.divIcon({
+                    html: "<span style='color:"+this.mapSettings.colorTextSegments+";font-weight: bold;font-size: 20px;'>"+properties.id_echantillon+"</span>",
+                    className: "labelClass",
+                });
+
+                let marker = new L.marker([center.lat,center.lng],{icon:myIcon});
+                markers.addLayer(marker,{interactive: false})
+
+            });
+            // this.supportMarkers.addTo(this.map);
+
+            if(this.map.hasLayer(this.communeMap)){
+                this.communeMap.bringToBack()
+            }
+            if(this.map.hasLayer(this.support)){
+                this.support.bringToBack()
+            }
+
+            // this.support.bringToBack();
+            // this.communeMap.bringToBack()
+            // this.map.removeLayer(this.support);
+            // this.map.removeLayer(this.communeMap);
+
+            // this.support.addTo(this.map);
+            // this.support.bringToBack();
+
+
+        },(err)=>{
+            console.log(err)
+        })
+    }
+
+    consulter(collecte,instance=1){
         this.collecteservice.getCollecte(collecte).then((data : any) => {
             this.collecteservice.collecte = data;
+            this.collecteservice.collecte.instance = instance;
             console.log(this.collecteservice.collecte);
             // this.collecteservice.collecte.projet = projet;
             // this.collecteservice.collecte.agent = collecte.agent;
@@ -427,9 +800,44 @@ export class CollectePage implements OnInit {
             return '-'
         }
     }
-    _status:Array<Object>
+    saveColorsSettings(){
+        localStorage.setItem('mapsettings',JSON.stringify(this.mapSettings))
+    }
+    resetColorSettings(){
+        this.mapSettings = {
+            colorCollectes:'#0000FF',
+            colorCollecte:'#008000',
+            colorSelection:'#FF0000',
+            colorSegments:'#FFFF00',
+            colorTextCollecte:'#FFFF00',
+            colorTextSegments:'#000000',
+            colorCommune:'#FFFFFF'
+        };
+        localStorage.removeItem('mapsettings')
+    }
+    _status:Array<Object>;
     ngOnInit(){
+        let colorsettings = localStorage.getItem('mapsettings');
+        if(colorsettings != null){
+            this.mapSettings = JSON.parse(colorsettings)
+        }else{
+            this.mapSettings = {
+                colorCollectes:'#0000FF',
+                colorCollecte:'#008000',
+                colorSelection:'#FF0000',
+                colorSegments:'#FFFF00',
+                colorTextCollecte:'#FFFF00',
+                colorTextSegments:'#000000',
+                colorCommune:'#FFFFFF'
+
+
+            };
+        }
+
+        this.showmap =true
+
         this.user = JSON.parse(localStorage.getItem('user'));
+
         if(this.user.role == 'controleur'){
             this._status = [
                 {name:"Validé", value:'valid'},
@@ -446,7 +854,7 @@ export class CollectePage implements OnInit {
             ]
 
             if(this.user.role == 'superviseurR'){
-                console.log('my role is admin')
+                console.log('my role is admin');
                 this._region = this.user.perimetre.region.id_region
             }
             if(this.user.role == 'superviseurP' || this.user.role == 'agent'){
@@ -456,8 +864,16 @@ export class CollectePage implements OnInit {
                 this.OnProvinceSelect(this._province);
             }
 
+            this.getProjets()
+            this.createMap()
+
 
         }
-        this.getProjets()
+
+
+
+
+
+
     }
  }

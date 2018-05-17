@@ -19,7 +19,7 @@ export class DashboardV1Page implements OnInit {
         private projetservice:ProjetService,
         private userservice:UserService,
 ){}
-    user = this.userservice.user || {'nom': 'undefined','prenom':'undefined'}
+    user = this.userservice.user || {'nom': 'undefined','prenom':'undefined'};
     total : any;
     daily : any;
     loading : boolean = true;

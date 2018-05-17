@@ -13,9 +13,9 @@ export class CollecteService {
     private http:HttpClient
     ){}
 collecte : any = null
-getCollecte(id){
+getCollecte(id,geometry=true){
     return new Promise((resolve, reject) => {
-        this.http.get('collectes/' + id)
+        this.http.get('collectes/' + id+'?geometry='+geometry)
             .map(res => res.json())
             .subscribe(data => {
                 resolve(data);
@@ -69,7 +69,6 @@ getCollecteEnTraitement(id,index,region,province,commune){
     if(typeof commune == "undefined" || commune == null){
         commune = 0
     }
-    console.log('wallah c traitement khoya')
     return new Promise((resolve, reject) => {
         this.http.get('collectes/traitement/'+ id + "?region=" + region + "&province=" +province + "&index=" + index +"&commune=" + commune)
             .map(res => res.json())
@@ -160,6 +159,22 @@ exportData(id,query){
                 resolve(data);
             }, (err) => {
                 reject(err);
+            });
+    });
+}
+getSupportByCommune(id){
+    let path = 'collectes/segcomm/'+ id;
+    const requestURL =  url.format({
+        pathname: path,
+    });
+    return new Promise((resolve, reject) => {
+        this.http.get(requestURL)
+            .map(res => res.json())
+            .subscribe(res => {
+                resolve(res);
+            },(err:Response) => {
+                let details = err.json();
+                reject(details);
             });
     });
 }

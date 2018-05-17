@@ -9,6 +9,7 @@ import 'leaflet'
 import 'leaflet.pm';
 import 'leaflet.pm/dist/leaflet.pm.css'
 import 'leaflet-fullscreen';
+import 'leaflet-extra-markers';
 import * as moment from 'moment-timezone';
 import { createForm } from 'formiojs';
 import { FormioOptions } from 'angular-formio'
@@ -79,11 +80,21 @@ export class ValidationPage implements AfterViewInit  {
     }
 
 
+
+
+    extraGreen = L.ExtraMarkers.icon({
+        icon: 'fa-number',
+        markerColor: 'red',
+        number:12,
+        shape: 'square',
+        prefix: 'fa'
+    });
     LeafIcon = L.Icon.extend({
         options: {
-            iconSize: [25, 42],
-            iconAnchor: [0, 0],
-            popupAnchor: [2, 0]
+            icon:this.extraGreen
+            // iconSize: [25, 42],
+            // iconAnchor: [0, 0],
+            // popupAnchor: [2, 0]
         }
     });
     IconGreen = new this.LeafIcon({
@@ -99,7 +110,7 @@ export class ValidationPage implements AfterViewInit  {
     OnParcelleChange(parcelle :any){
         this.hidden = true;
         // this.selectedParcelle = {}
-        this.selectedParcelle = JSON.parse(JSON.stringify(parcelle));
+        this.selectedParcelle = {...parcelle};
         this.selectedParcelle.date_creation = moment(new Date(this.selectedParcelle.date_creation)).add(-1,'hours').format("DD-MM-YYYY à HH:mm");
 
         // this.parcelle.nativeElement.contentWindow.postMessage({"window":"parcelle","message":'data',"data":parcelle.formdata}, 'http://localhost/demo.html');
@@ -108,9 +119,10 @@ export class ValidationPage implements AfterViewInit  {
 
         if(this.parcelleLayers){
         this.parcelleLayers.eachLayer(layer => {
+
             if(layer.feature.properties.numero == parcelle.numero){
                 if(layer instanceof L.Marker) {
-                    layer.setIcon(this.IconGreen);
+                    layer.setIcon(this.extraGreen);
                 }else{
                     layer.setStyle({fillColor: 'red', color: "red"});
                     this.ParcelleMap.fitBounds(layer.getBounds())
@@ -119,7 +131,7 @@ export class ValidationPage implements AfterViewInit  {
                 // layer.setIcon({iconUrl:})
             }else{
                 if(layer instanceof L.Marker) {
-                    layer.setIcon(this.IconBlue);
+                    layer.setIcon(this.extraGreen);
                 }else{
                     layer.setStyle({fillColor:'blue',color:"blue"})
                 }
@@ -223,22 +235,27 @@ export class ValidationPage implements AfterViewInit  {
             if(type !== 'point'){
                 center = layer.getBounds().getCenter();
                 console.info('center',center);
+
+                let myIcon = L.divIcon({
+                    html: "<span style='color:yellow;font-weight: bold;'>"+feature.properties.numero+"</span>",
+                    className: "labelClass",
+                });
+
+                let redMarker = L.ExtraMarkers.icon({
+                    icon: 'fa-number',
+                    markerColor: 'blue',
+                    number:feature.properties.numero,
+                    shape: 'square',
+                    prefix: 'fa'
+                });
                 let labelPoint = L.marker([center.lat, center.lng], {
-                    icon: L.divIcon({
-                        // className: "labelPoint",
-                        // html: num,
-                        html: feature.properties.numero,
-                        iconSize: null,
-                        // iconUrl: 'assets/marker-icon.png',
-                        // shadowUrl: 'assets/marker-shadow.png'
-                    })
+                    icon: myIcon
                 });
 
                 that.drawnItems.addLayer(layer);
                 that.markers.addLayer(labelPoint);
 
-            }
-                else{
+            } else{
                 let icon = 'assets/marker-icon.png';
 
                 // if(feature.properties.numero == this.selectedParcelle.numero){
@@ -246,18 +263,24 @@ export class ValidationPage implements AfterViewInit  {
                 // }
                 center = layer.getLatLng();
 
-                let marker = L.marker([center.lat, center.lng], {
-                    icon: L.icon({
-                        // className: "labelPoint",
-                        // html: num,
-                        // html: feature.properties.numero,
-                        // iconSize: null,
-                        iconUrl: icon,
-                        shadowUrl: 'assets/marker-shadow.png'
-                    })
+                let redMarker = L.ExtraMarkers.icon({
+                    icon: 'fa-number',
+                    markerColor: 'blue',
+                    number:feature.properties.numero,
+                    shape: 'square',
+                    prefix: 'fa'
                 });
 
-                that.drawnItems.addLayer(layer);
+
+
+                let marker = L.marker([center.lat, center.lng], {
+                    icon: redMarker
+                });
+
+
+
+                // layer.bindTooltip(number.toString(),{permanent:true,opacity:0.2}).openTooltip();
+                that.drawnItems.addLayer(marker);
                 // that.markers.addLayer(marker);
 
 
@@ -324,6 +347,7 @@ export class ValidationPage implements AfterViewInit  {
 
     }
     voisinLayer;
+    voisinMarkers = new L.FeatureGroup();
     AddParcelleLayer(collecte){
         let Parcelles = [];
         let listsupport = [];
@@ -338,8 +362,8 @@ export class ValidationPage implements AfterViewInit  {
             });
         });
         }
-        console.log('list support utiliser ====>');
-        console.log(listsupport);
+        // console.log('list support utiliser ====>');
+        // console.log(listsupport);
 
 
         let styleP = {"color": '#faff06',
@@ -368,10 +392,10 @@ export class ValidationPage implements AfterViewInit  {
         let voisin = [];
         // this.collecteservice.getVoisin(this.collecte._id,)
         this.voisin.forEach(element => {
-            if(element.hasOwnProperty('geometry')){
-                element =element.geometry
+            if(element.gjson.hasOwnProperty('geometry')){
+                element.gjson =element.gjson.geometry
             }
-            voisin.push({"type":"Feature","properties":{},geometry:element})
+            voisin.push({"type":"Feature","properties":{id_collecte:element.id_collecte,numero:element.numero},geometry:element.gjson})
         });
         let intersect = [];
         // data.voisin.forEach(element => {
@@ -387,7 +411,24 @@ export class ValidationPage implements AfterViewInit  {
         // let _intersection = new L.GeoJSON(intersect,{style:styleI});
         // _intersection.addTo(this.ParcelleMap);
         this.voisinLayer = new L.GeoJSON(voisin,{style: styleV,pmIgnore: true });
+        let markers = this.voisinMarkers;
+        this.voisinLayer.eachLayer((layer) =>{
+            let center ;
+            let properties = layer.feature.properties;
+            if(layer instanceof L.Marker){
+                center = layer.getLatLng()
+            }else{
+                center  = layer.getBounds().getCenter()
+            }
+            let myIcon = L.divIcon({
+                html: "<span style='color:yellow;font-weight: bold;'>"+properties.id_collecte+'('+properties.numero+')'+"</span>",
+                className: "labelClass",
+            });
+            let marker = new L.marker([center.lat,center.lng],{icon:myIcon});
+            markers.addLayer(marker)
+        });
         this.voisinLayer.addTo(this.ParcelleMap);
+        this.voisinMarkers.addTo(this.ParcelleMap);
         let layer = new L.GeoJSON(Parcelles,{style: styleP,pmIgnore: true });
         layer.addTo(this.ParcelleMap);
         // let aa = {"type": "Feature","properties":{"numero":''},geometry:{}}
@@ -401,7 +442,7 @@ export class ValidationPage implements AfterViewInit  {
     }
 
     identification;
-    identificationData
+    identificationData;
     ngOnInit(){
         //init map
         this.options = {
@@ -470,7 +511,7 @@ export class ValidationPage implements AfterViewInit  {
 
 
         // CHECK COMMITS BEFORE 2MARS for backup
-        var Fullscreen = new L.Control.Fullscreen();
+        let Fullscreen = new L.Control.Fullscreen();
         this.ParcelleMap.addControl(Fullscreen);
         //     this.ParcelleMap.fitBounds(this.parcelleLayers.getBounds())
         this.AddParcelleLayer(this.collecte.collecte);
@@ -478,10 +519,11 @@ export class ValidationPage implements AfterViewInit  {
 
         //separate
         console.log('parcelle 1');
-        console.log(this._type.data[0]);
+        let instance = this.collecteservice.collecte.instance -1;
         this.loadMapData();
-        this._parcelle = this._type.data[0];
-        this.OnParcelleChange(this._type.data[0])
+
+        this._parcelle = this._type.data[instance];
+        this.OnParcelleChange(this._type.data[instance])
 
     }
 

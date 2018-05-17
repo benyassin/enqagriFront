@@ -28,6 +28,8 @@
         "../node_modules/leaflet/dist/leaflet.css",
         "../node_modules/leaflet.pm/dist/leaflet.pm.css",
         "../node_modules/leaflet-fullscreen/dist/leaflet.fullscreen.css",
+        "../node_modules/leaflet-extra-markers/dist/css/leaflet.extra-markers.min.css",
+        "../node_modules/leaflet-sidebar-v2/css/leaflet-sidebar.min.css",
         "../node_modules/@swimlane/ngx-datatable/release/index.css",
         "../node_modules/@swimlane/ngx-datatable/release/themes/material.css",
         "../node_modules/@swimlane/ngx-datatable/release/themes/bootstrap.css",
@@ -37,8 +39,11 @@
       ],
       "scripts": [
         "../node_modules/leaflet/dist/leaflet.js",
+        "../node_modules/leaflet-sidebar-v2/js/leaflet-sidebar.min.js",
         "../node_modules/leaflet.pm/dist/leaflet.pm.min.js",
         "../node_modules/leaflet-fullscreen/dist/Leaflet.fullscreen.js",
+        "../node_modules/leaflet-extra-markers/dist/js/leaflet.extra-markers.min.js",
+
 
 
         "../node_modules/chart.js/src/chart.js"
