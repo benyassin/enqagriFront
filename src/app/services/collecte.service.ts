@@ -162,10 +162,13 @@ exportData(id,query){
             });
     });
 }
-getSupportByCommune(id){
+getSupportByCommune(id,cid){
     let path = 'collectes/segcomm/'+ id;
     const requestURL =  url.format({
         pathname: path,
+        query:{
+            cid:cid
+        }
     });
     return new Promise((resolve, reject) => {
         this.http.get(requestURL)

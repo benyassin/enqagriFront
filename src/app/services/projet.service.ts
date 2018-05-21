@@ -100,7 +100,6 @@ export class ProjetService {
                 this.http.get('projets/controller/projets')
                     .map(res => res.json())
                     .subscribe(data => {
-                        console.log('bugged')
                         resolve(data);
                     }, (err) => {
                         reject(err);

@@ -91,14 +91,17 @@ export class ValidationPage implements AfterViewInit  {
     });
     LeafIcon = L.Icon.extend({
         options: {
-            icon:this.extraGreen
-            // iconSize: [25, 42],
-            // iconAnchor: [0, 0],
-            // popupAnchor: [2, 0]
+            iconSize: [25, 42],
+            iconAnchor: [0, 0],
+            popupAnchor: [2, 0]
         }
     });
     IconGreen = new this.LeafIcon({
         iconUrl: "assets/marker-icon-green.png"
+    });
+
+    IconRed = new this.LeafIcon({
+        iconUrl: "assets/marker-icon-red.png"
     });
 
     IconBlue = new this.LeafIcon({
@@ -110,7 +113,7 @@ export class ValidationPage implements AfterViewInit  {
     OnParcelleChange(parcelle :any){
         this.hidden = true;
         // this.selectedParcelle = {}
-        this.selectedParcelle = {...parcelle};
+        this.selectedParcelle = JSON.parse(JSON.stringify(parcelle));
         this.selectedParcelle.date_creation = moment(new Date(this.selectedParcelle.date_creation)).add(-1,'hours').format("DD-MM-YYYY à HH:mm");
 
         // this.parcelle.nativeElement.contentWindow.postMessage({"window":"parcelle","message":'data',"data":parcelle.formdata}, 'http://localhost/demo.html');
@@ -122,7 +125,7 @@ export class ValidationPage implements AfterViewInit  {
 
             if(layer.feature.properties.numero == parcelle.numero){
                 if(layer instanceof L.Marker) {
-                    layer.setIcon(this.extraGreen);
+                    layer.setIcon(this.IconRed);
                 }else{
                     layer.setStyle({fillColor: 'red', color: "red"});
                     this.ParcelleMap.fitBounds(layer.getBounds())
@@ -131,7 +134,7 @@ export class ValidationPage implements AfterViewInit  {
                 // layer.setIcon({iconUrl:})
             }else{
                 if(layer instanceof L.Marker) {
-                    layer.setIcon(this.extraGreen);
+                    layer.setIcon(this.IconBlue);
                 }else{
                     layer.setStyle({fillColor:'blue',color:"blue"})
                 }
@@ -224,7 +227,11 @@ export class ValidationPage implements AfterViewInit  {
         });
         let that = this;
 
-        this.parcelleLayers = new L.GeoJSON(Parcelles,{onEachFeature: onEachFeature});
+        this.parcelleLayers = new L.GeoJSON(Parcelles,{onEachFeature: onEachFeature,
+                pointToLayer: function (feature, latlng) {
+                    return L.marker(latlng, {icon: that.IconBlue});
+                },},
+            );
         // markers
         function onEachFeature(feature, layer) {
             let type = that._type.type;
@@ -232,9 +239,13 @@ export class ValidationPage implements AfterViewInit  {
 
             // console.log(layer)
             // console.log(feature)
-            if(type !== 'point'){
-                center = layer.getBounds().getCenter();
-                console.info('center',center);
+            // if(type !== 'point'){
+            if(layer instanceof L.Marker){
+                center = layer.getLatLng()
+            }else{
+                center  = layer.getBounds().getCenter()
+            }
+                // console.info('center',center);
 
                 let myIcon = L.divIcon({
                     html: "<span style='color:yellow;font-weight: bold;'>"+feature.properties.numero+"</span>",
@@ -255,36 +266,36 @@ export class ValidationPage implements AfterViewInit  {
                 that.drawnItems.addLayer(layer);
                 that.markers.addLayer(labelPoint);
 
-            } else{
-                let icon = 'assets/marker-icon.png';
-
-                // if(feature.properties.numero == this.selectedParcelle.numero){
-                //     icon = 'assets/marker-icon-green.png'
-                // }
-                center = layer.getLatLng();
-
-                let redMarker = L.ExtraMarkers.icon({
-                    icon: 'fa-number',
-                    markerColor: 'blue',
-                    number:feature.properties.numero,
-                    shape: 'square',
-                    prefix: 'fa'
-                });
-
-
-
-                let marker = L.marker([center.lat, center.lng], {
-                    icon: redMarker
-                });
-
-
-
-                // layer.bindTooltip(number.toString(),{permanent:true,opacity:0.2}).openTooltip();
-                that.drawnItems.addLayer(marker);
-                // that.markers.addLayer(marker);
-
-
-            }
+            // } else{
+            //     let icon = 'assets/marker-icon.png';
+            //
+            //     // if(feature.properties.numero == this.selectedParcelle.numero){
+            //     //     icon = 'assets/marker-icon-green.png'
+            //     // }
+            //     center = layer.getLatLng();
+            //
+            //     let redMarker = L.ExtraMarkers.icon({
+            //         icon: 'fa-number',
+            //         markerColor: 'blue',
+            //         number:feature.properties.numero,
+            //         shape: 'square',
+            //         prefix: 'fa'
+            //     });
+            //
+            //
+            //
+            //     let marker = L.marker([center.lat, center.lng], {
+            //         icon: redMarker
+            //     });
+            //
+            //
+            //
+            //     // layer.bindTooltip(number.toString(),{permanent:true,opacity:0.2}).openTooltip();
+            //     that.drawnItems.addLayer(marker);
+            //     // that.markers.addLayer(marker);
+            //
+            //
+            // }
 
 
 
@@ -410,7 +421,12 @@ export class ValidationPage implements AfterViewInit  {
         // });
         // let _intersection = new L.GeoJSON(intersect,{style:styleI});
         // _intersection.addTo(this.ParcelleMap);
-        this.voisinLayer = new L.GeoJSON(voisin,{style: styleV,pmIgnore: true });
+        let icon = this.IconGreen;
+        this.voisinLayer = new L.GeoJSON(voisin,{style: styleV,pmIgnore: true,
+            pointToLayer: function (feature, latlng) {
+                return L.marker(latlng, {icon: icon});
+            },},);
+
         let markers = this.voisinMarkers;
         this.voisinLayer.eachLayer((layer) =>{
             let center ;

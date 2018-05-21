@@ -5,33 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3c4f2c77-2496-4a4e-8085-4393e3dbccb7" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/img/markers.ai" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/img/markers_default.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/img/markers_default@2x.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/img/markers_shadow.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/img/markers_shadow@2x.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/assets/img/markers_default.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/assets/img/markers_default@2x.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/assets/img/markers_shadow.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/assets/img/markers_shadow@2x.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/assets/leaflet.extra-markers.min.css" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/assets/marker_hole.png" />
-      <change beforePath="$PROJECT_DIR$/.angular-cli.json" afterPath="$PROJECT_DIR$/.angular-cli.json" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/assets/marker-icon-red.png" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/assets/red-marker.png" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" afterPath="$PROJECT_DIR$/package-lock.json" />
-      <change beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change beforePath="$PROJECT_DIR$/src/app/app.module.ts" afterPath="$PROJECT_DIR$/src/app/app.module.ts" />
-      <change beforePath="$PROJECT_DIR$/src/app/pages/collecte/collecte.css" afterPath="$PROJECT_DIR$/src/app/pages/collecte/collecte.css" />
-      <change beforePath="$PROJECT_DIR$/src/app/pages/collecte/collecte.html" afterPath="$PROJECT_DIR$/src/app/pages/collecte/collecte.html" />
       <change beforePath="$PROJECT_DIR$/src/app/pages/collecte/collecte.ts" afterPath="$PROJECT_DIR$/src/app/pages/collecte/collecte.ts" />
-      <change beforePath="$PROJECT_DIR$/src/app/pages/dashboard/v1/dashboard-v1.ts" afterPath="$PROJECT_DIR$/src/app/pages/dashboard/v1/dashboard-v1.ts" />
       <change beforePath="$PROJECT_DIR$/src/app/pages/reporting/reporting.ts" afterPath="$PROJECT_DIR$/src/app/pages/reporting/reporting.ts" />
-      <change beforePath="$PROJECT_DIR$/src/app/pages/validation/validation.css" afterPath="$PROJECT_DIR$/src/app/pages/validation/validation.css" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages/validation/geoless.html" afterPath="$PROJECT_DIR$/src/app/pages/validation/geoless.html" />
       <change beforePath="$PROJECT_DIR$/src/app/pages/validation/validation.ts" afterPath="$PROJECT_DIR$/src/app/pages/validation/validation.ts" />
       <change beforePath="$PROJECT_DIR$/src/app/services/collecte.service.ts" afterPath="$PROJECT_DIR$/src/app/services/collecte.service.ts" />
-      <change beforePath="$PROJECT_DIR$/src/assets/plugins/bootstrap/css/bootstrap.css" afterPath="$PROJECT_DIR$/src/assets/plugins/bootstrap/css/bootstrap.css" />
-      <change beforePath="$PROJECT_DIR$/src/assets/plugins/bootstrap/css/bootstrap.min.css" afterPath="$PROJECT_DIR$/src/assets/plugins/bootstrap/css/bootstrap.min.css" />
-      <change beforePath="$PROJECT_DIR$/src/index.html" afterPath="$PROJECT_DIR$/src/index.html" />
+      <change beforePath="$PROJECT_DIR$/src/app/services/projet.service.ts" afterPath="$PROJECT_DIR$/src/app/services/projet.service.ts" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/dist/" />
@@ -49,17 +31,103 @@
       <file leaf-file-name="collecte.ts" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/app/pages/collecte/collecte.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="443">
-              <caret line="737" column="0" lean-forward="false" selection-start-line="737" selection-start-column="0" selection-end-line="742" selection-end-column="13" />
+            <state relative-caret-position="2068">
+              <caret line="176" column="14" lean-forward="false" selection-start-line="176" selection-start-column="4" selection-end-line="176" selection-end-column="14" />
               <folding>
                 <element signature="e#0#57#0" expanded="true" />
                 <element signature="e#869#885#0" expanded="true" />
-                <marker date="1526564213619" expanded="true" signature="23817:23862" ph="..." />
-                <marker date="1526564213619" expanded="true" signature="23817:23880" ph="..." />
-                <marker date="1526564213619" expanded="true" signature="25248:25311" ph="..." />
-                <marker date="1526564213619" expanded="true" signature="25248:25327" ph="..." />
-                <marker date="1526564213619" expanded="true" signature="25660:25865" ph="//..." />
+                <marker date="1526898094437" expanded="true" signature="25882:25927" ph="..." />
+                <marker date="1526898094437" expanded="true" signature="25882:25945" ph="..." />
+                <marker date="1526898094437" expanded="true" signature="27375:27438" ph="..." />
+                <marker date="1526898094437" expanded="true" signature="27375:27454" ph="..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="reporting.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/pages/reporting/reporting.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="308">
+              <caret line="199" column="28" lean-forward="false" selection-start-line="199" selection-start-column="28" selection-end-line="199" selection-end-column="28" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="collecte.service.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/services/collecte.service.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="384">
+              <caret line="52" column="32" lean-forward="false" selection-start-line="52" selection-start-column="32" selection-end-line="52" selection-end-column="32" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="projet.service.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/services/projet.service.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="184">
+              <caret line="111" column="25" lean-forward="false" selection-start-line="111" selection-start-column="22" selection-end-line="111" selection-end-column="25" />
+              <folding>
+                <element signature="e#0#43#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="validation.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/pages/validation/validation.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="626">
+              <caret line="116" column="52" lean-forward="true" selection-start-line="116" selection-start-column="52" selection-end-line="116" selection-end-column="52" />
+              <folding>
+                <marker date="1526916833794" expanded="true" signature="8155:8186" ph="..." />
+                <marker date="1526916833794" expanded="true" signature="14897:14928" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="validation.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/pages/validation/validation.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="96">
+              <caret line="78" column="0" lean-forward="false" selection-start-line="78" selection-start-column="0" selection-end-line="89" selection-end-column="25" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="geoless.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/pages/validation/geoless.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#133#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="geoless.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/pages/validation/geoless.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="264">
+              <caret line="57" column="47" lean-forward="false" selection-start-line="57" selection-start-column="47" selection-end-line="57" selection-end-column="47" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.bundle.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dist/main.bundle.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="546">
+              <caret line="0" column="916464" lean-forward="false" selection-start-line="0" selection-start-column="916464" selection-end-line="0" selection-end-column="916464" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -67,22 +135,12 @@
       <file leaf-file-name="collecte.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/pages/collecte/collecte.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="110">
-              <caret line="144" column="186" lean-forward="false" selection-start-line="144" selection-start-column="186" selection-end-line="144" selection-end-column="186" />
+            <state relative-caret-position="220">
+              <caret line="223" column="47" lean-forward="false" selection-start-line="223" selection-start-column="43" selection-end-line="223" selection-end-column="47" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="app.module.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/app.module.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="265">
-              <caret line="27" column="51" lean-forward="false" selection-start-line="27" selection-start-column="45" selection-end-line="27" selection-end-column="51" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -101,36 +159,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>ColorPickerModule</find>
-      <find>oneachf</find>
-      <find>mapSett</find>
-      <find>black</find>
-      <find>settings</find>
-      <find>blue</find>
-      <find>ma</find>
-      <find>color</find>
-      <find>mapsettin</find>
-      <find>mapsettings</find>
-      <find>colorTextCollecte</find>
-      <find>setmarkers</find>
-      <find>zindex</find>
-      <find>getsegme</find>
-      <find>button</find>
       <find>rein</find>
       <find>control</find>
-      <find>search</find>
       <find>commune</find>
       <find>localstorage</find>
-      <find>filtredata</find>
       <find>communelist</find>
       <find>loa</find>
-      <find>loadmapdata</find>
-      <find>getsegments</find>
-      <find>createmap</find>
       <find>addto</find>
       <find>communeMap</find>
       <find>l.contro</find>
       <find>segmet</find>
+      <find>createmap</find>
+      <find>getsegments</find>
+      <find>loadmapdata</find>
+      <find>seticon</find>
+      <find>assets/marker-icon-green.png</find>
+      <find>formdata</find>
+      <find>getseg</find>
+      <find>voisin</find>
+      <find>onprovinceSelect</find>
+      <find>getprojets</find>
+      <find>getprog</find>
+      <find>id region</find>
+      <find>cid</find>
+      <find>get</find>
+      <find>_commu</find>
+      <find>segment</find>
+      <find>search</find>
+      <find>filtredata</find>
+      <find>{...</find>
+      <find>json</find>
     </findStrings>
     <replaceStrings>
       <replace>id_province</replace>
@@ -146,7 +204,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/app/main.ts" />
         <option value="$PROJECT_DIR$/src/environments/environment.ts" />
         <option value="$PROJECT_DIR$/src/app/sidebar/sidebar.component.ts" />
         <option value="$PROJECT_DIR$/src/app/app-routing.module.ts" />
@@ -156,7 +213,6 @@
         <option value="$PROJECT_DIR$/src/app/pages/Parametrage/Formulaire/formulaire.html" />
         <option value="$PROJECT_DIR$/src/app/header/header.component.ts" />
         <option value="$PROJECT_DIR$/src/app/services/reporting.service.ts" />
-        <option value="$PROJECT_DIR$/dist/main.bundle.js" />
         <option value="$PROJECT_DIR$/src/app/services/Http-client.ts" />
         <option value="$PROJECT_DIR$/src/app/pages/validation/rna.ts" />
         <option value="$PROJECT_DIR$/src/app/pages/import/import.html" />
@@ -170,7 +226,6 @@
         <option value="$PROJECT_DIR$/src/app/pages/Parametrage/Projet/projet.ts" />
         <option value="$PROJECT_DIR$/src/app/pages/Parametrage/Projet/inspect.ts" />
         <option value="$PROJECT_DIR$/src/app/services/authentication.service.ts" />
-        <option value="$PROJECT_DIR$/src/app/pages/validation/geoless.html" />
         <option value="$PROJECT_DIR$/src/app/pages/validation/geoless.ts" />
         <option value="$PROJECT_DIR$/src/app/pages/import/import.ts" />
         <option value="$PROJECT_DIR$/src/app/pages/utilisateur/utilisateur.ts" />
@@ -183,7 +238,6 @@
         <option value="$PROJECT_DIR$/src/app/pages/validation/validation.html" />
         <option value="$PROJECT_DIR$/src/app/pages/dashboard/v1/dashboard-v1.ts" />
         <option value="$PROJECT_DIR$/node_modules/ng2-smart-table/components/filter/filter-types/default-filter.js" />
-        <option value="$PROJECT_DIR$/src/app/pages/reporting/reporting.ts" />
         <option value="$PROJECT_DIR$/src/assets/plugins/bootstrap/css/bootstrap.css" />
         <option value="$PROJECT_DIR$/src/assets/plugins/bootstrap/css/bootstrap.min.css" />
         <option value="$PROJECT_DIR$/src/app/pages/validation/validation.css" />
@@ -192,11 +246,15 @@
         <option value="$PROJECT_DIR$/src/app/pages/collecte/test.js" />
         <option value="$PROJECT_DIR$/.angular-cli.json" />
         <option value="$PROJECT_DIR$/src/app/pages/collecte/collecte.css" />
-        <option value="$PROJECT_DIR$/src/app/services/collecte.service.ts" />
-        <option value="$PROJECT_DIR$/src/app/pages/validation/validation.ts" />
         <option value="$PROJECT_DIR$/src/app/app.module.ts" />
         <option value="$PROJECT_DIR$/src/app/pages/collecte/collecte.html" />
+        <option value="$PROJECT_DIR$/src/app/services/collecte.service.ts" />
+        <option value="$PROJECT_DIR$/src/app/services/projet.service.ts" />
         <option value="$PROJECT_DIR$/src/app/pages/collecte/collecte.ts" />
+        <option value="$PROJECT_DIR$/src/app/pages/validation/geoless.html" />
+        <option value="$PROJECT_DIR$/src/app/pages/reporting/reporting.ts" />
+        <option value="$PROJECT_DIR$/dist/main.bundle.js" />
+        <option value="$PROJECT_DIR$/src/app/pages/validation/validation.ts" />
       </list>
     </option>
   </component>
@@ -211,11 +269,11 @@
   <component name="NodeModulesDirectoryManager">
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="140" />
-    <option name="y" value="47" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="129" />
+    <option name="y" value="26" />
     <option name="width" value="1634" />
-    <option name="height" value="976" />
+    <option name="height" value="948" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -248,12 +306,24 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="dss" type="b2602c69:ProjectViewProjectNode" />
               <item name="dss" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="dss" type="b2602c69:ProjectViewProjectNode" />
+              <item name="dss" type="462c0819:PsiDirectoryNode" />
+              <item name="dist" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="dss" type="b2602c69:ProjectViewProjectNode" />
+              <item name="dss" type="462c0819:PsiDirectoryNode" />
+              <item name="e2e" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="dss" type="b2602c69:ProjectViewProjectNode" />
@@ -308,8 +378,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -334,13 +402,13 @@
     <property name="node.js.selected.package.jscs" value="" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/app" />
-      <recent name="$PROJECT_DIR$/src/assets/img" />
-      <recent name="$PROJECT_DIR$/src/assets" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/app/pages/import" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/assets" />
+      <recent name="$PROJECT_DIR$/src/app" />
+      <recent name="$PROJECT_DIR$/src/assets/img" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -414,19 +482,20 @@
       <workItem from="1525877069948" duration="3876000" />
       <workItem from="1525944248663" duration="16369000" />
       <workItem from="1526026494944" duration="18218000" />
-      <workItem from="1526114367096" duration="54617000" />
+      <workItem from="1526114367096" duration="56171000" />
+      <workItem from="1526635012929" duration="28113000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="651083000" />
+    <option name="totallyTimeSpent" value="680750000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="140" y="47" width="1634" height="976" extended-state="0" />
+    <frame x="57" y="-4" width="1863" height="1084" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="TypeScript" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32909784" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15465839" sideWeight="0.71453285" order="0" side_tool="false" content_ui="combo" x="821" y="294" width="343" height="505" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22445652" sideWeight="0.71453285" order="0" side_tool="false" content_ui="combo" x="821" y="294" width="343" height="505" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28062826" sideWeight="0.5114504" order="7" side_tool="true" content_ui="tabs" />
@@ -434,7 +503,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33838382" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16920567" sideWeight="0.28546712" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24891305" sideWeight="0.49442896" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24921466" sideWeight="0.48854962" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22094241" sideWeight="0.48854962" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3401015" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -481,40 +550,11 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="4" />
+      <option name="time" value="5" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/app/pages/dashboard/v1/dashboard-v1.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/sidebar/sidebar.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-276">
-          <caret line="32" column="4" lean-forward="false" selection-start-line="32" selection-start-column="4" selection-end-line="32" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/pages/utilisateur/utilisateur.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="9" column="50" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/pages/utilisateur/dashboard.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="17" lean-forward="false" selection-start-line="0" selection-start-column="17" selection-end-line="0" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/services/Http-client.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="22">
@@ -723,23 +763,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="858">
           <caret line="39" column="18" lean-forward="false" selection-start-line="39" selection-start-column="18" selection-end-line="39" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/pages/collecte/test.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1232">
-          <caret line="56" column="34" lean-forward="false" selection-start-line="56" selection-start-column="34" selection-end-line="56" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/pages/collecte/test.js" />
     <entry file="file://$PROJECT_DIR$/src/app/pages/collecte/collecte.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="660">
           <caret line="30" column="0" lean-forward="true" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -747,9 +778,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -757,9 +785,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -767,9 +792,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -777,9 +799,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -791,55 +810,78 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/pages/reporting/reporting.ts">
+    <entry file="file://$PROJECT_DIR$/src/app/app.module.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="254">
-          <caret line="49" column="10" lean-forward="false" selection-start-line="49" selection-start-column="4" selection-end-line="49" selection-end-column="10" />
+        <state relative-caret-position="594">
+          <caret line="27" column="51" lean-forward="false" selection-start-line="27" selection-start-column="45" selection-end-line="27" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/services/projet.service.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="111" column="25" lean-forward="false" selection-start-line="111" selection-start-column="22" selection-end-line="111" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#43#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/pages/validation/validation.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="78" column="0" lean-forward="false" selection-start-line="78" selection-start-column="0" selection-end-line="89" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/pages/validation/geoless.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#133#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/pages/validation/geoless.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="57" column="47" lean-forward="false" selection-start-line="57" selection-start-column="47" selection-end-line="57" selection-end-column="47" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/services/collecte.service.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="254">
-          <caret line="167" column="15" lean-forward="false" selection-start-line="167" selection-start-column="14" selection-end-line="167" selection-end-column="15" />
+        <state relative-caret-position="384">
+          <caret line="52" column="32" lean-forward="false" selection-start-line="52" selection-start-column="32" selection-end-line="52" selection-end-column="32" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/pages/validation/validation.html">
+    <entry file="file://$PROJECT_DIR$/src/app/pages/reporting/reporting.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="265">
-          <caret line="42" column="157" lean-forward="false" selection-start-line="42" selection-start-column="141" selection-end-line="42" selection-end-column="157" />
+        <state relative-caret-position="308">
+          <caret line="199" column="28" lean-forward="false" selection-start-line="199" selection-start-column="28" selection-end-line="199" selection-end-column="28" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/pages/validation/validation.ts">
+    <entry file="file://$PROJECT_DIR$/dist/main.bundle.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="254">
-          <caret line="345" column="26" lean-forward="false" selection-start-line="345" selection-start-column="24" selection-end-line="345" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#133#0" expanded="false" />
-            <element signature="e#398#414#0" expanded="false" />
-            <marker date="1526397494693" expanded="true" signature="7804:7835" ph="..." />
-            <marker date="1526397494693" expanded="true" signature="14184:14215" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/app.module.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="265">
-          <caret line="27" column="51" lean-forward="false" selection-start-line="27" selection-start-column="45" selection-end-line="27" selection-end-column="51" />
+        <state relative-caret-position="546">
+          <caret line="0" column="916464" lean-forward="false" selection-start-line="0" selection-start-column="916464" selection-end-line="0" selection-end-column="916464" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/pages/collecte/collecte.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="110">
-          <caret line="144" column="186" lean-forward="false" selection-start-line="144" selection-start-column="186" selection-end-line="144" selection-end-column="186" />
+        <state relative-caret-position="220">
+          <caret line="223" column="47" lean-forward="false" selection-start-line="223" selection-start-column="43" selection-end-line="223" selection-end-column="47" />
           <folding>
             <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
@@ -847,18 +889,28 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/pages/validation/validation.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="626">
+          <caret line="116" column="52" lean-forward="true" selection-start-line="116" selection-start-column="52" selection-end-line="116" selection-end-column="52" />
+          <folding>
+            <marker date="1526916833794" expanded="true" signature="8155:8186" ph="..." />
+            <marker date="1526916833794" expanded="true" signature="14897:14928" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/pages/collecte/collecte.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="443">
-          <caret line="737" column="0" lean-forward="false" selection-start-line="737" selection-start-column="0" selection-end-line="742" selection-end-column="13" />
+        <state relative-caret-position="2068">
+          <caret line="176" column="14" lean-forward="false" selection-start-line="176" selection-start-column="4" selection-end-line="176" selection-end-column="14" />
           <folding>
             <element signature="e#0#57#0" expanded="true" />
             <element signature="e#869#885#0" expanded="true" />
-            <marker date="1526564213619" expanded="true" signature="23817:23862" ph="..." />
-            <marker date="1526564213619" expanded="true" signature="23817:23880" ph="..." />
-            <marker date="1526564213619" expanded="true" signature="25248:25311" ph="..." />
-            <marker date="1526564213619" expanded="true" signature="25248:25327" ph="..." />
-            <marker date="1526564213619" expanded="true" signature="25660:25865" ph="//..." />
+            <marker date="1526898094437" expanded="true" signature="25882:25927" ph="..." />
+            <marker date="1526898094437" expanded="true" signature="25882:25945" ph="..." />
+            <marker date="1526898094437" expanded="true" signature="27375:27438" ph="..." />
+            <marker date="1526898094437" expanded="true" signature="27375:27454" ph="..." />
           </folding>
         </state>
       </provider>

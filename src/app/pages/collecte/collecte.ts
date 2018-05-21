@@ -136,7 +136,6 @@ export class CollectePage implements OnInit {
     }
 
 
-
     OnProjetSelect(){
         this.OnProvinceSelect(this._province);
         this.status = null;
@@ -158,10 +157,15 @@ export class CollectePage implements OnInit {
         this._province = 0;
         this._commune = 0
     }
+    lastProvince
     OnProvinceSelect(id){
+        if(this.lastProvince && this.lastProvince != id ){
+            this._commune = 0
+        }
         this.perimetreservice.getCommune(id).then((data)=>{
             this.communelist = [];
-            this.communelist = data
+            this.communelist = data;
+            this.lastProvince = id
 
         },(err)=>{
             console.log('err fetching communes');
@@ -189,10 +193,13 @@ export class CollectePage implements OnInit {
                         let row = {
                             'collecte': element.id_collecte+'-'+element.numero,
                             'agent': element.agent.nom + ' ' + element.agent.prenom,
-                            'commune': this.communelist.find(x => x.id_commune == element.commune).name,
+                            'commune':element._commune.name,
                             'date': moment(new Date(element.createdAt)).format("YYYY-MM-DD à HH:mm"),
                             'id': element._id
                         };
+                        // if(this.communelist.length > 0){
+                        //     row['commune'] = this.communelist.find(x => x.id_commune == element.commune).name;
+                        // }
                         result.push(row)
 
         });
@@ -424,10 +431,13 @@ export class CollectePage implements OnInit {
       }
 
     getProjets(){
+        console.log('working')
         if(this.user.role == 'controleur'){
             console.log('im a controller');
         this.projetservice.getProjetsByController().then((data : any) =>{
             this.projets = data;
+            console.log('my data')
+            console.log(data)
             // this.region = data.perimetre.region;
             // this.province = data.perimetre.province;
             this.checkStorage();
@@ -512,9 +522,8 @@ export class CollectePage implements OnInit {
             }
         })
         let parcelles = this.Parcelles;
-        parcelles.bringToFront()
+        parcelles.bringToFront();
         map.on('overlayadd',function(e){
-            console.log(e);
             if(e.name == 'Supports' || e.name == 'Commune'){
                 e.layer.bringToBack();
                 parcelles.bringToFront()
@@ -525,6 +534,23 @@ export class CollectePage implements OnInit {
     Parcelles = new L.FeatureGroup();
     markers = new L.FeatureGroup();
 
+    LeafIcon = L.Icon.extend({
+        options: {
+            iconSize: [25, 42],
+            iconAnchor: [0, 0],
+            popupAnchor: [2, 0]
+        }
+    });
+    IconGreen = new this.LeafIcon({
+        iconUrl: "assets/marker-icon-green.png"
+    });
+
+    IconBlue = new this.LeafIcon({
+        iconUrl: 'assets/marker-icon.png'
+    });
+    IconRed = new this.LeafIcon({
+        iconUrl: 'assets/marker-icon-red.png'
+    });
     loadMapData(){
         this.Parcelles.clearLayers();
         this.markers.clearLayers();
@@ -559,21 +585,46 @@ export class CollectePage implements OnInit {
                     //     }
             }
         }
+        // let myIcon = L.icon({
+        //     iconUrl: 'assets/marker-icon.png',
+        //     iconSize: [32, 37],
+        //     iconAnchor: [16, 37],
+        //     popupAnchor: [0, -28]
+        // });
+
+
+        let that = this;
+
         this.Parcelles = new L.GeoJSON(features,{
-            onEachFeature:onEachFeature,style:{color:this.mapSettings.colorCollectes,fillcolor:this.mapSettings.colorCollectes},
+            onEachFeature:onEachFeature,
+            style:{color:this.mapSettings.colorCollectes,fillcolor:this.mapSettings.colorCollectes},
+            pointToLayer: function (feature, latlng) {
+                return L.marker(latlng, {icon: that.IconBlue});
+            },
         });
         let lastClickedLayer;
-        let that = this;
         function onEachFeature(feature,layer) {
             layer.on({
                 click: function (e) {
                     that.Parcelles.eachLayer((l) =>{
                         let lid_collecte = e.target.feature.properties.id_collecte;
                         let eid_collecte = l.feature.properties.id_collecte;
+                        // if(l instanceof L.Marker){
+                        //     l.setIcon(this.IconGreen);
+                        //     console.log('is marker')
+                        // }
                         if(lid_collecte === eid_collecte){
-                            l.setStyle({color:that.mapSettings.colorCollecte,fillColor:that.mapSettings.colorCollecte});
+                            if(l instanceof L.Marker){
+                                l.setIcon(that.IconGreen);
+                            }else{
+                                l.setStyle({color:that.mapSettings.colorCollecte,fillColor:that.mapSettings.colorCollecte});
+                            }
                         }else{
-                            l.setStyle({color:that.mapSettings.colorCollectes,fillColor:that.mapSettings.colorCollectes})
+                            if(l instanceof L.Marker){
+                                l.setIcon(that.IconBlue);
+                            }else{
+                                l.setStyle({color:that.mapSettings.colorCollectes,fillColor:that.mapSettings.colorCollectes})
+                            }
                         }
                     });
 
@@ -583,8 +634,12 @@ export class CollectePage implements OnInit {
                     //     that.Parcelles.resetStyle(lastClickedLayer)
                     // }
                     let layer = e.target;
+                    if(layer instanceof L.Marker){
+                        layer.setIcon(that.IconRed);
+                    }else{
+                        layer.setStyle({fillColor: that.mapSettings.colorSelection, color: that.mapSettings.colorSelection});
+                    }
                     // geojson[layer.feature.properties.id_collecte].setStyle({color:'green',fillcolor:'green'});
-                    layer.setStyle({fillColor: that.mapSettings.colorSelection, color: that.mapSettings.colorSelection});
                     lastClickedLayer = layer;
                     that.getData(feature.properties._id, feature.properties.numero);
 
@@ -609,21 +664,25 @@ export class CollectePage implements OnInit {
     instance;
     lastCollecte;
     getData(e,i){
-        if(this.lastCollecte && this.lastCollecte._id == e ){
-            this.sideBarData.collecte = this.keytovalues(this.lastCollecte.collecte[0].data[i-1]);
-            this.sideBarData.collecte.date_creation = moment(new Date(this.sideBarData.collecte.date_creation)).format("DD-MM-YYYY à HH:mm");
+        if(this.lastCollecte && this.lastCollecte._id == e && this.instance != i){
+            this.sideBarData.collecte = this.keytovalues({...this.lastCollecte.collecte[0].data[i-1]});
+
+                this.sideBarData.collecte.date_creation = moment(new Date(this.sideBarData.collecte.date_creation)).format("DD-MM-YYYY à HH:mm");
 
             this.instance = i;
         } else{
         this.collecteservice.getCollecte(e,false).then((data : any) =>{
 
             this.sideBarData = {'id':data.collecte.id_collecte,
-                'collecte':this.keytovalues(data.collecte.collecte[0].data[i-1]),
+                'collecte':this.keytovalues({...data.collecte.collecte[0].data[i-1]}),
                 'agent':data.collecte.agent,
                 'createdAt':moment(new Date(data.collecte.createdAt)).format("DD-MM-YYYY à HH:mm"),
-                'identification':this.keytovalues(data.collecte.exploitation),
                 '_id':data.collecte._id
             };
+            if(data.collecte.exploitation !== undefined && data.collecte.exploitation.formdata !== undefined){
+                this.sideBarData['identification'] = this.keytovalues(data.collecte.exploitation)
+            }
+
             this.sideBarData.collecte.date_creation = moment(new Date(this.sideBarData.collecte.date_creation)).format("DD-MM-YYYY à HH:mm");
             this.sidebar.open('home');
             this.instance = i;
@@ -640,7 +699,6 @@ export class CollectePage implements OnInit {
 
     keytovalues(p){
         let that = this
-
         Object.keys(p.formdata.data).forEach(key => {
             if(typeof p.formdata.data[key] === 'object' && p.formdata.data[key] !== null){
                 p.formdata.data[key] = truekeys(p.formdata.data,key)
@@ -710,10 +768,11 @@ export class CollectePage implements OnInit {
     supportMarkers = new L.FeatureGroup();
     communeMap = new L.GeoJSON();
     getSegments(){
-        this.collecteservice.getSupportByCommune(this._commune).then((data: any) =>{
+        let cid = this.projet.cid._id || this.projet.cid;
+        this.collecteservice.getSupportByCommune(this._commune,cid).then((data: any) =>{
             this.support.addData(data.support);
             this.communeMap.addData({"type":"Feature","properties":{},'geometry':data.commune});
-            this.support.setStyle({'color':this.mapSettings.colorSegments,'weight':2,'fillOpacity':0});
+            this.support.setStyle({'color':this.mapSettings.colorSegments,'weight':4,'fillOpacity':0});
             this.communeMap.setStyle({'color':this.mapSettings.colorCommune,'fillOpacity':0});
             let markers = this.supportMarkers;
             this.support.eachLayer((layer) =>{
@@ -864,11 +923,9 @@ export class CollectePage implements OnInit {
                 this.OnProvinceSelect(this._province);
             }
 
-            this.getProjets()
-            this.createMap()
-
-
         }
+        this.getProjets()
+        this.createMap()
 
 
 

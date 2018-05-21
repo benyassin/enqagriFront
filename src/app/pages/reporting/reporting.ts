@@ -194,12 +194,12 @@ export class ReportingPage implements OnInit {
                             'date': moment(new Date(element.createdAt)).format("DD-MM-YYYY à HH:mm"),
                             // 'id': element._id
                         };
-                        if(element.geo == true){
-                        if(fdata.gjson.hasOwnProperty('geometry')){
-                            fdata.gjson =fdata.gjson.geometry
-                        }
-                        }
-                        this.GeoData.features.push({"type":"Feature","properties":{numero:fdata.numero,collecte:element.numero,support:fdata.id_support},"geometry":fdata.gjson});
+                        // if(element.geo == true){
+                        // if(fdata.gjson.hasOwnProperty('geometry')){
+                        //     fdata.gjson =fdata.gjson.geometry
+                        // }
+                        // }
+                        // this.GeoData.features.push({"type":"Feature","properties":{numero:fdata.numero,collecte:element.numero,support:fdata.id_support},"geometry":fdata.gjson});
 
                         if(order[0] !== 'id_echantillon'){
                             order.reverse();
