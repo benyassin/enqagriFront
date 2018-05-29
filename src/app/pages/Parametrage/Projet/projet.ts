@@ -247,13 +247,12 @@ export class ProjetPage implements OnInit  {
 
     getRegions(){
     this.perimetreservice.getRegions().then((data) => {
-        let regions = []
-        for(var key in data){
+        let regions = [];
+        for(let key in data){
             regions.push({'id': data[key].id_region,'itemName': data[key].name,'_id':data[key]._id})
         }
-        this.list_regions = regions
-        console.log(regions)
-        let array :any  = []
+        this.list_regions = regions;
+        let array :any  = [];
         if(this.projet['perimetre']){
         this.projet['perimetre'].region.forEach(element => {
             let object = {'id': element.id_region,'itemName': element.name,'_id':element._id}
@@ -264,6 +263,7 @@ export class ProjetPage implements OnInit  {
         this.projet.regions = array
     }, (err) => {
       console.log("can't retreive regions ");
+      console.log(err)
     });
     }
     _listprovinces = [];
@@ -685,14 +685,14 @@ export class ProjetPage implements OnInit  {
         this.forms_selected.forEach(element => {
             // this.getfields(element)
         });
-        let array = []
         if(this.projet !== null && this.projet.edit == false){
-            this.RegionSettings['disabled'] = true
-            this.ProvinceSettings['disabled'] = true
+            this.RegionSettings['disabled'] = true;
+            this.ProvinceSettings['disabled'] = true;
             this.editable = true
         }
-        console.log('array')
-        console.log(array)
+        console.log('perimetre');
+        console.log(this.projet.perimetre);
+        console.log(this.projetservice.Projet);
         this.projet['provinces'] = this.projet['perimetre'].province
     }else{
         this.projet.validation = {}

@@ -13,11 +13,12 @@ import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 import {forEach} from '@angular/router/src/utils/collection';
 import { saveAs } from 'file-saver';
 import { HttpClient } from '../../services/Http-client'
-import { Http } from '@angular/http';
+import { Http,RequestOptions } from '@angular/http';
 declare const L:any;
 import 'leaflet'
 import 'leaflet-sidebar-v2'
 import 'leaflet-fullscreen';
+import * as url from "url";
 
 @Component({
     selector: 'Collecte',
@@ -28,7 +29,10 @@ import 'leaflet-fullscreen';
 
 export class CollectePage implements OnInit {
     public status: null;
+
+
     constructor(
+
         private perimetreservice:PerimetreService,
         private collecteservice:CollecteService,
         private projetservice:ProjetService,
@@ -65,6 +69,7 @@ export class CollectePage implements OnInit {
 
 
 
+
     compareById(obj1, obj2) {
         if(localStorage.getItem('storage') !== null && obj1 !== null && obj2 !== null){
         return obj1._id === obj2._id;
@@ -87,7 +92,7 @@ export class CollectePage implements OnInit {
     };
     settingss = {
         columns: {
-            id:{
+            id_collecte:{
                 title:'ID',
                 valuePrepareFunction: (cell,row) => {
                     return row.id_collecte+'-'+row.numero
@@ -97,13 +102,22 @@ export class CollectePage implements OnInit {
                 title:'Agent',
                 valuePrepareFunction: (agent) => {
                     return agent.nom +' '+agent.prenom;
-                }
+                },
+                filter: false
             },
+            // commune:{
+            //     title:'Commune',
+            //     valuePrepareFunction: (cell,row) => {
+            //         return row._commune.name
+            //     }
+            // },
             createdAt: {
                 title: 'Date Synchronisation',
                 valuePrepareFunction: (createdAt) => {
                     return moment(new Date(createdAt)).format("DD-MM-YYYY à HH:mm");
-                }
+                },
+                filter: false
+
             }
         },
         actions:{
@@ -114,7 +128,7 @@ export class CollectePage implements OnInit {
             position: 'left'
         },
         pager:{
-            perPage:5
+            perPage:20
         },
         noDataMessage:' '
     };
@@ -134,9 +148,17 @@ export class CollectePage implements OnInit {
     exportGeoData(){
         saveAs(new Blob(['hello world'], { type: "text" }), 'data.txt');
     }
-
+    agents_list = [];
+    getAgents(){
+        this.userservice.getAgentsByPerimetre().then((data : any) =>{
+            this.agents_list = data
+        },(err) =>{
+            console.log(err)
+        })
+    }
 
     OnProjetSelect(){
+
         this.OnProvinceSelect(this._province);
         this.status = null;
         if(this.user.role == 'superviseurR'){
@@ -151,6 +173,7 @@ export class CollectePage implements OnInit {
             this._province = 0;
             this._commune = 0
         }
+        this.getAgents()
 
     }
     OnRegionSelect(){
@@ -266,12 +289,42 @@ export class CollectePage implements OnInit {
         province:0
     }
     showmap = false
+    newSearch(projet,status,args){
+        this.dataload = true;
+        let niveau = 0;
+        if(this.user.role == 'controleur'){
+            this.index = this.projet.validation[args.region].findIndex(x => x.agent==this.user._id);
+            niveau = this.index
+        }else if(this.user.role == 'superviseurP'){
+            args.region = this.user.perimetre.region.id_region;
+            args.province = this.user.perimetre.province.id_province;
+            this.index = this.projet.niveau -1;
+            if(status == 'valid' || status == 'reject'){
+                niveau = this.index
+            }
+        }
+        for (let key in args) {
+            if (args[key] == 0 || args[key] == null || args[key] == '') delete args[key];
+        }
+        args.niveau = niveau;
+        args.status = status
+
+        let path = 'http://localhost/api/collectes/serverside/test/'+ projet._id;
+        const requestURL =  url.format({
+            pathname: path,
+            query: args
+        });
+
+        this.sources = new ServerDataSource(this.http,{endPoint:requestURL,dataKey:'docs',totalKey:'total'});
+        this.testload = false;
+        this.dataload = false;
+    }
+
     search(projet,status,region,province,commune,filtre,valeur){
         this.dataload = true;
         this.showmap = true;
-        // this.sources = new ServerDataSource(this.http,{endPoint:'http://localhost/api/collectes/serverside/test/5acb7f03c4fb5b1ae8438670?region='+region,dataKey:'docs',totalKey:'total'});
-        //
-        // this.testload = false;
+        this.sources = new ServerDataSource(this.http,{endPoint:'http://localhost/api/collectes/serverside/test/5acb518459a439348c61d097?region='+region,dataKey:'docs',totalKey:'total'});
+        this.testload = false;
 
     this.hide = false;
     this.anass = {theme:projet.theme,name:projet.name};
@@ -356,7 +409,7 @@ export class CollectePage implements OnInit {
             case 'all':
                 this.collecteservice.getCollectesByProjet(projet._id,0,'all',region,province,commune).then((data : any) => {
                     this.collectes = data.collectes;
-                    this.filtreData(data.order,data.collectes)
+                    this.filtreData(data.order,data.collectes);
                     if(typeof commune !== "undefined" && commune !== null && commune != 0){
                         console.log('debug');
                         console.log(commune);
@@ -556,6 +609,7 @@ export class CollectePage implements OnInit {
         this.markers.clearLayers();
         this.support.clearLayers();
         this.communeMap.clearLayers();
+        this.supportMarkers.clearLayers();
         if(this.collectes.length == 0){
             return
         }
@@ -792,6 +846,8 @@ export class CollectePage implements OnInit {
                 markers.addLayer(marker,{interactive: false})
 
             });
+            this.support.addTo(this.map);
+            this.communeMap.addTo(this.map);
             // this.supportMarkers.addTo(this.map);
 
             if(this.map.hasLayer(this.communeMap)){

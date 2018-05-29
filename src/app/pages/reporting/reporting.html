@@ -131,7 +131,7 @@
         </div>
         <div *ngIf="!dataload" class="panel panel-success">
             <button class="btn btn-primary" (click)="exportData()"><i class="fa fa-file-excel"></i> Export</button>
-            <button class="btn btn-primary" (click)="exportGeoData()"><i class="fa fa-file-excel"></i> Export Geo</button>
+            <button class="btn btn-primary" (click)="exportGeo(projet,{projet:projet._id,region:_region,province:_province,commune:_commune})"><i class="fa fa-file-excel"></i> Export Geo</button>
 
             <div class="panel-body">
                 <!-- <ng2-smart-table *ngIf="!loading" [settings]="settings" [source]="collectes"></ng2-smart-table> -->

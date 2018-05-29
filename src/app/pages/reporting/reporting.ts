@@ -101,7 +101,6 @@ export class ReportingPage implements OnInit {
     }
     export(projet,args){
         for (let key in args) {
-            console.log(args[key]);
             if (args[key] == 0 || args[key] == null || args[key] == '') delete args[key];
         }
         this.collecteservice.exportData(projet._id,args).then((data : any)=>{
@@ -234,7 +233,6 @@ export class ReportingPage implements OnInit {
                                 }
                             }
                             if(api.type == 'filtre'){
-                                console.log(api);
                                 if(fdata.formdata.data[api.field.key]){
                                     row[api.field.key] = fdata.formdata.data[api.field.key]
 
@@ -286,7 +284,6 @@ export class ReportingPage implements OnInit {
                 }
                 let sum = 0;
                 let count = 0;
-                console.log(key);
                 for(let i = 0; i < data.length; i++) {
                     if(data[i][k] != '-') {
                         sum += (data[i][k]);
@@ -361,7 +358,6 @@ export class ReportingPage implements OnInit {
                 region = this.user.perimetre.region.id_region;
                 province = this.user.perimetre.province.id_province
             }
-            console.log(status);
             this.index = this.projet.niveau -1;
             switch(status){
                 case 'valid' :

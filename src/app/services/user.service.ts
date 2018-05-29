@@ -89,6 +89,20 @@ export class UserService {
       
        }
 
+       getAgentsByPerimetre(){
+
+         return new Promise((resolve, reject) => {
+           this.http.get('users/agents/perimetre')
+             .map(res => res.json())
+             .subscribe(data => {
+               resolve(data);
+             }, (err) => {
+               reject(err);
+             });
+         });
+
+       }
+
   getControlleurs(){
   
     return new Promise((resolve, reject) => {
