@@ -37,6 +37,23 @@ getCollectes(){
 
 }
 
+getMapCollectes(request,projet){
+    let path = 'collectes/serverside/test/'+ projet;
+    const requestURL =  url.format({
+        pathname: path,
+        query: request
+    });
+        return new Promise((resolve, reject) =>{
+            this.http.get(requestURL)
+                .map(res => res.json())
+                .subscribe(data => {
+                    resolve(data);
+                }, (err) => {
+                    reject(err);
+                });
+        })
+}
+
 getCollectesByProjet(id,niveau,status,region,province,commune){
     if(typeof region == "undefined" || region == null){
         region = 0

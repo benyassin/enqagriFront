@@ -26,6 +26,8 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { Ng4FilesModule } from 'angular4-files-upload';
 import { FileUploadModule } from 'ng2-file-upload';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { MyDateRangePickerModule } from 'mydaterangepicker';
+
 
 
 
@@ -197,9 +199,10 @@ import { RegisterV3Page }           from './pages/user/register-v3/register-v3';
 
 // Helper
 import { HelperCssPage }        from './pages/helper/helper-css/helper-css';*/
+import { Daterangepicker} from 'ng2-daterangepicker';
 
 @NgModule({
-    imports:        [ColorPickerModule,FileUploadModule,Ng4FilesModule,FormioModule,Ng2SmartTableModule,ChartsModule,MomentModule,AngularMultiSelectModule,Select2Module,Ng2Permission,MessagesModule,ConfirmDialogModule,HttpModule, BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule ],
+    imports:        [Daterangepicker,MyDateRangePickerModule,ColorPickerModule,FileUploadModule,Ng4FilesModule,FormioModule,Ng2SmartTableModule,ChartsModule,MomentModule,AngularMultiSelectModule,Select2Module,Ng2Permission,MessagesModule,ConfirmDialogModule,HttpModule, BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule ],
     declarations:   [ 
         AppComponent,
         HeaderComponent, 
