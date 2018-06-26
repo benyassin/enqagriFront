@@ -19,19 +19,20 @@ export class UserService {
     user = JSON.parse(localStorage.getItem('user'));
     // return list des utilisateur , 
     //TODO : validation et traitement du return 
-    getUsers(){
-        
-           return new Promise((resolve, reject) => {
-             this.http.get('users/')
-               .map(res => res.json())
-               .subscribe(data => {
-                 resolve(data);
-               }, (err) => {
-                 reject(err);
-               });
-           });
-        
-         }
+    getUsers() {
+
+        return new Promise((resolve, reject) => {
+            this.http.get('users/')
+                .map(res => res.json())
+                .subscribe(data => {
+                    resolve(data);
+                }, (err) => {
+                    reject(err);
+                });
+        });
+
+    }
+
     getUser(id){
       return new Promise((resolve,reject) => {
             this.http.get('users/' + id)
@@ -42,7 +43,6 @@ export class UserService {
                  reject(err);
                });
            });
-        
     }
     
          // Créer un noveau utilisateur return une promise 
@@ -55,7 +55,7 @@ export class UserService {
               .subscribe(res => {
                 resolve(res);
               }, (err:Response) => {
-              let details = err.json()
+              let details = err.json();
               reject(details)  
           });
       
@@ -89,10 +89,10 @@ export class UserService {
       
        }
 
-       getAgentsByPerimetre(){
+       getAgentsByPerimetre(id){
 
          return new Promise((resolve, reject) => {
-           this.http.get('users/agents/perimetre')
+           this.http.get('users/agents/perimetre/'+id)
              .map(res => res.json())
              .subscribe(data => {
                resolve(data);

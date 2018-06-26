@@ -52,7 +52,11 @@ export class CollectePage implements OnInit {
         private daterangepickerOptions: DaterangepickerConfig,
     ){
         this.daterangepickerOptions.settings = {
-            locale: {format: 'YYYY-MM-DD'},
+            locale: {
+                format: 'YYYY-MM-DD',
+                cancelLabel: 'Réinitialiser',
+                applyLabel: "Valider"
+            },
         }
     }
     @ViewChild(DaterangePickerComponent)
@@ -82,11 +86,27 @@ export class CollectePage implements OnInit {
     csv;
     communelist;
     mapSettings;
-
-    public selectedDate(value: any,range) {
-        moment(new Date(value.start)).format('DD-MM-YYYY');
-        console.log(moment(new Date(value.start)).format('DD-MM-YYYY'));
+    filtreDate : any = null
+    public selectedDate(value: any) {
+        let startDate = moment(new Date(value.start)).format('YYYY-MM-DD');
+        let endDate   = moment(new Date(value.end)).format('YYYY-MM-DD');
+        this.filtreDate = startDate +' - '+endDate;
     }
+     cancelDate(e:any) {
+        // e.event
+        // e.picker
+         let today = moment(new Date()).format('YYYY-MM-DD');
+         let date;
+         if(this.projet){
+             date = moment(new Date(this.projet.createdAt)).format('YYYY-MM-DD');
+         }else{
+             date = today
+         }
+        this.picker.datePicker.setStartDate(date);
+        this.picker.datePicker.setEndDate(today);
+         this.filtreDate = date +' - '+today;
+
+     }
 
 
 
@@ -111,6 +131,7 @@ export class CollectePage implements OnInit {
         noDataMessage:' '
     };
     settingss = {
+        noDataMessage:"Aucune collecte ne correspond à vos critères de recherche",
         columns: {
             id_collecte:{
                 title:'ID',
@@ -153,7 +174,6 @@ export class CollectePage implements OnInit {
         pager:{
             perPage:20
         },
-        noDataMessage:' '
     };
 
     exportData(){
@@ -173,8 +193,8 @@ export class CollectePage implements OnInit {
         saveAs(new Blob(['hello world'], { type: 'text' }), 'data.txt');
     }
     agents_list = [];
-    getAgents(){
-        this.userservice.getAgentsByPerimetre().then((data : any) =>{
+    getAgents(id){
+        this.userservice.getAgentsByPerimetre(id).then((data : any) =>{
             this.agents_list = data
         },(err) =>{
             console.log(err)
@@ -200,15 +220,31 @@ export class CollectePage implements OnInit {
             this._province = 0;
             this._commune = 0
         }
-        this.getAgents()
+        this.communelist = [];
+        this.getAgents(this.projet._id)
 
     }
     OnRegionSelect(){
         this._province = 0;
-        this._commune = 0
+        this._commune = 0;
+        this._agent = 0;
+        this.communelist = []
     }
     lastProvince
     OnProvinceSelect(id){
+
+        this._agent = 0
+        this.perimetreservice.getCommune(id).then((data)=>{
+            this.communelist = [];
+            this.communelist = data;
+            this.lastProvince = id
+
+        },(err)=>{
+            console.log('err fetching communes');
+            console.log(err)
+        })
+    }
+    getCommunes(id){
         if(this.lastProvince && this.lastProvince != id ){
             this._commune = 0
         }
@@ -354,7 +390,7 @@ export class CollectePage implements OnInit {
         args.niveau = niveau;
         args.status = status;
 
-        let path = 'http://localhost/api/collectes/serverside/test/'+ projet._id;
+        let path = location.protocol+'//'+location.hostname+'/api/'+'/collectes/serverside/test/'+ projet._id;
         const requestURL =  url.format({
             pathname: path,
             query: args
@@ -366,21 +402,23 @@ export class CollectePage implements OnInit {
         if(args.commune){
             this.collecteservice.getMapCollectes(args,projet._id).then((data : any) => {
                 this.collectes = data.docs;
-                this.loadMapData();
-                this.showmap = false;
+                if(data.docs.length > 0){
+                    this.loadMapData();
+                    this.showmap = false;
+                }
             },(err) =>{
                 console.log(err)
             })
         }
         if(this.projet !== null){
-            localStorage.setItem('storage',JSON.stringify({'projet':this.projet,'status':status,'region':args.region,'province':args.province,'commune':args.commune}));
+            localStorage.setItem('storage',JSON.stringify({'projet':this.projet,'status':status,'region':args.region,'province':args.province,'commune':args.commune,'agent':args.agent,'date':args.date}));
         }
     }
 
     search(projet,status,region,province,commune,filtre,valeur){
         this.dataload = true;
         this.showmap = true;
-        this.sources = new ServerDataSource(this.http,{endPoint:'http://localhost/api/collectes/serverside/test/5acb518459a439348c61d097?region='+region,dataKey:'docs',totalKey:'total'});
+        this.sources = new ServerDataSource(this.http,{endPoint:location.protocol+'//'+location.hostname+'/api/'+'/collectes/serverside/test/5acb518459a439348c61d097?region='+region,dataKey:'docs',totalKey:'total'});
         this.testload = false;
 
     this.hide = false;
@@ -541,10 +579,11 @@ export class CollectePage implements OnInit {
         this._value = null
         this._formulaire = null
         this._commune = null
+        this.communelist = []
         let today = moment(new Date()).format('YYYY-MM-DD');
         this.picker.datePicker.setStartDate(today);
         this.picker.datePicker.setEndDate(today);
-
+        this.filtreDate = null
       }
 
     getProjets(){
@@ -579,7 +618,6 @@ export class CollectePage implements OnInit {
     }
 
     checkStorage(){
-        console.log('im here');
         if(localStorage.getItem('storage') != null){
             let data = JSON.parse(localStorage.getItem('storage'));
             this.projet = data.projet;
@@ -587,23 +625,41 @@ export class CollectePage implements OnInit {
             this._province = data.province;
             this._region = data.region;
             this._commune = data.commune;
+            this._agent = data.agent;
+            this.filtreDate = data.date;
             if(data.province){
-                this.OnProvinceSelect(data.province);
+                this.getCommunes(this._province)
             }
-            this.user.role == 'agent'?this._agent = this.user._id:0;
-
+            if(data.agent == undefined){
+                if(this.user.role == 'agent'){
+                    this._agent = this.user._id
+                }else{
+                    this._agent = 0
+                }
+            }
+            if(data.date){
+                let filtre = data.date.split(/(\s+)/);
+                this.picker.datePicker.setStartDate(filtre[0]);
+                this.picker.datePicker.setEndDate(filtre[4]);
+            }else{
+                let date = moment(new Date(this.projet.createdAt)).format('YYYY-MM-DD');
+                this.picker.datePicker.setStartDate(date);
+            }
+            console.log(this._agent)
+            this.getAgents(this.projet._id);
             this.newSearch(this.projet,this.status,
                 {region:this._region,
                     province:this._province,
                     commune:this._commune,
-                    agent:this._agent
+                    agent:this._agent,
+                    date:this.filtreDate,
                 });
-            let date = moment(new Date(this.projet.createdAt)).format('YYYY-MM-DD');
-            this.picker.datePicker.setStartDate(date);
+
+
+
         }
     }
     sidebar
-    controllayer
     createMap(){
         this.map = new L.Map('map').setView([0,0],3);
         L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
@@ -961,30 +1017,6 @@ export class CollectePage implements OnInit {
             console.log(err)
         })
     }
-    calculate(data,formule){
-        let result;
-        if(data[formule.variables[0]] && data[formule.variables[1]]){
-            switch (formule.operateur) {
-                case '+':
-                    result = data[formule.variables[0]] + data[formule.variables[1]];
-                    break;
-                case '-':
-                    result = data[formule.variables[0]] - data[formule.variables[1]];
-                    break;
-                case '*':
-                    result = data[formule.variables[0]] * data[formule.variables[1]];
-                break;
-                case '/':
-                    result = data[formule.variables[0]] / data[formule.variables[1]];
-                break;
-                default:
-                    break;
-            }
-            return result
-        }else {
-            return '-'
-        }
-    }
     saveColorsSettings(){
         localStorage.setItem('mapsettings',JSON.stringify(this.mapSettings))
     }
@@ -1002,27 +1034,11 @@ export class CollectePage implements OnInit {
     }
     _status:Array<Object>;
     ngOnInit(){
-        let colorsettings = localStorage.getItem('mapsettings');
-        if(colorsettings != null){
-            this.mapSettings = JSON.parse(colorsettings)
-        }else{
-            this.mapSettings = {
-                colorCollectes:'#0000FF',
-                colorCollecte:'#008000',
-                colorSelection:'#FF0000',
-                colorSegments:'#FFFF00',
-                colorTextCollecte:'#FFFF00',
-                colorTextSegments:'#000000',
-                colorCommune:'#FFFFFF'
-
-
-            };
-        }
-
-        this.showmap =true
 
         this.user = JSON.parse(localStorage.getItem('user'));
-
+        if(this.user.role == 'agent'){
+            this._agent = this.user._id
+        }
         if(this.user.role == 'controleur'){
             this._status = [
                 {name:'Validé', value:'valid'},
@@ -1042,9 +1058,6 @@ export class CollectePage implements OnInit {
                 console.log('my role is admin');
                 this._region = this.user.perimetre.region.id_region
             }
-            if(this.user.role == 'agent'){
-                this._agent = this.user._id
-            }
             if(this.user.role == 'superviseurP' || this.user.role == 'agent'){
                 this._province = this.user.perimetre.province.id_province;
                 this._region = this.user.perimetre.region.id_region;
@@ -1054,8 +1067,25 @@ export class CollectePage implements OnInit {
 
 
         }
+        let colorsettings = localStorage.getItem('mapsettings');
+        if(colorsettings != null){
+            this.mapSettings = JSON.parse(colorsettings)
+        }else{
+            this.mapSettings = {
+                colorCollectes:'#0000FF',
+                colorCollecte:'#008000',
+                colorSelection:'#FF0000',
+                colorSegments:'#FFFF00',
+                colorTextCollecte:'#FFFF00',
+                colorTextSegments:'#000000',
+                colorCommune:'#FFFFFF'
 
-        this.getAgents();
+
+            };
+        }
+
+        this.showmap =true
+
         this.getProjets();
         this.createMap()
 

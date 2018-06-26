@@ -45,16 +45,17 @@
                         <option *ngFor="let c of communelist" [ngValue]="c.id_commune">{{c.name}}</option>
                     </select>
                 </div>
-                <div class="form-group col-md-3">
+                <div [hidden]="user.role == 'agent'" class="form-group col-md-3">
                     <label> Agents :</label>
-                    <select [disabled]="user.role == 'agent'" [(ngModel)]='_agent' name="agent" class="form-control">
+                    <select  [(ngModel)]='_agent' name="agent" class="form-control">
                         <option value=0></option>
-                        <option [hidden]="a?.perimetre?.region != _region && _region != 0 || a?.perimetre?.province != _province && _province != 0" *ngFor="let a of agents_list" [ngValue]="a._id">{{a.nom}} {{a.prenom}}</option>
+                        <option [hidden]="a?.perimetre?.region != _region && _region != 0 && _region != undefined|| a?.perimetre?.province != _province && _province != 0 && _province != undefined" *ngFor="let a of agents_list" [ngValue]="a._id">{{a.nom}} {{a.prenom}}</option>
                     </select>
                 </div>
                 <div class="form-group col-md-3">
                     <label> Date :</label>
-                    <input  class="form-control" type="text" name="daterangeInput" daterangepicker (selected)="selectedDate($event, daterange)" />
+                    <input  class="form-control" type="text" name="daterangeInput" daterangepicker (selected)="selectedDate($event)" (cancelDaterangepicker)="cancelDate($event)"
+                    />
                     <!--<my-date-range-picker name="mydaterange" [options]="myDateRangePickerOptions" [(ngModel)]="selectedDate" required></my-date-range-picker>-->
                 </div>
 
@@ -67,8 +68,9 @@
             {region:_region,
             province:_province,
             commune:_commune,
-            agent:_agent
-            })"><i class="fa fa-search fa-lg" aria-hidden="true"></i>(new) Recherche</button>
+            agent:_agent,
+            date:filtreDate
+            })"><i class="fa fa-search fa-lg" aria-hidden="true"></i>Recherche</button>
             <button class="btn btn-danger" (click)="reset()"><i class="fa fa-undo fa-lg" aria-hidden="true"></i> Reinitialiser</button>
 
             <!--<button class="btn btn-danger" (click)="loadMapData()">Map</button>-->
