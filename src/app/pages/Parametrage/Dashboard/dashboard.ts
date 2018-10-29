@@ -26,6 +26,7 @@ export class DashboardPage implements OnInit {
     msgs  : any = [];
     user = this.userservice.user
     disable : any = []
+    isChecked : any = false;
     getForms(){
 
         this.formservice.getForms().then((data) => {
@@ -167,10 +168,22 @@ export class DashboardPage implements OnInit {
         {name: "Complementaire",value:"complementaire"},
         {name: "Sans Theme",value: "sanstheme"}
     ]
-    test(){
-
+    toggle(projet){
+        this.projetservice.toggleProjet(projet.id).then((res) =>{
+            console.log(res)
+        },(err) => {
+            console.log(err)
+        })
 
     }
+    checkValue(projet){
+        this.projetservice.toggleProjet(projet._id).then((res) =>{
+            projet.archived = !projet.archived
+            console.log(res)
+        },(err) => {
+            console.log(err)
+        })
+      }
     ngOnInit(){
         window.dispatchEvent(new CustomEvent('ui-widget-boxes-ready'));
         window.dispatchEvent(new CustomEvent('init-component'));

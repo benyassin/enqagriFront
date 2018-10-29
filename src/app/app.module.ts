@@ -28,15 +28,6 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { MyDateRangePickerModule } from 'mydaterangepicker';
 
-
-
-
-
-
-
-
-
-
 import { HttpClient } from './services/Http-client'
 
 import { AuthGuard } from './guard/auth.guard';

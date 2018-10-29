@@ -86,7 +86,7 @@ export class CollectePage implements OnInit {
     csv;
     communelist;
     mapSettings;
-    filtreDate : any = null
+    filtreDate : any = null;
     public selectedDate(value: any) {
         let startDate = moment(new Date(value.start)).format('YYYY-MM-DD');
         let endDate   = moment(new Date(value.end)).format('YYYY-MM-DD');

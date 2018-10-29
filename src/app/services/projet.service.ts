@@ -120,5 +120,18 @@ export class ProjetService {
 
     }
 
+    toggleProjet(id){
+        return new Promise((resolve, reject) => {
+            this.http.get('projets/'+ id +'/toggle')
+                .map(res => res.json())
+                .subscribe(data => {
+                    resolve(data);
+                },(err) =>{
+                    reject(err)
+                }
+            )
+        })
+    }
+
  
 }
