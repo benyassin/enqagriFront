@@ -16,7 +16,7 @@
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
-                <li (click)="getData(p)" *ngFor="let p of projets"><a>{{p?.name}}</a></li>
+                <li [hidden]="p.archived" (click)="getData(p)" *ngFor="let p of projets"><a>{{p?.name}}</a></li>
             </ul>
         </div>
         <h4 class="panel-title">{{title || 'Chargement...'}}</h4>

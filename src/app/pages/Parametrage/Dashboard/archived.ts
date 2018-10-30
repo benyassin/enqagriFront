@@ -3,16 +3,16 @@ import { FormService } from '../../../services/form.service'
 import { ProjetService } from '../../../services/projet.service'
 import { UserService } from '../../../services/user.service'
 import { Router } from '@angular/router';
-import {ConfirmDialogModule,ConfirmationService} from 'primeng/primeng';
+import {ConfirmDialogModule, ConfirmationService} from 'primeng/primeng';
 import * as _ from "lodash";
 @Component({
-    selector: 'Dashboard',
-    templateUrl: './dashboard.html',
+    selector: 'Archived',
+    templateUrl: './archived.html',
     styleUrls: ['./dashboard.css']
 })
 
 
-export class DashboardPage implements OnInit {
+export class ArchivedPage implements OnInit {
     constructor(
                 private formservice:FormService,
                 private projetservice:ProjetService,
@@ -41,7 +41,6 @@ export class DashboardPage implements OnInit {
     
     getProjets(){
         let that = this
-        console.log('//trigger//')
         this.projetservice.getProjets().then((data) => {
                 console.log(data)
                 this.projets = data
@@ -186,9 +185,8 @@ export class DashboardPage implements OnInit {
         })
       }
     archiveProjet(projet) {
-        this.projetservice.toggleArchive(projet._id).then((res) => {
+        this.projetservice.toggleArchive(projet._id).then((res) =>{
             projet.archived = !projet.archived
-            // this.getProjets()
             console.log(res)
         }, (err) => {
             console.log(err)
@@ -197,7 +195,7 @@ export class DashboardPage implements OnInit {
     ngOnInit(){
         window.dispatchEvent(new CustomEvent('ui-widget-boxes-ready'));
         window.dispatchEvent(new CustomEvent('init-component'));
-        if(this.user.role == 'admin') {
+        if(this.user.role == 'admin'){
             this.getForms();
             this.getProjets();
 

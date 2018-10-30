@@ -51,6 +51,7 @@ import { LoginPage }                from './pages/user/login/login';
 
 //Parametrage
 import { DashboardPage }            from './pages/Parametrage/Dashboard/dashboard';
+import { ArchivedPage }               from './pages/Parametrage/Dashboard/archived';
 import { FormulairePage }                 from './pages/Parametrage/Formulaire/formulaire';
 import { BlocPage }                       from './pages/Parametrage/Bloc/bloc';
 import { FormPluginsPage }          from './pages/form-stuff/form-plugins/form-plugins';
@@ -211,6 +212,7 @@ import { Daterangepicker} from 'ng2-daterangepicker';
         FormPluginsPage,
         LoginPage,
         UtilisateurPage,
+        ArchivedPage,
         ProfilePage,
         DashboardPage,
         LowerCaseTextDirective,
@@ -231,7 +233,7 @@ import { Daterangepicker} from 'ng2-daterangepicker';
         ButtonRenderComponent,
         ImportPage,
     ],
-    providers: [ Title,ReportingService,CollecteService,ProjetService, AuthenticationService,ConfirmationService , FormService, UserService,BlocService,PerimetreService, HttpClient, AuthGuard],
+    providers: [ Title,ReportingService,CollecteService,ProjetService, AuthenticationService,ConfirmationService, FormService, UserService,BlocService,PerimetreService, HttpClient, AuthGuard],
     bootstrap: [ AppComponent ]
 })
 

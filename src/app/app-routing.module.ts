@@ -17,7 +17,8 @@ import { AuthGuard }              from './guard/auth.guard'
 import { UtilisateurPage }        from './pages/utilisateur/dashboard';
 import { CreationUtilisateurPage } from './pages/utilisateur/utilisateur'
 import { testProjetPage }               from './pages/Parametrage/Projet/inspect';
-import { ProfilePage }              from './pages/utilisateur/profile'
+import { ProfilePage }              from './pages/utilisateur/profile';
+import { ArchivedPage }             from './pages/Parametrage/Dashboard/archived';
 
 import { ReportingPage }          from './pages/reporting/reporting'
 
@@ -143,6 +144,8 @@ const routes: Routes = [
     { path: 'user/login', component: LoginPage, data: { title: 'Login'} },
     
     { path: 'Parametrage/Enquete',component: ProjetPage, data: {title: 'Enquête'},canActivate:[AuthGuard]},
+    { path: 'Parametrage/Archived',component: ArchivedPage, data: {title: 'Archived'},canActivate:[AuthGuard]},
+    
     { path: 'Parametrage/Enquete/inspect', component: testProjetPage, data: { title: 'Inspect'},canActivate: [AuthGuard]},
     { path: 'Parametrage/Parametrage',component: DashboardPage, data:{title: 'Gestion des Enquêtes'},canActivate: [AuthGuard]},
     { path: 'Parametrage/Questionnaire', component: FormulairePage, data: { title: 'Questionnaire'},canActivate: [AuthGuard]},

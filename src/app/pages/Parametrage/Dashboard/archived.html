@@ -1,0 +1,43 @@
+<div  *ngIf="user.role == 'admin'" class="panel panel-success">
+        <div class="panel-heading">
+            <div class="panel-heading-btn">
+                <a type="button" class="btn btn-primary btn-xs" (click)="newProjet()">Nouvelle Enquête</a>
+            </div>
+            <h4 class="panel-title">Enquêtes</h4>
+        </div>
+        
+        <div class="panel-body">
+            <table class="table table-striped table-bordered text-center">
+                <thead>
+                    <tr>
+                        <!-- <th>_id</th> -->
+                        <th>Nom</th>
+                        <th>Type</th>
+                        <th>Questionnaires</th>
+                        <!-- <th>Activer</th> -->
+                        <th>archived</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let projet of projets | values" [hidden]="!projet.archived">
+                        <!-- <td>{{ projet._id}}</td> -->
+                        <td>{{projet.name}}</td>
+                        <td *ngIf="projet.theme == 'pillier1'">Pilier I</td>
+                        <td *ngIf="projet.theme == 'pillier2'">Pilier II</td>
+                        <td *ngIf="projet.theme == 'financier'">Projet Financier</td>
+                        <td *ngIf="projet.theme !== 'financier' && projet.theme !== 'pillier1' && projet.theme !== 'pillier2'">{{ projet.theme}}</td>                            
+                        <td>{{ projet.forms.length}}</td>
+                        <!-- <td><div class="material-switch">
+                            <input name="isChecked" type="checkbox" [checked]="projet.is_active"/>
+                           <label for="someSwitchOptionDanger" class="label-danger" (click)="checkValue(projet._id)"></label>
+                        </div></td> -->
+                        <td>{{projet.archived}}</td>
+                        <td>
+                        <button type="button" (click)="archiveProjet(projet)" class="btn btn-warning btn-xs"><i class="fa fa-archive"></i>  Désarchivage</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>

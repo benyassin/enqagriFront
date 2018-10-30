@@ -18,7 +18,6 @@ export class ProjetService {
 
     createProjet(Projet){
         return new Promise((resolve, reject) => {
-                        
             this.http.post('projets/', JSON.stringify(Projet))
                 .map(res => res.json())
                 .subscribe(res => {
@@ -27,7 +26,7 @@ export class ProjetService {
                     let details = err.json()
                     reject(details)  
                 });
-              
+
             });
       }
     getProjet(id){
@@ -79,8 +78,8 @@ export class ProjetService {
 
     }
 
-    
-    deleteProjet(id){
+
+    deleteProjet(id) {
         return new Promise((resolve, reject) => {
 
             this.http.delete('projets/'+id)
@@ -89,7 +88,7 @@ export class ProjetService {
                   resolve(res);
                 },(err:Response) => {
                     let details = err.json();
-                    reject(details)                   
+                    reject(details)
                 })
             });
         }
@@ -105,7 +104,7 @@ export class ProjetService {
                         reject(err);
                     });
             });
-    
+
         }
     CheckProjet(id){
         return new Promise((resolve, reject) => {
@@ -120,7 +119,7 @@ export class ProjetService {
 
     }
 
-    toggleProjet(id){
+       toggleProjet(id){
         return new Promise((resolve, reject) => {
             this.http.get('projets/'+ id +'/toggle')
                 .map(res => res.json())
@@ -132,6 +131,17 @@ export class ProjetService {
             )
         })
     }
+       toggleArchive(id){
+        return new Promise((resolve, reject) => {
+            this.http.get('projets/'+ id +'/toggle/archive')
+                .map(res => res.json())
+                .subscribe(data => {
+                    resolve(data);
+                },(err) =>{
+                    reject(err)
+                }
+            )
+        })
+    }
 
- 
 }
